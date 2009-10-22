@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Common", "Common\Get.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Demo", "UI\Get.Demo\Get.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Model.Core", "Model\Get.Model.Core\Get.Model.Core.csproj", "{573023D8-D9EB-4055-8EC4-D3DAD320E36B}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -29,12 +31,17 @@ Global
 		{F6441FDB-9D04-462D-8F62-DE84FC516654}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6441FDB-9D04-462D-8F62-DE84FC516654}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6441FDB-9D04-462D-8F62-DE84FC516654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{573023D8-D9EB-4055-8EC4-D3DAD320E36B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573023D8-D9EB-4055-8EC4-D3DAD320E36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573023D8-D9EB-4055-8EC4-D3DAD320E36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573023D8-D9EB-4055-8EC4-D3DAD320E36B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8} = {EE7EBEEC-B602-4450-A890-B49BB4F993CD}
+		{573023D8-D9EB-4055-8EC4-D3DAD320E36B} = {7802CC01-0181-4B4F-AE15-6BBE458EA9E2}
 		{F6441FDB-9D04-462D-8F62-DE84FC516654} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 	EndGlobalSection
 EndGlobal
