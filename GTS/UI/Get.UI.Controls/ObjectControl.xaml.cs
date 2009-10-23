@@ -12,11 +12,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
-using Get.Model.Core;
 using System.ComponentModel;
+using Get.Model.Core;
 
-[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Controls", "Get.Controls")]
-namespace Get.Controls
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Controls", "Get.UI.Controls")]
+namespace Get.UI.Controls
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
