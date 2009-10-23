@@ -11,17 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Markup;
 
-[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Controls", "Get.Controls")]
-namespace Get.Controls
+namespace WpfApplication1
 {
     /// <summary>
-    /// Interaction logic for ObjectDiagrammControl.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class ObjectDiagrammControl : UserControl
+    public partial class Window1 : Window
     {
-        public ObjectDiagrammControl()
+        public Window1()
         {
             InitializeComponent();
         }
