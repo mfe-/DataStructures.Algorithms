@@ -80,6 +80,7 @@ namespace Get.Model.Core
     public interface IObjectCoreList : IEnumerable<IObjectCore>
     {
 
+
     }
     public class ObjectCoreList : ObservableCollection<ObjectCore>
     {
