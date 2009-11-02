@@ -94,6 +94,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="ThirdParty\Delimon.Win32.IO\EULA.rtf" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +112,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ThirdParty\Delimon.Win32.IO\Delimon.Win32.IO.dll" />
+    <Content Include="ThirdParty\log4net\log4net.dll" />
+    <Resource Include="ThirdParty\log4net\log4net.xml" />
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Composite.dll" />
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Composite.UnityExtensions.dll" />
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Composite.Wpf.dll" />
