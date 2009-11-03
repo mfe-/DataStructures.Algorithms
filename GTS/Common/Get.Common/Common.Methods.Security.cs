@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace Get.Common
 {
-    public static class Security
+    public sealed static class Security
     {
         /// <summary>
         /// Create an md5 sum string of this string
