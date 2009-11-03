@@ -8,7 +8,7 @@ using System.Windows.Media;
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
-    public sealed static class GUI
+    public static class GUI
     {
         private static FrameworkElement GetFrameworkElementParent(FrameworkElement element, string name)
         {

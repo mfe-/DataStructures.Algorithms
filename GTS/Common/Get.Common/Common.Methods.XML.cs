@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Get.Common
 {
-    public sealed static class XML
+    public static class XML
     {
         public static void WriteXmlSerializer(Type pTypeToSerialize, string pPathToXMLFile, Object pObjectToSave)
         {
