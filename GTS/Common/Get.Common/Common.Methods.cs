@@ -11,7 +11,7 @@ using System.Linq;
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
-    public sealed static class Methods
+    public static class Methods
     {
         /// <summary>
         /// Erstellt die fehlenden Ordner vom übergebenen Pfad.
