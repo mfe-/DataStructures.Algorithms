@@ -4,13 +4,37 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.IO;
+using Delimon.Win32.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
-    public static class Methods
+    public sealed static class Methods
     {
+        /// <summary>
+        /// Erstellt die fehlenden Ordner vom übergebenen Pfad.
+        /// </summary>
+        /// <param name="pDirectoryInfo">Ordner die erstellt werden sollen.</param>
+        public static void CreateDirsIfNotExists(string pDirectoryInfo)
+        {
+            List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
+
+            string currentdir = string.Empty;
+            for (int i = 0; i < dirList.Count; i++)
+            {
+                currentdir = currentdir + dirList[i];
+                DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
+                if (directoryInfo.Exists.Equals(false))
+                {
+                    if (!directoryInfo.Root.Replace(@"\\?\",string.Empty).Equals(currentdir))
+                        directoryInfo.Create();
+                }
+                //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
+                currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
+            }
+        }
         public static string GetRelativePath(string pFirstPath, string pSecondPath)
         {
             string relativpath = pFirstPath.Minus(pSecondPath);
@@ -24,8 +48,8 @@ namespace Get.Common
         public static byte[] GetCRC(string pPath)
         {
             FileInfo fileInfo = new FileInfo(pPath);
-            if(fileInfo.Exists.Equals(false))
-                throw new FileNotFoundException(pPath);
+            if (fileInfo.Exists.Equals(false))
+                throw new System.IO.FileNotFoundException(pPath);
 
             byte[] Checksum = CalculateCRC(File.ReadAllBytes(fileInfo.FullName));
 
