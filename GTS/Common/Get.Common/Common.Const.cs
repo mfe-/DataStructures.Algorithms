@@ -22,5 +22,18 @@ namespace Get.Common
                     + Path.DirectorySeparatorChar.ToString();
             }
         }
+
+        private static readonly string _EnableLongPathString = @"\\?\";
+        /// <summary>
+        /// Gibt die Zeichen zurück um lange Pfade bei der win-api verwenden zu können
+        /// http://blogs.msdn.com/bclteam/archive/2007/02/13/long-paths-in-net-part-1-of-3-kim-hamilton.aspx
+        /// </summary>
+        public static string EnableLongPathString
+        {
+            get
+            {
+                return _EnableLongPathString;
+            }
+        }
     }
 }
