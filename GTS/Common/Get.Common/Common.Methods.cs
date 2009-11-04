@@ -28,7 +28,7 @@ namespace Get.Common
                 DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
                 if (directoryInfo.Exists.Equals(false))
                 {
-                    if (!directoryInfo.Root.Replace(@"\\?\",string.Empty).Equals(currentdir))
+                    if (!directoryInfo.Root.Replace(Const.EnableLongPathString, string.Empty).Equals(currentdir))
                         directoryInfo.Create();
                 }
                 //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
