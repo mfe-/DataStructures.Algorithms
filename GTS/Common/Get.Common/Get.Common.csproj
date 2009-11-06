@@ -63,13 +63,13 @@
   <ItemGroup>
     <Compile Include="Common.CommandBehavior.cs" />
     <Compile Include="Common.CommandBinding.cs" />
-    <Compile Include="Common.Const.cs" />
+    <Compile Include="Common.Methods.Const.cs" />
     <Compile Include="Common.Converter.cs" />
     <Compile Include="Common.Extension.cs" />
     <Compile Include="Common.HyperlinkUtility.cs" />
     <Compile Include="Common.ImageResourceConverter.cs" />
     <Compile Include="Common.Localize.cs" />
-    <Compile Include="Common.Methods.cs" />
+    <Compile Include="Common.Methods.IO.cs" />
     <Compile Include="Common.Methods.GUI.cs" />
     <Compile Include="Common.Methods.Security.cs" />
     <Compile Include="Common.Methods.XML.cs" />
