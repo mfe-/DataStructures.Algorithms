@@ -22,6 +22,25 @@ namespace Get.Common
                     + Path.DirectorySeparatorChar.ToString();
             }
         }
+        /// <summary>
+        /// Gibt den Assemblytitel zurück
+        /// </summary>
+        /// <param name="pAssembly">Assembly aus der Informationen gelesen werden sollen.</param>
+        /// <returns>Den Titel der Assembly</returns>
+        public static string AssemblyTitle(Assembly pAssembly)
+        {
+            return (pAssembly.GetCustomAttributes(typeof(System.Reflection.AssemblyTitleAttribute), false).First() as AssemblyTitleAttribute).Title;
+        }
+        /// <summary>
+        /// Gibt den Assembly Productnamen zurück
+        /// </summary>
+        /// <param name="pAssembly">Assembly aus der Informationen gelesen werden sollen.</param>
+        /// <returns>Den Titel der Assembly</returns>
+        public static string AssemblyProduct(Assembly pAssembly)
+        {
+            return (pAssembly.GetCustomAttributes(typeof(System.Reflection.AssemblyProductAttribute), false).First() as AssemblyProductAttribute).Product;
+        }
+
 
         private static readonly string _EnableLongPathString = @"\\?\";
         /// <summary>

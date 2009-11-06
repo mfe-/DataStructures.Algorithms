@@ -7,6 +7,7 @@ using System.Windows.Media;
 using Delimon.Win32.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
@@ -19,21 +20,47 @@ namespace Get.Common
         /// <param name="pDirectoryInfo">Ordner die erstellt werden sollen.</param>
         public static void CreateDirsIfNotExists(string pDirectoryInfo)
         {
-            List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
-
-            string currentdir = string.Empty;
-            for (int i = 0; i < dirList.Count; i++)
+            if (IsFileLocalResourceRessource(pDirectoryInfo))
             {
-                currentdir = currentdir + dirList[i];
-                DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
-                if (directoryInfo.Exists.Equals(false))
+                List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
+
+                string currentdir = string.Empty;
+                for (int i = 0; i < dirList.Count; i++)
                 {
-                    if (!directoryInfo.Root.Replace(Const.EnableLongPathString, string.Empty).Equals(currentdir))
-                        directoryInfo.Create();
+                    currentdir = currentdir + dirList[i];
+                    DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
+                    if (directoryInfo.Exists.Equals(false))
+                    {
+                        if (!directoryInfo.Root.Replace(Const.EnableLongPathString, string.Empty).Equals(currentdir))
+                            directoryInfo.Create();
+                    }
+                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
+                    currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
                 }
-                //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
-                currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
             }
+            else
+            {
+                //Netzwerkpfad splitten
+                List<string> dirList = pDirectoryInfo.Split(@"\\".ToCharArray()).Where(a => a != string.Empty).ToList<string>();
+
+                string currentdir = @"\\" + dirList.First() + @"\\";
+                for (int i = 1; i < dirList.Count; i++)
+                {
+                    currentdir = currentdir + dirList[i];
+                    System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(currentdir);
+                    if (directoryInfo.Exists.Equals(false))
+                    {
+                        directoryInfo.Create();
+                    }
+                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
+                    currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
+                }
+            }
+        }
+        public static bool IsFileLocalResourceRessource(string pFileInfo)
+        {
+            Regex regex = new Regex(@"^[A-Z]:\\");
+            return (regex.IsMatch(pFileInfo));
         }
         public static string GetRelativePath(string pFirstPath, string pSecondPath)
         {
