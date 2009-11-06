@@ -47,6 +47,8 @@ namespace Get.Common
                 for (int i = 1; i < dirList.Count; i++)
                 {
                     currentdir = currentdir + dirList[i];
+                    //System.IO.DirectoryInfo verwenden weil Delimon.Win32.IO.DirecotyInfo eine Exception wirft 
+                    //und nicht mit Netzwerkpfaden umgehen kann
                     System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(currentdir);
                     if (directoryInfo.Exists.Equals(false))
                     {
