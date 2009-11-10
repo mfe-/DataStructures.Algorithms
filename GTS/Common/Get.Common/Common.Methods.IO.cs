@@ -12,15 +12,18 @@ using System.Text.RegularExpressions;
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
-    public static class Methods
+    public static class IO
     {
+        //todo:ftp verbindungen http://www.codeguru.com/csharp/csharp/cs_internet/desktopapplications/article.php/c13163/
+
         /// <summary>
         /// Erstellt die fehlenden Ordner vom übergebenen Pfad.
         /// </summary>
         /// <param name="pDirectoryInfo">Ordner die erstellt werden sollen.</param>
         public static void CreateDirsIfNotExists(string pDirectoryInfo)
         {
-            if (IsFileLocalResourceRessource(pDirectoryInfo))
+
+            if (IsFileLocalResource(pDirectoryInfo))
             {
                 List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
 
@@ -47,8 +50,7 @@ namespace Get.Common
                 for (int i = 1; i < dirList.Count; i++)
                 {
                     currentdir = currentdir + dirList[i];
-                    //System.IO.DirectoryInfo verwenden weil Delimon.Win32.IO.DirecotyInfo eine Exception wirft 
-                    //und nicht mit Netzwerkpfaden umgehen kann
+                    //System.IO.DirectoryInfo verwenden weil Delimon.Win32.IO.DirecotyInfo eine Exception wirft und nicht mit Netzwerkpfaden umgehen kann
                     System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(currentdir);
                     if (directoryInfo.Exists.Equals(false))
                     {
@@ -59,10 +61,25 @@ namespace Get.Common
                 }
             }
         }
-        public static bool IsFileLocalResourceRessource(string pFileInfo)
+        /// <summary>
+        /// Gibt an ob der Pfad sich auf eine Lokale Resource bezieht oder ob der Pfad auf eine Netzwerkresource zeigt.
+        /// </summary>
+        /// <param name="pFileInfo">Pfad zur Datei oder zu einem Verzeichnis</param>
+        /// <returns>Gibt true zurück wenn es sich um eine Lokale Resource handelt.</returns>
+        public static bool IsFileLocalResource(string pFileInfo)
         {
             Regex regex = new Regex(@"^[A-Z]:\\");
             return (regex.IsMatch(pFileInfo));
+        }
+        /// <summary>
+        /// Gibt an ob der Pfad sich auf eine Lokale Resource bezieht oder ob der Pfad auf eine Netzwerkresource zeigt.
+        /// </summary>
+        /// <param name="pFileInfo">Pfad zur Datei oder zu einem Verzeichnis</param>
+        /// <returns>Gibt true zurück wenn es sich um eine Lokale Resource handelt.</returns>
+        public static bool IsFileLocalResource(FileInfo pFileInfo)
+        {
+            Regex regex = new Regex(@"^[A-Z]:\\");
+            return (regex.IsMatch(pFileInfo.FullName));
         }
         public static string GetRelativePath(string pFirstPath, string pSecondPath)
         {

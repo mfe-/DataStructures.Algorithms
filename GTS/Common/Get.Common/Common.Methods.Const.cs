@@ -10,6 +10,17 @@ namespace Get.Common
     public static class Const
     {
         /// <summary>
+        /// Gibt den Pfad zurück in der die ausgeführe Exe liegt.
+        /// http://www.mycsharp.de/wbb2/thread.php?threadid=54102
+        /// </summary>
+        public static string ApplicationDir
+        {
+            get
+            {
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToString(); 
+            }
+        }
+        /// <summary>
         /// Gibt das RoamingDir vom aktuell angemeldeten Benutzer zurück
         /// </summary>
         public static string RoamingDir
@@ -25,7 +36,7 @@ namespace Get.Common
         /// <summary>
         /// Gibt den Assemblytitel zurück
         /// </summary>
-        /// <param name="pAssembly">Assembly aus der Informationen gelesen werden sollen.</param>
+        /// <param name="pAssembly">Assembly aus der Informationen gelesen werden sollen. Z.B. System.Reflection.Assembly.GetExecutingAssembly()</param>
         /// <returns>Den Titel der Assembly</returns>
         public static string AssemblyTitle(Assembly pAssembly)
         {
