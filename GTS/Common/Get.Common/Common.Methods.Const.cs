@@ -9,6 +9,27 @@ namespace Get.Common
 {
     public static class Const
     {
+
+        /// <summary>
+        /// Erzeugt einen zufälligen String
+        /// </summary>
+        /// <param name="size">Wie lang der String sein soll.</param>
+        /// <param name="lowerCase">Nur kleine Buchstaben aktivieren</param>
+        /// <returns>Gibt einen zufällig generierten string zurück</returns>
+        public static string RandomString(int size, bool lowerCase)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char ch;
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(ch);
+            }
+            if (lowerCase)
+                return builder.ToString().ToLower();
+            return builder.ToString();
+        }
         /// <summary>
         /// Gibt den Pfad zurück in der die ausgeführe Exe liegt.
         /// http://www.mycsharp.de/wbb2/thread.php?threadid=54102
@@ -17,7 +38,7 @@ namespace Get.Common
         {
             get
             {
-                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToString(); 
+                return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToString();
             }
         }
         /// <summary>
