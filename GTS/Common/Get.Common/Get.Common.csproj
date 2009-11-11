@@ -71,6 +71,7 @@
     <Compile Include="Common.Localize.cs" />
     <Compile Include="Common.Methods.IO.cs" />
     <Compile Include="Common.Methods.GUI.cs" />
+    <Compile Include="Common.Methods.Net.cs" />
     <Compile Include="Common.Methods.Security.cs" />
     <Compile Include="Common.Methods.XML.cs" />
     <Compile Include="Common.Validations.cs" />
