@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Windows.Markup;
 
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
     public static class Const
