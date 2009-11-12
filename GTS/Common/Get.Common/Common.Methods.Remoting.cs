@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Messaging;
 
 namespace Get.Common.Remoting
 {
@@ -11,6 +13,7 @@ namespace Get.Common.Remoting
     /// <summary>
     /// Diese Klasse wird auf dem Server erstellt. Der Client holt sie ab und registriert sich.
     /// Basis: Two-way Remoting with Callbacks and Events http://www.codeproject.com/KB/IP/TwoWayRemoting.aspx
+    /// .NET-Remoting: http://msdn.microsoft.com/de-de/library/72x4h507.aspx
     /// </summary>
     public class RemoteServiceTalk : MarshalByRefObject
     {
@@ -156,4 +159,31 @@ namespace Get.Common.Remoting
                 OnHostToClient(sender, e);
         }
     }
+    public static class Remoting
+    {
+        public static String GetURLForObject(MarshalByRefObject obj)
+        {
+            // trying for CAOs
+            ObjRef o = RemotingServices.GetObjRefForProxy(obj);
+            if (o != null)
+            {
+                foreach (object data in o.ChannelInfo.ChannelData)
+                {
+                    ChannelDataStore ds = data as ChannelDataStore;
+                    if (ds != null)
+                    {
+                        return ds.ChannelUris[0] + o.URI;
+                    }
+                }
+            }
+            else
+            {
+                // either SAO or not remote!
+                String URL = RemotingServices.GetObjectUri(obj);
+                return URL;
+            }
+            return null;
+        }
+    }
+
 }
