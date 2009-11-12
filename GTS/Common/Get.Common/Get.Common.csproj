@@ -72,17 +72,17 @@
   <ItemGroup>
     <Compile Include="Common.CommandBehavior.cs" />
     <Compile Include="Common.CommandBinding.cs" />
-    <Compile Include="Common.Methods.Const.cs" />
+    <Compile Include="Methods\Common.Methods.Const.cs" />
     <Compile Include="Common.Converter.cs" />
     <Compile Include="Common.Extension.cs" />
     <Compile Include="Common.HyperlinkUtility.cs" />
     <Compile Include="Common.ImageResourceConverter.cs" />
     <Compile Include="Common.Localize.cs" />
-    <Compile Include="Common.Methods.IO.cs" />
-    <Compile Include="Common.Methods.GUI.cs" />
-    <Compile Include="Common.Methods.Remoting.cs" />
-    <Compile Include="Common.Methods.Security.cs" />
-    <Compile Include="Common.Methods.XML.cs" />
+    <Compile Include="Methods\Common.Methods.IO.cs" />
+    <Compile Include="Methods\Common.Methods.GUI.cs" />
+    <Compile Include="Methods\Common.Methods.Remoting.cs" />
+    <Compile Include="Methods\Common.Methods.Security.cs" />
+    <Compile Include="Methods\Common.Methods.XML.cs" />
     <Compile Include="Common.Validations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
