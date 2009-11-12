@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting.Lifetime;
 
 namespace Get.Common.Remoting
 {
@@ -87,6 +88,13 @@ namespace Get.Common.Remoting
         public static Queue ClientToServerQueue
         {
             get { return _ClientToServer; }
+        }
+
+        public override object InitializeLifetimeService()
+        {
+            ILease lease = (ILease)base.InitializeLifetimeService();
+            lease.InitialLeaseTime = new TimeSpan(8, 0, 0);
+            return lease;
         }
 
         /// <summary>
