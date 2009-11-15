@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using IONet = System.IO;
+
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
 {
@@ -38,7 +40,7 @@ namespace Get.Common
                             directoryInfo.Create();
                     }
                     //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
-                    currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
+                    currentdir = currentdir + IONet.Path.DirectorySeparatorChar.ToString();
                 }
             }
             else
@@ -57,7 +59,7 @@ namespace Get.Common
                         directoryInfo.Create();
                     }
                     //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
-                    currentdir = currentdir + System.IO.Path.DirectorySeparatorChar.ToString();
+                    currentdir = currentdir + IONet.Path.DirectorySeparatorChar.ToString();
                 }
             }
         }
