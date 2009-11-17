@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Get.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Get")]
 [assembly: AssemblyProduct("Get.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
