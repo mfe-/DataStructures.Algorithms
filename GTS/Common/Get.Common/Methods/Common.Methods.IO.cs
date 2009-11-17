@@ -89,11 +89,12 @@ namespace Get.Common
             return relativpath;
         }
         /// <summary>
-        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück
+        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück.
+        /// Es wird dabei eine Liste vom Type Delimon.Win32.IO.FileInfo zurück gegeben welche lange Pfade unterstützen.
         /// </summary>
         /// <param name="pPath">Pfad aus dem alle Dateien geholt werden sollen.</param>
         /// <returns>Dateien die sich im übergebenen Pfad befinden</returns>
-        public static IList<FileInfo> GetAllFilesFromDir(string pPath)
+        public static IList<FileInfo> GetAllFilesFromDirLongPathEnabled(string pPath)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(pPath);
 
