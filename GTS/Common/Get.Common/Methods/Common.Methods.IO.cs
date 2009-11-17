@@ -106,8 +106,7 @@ namespace Get.Common
             {
                 fileInfoList.AddRange(x.GetFiles());
             }
-            //Dateien die im angegeben Verzeichnis liegen auch zur Liste hinzufÃ¼gen
-            //Todo: Mit dieser Funktion kommts zu einer Endlosschleife  fileInfoList.AddRange(directoryInfo.GetFiles());
+
             return fileInfoList;
         }
         /// <summary>
@@ -127,8 +126,7 @@ namespace Get.Common
             {
                 fileInfoList.AddRange(x.GetFiles());
             }
-            //Dateien die im angegeben Verzeichnis liegen auch zur Liste hinzufÃ¼gen
-            //Todo: Mit dieser Funktion kommts zu einer Endlosschleife  fileInfoList.AddRange(directoryInfo.GetFiles());
+
             return fileInfoList;
         }
 

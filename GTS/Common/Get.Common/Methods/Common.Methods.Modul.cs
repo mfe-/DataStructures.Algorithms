@@ -14,6 +14,7 @@ namespace Get.Common.Methods
             Assembly assembly = Assembly.LoadFrom(pFileName);
             // http://msdn.microsoft.com/de-de/library/t0cs7xez.aspx
             // Assembly Eigenschaften checken
+
             foreach (Type type in assembly.GetTypes())
                 if (type.IsPublic) // Ruft einen Wert ab, der angibt, ob der Type als öffentlich deklariert ist. 
                     if (!type.IsAbstract)  //nur Assemblys verwenden die nicht Abstrakt sind
@@ -38,6 +39,7 @@ namespace Get.Common.Methods
                         typeInterface = null;
                     }
             assembly = null;
+
 
             return null;
         }
