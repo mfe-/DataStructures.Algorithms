@@ -89,6 +89,49 @@ namespace Get.Common
             return relativpath;
         }
         /// <summary>
+        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück
+        /// </summary>
+        /// <param name="pPath">Pfad aus dem alle Dateien geholt werden sollen.</param>
+        /// <returns>Dateien die sich im übergebenen Pfad befinden</returns>
+        public static IList<FileInfo> GetAllFilesFromDir(string pPath)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(pPath);
+
+            List<DirectoryInfo> directoryInfoList = directoryInfo.GetDirectories().Descendants(dir => dir.GetDirectories()).ToList<DirectoryInfo>();
+
+            List<FileInfo> fileInfoList = new List<FileInfo>();
+            fileInfoList.AddRange(new DirectoryInfo(pPath).GetFiles());
+            foreach (var x in directoryInfoList)
+            {
+                fileInfoList.AddRange(x.GetFiles());
+            }
+            //Dateien die im angegeben Verzeichnis liegen auch zur Liste hinzufÃ¼gen
+            //Todo: Mit dieser Funktion kommts zu einer Endlosschleife  fileInfoList.AddRange(directoryInfo.GetFiles());
+            return fileInfoList;
+        }
+        /// <summary>
+        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück
+        /// </summary>
+        /// <param name="pPath">Pfad aus dem alle Dateien geholt werden sollen.</param>
+        /// <returns>Dateien die sich im übergebenen Pfad befinden</returns>
+        public static IList<IONet.FileInfo> GetAllFilesFromDir(string pPath)
+        {
+            IONet.DirectoryInfo directoryInfo = new IONet.DirectoryInfo(pPath);
+
+            List<IONet.DirectoryInfo> directoryInfoList = directoryInfo.GetDirectories().Descendants(dir => dir.GetDirectories()).ToList<IONet.DirectoryInfo>();
+
+            List<IONet.FileInfo> fileInfoList = new List<IONet.FileInfo>();
+            fileInfoList.AddRange(new IONet.DirectoryInfo(pPath).GetFiles());
+            foreach (var x in directoryInfoList)
+            {
+                fileInfoList.AddRange(x.GetFiles());
+            }
+            //Dateien die im angegeben Verzeichnis liegen auch zur Liste hinzufÃ¼gen
+            //Todo: Mit dieser Funktion kommts zu einer Endlosschleife  fileInfoList.AddRange(directoryInfo.GetFiles());
+            return fileInfoList;
+        }
+
+        /// <summary>
         /// Berechnet den CRC Wert als byte[] von einer Datei
         /// </summary>
         /// <param name="pPath">Pfad zur Datei</param>

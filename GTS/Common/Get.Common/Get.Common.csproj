@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Common.CommandBehavior.cs" />
     <Compile Include="Common.CommandBinding.cs" />
+    <Compile Include="Methods\Common.Methods.Modul.cs" />
     <Compile Include="Methods\Common.Methods.Const.cs" />
     <Compile Include="Common.Converter.cs" />
     <Compile Include="Common.Extension.cs" />
