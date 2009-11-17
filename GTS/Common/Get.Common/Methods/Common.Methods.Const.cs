@@ -44,6 +44,17 @@ namespace Get.Common
             }
         }
         /// <summary>
+        /// Gibt den Pfad aller Benutzer zurück.
+        /// </summary>
+        public static string AllUserDir
+        {
+            get
+            {
+                return Environment.GetEnvironmentVariable("ALLUSERSPROFILE") + Path.DirectorySeparatorChar
+                    + (Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false).First() as AssemblyCompanyAttribute).Company;
+            }
+        }
+        /// <summary>
         /// Gibt das RoamingDir vom aktuell angemeldeten Benutzer zurück
         /// </summary>
         public static string RoamingDir
