@@ -8,6 +8,9 @@
             <ResourceDictionary Source="Common.Style.Window.xaml"></ResourceDictionary>
             
             <ResourceDictionary Source="Common.Style.Button.xaml"></ResourceDictionary>
+            
+            <ResourceDictionary Source="Common.Style.TextBlock.xaml"></ResourceDictionary>
+            
         </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
