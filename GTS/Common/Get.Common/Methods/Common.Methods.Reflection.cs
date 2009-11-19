@@ -11,28 +11,32 @@ namespace Get.Common
 {
     public static class Reflection
     {
-        public class PropertySetterHelper
+        public class PropertySetterHelper<T> where T : class
         {
-            public PropertySetterHelper(object pInstance)
-            {
-                if (pInstance == null)
-                    throw new ArgumentException("Cant be null pInstance");
+            private static Dictionary<string, PropertyInfo> _Props = new Dictionary<string, PropertyInfo>();
 
+            private readonly T _Instance = null;
+
+            static PropertySetterHelper()
+            {
+                foreach (var pi in typeof(T).GetProperties())
+                {
+                    _Props.Add(pi.Name, pi);
+                }
+            }
+
+            public PropertySetterHelper(T pInstance)
+            {
+                if (pInstance == null) throw new ArgumentNullException("pInstance");
                 _Instance = pInstance;
             }
 
             public void SetProperty(string pPropertyName, object PropertyValue)
             {
-                Type type = _Instance.GetType();
-
-                PropertyInfo propertyInfo = type.GetProperties().ToList().Where(a => a.Name.Equals(pPropertyName)).First();
-                if (propertyInfo == null) return;
-                propertyInfo.SetValue(_Instance, PropertyValue, null);
+                _Props[pPropertyName].SetValue(_Instance, PropertyValue, null);
             }
 
-            private readonly object _Instance = null;
 
         }
-
     }
 }
