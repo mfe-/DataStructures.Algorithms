@@ -12,6 +12,7 @@ namespace Get.Common.Converter
     {
         public static StringToStringConverter StringToStringConverter = new StringToStringConverter();
         public static StringsToStringConverter StringsToStringConverter = new StringsToStringConverter();
+        public static StringCutterConverter StringCutterConverter = new StringCutterConverter();
     }
 
     public class StringToStringConverter : IValueConverter
@@ -55,6 +56,36 @@ namespace Get.Common.Converter
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+    public class StringCutterConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return string.Empty;
+            if (!value.GetType().Equals(typeof(string))) return string.Empty;
+            if((value.Equals(string.Empty))) return value;
+            int number;
+
+            if (!Int32.TryParse(parameter.ToString(), out number)) return value.ToString();
+
+            string StringCv = value.ToString();
+            if (StringCv.Length < number || StringCv.Length.Equals(number)) return value.ToString();
+
+            StringCv = StringCv.Remove(0, StringCv.Length - number);
+
+
+            return StringCv;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+
         }
 
         #endregion
