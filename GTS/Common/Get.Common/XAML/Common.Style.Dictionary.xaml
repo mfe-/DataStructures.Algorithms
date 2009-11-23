@@ -35,6 +35,8 @@
     </Style>
     <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource CommonListStyle}">
     </Style>
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CommonStyle}">
+    </Style>
 
     <!--Erweiterte Control Styles-->
     <Style x:Key="TextBoxMultiLineStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">

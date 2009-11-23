@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Collections;
 
 namespace Get.Common.Methods
 {
     public static class Modul
     {
-        public static object GetModul(string pFileName, Type pTypeInterface)
+        /// <summary>
+        /// Ladet die Module aus der übergebenen Assembly
+        /// </summary>
+        /// <param name="pFileName">Assembly die verwendet werden soll.</param>
+        /// <param name="pTypeInterface">Welches Interface das Modul implementierrt hat.</param>
+        /// <returns>Gibt ein Dictionary zurück. Als Key wird der Klassenname der aktivierten Instanz verwendet.</returns>
+        public static Dictionary<string, object> GetModul(string pFileName, Type pTypeInterface)
         {
             //Assembly laden
             Assembly assembly = Assembly.LoadFrom(pFileName);
             // http://msdn.microsoft.com/de-de/library/t0cs7xez.aspx
             // Assembly Eigenschaften checken
+
+            Dictionary<string, object> interfaceinstances = new Dictionary<string,object>();
 
             foreach (Type type in assembly.GetTypes())
                 if (type.IsPublic) // Ruft einen Wert ab, der angibt, ob der Type als öffentlich deklariert ist. 
@@ -28,7 +37,10 @@ namespace Get.Common.Methods
                             try
                             {
                                 object activedInstance = Activator.CreateInstance(type);
-                                return activedInstance;
+                                if (activedInstance != null)
+                                {
+                                    interfaceinstances.Add(type.Name, activedInstance);
+                                }
                             }
                             catch (Exception exception)
                             {
@@ -41,7 +53,7 @@ namespace Get.Common.Methods
             assembly = null;
 
 
-            return null;
+            return interfaceinstances;
         }
     }
 }
