@@ -79,7 +79,7 @@ namespace Get.Common.Converter
             StringCv = StringCv.Remove(0, StringCv.Length - number);
 
 
-            return StringCv;
+            return "..." + StringCv;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
