@@ -38,5 +38,13 @@ namespace Get.Common
 
 
         }
+
+        public static MethodInfo GetMethodInfo<T>(String pMethodName)
+        {
+            Type type = typeof(T);
+            MethodInfo methodInfo = type.GetMethods().Where(t => t.Name.Equals(pMethodName)).First();
+            return methodInfo;
+        }
+
     }
 }
