@@ -73,6 +73,17 @@ namespace Get.Common
         {
             return ((MemberExpression)projection.Body).Member.Name;
         }
+
+        /// <summary>
+        /// Gibt den Name der übergebenen Funktion zurück
+        /// </summary>
+        /// <param name="action">Die Methode</param>
+        /// <returns>Gibt den Name der übergebenen Funktion zurück</returns>
+        public static string GetMethodName(Action<object> action)
+        {
+            return action.Method.Name;
+        }
+
         /// <summary>
         /// Gibt den Variabelname als String zurück
         /// http://abdullin.com/journal/2008/12/13/how-to-find-out-variable-or-parameter-name-in-c.html
