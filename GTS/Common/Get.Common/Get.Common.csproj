@@ -148,6 +148,9 @@
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Unity.dll" />
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Unity.StaticFactory.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cinch\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
