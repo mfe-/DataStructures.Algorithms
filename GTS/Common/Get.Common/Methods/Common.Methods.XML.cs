@@ -21,10 +21,12 @@ namespace Get.Common
         {
             XmlSerializer xmlSerializer = new XmlSerializer(pTypeToSerialize);
 
-            FileStream stream = new FileStream(pPathToXMLFile,FileMode.Open);
-            XmlReader reader = new XmlTextReader(stream);
+            using (FileStream stream = new FileStream(pPathToXMLFile, FileMode.Open))
+            {
+                XmlReader reader = new XmlTextReader(stream);
 
-            return xmlSerializer.Deserialize(reader);
+                return xmlSerializer.Deserialize(reader);
+            }
         }
     }
 }
