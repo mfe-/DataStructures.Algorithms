@@ -63,6 +63,23 @@ namespace Get.Common
                 }
             }
         }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
+
+        /// <summary>
+        /// Gibt zurück um was für einen Pfad es sich handelt. Dateipfad, Ordnerpfad ...
+        /// </summary>
+        public static WIN32_FIND_DATA GetTypeOfPath(string pPath)
+        {
+            //http://msdn.microsoft.com/en-us/library/ee332330(VS.85).aspx Attribute
+            WIN32_FIND_DATA lpFindFileData;
+            FindFirstFile(pPath, out lpFindFileData);
+ 
+            //da grigen wir irgend nen wert "erechnet" wurde...
+            //jetzt müssen wir genau auf die kombi kommen die uns zurück gegebn wurde um herauszu finden welche attribute der pfad hat
+            return lpFindFileData;
+        }
         /// <summary>
         /// Gibt an ob der Pfad sich auf eine Lokale Resource bezieht oder ob der Pfad auf eine Netzwerkresource zeigt.
         /// </summary>

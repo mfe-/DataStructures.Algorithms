@@ -36,6 +36,7 @@
     <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource CommonListStyle}">
     </Style>
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CommonStyle}">
+        <Setter Property="Control.MinWidth" Value="50" />
     </Style>
 
     <!--Erweiterte Control Styles-->
