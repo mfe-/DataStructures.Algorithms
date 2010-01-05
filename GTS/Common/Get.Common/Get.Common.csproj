@@ -44,6 +44,7 @@
     <Reference Include="Microsoft.Practices.Unity.Configuration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Unity.StaticFactory, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -70,6 +71,59 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cinch\AttachedBehaviours\BindableInput.cs" />
+    <Compile Include="Cinch\AttachedBehaviours\LifetimeEvent.cs" />
+    <Compile Include="Cinch\AttachedBehaviours\NumericTextBoxBehavior.cs" />
+    <Compile Include="Cinch\AttachedBehaviours\SelectorDoubleClickCommandBehavior.cs" />
+    <Compile Include="Cinch\AttachedBehaviours\UserControlLifetimeEvent.cs" />
+    <Compile Include="Cinch\BusinessObjects\Bases\EditableValidatingObject.cs" />
+    <Compile Include="Cinch\BusinessObjects\Bases\ObservableHelper.cs" />
+    <Compile Include="Cinch\BusinessObjects\Bases\ValidatingObject.cs" />
+    <Compile Include="Cinch\BusinessObjects\DataWrapper.cs" />
+    <Compile Include="Cinch\BusinessObjects\PropertyObserver.cs" />
+    <Compile Include="Cinch\Commanding\AttachedCommands\EventCommander.cs" />
+    <Compile Include="Cinch\Commanding\AttachedCommands\SingleEventCommand.cs" />
+    <Compile Include="Cinch\Commanding\SimpleCommand.cs" />
+    <Compile Include="Cinch\Events\EventArgs\CloseRequestEventArgs.cs" />
+    <Compile Include="Cinch\Events\EventArgs\UICompletedEventArgs.cs" />
+    <Compile Include="Cinch\Events\WeakEvents\WeakEvent.cs" />
+    <Compile Include="Cinch\Events\WeakEvents\WeakEventHelper.cs" />
+    <Compile Include="Cinch\Events\WeakEvents\WeakEventProxy.cs" />
+    <Compile Include="Cinch\Messaging\Mediator\Mediator.cs" />
+    <Compile Include="Cinch\Messaging\Mediator\MediatorMessageSinkAttribute.cs" />
+    <Compile Include="Cinch\Messaging\Mediator\MessageToActionsMap.cs" />
+    <Compile Include="Cinch\Messaging\Mediator\WeakAction.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\Test\TestMessageBoxService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\Test\TestOpenFileService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\Test\TestSaveFileService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\Test\TestUIVisualizerService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\WPF\WPFLoggerService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\WPF\WPFMessageBoxService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\WPF\WPFOpenFileService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\WPF\WPFSaveFileService.cs" />
+    <Compile Include="Cinch\Services\Default_Service_Implementations\WPF\WPFUIVisualizerService.cs" />
+    <Compile Include="Cinch\Services\IOC\UnitySingleton.cs" />
+    <Compile Include="Cinch\Services\Service Interfaces\ILoggerService.cs" />
+    <Compile Include="Cinch\Services\Service Interfaces\IMessageBoxService.cs" />
+    <Compile Include="Cinch\Services\Service Interfaces\IOpenFileService.cs" />
+    <Compile Include="Cinch\Services\Service Interfaces\ISaveFileService.cs" />
+    <Compile Include="Cinch\Services\Service Interfaces\IUIVisualizerService.cs" />
+    <Compile Include="Cinch\Services\ServiceProvider.cs" />
+    <Compile Include="Cinch\Threading\AddRangeObservableCollection.cs" />
+    <Compile Include="Cinch\Threading\ApplicationHelper.cs" />
+    <Compile Include="Cinch\Threading\BackgroundTaskManager.cs" />
+    <Compile Include="Cinch\Threading\DispatcherNotifiedObservableCollection.cs" />
+    <Compile Include="Cinch\Threading\ExtensionMethods\DispatcherExtensions.cs" />
+    <Compile Include="Cinch\UI\FocusHelper.cs" />
+    <Compile Include="Cinch\UI\WaitCursor.cs" />
+    <Compile Include="Cinch\UI\WPFMenuItem.cs" />
+    <Compile Include="Cinch\Validation\RegexRule.cs" />
+    <Compile Include="Cinch\Validation\Rule.cs" />
+    <Compile Include="Cinch\Validation\SimpleRule.cs" />
+    <Compile Include="Cinch\ViewModels\Bases\EditableValidatingViewModelBase.cs" />
+    <Compile Include="Cinch\ViewModels\Bases\ValidatingViewModelBase.cs" />
+    <Compile Include="Cinch\ViewModels\Bases\ViewModelBase.cs" />
+    <Compile Include="Cinch\ViewModels\Enums\ViewMode.cs" />
     <Compile Include="Common.CommandBehavior.cs" />
     <Compile Include="Common.CommandBinding.cs" />
     <Compile Include="Methods\Common.Methods.Reflection.cs" />
@@ -150,7 +204,7 @@
     <Content Include="ThirdParty\Microsoft.Composite\Microsoft.Practices.Unity.StaticFactory.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cinch\" />
+    <Folder Include="Cinch\Threading\Mediator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
