@@ -21,17 +21,6 @@ namespace Get.Common.Remoting
     public class RemoteServiceTalk : MarshalByRefObject
     {
         /// <summary>
-        /// Fügt eine Methode von einem Objekt zur Methodlist hinzu
-        /// </summary>
-        /// <typeparam name="T">Das Objekt, dass hinzugefügt wird</typeparam>
-        /// <param name="pAction">Die Methode</param>
-        public static void AddMethod<T>(Action<object> pAction)
-        {
-            string syncmethodname = Extension.GetMethodName(pAction);
-            MethodList.Add(syncmethodname, Reflection.GetMethodInfo<T>(syncmethodname));
-        }
-
-        /// <summary>
         /// Registrierte Clienten
         /// </summary>
         private static IList<RemoteClient> _list = new List<RemoteClient>();
@@ -63,19 +52,6 @@ namespace Get.Common.Remoting
                 if (client.HostToClient != null)
                     client.HostToClient(sender, e);
             }
-        }
-
-        //todo: dictionary string,delegate oder so irgendwie, dass der server seine funktionen dem client bekannt gibt
-        public static Dictionary<String, MethodInfo> _MethodList = new Dictionary<string, MethodInfo>();
-        public static Dictionary<String, MethodInfo> MethodList
-        {
-            get { return _MethodList; }
-            set { _MethodList = value; }
-        }
-
-        public Dictionary<String, MethodInfo> GetMethodList()
-        {
-            return MethodList;
         }
 
         /// <summary>

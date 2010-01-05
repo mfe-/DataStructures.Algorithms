@@ -137,6 +137,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\BannerBitmapSetupProject.jpg" />
     <Content Include="ThirdParty\Delimon.Win32.IO\Delimon.Win32.IO.dll" />
     <Content Include="ThirdParty\log4net\log4net.dll" />
     <Resource Include="ThirdParty\log4net\log4net.xml" />
