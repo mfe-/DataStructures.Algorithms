@@ -6,7 +6,7 @@
         <Setter Property="AllowsTransparency" Value="True" /> 
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ShowInTaskbar" Value="False" /> 
-        <Setter Property="ContentControl.Background" Value="Transparent" />
+        <!--<Setter Property="ContentControl.Background" Value="Transparent" />-->
     </Style>
     
 </ResourceDictionary>
