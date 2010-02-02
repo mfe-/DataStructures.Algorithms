@@ -6,6 +6,9 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Interop;
+using System.Windows.Media;
+
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
@@ -132,5 +135,54 @@ namespace Get.Common
                 }
             }
         }
+        /// <summary>
+        /// http://blogs.msdn.com/adam_nathan/archive/2006/05/04/589686.aspx
+        /// Aero Glass API
+        /// </summary>
+        public static class DWMApi
+        {
+            [DllImport("dwmapi.dll", PreserveSig = false)]
+            public static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+
+            [DllImport("dwmapi.dll", PreserveSig = false)]
+            public static extern bool DwmIsCompositionEnabled();
+
+            public struct MARGINS
+            {
+                public MARGINS(Thickness t)
+                {
+                    Left = (int)t.Left;
+                    Right = (int)t.Right;
+                    Top = (int)t.Top;
+                    Bottom = (int)t.Bottom;
+                }
+                public int Left;
+                public int Right;
+                public int Top;
+                public int Bottom;
+            }
+
+            /// <summary>
+            /// Aktiviert Aero Glass innerhalb eines Fenster
+            /// Diese Funktion in protected override void OnSourceInitialized(EventArgs e) aufrufen.
+            /// </summary>
+            /// <param name="pWindow">Fenster bei dem Aero Glass aktiviert werden soll.</param>
+            public static void ExtendGlass(Window pWindow)
+            {
+                Thickness thickness = new Thickness(-1);
+                if (!DwmIsCompositionEnabled()) return;
+
+                IntPtr hwnd = new WindowInteropHelper(pWindow).Handle;
+                if (hwnd == IntPtr.Zero) throw new InvalidOperationException("The Window must be shown before extending glass.");
+
+                pWindow.Background = Brushes.Transparent;
+                HwndSource.FromHwnd(hwnd).CompositionTarget.BackgroundColor = Colors.Transparent;
+
+                MARGINS margins = new MARGINS(thickness);
+                DwmExtendFrameIntoClientArea(hwnd, ref margins);
+            }
+
+        }
+
     }
 }
