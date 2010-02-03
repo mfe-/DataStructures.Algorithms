@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Windows.Media;
+using System.Windows.Interop;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
@@ -121,20 +122,39 @@ namespace Get.Common
             object image = resourceManager.GetObject(pImageName);
             if (image == null) return null;
 
-            if (!image.GetType().Equals(typeof(Bitmap))) return null;
+            if (image.GetType().Equals(typeof(Bitmap)))
+            {
 
-            Bitmap bitmap = image as Bitmap;
+                Bitmap bitmap = image as Bitmap;
 
-            //Bitmap in ImageSource konvertieren
-            BitmapImage bitmapImage = new BitmapImage();
-            MemoryStream stream = new MemoryStream();
+                //Bitmap in ImageSource konvertieren
+                BitmapImage bitmapImage = new BitmapImage();
+                MemoryStream stream = new MemoryStream();
 
-            bitmap.Save(stream, ImageFormat.Png);
+                bitmap.Save(stream, ImageFormat.Png);
 
-            //ImageSource aus Stream holen http://cornucopia30.blogspot.com/2007/08/wpf-point-image-to-embedded-resource.html
-            PngBitmapDecoder bitmapDecoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-            ImageSource imageSource = bitmapDecoder.Frames[0];
-            return imageSource;
+                //ImageSource aus Stream holen http://cornucopia30.blogspot.com/2007/08/wpf-point-image-to-embedded-resource.html
+                PngBitmapDecoder bitmapDecoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                ImageSource imageSource = bitmapDecoder.Frames[0];
+                return imageSource;
+            }
+            else if (image.GetType().Equals(typeof(System.Drawing.Icon)))
+            {
+                Bitmap bitmap = (image as System.Drawing.Icon).ToBitmap();
+
+                //Bitmap in ImageSource konvertieren
+                BitmapImage bitmapImage = new BitmapImage();
+                MemoryStream stream = new MemoryStream();
+                bitmap.Save(stream, ImageFormat.Png);
+
+                PngBitmapDecoder bitmapDecoder = new PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                ImageSource imageSource = bitmapDecoder.Frames[0];
+                return imageSource;
+            }
+            else
+            {
+                return null;
+            }
         }
         #endregion Funktionen
 
