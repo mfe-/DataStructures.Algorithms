@@ -1,0 +1,19 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Grün von Get-Überschrift- Homepage-->
+    <SolidColorBrush Color="#497B0D" x:Key="GrassGreenBrush" />
+    
+    <!--Blaue Überschrift von der Windows 7 Systemsteuerung "Einstellungen des Computers anpassen" -->
+    <SolidColorBrush Color="#003399" x:Key="Windows7ControlPanelHeader1" />
+    
+    <!--Grüne Überschrift von der Windows 7 Systemsteuerung -->
+    <SolidColorBrush Color="#3a6e13" x:Key="Windows7ControlPanelHeader2" />
+    
+    <!--Hellblaue Überschrift von der Windows 7 Systemsteuerung -->
+    <SolidColorBrush Color="#3a81e6" x:Key="Windows7ControlPanelHeader3" />
+    
+    
+
+</ResourceDictionary>
