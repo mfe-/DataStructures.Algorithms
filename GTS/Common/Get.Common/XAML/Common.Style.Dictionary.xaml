@@ -83,6 +83,4 @@
         </Setter>
     </Style>
     
-    <!--Grün von Get-Überschrift- Homepage-->
-    <SolidColorBrush Color="#497B0D" x:Key="GrassGreenBrush" />
 </ResourceDictionary>

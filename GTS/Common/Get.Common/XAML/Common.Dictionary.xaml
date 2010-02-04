@@ -5,6 +5,8 @@
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="Common.Style.Dictionary.xaml"></ResourceDictionary>
             
+            <ResourceDictionary Source="Common.Style.Color.xaml"></ResourceDictionary>
+            
             <ResourceDictionary Source="Common.Style.Window.xaml"></ResourceDictionary>
             
             <ResourceDictionary Source="Common.Style.Button.xaml"></ResourceDictionary>
