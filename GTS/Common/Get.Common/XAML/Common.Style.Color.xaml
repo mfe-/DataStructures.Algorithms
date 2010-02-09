@@ -14,6 +14,7 @@
     <!--Hellblaue Überschrift von der Windows 7 Systemsteuerung -->
     <SolidColorBrush Color="#3a81e6" x:Key="Windows7ControlPanelHeader3" />
     
-    
+    <!--Hellblaue Linkfarbe in der Systemsteuerung von Window 7-->
+    <SolidColorBrush Color="#0066cc" x:Key="Windows7ControlHyperLinkText" />
 
 </ResourceDictionary>
