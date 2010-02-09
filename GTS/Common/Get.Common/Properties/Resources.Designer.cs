@@ -66,5 +66,12 @@ namespace Get.Common.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap Crystal_Clear_mimetype_misc {
+            get {
+                object obj = ResourceManager.GetObject("Crystal_Clear_mimetype_misc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
