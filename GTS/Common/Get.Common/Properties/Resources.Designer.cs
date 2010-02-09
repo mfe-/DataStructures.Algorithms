@@ -67,6 +67,13 @@ namespace Get.Common.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Crystal_128_konsole {
+            get {
+                object obj = ResourceManager.GetObject("Crystal_128_konsole", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Crystal_Clear_mimetype_misc {
             get {
                 object obj = ResourceManager.GetObject("Crystal_Clear_mimetype_misc", resourceCulture);

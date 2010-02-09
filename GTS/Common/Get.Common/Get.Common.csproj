@@ -202,6 +202,7 @@
   <ItemGroup>
     <None Include="Resources\BannerBitmapSetupProject.jpg" />
     <None Include="Resources\Crystal_Clear_mimetype_misc.png" />
+    <None Include="Resources\Crystal_128_konsole.png" />
     <Content Include="ThirdParty\Delimon.Win32.IO\Delimon.Win32.IO.dll" />
     <Content Include="ThirdParty\log4net\log4net.dll" />
     <Resource Include="ThirdParty\log4net\log4net.xml" />
