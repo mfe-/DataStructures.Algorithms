@@ -2,17 +2,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--Dictionary einbinden-->
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="Common.Style.Dictionary.xaml"></ResourceDictionary>
-            
-            <ResourceDictionary Source="Common.Style.Color.xaml"></ResourceDictionary>
-            
-            <ResourceDictionary Source="Common.Style.Window.xaml"></ResourceDictionary>
-            
-            <ResourceDictionary Source="Common.Style.Button.xaml"></ResourceDictionary>
-            
-            <ResourceDictionary Source="Common.Style.TextBlock.xaml"></ResourceDictionary>
-            
-        </ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Common.Style.Dictionary.xaml"></ResourceDictionary>
+
+        <ResourceDictionary Source="Common.Style.Color.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Common.Style.ListView.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Common.Style.Window.xaml"></ResourceDictionary>
+
+        <ResourceDictionary Source="Common.Style.Button.xaml"></ResourceDictionary>
+
+        <ResourceDictionary Source="Common.Style.TextBlock.xaml"></ResourceDictionary>
+
+
+
+    </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
