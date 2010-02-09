@@ -48,7 +48,7 @@
         <Setter Property="MinHeight" Value="100"></Setter>
     </Style>
 
-    <!-- Expander Animation -->
+    <!-- Expander Animation Y-->
     <Storyboard x:Key="OpenExpanderAnimation">
         <DoubleAnimation From="0" To="1" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleY)" Duration="0:00:00.5"/>
     </Storyboard>
@@ -82,5 +82,40 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!-- Expander Animation X-->
+    <Storyboard x:Key="OpenExpanderAnimationX">
+        <DoubleAnimation From="0" To="1" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleX)" Duration="0:00:00.5"/>
+    </Storyboard>
+
+    <Storyboard x:Key="CollapseExpanderAnimationX">
+        <DoubleAnimation From="1" To="0" Storyboard.TargetName="ExpandSite" Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleX)" Duration="0:00:00.5"/>
+    </Storyboard>
+
+    <Style x:Key="ExpanderVertical" TargetType="{ x:Type Expander }" >
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentPresenter Content="{ TemplateBinding Content }"
+                                      ContentStringFormat="{ TemplateBinding ContentStringFormat }" x:Name="ExpandSite">
+                        <ContentPresenter.LayoutTransform>
+                            <ScaleTransform ScaleX="1" />
+                        </ContentPresenter.LayoutTransform>
+                    </ContentPresenter>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{ Binding RelativeSource={ RelativeSource Mode=FindAncestor,AncestorType={ x:Type Expander } }, Path=IsExpanded }" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Storyboard="{ StaticResource OpenExpanderAnimationX }" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard Storyboard="{ StaticResource CollapseExpanderAnimationX }" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
