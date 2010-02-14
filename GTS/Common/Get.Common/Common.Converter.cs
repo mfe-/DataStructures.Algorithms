@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows;
+using System.Globalization;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Converter", "Get.Common.Converter")]
 namespace Get.Common.Converter
@@ -13,9 +15,10 @@ namespace Get.Common.Converter
         public static StringToStringConverter StringToStringConverter = new StringToStringConverter();
         public static StringsToStringConverter StringsToStringConverter = new StringsToStringConverter();
         public static StringCutterConverter StringCutterConverter = new StringCutterConverter();
+        public static BooleanToVisibilityConverter BooleanToVisibilityConverter = new BooleanToVisibilityConverter();
     }
 
-    public class StringToStringConverter : IValueConverter
+    public sealed class StringToStringConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -44,7 +47,7 @@ namespace Get.Common.Converter
 
         #endregion
     }
-    public class StringsToStringConverter : IMultiValueConverter
+    public sealed class StringsToStringConverter : IMultiValueConverter
     {
         #region IMultiValueConverter Member
 
@@ -60,7 +63,7 @@ namespace Get.Common.Converter
 
         #endregion
     }
-    public class StringCutterConverter : IValueConverter
+    public sealed class StringCutterConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -90,5 +93,36 @@ namespace Get.Common.Converter
 
         #endregion
     }
+
+    /// <summary>
+    /// Stellt den Konverter dar, der boolesche Werte in und von Visibility-Enumerationswerten konvertiert. 
+    /// http://msdn.microsoft.com/de-de/library/system.windows.controls.booleantovisibilityconverter.aspx
+    /// </summary>
+    [Localizability(LocalizationCategory.NeverLocalize)]
+    public sealed class BooleanToVisibilityConverter : IValueConverter
+    {
+        #region IValueConverter Members
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool flag = false;
+            if (value is bool)
+            {
+                flag = (bool)value;
+            }
+            else if (value is bool?)
+            {
+                bool? nullable = (bool?)value;
+                flag = nullable.HasValue ? nullable.Value : false;
+            }
+            return (flag ? Visibility.Visible : Visibility.Collapsed);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((value is Visibility) && (((Visibility)value) == Visibility.Visible));
+        }
+        #endregion
+    }
+
 
 }
