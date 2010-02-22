@@ -48,7 +48,7 @@ namespace Get.Common
                 //Netzwerkpfad splitten
                 List<string> dirList = pDirectoryInfo.Split(@"\\".ToCharArray()).Where(a => a != string.Empty).ToList<string>();
 
-                string currentdir = @"\\" + dirList.First() + @"\\";
+                string currentdir = @"\\" + dirList.First() + "\\";
                 for (int i = 1; i < dirList.Count; i++)
                 {
                     currentdir = currentdir + dirList[i];
