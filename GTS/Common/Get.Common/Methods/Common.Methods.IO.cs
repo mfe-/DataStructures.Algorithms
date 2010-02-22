@@ -103,6 +103,7 @@ namespace Get.Common
         public static string GetRelativePath(string pFirstPath, string pSecondPath)
         {
             string relativpath = pFirstPath.Minus(pSecondPath);
+            if (relativpath.Equals(string.Empty)) return pFirstPath;
             return relativpath;
         }
         /// <summary>
