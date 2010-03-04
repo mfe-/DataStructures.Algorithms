@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using IONet = System.IO;
+using System.ComponentModel;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
 namespace Get.Common
@@ -18,50 +19,65 @@ namespace Get.Common
     {
         //todo:ftp verbindungen http://www.codeguru.com/csharp/csharp/cs_internet/desktopapplications/article.php/c13163/
 
-        /// <summary>
-        /// Erstellt die fehlenden Ordner vom übergebenen Pfad.
-        /// </summary>
-        /// <param name="pDirectoryInfo">Ordner die erstellt werden sollen.</param>
-        public static void CreateDirsIfNotExists(string pDirectoryInfo)
+        public static class NetUse
         {
-
-            if (IsFileLocalResource(pDirectoryInfo))
+            /// <summary>
+            /// The NetUseAdd function establishes a connection between the local computer and a remote server.
+            /// You can specify a local drive letter or a printer device to connect.
+            /// If you do not specify a local drive letter or printer device, the function authenticates the client with the server for future 
+            /// connections.
+            /// </summary>
+            /// <param name="Share"></param>
+            /// <param name="Domain"></param>
+            /// <param name="Username"></param>
+            /// <param name="Password"></param>
+            public static void ApplyUserCredentials(string Share, string Domain, string Username, string Password)
             {
-                List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
+                USE_INFO_2 useInfo = new USE_INFO_2();
+                useInfo.ui2_local = string.Empty;
+                useInfo.ui2_remote = Share;
+                useInfo.ui2_password = Password;
+                useInfo.ui2_asg_type = 0;    //disk drive
+                useInfo.ui2_usecount = 1;
+                useInfo.ui2_username = Username;
+                useInfo.ui2_domainname = Domain;
+                uint paramErrorIndex;
 
-                string currentdir = string.Empty;
-                for (int i = 0; i < dirList.Count; i++)
+                uint returnCode = NetUseAdd(null, 2, ref useInfo, out paramErrorIndex);
+
+                // http://msdn.microsoft.com/en-us/library/ms681381(VS.85).aspx
+                if (returnCode != 0)
                 {
-                    currentdir = currentdir + dirList[i];
-                    DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
-                    if (directoryInfo.Exists.Equals(false))
-                    {
-                        if (!directoryInfo.Root.Replace(Const.EnableLongPathString, string.Empty).Equals(currentdir))
-                            directoryInfo.Create();
-                    }
-                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
-                    currentdir = currentdir + IONet.Path.DirectorySeparatorChar.ToString();
+
+                    throw new Win32Exception((int)returnCode);
                 }
             }
-            else
-            {
-                //Netzwerkpfad splitten
-                List<string> dirList = pDirectoryInfo.Split(@"\\".ToCharArray()).Where(a => a != string.Empty).ToList<string>();
+        }
 
-                string currentdir = @"\\" + dirList.First() + "\\";
-                for (int i = 1; i < dirList.Count; i++)
-                {
-                    currentdir = currentdir + dirList[i];
-                    //System.IO.DirectoryInfo verwenden weil Delimon.Win32.IO.DirecotyInfo eine Exception wirft und nicht mit Netzwerkpfaden umgehen kann
-                    System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(currentdir);
-                    if (directoryInfo.Exists.Equals(false))
-                    {
-                        directoryInfo.Create();
-                    }
-                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
-                    currentdir = currentdir + IONet.Path.DirectorySeparatorChar.ToString();
-                }
-            }
+        /// <summary>
+        /// http://msdn.microsoft.com/de-de/library/aa370645(en-us,VS.85).aspx
+        /// </summary>
+        /// <param name="UncServerName"></param>
+        /// <param name="Level"></param>
+        /// <param name="Buf"></param>
+        /// <param name="ParmError"></param>
+        /// <returns>If the function succeeds, the return value is NERR_Success; If the function fails, the return value is a system error code. 
+        /// For a list of error codes, see System Error Codes.</returns>
+        [DllImport("NetApi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern UInt32 NetUseAdd(string UncServerName, UInt32 Level, ref USE_INFO_2 Buf, out UInt32 ParmError);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct USE_INFO_2
+        {
+            internal string ui2_local;
+            internal string ui2_remote;
+            internal string ui2_password;
+            internal UInt32 ui2_status;
+            internal UInt32 ui2_asg_type;
+            internal UInt32 ui2_refcount;
+            internal UInt32 ui2_usecount;
+            internal string ui2_username;
+            internal string ui2_domainname;
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
@@ -106,48 +122,6 @@ namespace Get.Common
             if (relativpath.Equals(string.Empty)) return pFirstPath;
             return relativpath;
         }
-        /// <summary>
-        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück.
-        /// Es wird dabei eine Liste vom Type Delimon.Win32.IO.FileInfo zurück gegeben welche lange Pfade unterstützen.
-        /// </summary>
-        /// <param name="pPath">Pfad aus dem alle Dateien geholt werden sollen.</param>
-        /// <returns>Dateien die sich im übergebenen Pfad befinden</returns>
-        public static IList<FileInfo> GetAllFilesFromDirLongPathEnabled(string pPath)
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(pPath);
-
-            List<DirectoryInfo> directoryInfoList = directoryInfo.GetDirectories().Descendants(dir => dir.GetDirectories()).ToList<DirectoryInfo>();
-
-            List<FileInfo> fileInfoList = new List<FileInfo>();
-            fileInfoList.AddRange(new DirectoryInfo(pPath).GetFiles());
-            foreach (var x in directoryInfoList)
-            {
-                fileInfoList.AddRange(x.GetFiles());
-            }
-
-            return fileInfoList;
-        }
-        /// <summary>
-        /// Sucht alle Dateien in einem Verzeichnis und deren unterverzeichnise und gibt sie in einer Liste zurück
-        /// </summary>
-        /// <param name="pPath">Pfad aus dem alle Dateien geholt werden sollen.</param>
-        /// <returns>Dateien die sich im übergebenen Pfad befinden</returns>
-        public static IList<IONet.FileInfo> GetAllFilesFromDir(string pPath)
-        {
-            IONet.DirectoryInfo directoryInfo = new IONet.DirectoryInfo(pPath);
-
-            List<IONet.DirectoryInfo> directoryInfoList = directoryInfo.GetDirectories().Descendants(dir => dir.GetDirectories()).ToList<IONet.DirectoryInfo>();
-
-            List<IONet.FileInfo> fileInfoList = new List<IONet.FileInfo>();
-            fileInfoList.AddRange(new IONet.DirectoryInfo(pPath).GetFiles());
-            foreach (var x in directoryInfoList)
-            {
-                fileInfoList.AddRange(x.GetFiles());
-            }
-
-            return fileInfoList;
-        }
-
         /// <summary>
         /// Berechnet den CRC Wert als byte[] von einer Datei
         /// </summary>
