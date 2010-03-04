@@ -4,12 +4,10 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
-using Delimon.Win32.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
-using IONet = System.IO;
+using System.IO;
 using System.ComponentModel;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml", "Get.Common")]
@@ -18,6 +16,52 @@ namespace Get.Common
     public static class IO
     {
         //todo:ftp verbindungen http://www.codeguru.com/csharp/csharp/cs_internet/desktopapplications/article.php/c13163/
+        
+        /// <summary>
+        /// Erstellt die fehlenden Ordner vom übergebenen Pfad.
+        /// </summary>
+        /// <param name="pDirectoryInfo">Ordner die erstellt werden sollen.</param>
+        public static void CreateDirsIfNotExists(string pDirectoryInfo)
+        {
+
+            if (IsFileLocalResource(pDirectoryInfo))
+            {
+                List<string> dirList = pDirectoryInfo.Split(System.IO.Path.DirectorySeparatorChar).ToList();
+
+                string currentdir = string.Empty;
+                for (int i = 0; i < dirList.Count; i++)
+                {
+                    currentdir = currentdir + dirList[i];
+                    DirectoryInfo directoryInfo = new DirectoryInfo(currentdir);
+                    if (directoryInfo.Exists.Equals(false))
+                    {
+                        //if (!directoryInfo.Root.Replace(Const.EnableLongPathString, string.Empty).Equals(currentdir))
+                            directoryInfo.Create();
+                    }
+                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
+                    currentdir = currentdir + Path.DirectorySeparatorChar.ToString();
+                }
+            }
+            else
+            {
+                //Netzwerkpfad splitten
+                List<string> dirList = pDirectoryInfo.Split(@"\\".ToCharArray()).Where(a => a != string.Empty).ToList<string>();
+
+                string currentdir = @"\\" + dirList.First() + "\\";
+                for (int i = 1; i < dirList.Count; i++)
+                {
+                    currentdir = currentdir + dirList[i];
+                    //System.IO.DirectoryInfo verwenden weil Delimon.Win32.IO.DirecotyInfo eine Exception wirft und nicht mit Netzwerkpfaden umgehen kann
+                    System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(currentdir);
+                    if (directoryInfo.Exists.Equals(false))
+                    {
+                        directoryInfo.Create();
+                    }
+                    //erst am schluss \\ hinzufügen sonst erhalten wir bei directoryInfo.Exists = false zurück
+                    currentdir = currentdir + Path.DirectorySeparatorChar.ToString();
+                }
+            }
+        }
 
         public static class NetUse
         {
