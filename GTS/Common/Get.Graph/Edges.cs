@@ -5,10 +5,24 @@ using System.Text;
 
 namespace Get.Graph
 {
-    public class Edges
+    public class Edge
     {
-        public Edges()
+        protected Vertex u;
+        protected Vertex v;
+
+        protected int weighted;
+
+        public Edge(Vertex pu, Vertex pv)
         {
+            u = pu;
+            v = pv;
+        }
+
+        public Edge(Vertex pu, Vertex pv, int pweighted)
+        {
+            u = pu;
+            v = pv;
+            weighted = pweighted;
         }
     }
 }
