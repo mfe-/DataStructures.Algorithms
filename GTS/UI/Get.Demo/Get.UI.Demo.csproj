@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Get.Demo</RootNamespace>
     <AssemblyName>Get.Demo</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +34,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +60,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -112,6 +114,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,6 +126,10 @@
       <Project>{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8}</Project>
       <Name>Get.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Get.Graph\Get.Graph.csproj">
+      <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
+      <Name>Get.Graph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Model\Get.Model.Core\Get.Model.Core.csproj">
       <Project>{573023D8-D9EB-4055-8EC4-D3DAD320E36B}</Project>
       <Name>Get.Model.Core</Name>
@@ -130,6 +137,10 @@
     <ProjectReference Include="..\Get.UI.Controls\Get.UI.Controls.csproj">
       <Project>{78FD1EED-3792-4435-AB56-6E101F44D835}</Project>
       <Name>Get.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Get.UI.GraphVisualization\Get.UI.GraphVisualization.csproj">
+      <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
+      <Name>Get.UI.GraphVisualization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
