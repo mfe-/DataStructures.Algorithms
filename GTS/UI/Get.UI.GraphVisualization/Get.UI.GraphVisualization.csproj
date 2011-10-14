@@ -49,11 +49,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Vertex.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="GraphVisualization.cs">
+    <Compile Include="Graph.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

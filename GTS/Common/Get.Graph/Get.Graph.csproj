@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Edges.cs" />
     <Compile Include="Graph.cs" />
-    <Compile Include="Vertices.cs" />
+    <Compile Include="Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

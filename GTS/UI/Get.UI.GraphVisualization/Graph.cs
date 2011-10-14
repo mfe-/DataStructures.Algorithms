@@ -46,7 +46,7 @@ namespace Get.UI
     ///     <MyNamespace:CustomControl1/>
     ///
     /// </summary>
-    //[ContentProperty("Graph")]
+    [ContentProperty("Graph")]
     public class GraphVisualization : Control
     {
         static GraphVisualization()

@@ -8,6 +8,8 @@ namespace Get.Graph
 
         protected int weighted;
 
+        public Vertex() { }
+
         public Vertex(int pweighted)
         {
             weighted = pweighted;
@@ -20,6 +22,8 @@ namespace Get.Graph
         {
             Edges.Add(new Edge(this, pu, pweighted));
         }
+
+        public int Weighted { get; set; }
 
     }
 }
