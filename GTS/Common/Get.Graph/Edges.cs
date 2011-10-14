@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Get.Graph
+﻿
+namespace Get.Model.Graph
 {
     public class Edge
     {
@@ -24,5 +20,8 @@ namespace Get.Graph
             v = pv;
             weighted = pweighted;
         }
+
+        public Vertex U { get { return u; } set { u = value; } }
+        public Vertex V { get { return v; } set { v = value; } }
     }
 }

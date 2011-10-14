@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace Get.Graph
+namespace Get.Model.Graph
 {
     public class Graph
     {

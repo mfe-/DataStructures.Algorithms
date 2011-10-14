@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Get.Graph
+namespace Get.Model.Graph
 {
     public class Vertex
     {
@@ -23,7 +23,7 @@ namespace Get.Graph
             Edges.Add(new Edge(this, pu, pweighted));
         }
 
-        public int Weighted { get; set; }
+        public int Weighted { get { return weighted;} set {weighted = value;} }
 
     }
 }

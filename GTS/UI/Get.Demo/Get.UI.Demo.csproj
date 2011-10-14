@@ -126,9 +126,9 @@
       <Project>{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8}</Project>
       <Name>Get.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Get.Graph\Get.Graph.csproj">
+    <ProjectReference Include="..\..\Common\Get.Graph\Get.Model.Graph.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Graph</Name>
+      <Name>Get.Model.Graph</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Model\Get.Model.Core\Get.Model.Core.csproj">
       <Project>{573023D8-D9EB-4055-8EC4-D3DAD320E36B}</Project>

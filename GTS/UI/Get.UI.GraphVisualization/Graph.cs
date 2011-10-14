@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Get.Graph;
+using Get.Model.Graph;
 using System.Windows.Markup;
 
 
@@ -54,16 +54,16 @@ namespace Get.UI
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
         }
 
-        
-        public Graph.Graph Graph
+
+        public Graph Graph
         {
-            get { return (Graph.Graph)GetValue(GraphProperty); }
+            get { return (Graph)GetValue(GraphProperty); }
             set { SetValue(GraphProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Graph.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register("Graph", typeof(Graph.Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
+            DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
 
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
