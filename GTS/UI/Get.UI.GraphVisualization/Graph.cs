@@ -54,7 +54,6 @@ namespace Get.UI
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
         }
 
-
         public Graph Graph
         {
             get { return (Graph)GetValue(GraphProperty); }
