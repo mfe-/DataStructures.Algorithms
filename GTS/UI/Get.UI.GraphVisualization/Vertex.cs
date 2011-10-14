@@ -63,15 +63,15 @@ namespace Get.UI
 
 
 
-        public Get.Graph.Vertex Vertex
+        public Get.Model.Graph.Vertex Vertex
         {
-            get { return (Get.Graph.Vertex)GetValue(VertexProperty); }
+            get { return (Get.Model.Graph.Vertex)GetValue(VertexProperty); }
             set { SetValue(VertexProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VertexProperty =
-            DependencyProperty.Register("Vertex", typeof(Get.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
+            DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
 
 
 
