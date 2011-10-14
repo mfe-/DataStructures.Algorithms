@@ -8,7 +8,7 @@ namespace Get.Graph
 {
     public class Graph
     {
-        public ObservableCollection<Vertex> Vertices = new ObservableCollection<Vertex>();
+        public ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
 
         public Graph()
         {
@@ -16,7 +16,15 @@ namespace Get.Graph
         }
         public void addVertec(Vertex pVertice)
         {
-            Vertices.Add(pVertice);
+            _Vertices.Add(pVertice);
+        }
+
+        public ObservableCollection<Vertex> Vertices
+        {
+            get
+            {
+                return _Vertices;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@
         xmlns:GetControls="http://schemas.get.com/winfx/2009/xaml/Controls"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
 xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
+        xmlns:graph="clr-namespace:Get.Graph;assembly=Get.Graph"
     Title="Window1" Height="300"  Width="300">
     <Window.DataContext>
         <local:ModelView></local:ModelView>
@@ -16,7 +17,9 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
             <!--<GetControls:ObjectControl ItemsSource="{Binding ObjectCore}"></GetControls:ObjectControl>
             <TextBox Text="{Binding Path=PropertieModifiers,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Text="{Binding Path=text,UpdateSourceTrigger=PropertyChanged}"/>-->
-            <ui:GraphVisualization></ui:GraphVisualization>
+            <ui:GraphVisualization>
+           
+            </ui:GraphVisualization>
         </DockPanel>
     </Window.Content>
 </Window>
