@@ -41,7 +41,9 @@ namespace Get.UI
     /// Step 2)
     /// Go ahead and use your control in the XAML file.
     ///
-    ///     <MyNamespace:CustomControl1/>
+    ///    <local:VertexVisualization>
+    ///       <graph:Vertex Weighted="2"></graph:Vertex>
+    ///    </local:VertexVisualization>
     ///
     /// </summary>
     [ContentProperty("Vertex")]
@@ -60,9 +62,6 @@ namespace Get.UI
 
         }
 
-
-
-
         public Get.Model.Graph.Vertex Vertex
         {
             get { return (Get.Model.Graph.Vertex)GetValue(VertexProperty); }
@@ -73,9 +72,6 @@ namespace Get.UI
         public static readonly DependencyProperty VertexProperty =
             DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
 
-
-
-        
         
     }
 }

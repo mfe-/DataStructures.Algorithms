@@ -9,17 +9,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GraphVisualization}">
-
+                    <Canvas Background="{TemplateBinding Background}"></Canvas>
                     
-                    <Border Background="{TemplateBinding Background}"
+                    <!--<Border 
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         
                         
-                        <local:VertexVisualization>
-                            <graph:Vertex Weighted="2"></graph:Vertex>
-                        </local:VertexVisualization>
-                    </Border>
+
+                    </Border>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
