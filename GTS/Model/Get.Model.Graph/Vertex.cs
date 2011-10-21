@@ -4,7 +4,7 @@ namespace Get.Model.Graph
 {
     public class Vertex
     {
-        protected ObservableCollection<Edge> Edges = new ObservableCollection<Edge>();
+        protected ObservableCollection<Edge> _Edges = new ObservableCollection<Edge>();
 
         protected int weighted;
 
@@ -16,14 +16,21 @@ namespace Get.Model.Graph
         }
         public void addEge(Vertex pu)
         {
-            Edges.Add(new Edge(this, pu));
+            _Edges.Add(new Edge(this, pu));
         }
         public void addEge(Vertex pu, int pweighted)
         {
-            Edges.Add(new Edge(this, pu, pweighted));
+            _Edges.Add(new Edge(this, pu, pweighted));
         }
 
         public int Weighted { get { return weighted;} set {weighted = value;} }
+
+        public ObservableCollection<Edge> Edges { get { return _Edges; } set { _Edges = value; } }
+
+        public override string ToString()
+        {
+            return base.ToString() + Weighted;
+        }
 
     }
 }
