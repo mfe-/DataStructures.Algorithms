@@ -49,6 +49,19 @@ namespace Get.UI
     [ContentProperty("Graph")]
     public class GraphVisualization : Control
     {
+        Canvas _Canvas = null;
+
+        public GraphVisualization()
+        {
+            Loaded += new RoutedEventHandler(GraphVisualization_Loaded);
+            //TODO: loaded weg tun und stattdessen event suchen, das ausgelöst wird, wenn das controltemplate geladen wurde!
+        }
+
+        private void GraphVisualization_Loaded(object sender, RoutedEventArgs e)
+        {
+            _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
+        }
+
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
@@ -66,9 +79,82 @@ namespace Get.UI
 
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-           
+            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
+            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
+                Graph graph = e.NewValue as Graph;
+
+                foreach (Vertex a in graph.Vertices)
+                {
+                    graphVisualization.addVertex(a);
+                    foreach (Edge ed in a.Edges)
+                    {
+                        graphVisualization.addVertex(ed.V);
+                    }
+                }
+
+            }
         }
 
-        
+        protected virtual void addVertex(Vertex v)
+        {
+            if (Canvas == null) _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
+
+            VertexVisualization vertexcontrol = new VertexVisualization();
+            vertexcontrol.Vertex = v;
+            Canvas.Children.Add(vertexcontrol);
+            Canvas.SetLeft(vertexcontrol, GetRandomNumber(DateTime.Now.Millisecond,0, Canvas.ActualWidth));
+            Canvas.SetTop(vertexcontrol, GetRandomNumber(DateTime.Now.Millisecond,0, Canvas.ActualHeight));
+            
+        }
+
+        private double GetRandomNumber(int seed, double minimum, double maximum)
+        {
+            Random random = new Random(seed);
+            return random.NextDouble() * (maximum - minimum) + minimum;
+        }
+
+
+        protected virtual Canvas Canvas
+        {
+            get
+            {
+                return _Canvas;
+            }
+            set
+            {
+                value = _Canvas;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// http://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="depObj"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
+
     }
 }

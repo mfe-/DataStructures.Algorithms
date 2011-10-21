@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Get.Model.Graph;
 
 namespace Get.Demo
 {
@@ -22,6 +23,22 @@ namespace Get.Demo
         public Window1()
         {
             InitializeComponent();
+            Loaded += new RoutedEventHandler(Window1_Loaded);
+        }
+
+        void Window1_Loaded(object sender, RoutedEventArgs e)
+        {
+            Graph graph = new Graph();
+
+            Vertex v1 = new Vertex(3);
+            Vertex v2 = new Vertex(7);
+
+            v1.addEge(v2);
+
+            graph.addVertec(v1);
+
+
+            _GraphVisualization.Graph = graph;
         }
     }
 }
