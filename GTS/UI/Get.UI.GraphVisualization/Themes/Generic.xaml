@@ -9,29 +9,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GraphVisualization}">
-
-
-                    <Border 
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Canvas Background="{TemplateBinding Background}" x:Name="_Canvas">
                             <Canvas.Resources>
-
                                 <ControlTemplate x:Key="DesignerItemTemplate" TargetType="ContentControl">
-                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-                                        <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
-                                        <local:MoveAbelItem Cursor="SizeAll"/>
-                                        <!--The ContentPresenter can be for example the VertexVisualization control -->
-                                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}"/>
+                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" >
+                                            <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
+                                            <local:MoveAbelItem Cursor="SizeAll"/>
+                                            <!--The ContentPresenter can be for example the VertexVisualization control -->
+                                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
                                     </Grid>
                                 </ControlTemplate>
                             </Canvas.Resources>
-                            <ContentControl Template="{StaticResource DesignerItemTemplate}" >
-                                
-                            </ContentControl>
+                            <Canvas.Children>
+                            </Canvas.Children>
                         </Canvas>
-
-
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -47,9 +39,6 @@
                                  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <TextBlock Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                     </Border>
-
-
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
