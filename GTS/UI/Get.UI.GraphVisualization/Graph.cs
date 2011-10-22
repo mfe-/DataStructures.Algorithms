@@ -49,17 +49,11 @@ namespace Get.UI
     [ContentProperty("Graph")]
     public class GraphVisualization : Control
     {
-        Canvas _Canvas = null;
+        private Random _Random = new Random(DateTime.Now.Millisecond);
+        private Canvas _Canvas = null;
 
         public GraphVisualization()
         {
-            Loaded += new RoutedEventHandler(GraphVisualization_Loaded);
-            //TODO: loaded weg tun und stattdessen event suchen, das ausgelöst wird, wenn das controltemplate geladen wurde!
-        }
-
-        private void GraphVisualization_Loaded(object sender, RoutedEventArgs e)
-        {
-            _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
         }
 
         static GraphVisualization()
@@ -84,7 +78,7 @@ namespace Get.UI
             {
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
                 Graph graph = e.NewValue as Graph;
-
+                //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
                 foreach (Vertex a in graph.Vertices)
                 {
                     graphVisualization.addVertex(a);
@@ -99,20 +93,22 @@ namespace Get.UI
 
         protected virtual void addVertex(Vertex v)
         {
-            if (Canvas == null) _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
-
+            ContentControl c = new ContentControl();
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-            Canvas.Children.Add(vertexcontrol);
-            Canvas.SetLeft(vertexcontrol, GetRandomNumber(DateTime.Now.Millisecond,0, Canvas.ActualWidth));
-            Canvas.SetTop(vertexcontrol, GetRandomNumber(DateTime.Now.Millisecond,0, Canvas.ActualHeight));
+
+            c.Content = vertexcontrol;
+            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
+
+            Canvas.Children.Add(c);
+            Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth-10));
+            Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight-10));
             
         }
-
-        private double GetRandomNumber(int seed, double minimum, double maximum)
+        
+        private double GetRandomNumber(double minimum, double maximum)
         {
-            Random random = new Random(seed);
-            return random.NextDouble() * (maximum - minimum) + minimum;
+            return _Random.NextDouble() * (maximum - minimum) + minimum;
         }
 
 
@@ -120,6 +116,7 @@ namespace Get.UI
         {
             get
             {
+                if (_Canvas == null) _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
                 return _Canvas;
             }
             set
