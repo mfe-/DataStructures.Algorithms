@@ -13,11 +13,11 @@
                         <Canvas Background="{TemplateBinding Background}" x:Name="_Canvas">
                             <Canvas.Resources>
                                 <ControlTemplate x:Key="DesignerItemTemplate" TargetType="ContentControl">
-                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" >
-                                            <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
-                                            <local:MoveAbelItem Cursor="SizeAll"/>
-                                            <!--The ContentPresenter can be for example the VertexVisualization control -->
-                                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
+                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" ShowGridLines="false" >
+                                        <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
+                                        <local:MoveAbelItem Cursor="SizeAll"/>
+                                        <!--The ContentPresenter can be for example the VertexVisualization control -->
+                                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
                                     </Grid>
                                 </ControlTemplate>
                             </Canvas.Resources>

@@ -33,7 +33,10 @@ namespace Get.Demo
             Vertex v1 = new Vertex(3);
             Vertex v2 = new Vertex(7);
 
+            Vertex v3 = new Vertex(1);
+
             v1.addEge(v2);
+            v2.addEge(v3);
 
             graph.addVertec(v1);
 
