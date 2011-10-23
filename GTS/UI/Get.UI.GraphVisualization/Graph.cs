@@ -79,18 +79,20 @@ namespace Get.UI
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
                 Graph graph = e.NewValue as Graph;
                 //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
-                foreach (Vertex a in graph.Vertices)
-                {
-                    graphVisualization.addVertex(a);
-                    foreach (Edge ed in a.Edges)
-                    {
-                        graphVisualization.addVertex(ed.V);
-                    }
-                }
-
+                InitialiseGraph(graphVisualization, graph.Vertices);
             }
         }
-
+        private static void InitialiseGraph(GraphVisualization graphVisualization, IList<Vertex> vertices)
+        {
+            foreach (Vertex a in vertices)
+            {
+                graphVisualization.addVertex(a);
+                foreach (Edge ed in a.Edges)
+                {
+                    InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V });
+                }
+            }
+        }
         protected virtual void addVertex(Vertex v)
         {
             ContentControl c = new ContentControl();
@@ -101,11 +103,11 @@ namespace Get.UI
             c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
 
             Canvas.Children.Add(c);
-            Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth-10));
-            Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight-10));
-            
+            Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth - 10));
+            Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight - 10));
+
         }
-        
+
         private double GetRandomNumber(double minimum, double maximum)
         {
             return _Random.NextDouble() * (maximum - minimum) + minimum;
