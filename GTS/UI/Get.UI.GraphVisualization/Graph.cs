@@ -90,6 +90,7 @@ namespace Get.UI
                 foreach (Edge ed in a.Edges)
                 {
                     InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V });
+                    graphVisualization.Canvas.Children.Add(new EdgeVisualization() {Edge = ed });
                 }
             }
         }
@@ -111,6 +112,11 @@ namespace Get.UI
         private double GetRandomNumber(double minimum, double maximum)
         {
             return _Random.NextDouble() * (maximum - minimum) + minimum;
+        }
+
+        public VertexVisualization getVertexVisualization(Vertex u)
+        {
+            return FindVisualChildren<VertexVisualization>(this).Where(x => x.Vertex.Equals(u)).FirstOrDefault();
         }
 
 
