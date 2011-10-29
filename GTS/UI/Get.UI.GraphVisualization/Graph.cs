@@ -52,8 +52,9 @@ namespace Get.UI
         private Random _Random = new Random(DateTime.Now.Millisecond);
         private Canvas _Canvas = null;
 
-        public GraphVisualization()
+        public GraphVisualization():base()
         {
+            
         }
 
         static GraphVisualization()
@@ -79,24 +80,33 @@ namespace Get.UI
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
                 Graph graph = e.NewValue as Graph;
                 //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
-                InitialiseGraph(graphVisualization, graph.Vertices);
+                InitialiseGraph(graphVisualization, graph.Vertices,null);
+                
             }
         }
-        private static void InitialiseGraph(GraphVisualization graphVisualization, IList<Vertex> vertices)
+        private static void InitialiseGraph(GraphVisualization graphVisualization, IList<Vertex> vertices,EdgeVisualization e)
         {
             foreach (Vertex a in vertices)
             {
-                graphVisualization.addVertex(a);
+                VertexVisualization u = graphVisualization.addVertex(a);
+                if(e!=null)
+                    e.PositionV = graphVisualization.getPositionFromVertexVisualization(u);
+
                 foreach (Edge ed in a.Edges)
                 {
-                    InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V });
-                    graphVisualization.Canvas.Children.Add(new EdgeVisualization() {Edge = ed });
-                }
+                    EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
+                    edgeVisualization.PositionU = graphVisualization.getPositionFromVertexVisualization(u);
+                    InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V }, edgeVisualization);
+
+                    graphVisualization.Canvas.Children.Add(edgeVisualization);
+                } 
             }
+            
         }
-        protected virtual void addVertex(Vertex v)
+        protected virtual VertexVisualization addVertex(Vertex v)
         {
             ContentControl c = new ContentControl();
+            //todo hier event anmelden, wenn control gemoved wurde oder so damit wir die position updaten können
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
 
@@ -107,18 +117,25 @@ namespace Get.UI
             Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth - 10));
             Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight - 10));
 
+            return vertexcontrol;
+
+        }
+        protected virtual VertexVisualization getVertexVisualization(Vertex u)
+        {
+            return FindVisualChildren<VertexVisualization>(Canvas).Where(x => x.Vertex.Equals(u)).First();
+        }
+
+        protected virtual Point getPositionFromVertexVisualization(VertexVisualization u)
+        {
+            double left = Canvas.GetLeft(u.Parent as UIElement);
+            double top = Canvas.GetTop(u.Parent as UIElement);
+            return new Point(left, top);
         }
 
         private double GetRandomNumber(double minimum, double maximum)
         {
             return _Random.NextDouble() * (maximum - minimum) + minimum;
         }
-
-        public VertexVisualization getVertexVisualization(Vertex u)
-        {
-            return FindVisualChildren<VertexVisualization>(this).Where(x => x.Vertex.Equals(u)).FirstOrDefault();
-        }
-
 
         protected virtual Canvas Canvas
         {

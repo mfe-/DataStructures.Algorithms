@@ -12,20 +12,18 @@ using System.Windows.Media;
 
 namespace Get.UI
 {
-    public class EdgeVisualization : Control, INotifyPropertyChanged
+    public class EdgeVisualization : Control
     {
+        static EdgeVisualization()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
+        }
+
         public EdgeVisualization()
-        {
-            // fired when layout changes
-            base.LayoutUpdated += new EventHandler(EdgeVisualization_LayoutUpdated);
-        }
-
-        protected virtual void EdgeVisualization_LayoutUpdated(object sender, EventArgs e)
+            : base()
         {
 
         }
-
-
 
         public Get.Model.Graph.Edge Edge
         {
@@ -44,54 +42,36 @@ namespace Get.UI
                 Edge edge = e.NewValue as Edge;
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
                 EdgeVisualization edgeVisualization = pDependencyObject as EdgeVisualization;
-                var g = edgeVisualization.GetUIParentCore();
-
-                var owner = FindVisualParent<UIElementCollection>(pDependencyObject); 
-
 
             }
         }
-        /// <summary> 
-        /// Finds a parent of a given item on the visual tree. 
-        /// </summary> 
-        /// <typeparam name="T">The type of the queried item.</typeparam> 
-        /// <param name="child">A direct or indirect child of the queried item.</param> 
-        /// <returns>The first parent item that matches the submitted type parameter.  
-        /// If not matching item can be found, a null reference is being returned.</returns> 
-        public static T FindVisualParent<T>(DependencyObject child)
-          where T : DependencyObject
+
+
+
+        public Point PositionU
         {
-            // get parent item 
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-
-            // we’ve reached the end of the tree 
-            if (parentObject == null) return null;
-
-            // check if the parent matches the type we’re looking for 
-            T parent = parentObject as T;
-            if (parent != null)
-            {
-                return parent;
-            }
-            else
-            {
-                // use recursion to proceed with next level 
-                return FindVisualParent<T>(parentObject);
-            }
+            get { return (Point)GetValue(PositionUProperty); }
+            set { SetValue(PositionUProperty, value); }
         }
 
+        // Using a DependencyProperty as the backing store for PositionU.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PositionUProperty =
+            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged(String propertyName)
+
+        public Point PositionV
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            get { return (Point)GetValue(PositionVProperty); }
+            set { SetValue(PositionVProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for PositionV.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PositionVProperty =
+            DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
+
+
+        
 
     }
 }
