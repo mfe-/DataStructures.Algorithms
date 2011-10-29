@@ -4,7 +4,6 @@
     xmlns:local="clr-namespace:Get.UI"
     xmlns:graph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph">
 
-
     <Style TargetType="{x:Type local:GraphVisualization}">
         <Setter Property="Template">
             <Setter.Value>
@@ -13,9 +12,9 @@
                         <Canvas Background="{TemplateBinding Background}" x:Name="_Canvas">
                             <Canvas.Resources>
                                 <ControlTemplate x:Key="DesignerItemTemplate" TargetType="ContentControl">
-                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="Transparent" ShowGridLines="false" >
+                                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" Background="White" ShowGridLines="false" >
                                         <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
-                                        <local:MoveAbelItem Cursor="SizeAll"/>
+                                        <local:MoveAbelItem x:Name="_MoveAbelItem" Cursor="SizeAll"/>
                                         <!--The ContentPresenter can be for example the VertexVisualization control -->
                                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
                                     </Grid>
@@ -47,7 +46,8 @@
     <Style TargetType="{x:Type local:EdgeVisualization}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:EdgeVisualization}"><Line Stroke="Black" 
+                <ControlTemplate TargetType="{x:Type local:EdgeVisualization}">
+                    <Line Stroke="Black" StrokeThickness="5"
                           X1="{Binding Mode=TwoWay,Path=PositionU.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                           Y1="{Binding Mode=TwoWay,Path=PositionU.Y,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                           X2="{Binding Mode=TwoWay,Path=PositionV.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
