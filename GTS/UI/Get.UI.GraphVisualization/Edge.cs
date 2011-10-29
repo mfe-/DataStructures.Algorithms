@@ -46,8 +46,6 @@ namespace Get.UI
             }
         }
 
-
-
         public Point PositionU
         {
             get { return (Point)GetValue(PositionUProperty); }
@@ -70,8 +68,6 @@ namespace Get.UI
         public static readonly DependencyProperty PositionVProperty =
             DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
 
-
-        
 
     }
 }
