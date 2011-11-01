@@ -56,6 +56,7 @@ namespace Get.UI
         {
             _VertexVisualizationList = new ObservableCollection<VertexVisualization>();
         }
+
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
@@ -73,6 +74,16 @@ namespace Get.UI
         //    add { this.AddHandler(DragDeltaEvent, value); }
         //    remove { this.RemoveHandler(DragDeltaEvent, value); }
         //}
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (this.Template != null)
+            {
+                _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
+            }
+        }
 
         // Using a DependencyProperty as the backing store for Graph.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty GraphProperty =
@@ -98,16 +109,16 @@ namespace Get.UI
                 if (e != null)
                 {
                     e.PositionV = graphVisualization.getPositionFromVertexVisualization(u);
-                    graphVisualization.setPositionFromVertexVisualizationBinding(u, e);
+                    //graphVisualization.setPositionFromVertexVisualizationBinding(u, e);
                 }
 
                 foreach (Edge ed in a.Edges)
                 {
                     EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
                     edgeVisualization.PositionU = graphVisualization.getPositionFromVertexVisualization(u);
-                    graphVisualization.setPositionFromVertexVisualizationBinding(u, edgeVisualization);
-                    InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V }, edgeVisualization);
+                    //graphVisualization.setPositionFromVertexVisualizationBinding(u, edgeVisualization);
 
+                    InitialiseGraph(graphVisualization, new List<Vertex>() { ed.V }, edgeVisualization);
                     graphVisualization.Canvas.Children.Add(edgeVisualization);
                 }
             }
@@ -126,6 +137,7 @@ namespace Get.UI
 
             _VertexVisualizationList.Add(vertexcontrol);
             Canvas.Children.Add(c);
+
             Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth - 10));
             Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight - 10));
 
@@ -152,18 +164,18 @@ namespace Get.UI
             c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
 
             MoveAbelItem moveAbelItem = FindVisualChildren<MoveAbelItem>(c.Template.LoadContent()).First();
+            
+            Binding bindingx = new Binding("Position");
+            bindingx.Source = moveAbelItem;
+            bindingx.Mode = BindingMode.OneWay;
+            bindingx.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            e.SetBinding(EdgeVisualization.PositionUProperty, bindingx);
 
-            //Binding bindingx = new Binding("Position.X");
-            //bindingx.Source = moveAbelItem;
-            ////bindingu.Mode = BindingMode.TwoWay;
-            //bindingx.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            //e.SetBinding(EdgeVisualization.PositionUProperty, bindingx);
-
-            //Binding bindingy = new Binding("Position.Y");
-            //bindingy.Source = moveAbelItem;
-            ////bindingu.Mode = BindingMode.TwoWay;
-            //bindingy.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            //e.SetBinding(EdgeVisualization.PositionUProperty, bindingy);
+            Binding bindingy = new Binding("Position");
+            bindingy.Source = moveAbelItem;
+            bindingy.Mode = BindingMode.OneWay;
+            bindingy.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            e.SetBinding(EdgeVisualization.PositionUProperty, bindingy);
 
 
         }
