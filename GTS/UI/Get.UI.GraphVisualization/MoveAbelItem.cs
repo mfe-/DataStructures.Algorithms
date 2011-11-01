@@ -12,18 +12,39 @@ namespace Get.UI
 {
     public class MoveAbelItem : Thumb, INotifyPropertyChanged
     {
+        protected Control _item;
         protected Point _Position;
 
         public MoveAbelItem()
         {
             //Occurs one or more times as the mouse changes position when a Thumb control has logical focus and mouse capture. 
+            Loaded += new RoutedEventHandler(MoveAbelItem_Loaded);
+        }
+
+        protected virtual void MoveAbelItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            Position = getPositionInCanvas();
+
             DragDelta += new DragDeltaEventHandler(this.MoveThumb_DragDelta);
+            base.LayoutUpdated += new EventHandler(MoveAbelItem_LayoutUpdated);
+        }
+        protected virtual Point getPositionInCanvas()
+        {
+            if (item != null) return new Point(Canvas.GetLeft(item), Canvas.GetTop(item));
+            else return new Point();
+        }
+        protected virtual void MoveAbelItem_LayoutUpdated(object sender, EventArgs e)
+        {
+            Position = getPositionInCanvas();
+            //get center position of this Connector relative to the DesignerCanvas
+            //this.Position = this.TransformToAncestor(item).Transform
+            //     (new Point(this.Width / 2, this.Height / 2));
+            ////http://www.codeproject.com/KB/WPF/WPFDiagramDesigner_Part3.aspx
+
         }
 
         protected virtual void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            _item = this.DataContext as Control;
-
             if (item != null)
             {
                 double _Left = Canvas.GetLeft(item);
@@ -31,35 +52,34 @@ namespace Get.UI
 
                 Canvas.SetLeft(item, _Left + e.HorizontalChange);
                 Canvas.SetTop(item, _Top + e.VerticalChange);
-                NotifyPropertyChanged("Position");
-                
+
             }
         }
-        protected Control _item;
+
         protected Control item
         {
             get
             {
+                if (_item == null) _item = this.DataContext as Control;
                 return _item;
             }
         }
 
-        public virtual Point Position
+
+        public Point Position
         {
-            get
-            {
-                if (item == null) return new Point();
-                Point position = new Point(Canvas.GetLeft(item), Canvas.GetTop(item));
-                Debug.WriteLine("x" + _Position.X + " " + "y " + _Position.Y);
-                return position;
-            }
+            get { return _Position; }
             set
             {
-                value = _Position;
-                NotifyPropertyChanged("Position");
-                Debug.WriteLine(Position);
+                if (_Position != value)
+                {
+                    _Position = value;
+                    NotifyPropertyChanged("Position");
+                    Debug.WriteLine(Position);
+                }
             }
         }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
