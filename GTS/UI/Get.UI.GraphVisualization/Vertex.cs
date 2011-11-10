@@ -49,6 +49,11 @@ namespace Get.UI
     [ContentProperty("Vertex")]
     public class VertexVisualization : Control
     {
+        public static readonly RoutedEvent PositionChangedEvent;
+        public VertexVisualization()
+        {
+        }
+
         static VertexVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(typeof(VertexVisualization)));
@@ -60,7 +65,15 @@ namespace Get.UI
 
             BorderBrushProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Black));
 
+            PositionChangedEvent = MoveAbelItem.PositionChangedEvent.AddOwner(typeof(VertexVisualization));
+            EventManager.RegisterClassHandler(typeof(VertexVisualization), MoveAbelItem.PositionChangedEvent, new RoutedEventHandler(MoveAbelItem_PositionChanged));
+
         }
+        public static void MoveAbelItem_PositionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         public Get.Model.Graph.Vertex Vertex
         {
@@ -71,6 +84,7 @@ namespace Get.UI
         // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VertexProperty =
             DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
+
 
         
     }
