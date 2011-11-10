@@ -49,7 +49,6 @@ namespace Get.UI
     [ContentProperty("Vertex")]
     public class VertexVisualization : Control
     {
-        public static readonly RoutedEvent PositionChangedEvent;
         public VertexVisualization()
         {
         }
@@ -64,17 +63,7 @@ namespace Get.UI
             BorderThicknessProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(new Thickness(2)));
 
             BorderBrushProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Black));
-
-            PositionChangedEvent = MoveAbelItem.PositionChangedEvent.AddOwner(typeof(VertexVisualization));
-            EventManager.RegisterClassHandler(typeof(VertexVisualization), MoveAbelItem.PositionChangedEvent, new RoutedEventHandler(MoveAbelItem_PositionChanged));
-
         }
-        public static void MoveAbelItem_PositionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
         public Get.Model.Graph.Vertex Vertex
         {
             get { return (Get.Model.Graph.Vertex)GetValue(VertexProperty); }
@@ -86,6 +75,6 @@ namespace Get.UI
             DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
 
 
-        
+
     }
 }
