@@ -9,6 +9,7 @@ using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 
 namespace Get.UI
@@ -50,8 +51,6 @@ namespace Get.UI
         protected ObservableCollection<VertexVisualization> _VertexVisualizationList;
         protected ObservableCollection<EdgeVisualization> _EdgeVisualizationList;
 
-        public static readonly RoutedEvent DragDeltaEvent;
-
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
@@ -87,33 +86,24 @@ namespace Get.UI
                 if (contentc == null) return;
                 VertexVisualization v = contentc.Content as VertexVisualization;
 
-                var x = from p in _EdgeVisualizationList
-                        where
-                        FilterEdge(p.Edge, v.Vertex.Edges)
-                        select p;
-
-                x.ToList();
-
-                //Contains statt wehre oder FilterEdge verwenden
+                var x = _EdgeVisualizationList.Where(p => p.VertexVisualizationU.Vertex == v.Vertex || p.VertexVisualizationV.Vertex == v.Vertex).ToList<EdgeVisualization>();
 
                 foreach (EdgeVisualization edge in x)
                 {
-                    edge.PositionU = new Point(moveAbelItem.Position.X + v.ActualWidth/2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                    if (edge.VertexVisualizationU.Vertex != v.Vertex)
+                    {
+                        edge.PositionV = new Point(moveAbelItem.Position.X + v.ActualWidth / 2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                    }
+                    else
+                    {
+                        edge.PositionU = new Point(moveAbelItem.Position.X + v.ActualWidth / 2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                    }
                 }
 
             }
 
-            if (sender != null && sender.GetType().Equals(typeof(VertexVisualization)))
-            {
-                VertexVisualization vertexVisualization = sender as VertexVisualization;
-
-                double _Left = Canvas.GetLeft(vertexVisualization);
-                double _Top = Canvas.GetTop(vertexVisualization);
-
-
-            }
         }
-        public static bool FilterEdge(Edge pEdge, ObservableCollection<Edge> pEdges)
+        public static bool FilterEdge(Edge pEdge, IList<Edge> pEdges)
         {
             foreach (Edge e in pEdges)
                 if (pEdge.U == e.U || pEdge.V == e.V || pEdge.U == e.V || pEdge.V == e.U) return true;
@@ -163,6 +153,7 @@ namespace Get.UI
 
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
+            //vertexcontrol.Background = Brushes.Green;
 
             c.Content = vertexcontrol;
 

@@ -14,22 +14,11 @@ namespace Get.UI
     {
         protected Control _item;
         protected Point _Position;
-        public static readonly RoutedEvent PositionChangedEvent;
 
         public MoveAbelItem()
         {
             //Occurs one or more times as the mouse changes position when a Thumb control has logical focus and mouse capture. 
             Loaded += new RoutedEventHandler(MoveAbelItem_Loaded);
-            this.PositionChanged += new RoutedEventHandler(MoveAbelItem_PositionChanged);
-        }
-
-        void MoveAbelItem_PositionChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
-        static MoveAbelItem()
-        {
-            PositionChangedEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MoveAbelItem));
         }
 
         protected virtual void MoveAbelItem_Loaded(object sender, RoutedEventArgs e)
@@ -41,7 +30,7 @@ namespace Get.UI
         }
         protected virtual Point getPositionInCanvas()
         {
-            if (item != null) return new Point(Canvas.GetLeft(item), Canvas.GetTop(item));
+            if (Item != null) return new Point(Canvas.GetLeft(Item), Canvas.GetTop(Item));
             else return new Point();
         }
         protected virtual void MoveAbelItem_LayoutUpdated(object sender, EventArgs e)
@@ -56,27 +45,20 @@ namespace Get.UI
 
         protected virtual void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (item != null)
+            if (Item != null)
             {
-                double _Left = Canvas.GetLeft(item);
-                double _Top = Canvas.GetTop(item);
+                double _Left = Canvas.GetLeft(Item);
+                double _Top = Canvas.GetTop(Item);
 
-                Canvas.SetLeft(item, _Left + e.HorizontalChange);
-                Canvas.SetTop(item, _Top + e.VerticalChange);
+                Canvas.SetLeft(Item, _Left + e.HorizontalChange);
+                Canvas.SetTop(Item, _Top + e.VerticalChange);
 
             }
         }
 
-        protected void OnPositionChanged()
-        {
-            RaiseEvent(new RoutedEventArgs(PositionChangedEvent));
-        }
-        protected void OnPositionChanged(RoutedEventArgs pRoutedEventArgs)
-        {
-            RaiseEvent(pRoutedEventArgs);
-        }
 
-        protected Control item
+
+        public Control Item
         {
             get
             {
@@ -86,7 +68,7 @@ namespace Get.UI
         }
 
 
-        public Point Position
+        public virtual Point Position
         {
             get { return _Position; }
             set
@@ -94,17 +76,13 @@ namespace Get.UI
                 if (_Position != value)
                 {
                     _Position = value;
-                    NotifyPropertyChanged("Position"); OnPositionChanged();
+                    NotifyPropertyChanged("Position");
                     Debug.WriteLine(Position);
                 }
             }
         }
 
-        public event RoutedEventHandler PositionChanged
-        {
-            add { AddHandler(PositionChangedEvent, value); }
-            remove { RemoveHandler(PositionChangedEvent, value); }
-        }
+
 
 
 
