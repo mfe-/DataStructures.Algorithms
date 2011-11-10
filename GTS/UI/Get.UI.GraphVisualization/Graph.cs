@@ -48,94 +48,22 @@ namespace Get.UI
         protected Random _Random = new Random(DateTime.Now.Millisecond);
         protected Canvas _Canvas = null;
         protected ObservableCollection<VertexVisualization> _VertexVisualizationList;
+        protected ObservableCollection<EdgeVisualization> _EdgeVisualizationList;
 
         public static readonly RoutedEvent DragDeltaEvent;
 
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
-            DragDeltaEvent = EventManager.RegisterRoutedEvent("DragDelta", RoutingStrategy.Bubble, typeof(DragDeltaEventHandler), typeof(GraphVisualization));
 
         }
         public GraphVisualization()
             : base()
         {
             _VertexVisualizationList = new ObservableCollection<VertexVisualization>();
+            _EdgeVisualizationList = new ObservableCollection<EdgeVisualization>();
 
-            Loaded += new RoutedEventHandler(GraphVisualization_Loaded);
             DragDelta += new RoutedEventHandler(GraphVisualization_DragDelta);
-        }
-
-        public event RoutedEventHandler DragDelta
-        {
-            add {AddHandler(Thumb.DragDeltaEvent,value);}
-            remove{RemoveHandler(Thumb.DragDeltaEvent,value);}
-        }
-
-
-
-        void GraphVisualization_DragDelta(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        void GraphVisualization_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitialiseEdge();
-        }
-        private List<EdgeVisualization> elist = new List<EdgeVisualization>();
-        protected virtual void InitialiseEdge()
-        {
-            //get all Vertices
-            foreach (VertexVisualization u in VertexVisualizationList)
-            {
-                //get from the Vertex all edges
-                foreach (Edge e in u.Vertex.Edges)
-                {
-                    //create the Edge control for the vertex u
-                    EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = e };
-                    //get the moveAbelItem for the position property of vertex u
-                    MoveAbelItem moveAbelItemU = getMoveAbelItem(u);
-
-                    //search and get the other proper Vertex
-                    VertexVisualization v = VertexVisualizationList.Where(ue => ue.Vertex == e.V).First();
-                    //get the moveAbelItem for the position property of vertex v
-                    MoveAbelItem moveAbelItemV = getMoveAbelItem(v);
-
-                    //set the binding for vertex u
-                    Binding bindingU = new Binding("Position");
-                    bindingU.Source = moveAbelItemU;
-                    bindingU.Mode = BindingMode.OneWay;
-                    bindingU.NotifyOnSourceUpdated = true;
-                    bindingU.NotifyOnTargetUpdated = true;
-                    bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    edgeVisualization.SetBinding(EdgeVisualization.PositionUProperty, bindingU);
-
-                    Binding bindingV = new Binding("Position");
-                    bindingV.Source = moveAbelItemV;
-                    bindingV.Mode = BindingMode.OneWay;
-                    bindingV.NotifyOnSourceUpdated = true;
-                    bindingV.NotifyOnTargetUpdated = true;
-                    bindingV.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    edgeVisualization.SetBinding(EdgeVisualization.PositionVProperty, bindingV);
-                    Canvas.Children.Add(edgeVisualization);
-                    elist.Add(edgeVisualization);
-                }
-            }
-        }
-        private MoveAbelItem getMoveAbelItem(VertexVisualization pVertexVisualization)
-        {
-            ContentControl c = pVertexVisualization.Parent as ContentControl;
-            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
-
-            return FindVisualChildren<MoveAbelItem>(c.Template.LoadContent()).First();
-        }
-
-
-        public Graph Graph
-        {
-            get { return (Graph)GetValue(GraphProperty); }
-            set { SetValue(GraphProperty, value); }
         }
 
         public override void OnApplyTemplate()
@@ -148,21 +76,61 @@ namespace Get.UI
             }
         }
 
-        // Using a DependencyProperty as the backing store for Graph.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
-
-        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        protected virtual void GraphVisualization_DragDelta(object sender, RoutedEventArgs e)
         {
-            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
-            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            DragDeltaEventArgs dragDeltaEventArgs = e as DragDeltaEventArgs;
+
+            if (dragDeltaEventArgs.OriginalSource != null && dragDeltaEventArgs.OriginalSource.GetType().Equals(typeof(MoveAbelItem)))
             {
-                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
-                Graph graph = e.NewValue as Graph;
-                //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
-                graphVisualization.InitialiseGraph(graph.Vertices, null);
+                MoveAbelItem moveAbelItem = dragDeltaEventArgs.OriginalSource as MoveAbelItem;
+                ContentControl contentc = GetFrameworkElementParent<ContentControl>(moveAbelItem as FrameworkElement) as ContentControl;
+                if (contentc == null) return;
+                VertexVisualization v = contentc.Content as VertexVisualization;
+
+                var x = from p in _EdgeVisualizationList
+                        where
+                        FilterEdge(p.Edge, v.Vertex.Edges)
+                        select p;
+
+                x.ToList();
+
+                //Contains statt wehre oder FilterEdge verwenden
+
+                foreach (EdgeVisualization edge in x)
+                {
+                    edge.PositionU = new Point(moveAbelItem.Position.X + v.ActualWidth/2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                }
 
             }
+
+            if (sender != null && sender.GetType().Equals(typeof(VertexVisualization)))
+            {
+                VertexVisualization vertexVisualization = sender as VertexVisualization;
+
+                double _Left = Canvas.GetLeft(vertexVisualization);
+                double _Top = Canvas.GetTop(vertexVisualization);
+
+
+            }
+        }
+        public static bool FilterEdge(Edge pEdge, ObservableCollection<Edge> pEdges)
+        {
+            foreach (Edge e in pEdges)
+                if (pEdge.U == e.U || pEdge.V == e.V || pEdge.U == e.V || pEdge.V == e.U) return true;
+
+            return false;
+        }
+
+        protected virtual void setBinding(MoveAbelItem pMoveAbelItem, EdgeVisualization pEdgeVisualization, DependencyProperty pDependencyProperty)
+        {
+
+        }
+        private MoveAbelItem getMoveAbelItem(VertexVisualization pVertexVisualization)
+        {
+            ContentControl c = pVertexVisualization.Parent as ContentControl;
+            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
+
+            return FindVisualChildren<MoveAbelItem>(c.Template.LoadContent()).First();
         }
 
         protected virtual void InitialiseGraph(IList<Vertex> vertices, EdgeVisualization e)
@@ -172,21 +140,21 @@ namespace Get.UI
                 VertexVisualization u = addVertex(a);
                 if (e != null)
                 {
-                    //e.PositionV = getPositionFromVertexVisualization(u);
-                    //setPositionFromVertexVisualizationBinding(u, e);
+                    e.PositionV = getPositionFromVertexVisualization(u);
+                    e.VertexVisualizationV = u;
                 }
 
                 foreach (Edge ed in a.Edges)
                 {
-                    //EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
-                    //edgeVisualization.PositionU = getPositionFromVertexVisualization(u);
-                    //setPositionFromVertexVisualizationBinding(u, edgeVisualization);
+                    EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
+                    edgeVisualization.PositionU = getPositionFromVertexVisualization(u);
+                    edgeVisualization.VertexVisualizationU = u;
 
-                    InitialiseGraph(new List<Vertex>() { ed.V }, null);
-                    //Canvas.Children.Add(edgeVisualization);
+                    InitialiseGraph(new List<Vertex>() { ed.V }, edgeVisualization);
+                    _EdgeVisualizationList.Add(edgeVisualization);
+                    Canvas.Children.Add(edgeVisualization);
                 }
             }
-
         }
         protected virtual VertexVisualization addVertex(Vertex v)
         {
@@ -197,7 +165,6 @@ namespace Get.UI
             vertexcontrol.Vertex = v;
 
             c.Content = vertexcontrol;
-
 
             _VertexVisualizationList.Add(vertexcontrol);
             Canvas.Children.Add(c);
@@ -216,65 +183,15 @@ namespace Get.UI
 
         protected virtual Point getPositionFromVertexVisualization(VertexVisualization u)
         {
-
             double left = Canvas.GetLeft(u.Parent as UIElement);
             double top = Canvas.GetTop(u.Parent as UIElement);
             return new Point(left + (u.Width / 2), top + (u.Height / 2));
-        }
-
-        protected virtual void setPositionFromVertexVisualizationBinding(VertexVisualization u, EdgeVisualization e)
-        {
-            ContentControl c = u.Parent as ContentControl;
-            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
-
-            MoveAbelItem moveAbelItem = FindVisualChildren<MoveAbelItem>(c.Template.LoadContent()).First();
-            
-            Binding bindingU = new Binding("Position");
-            bindingU.Source = moveAbelItem;
-            bindingU.Mode = BindingMode.OneWay;
-            bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            e.SetBinding(EdgeVisualization.PositionUProperty, bindingU);
-
-            Binding bindingy = new Binding("Position");
-            bindingy.Source = moveAbelItem;
-            bindingy.Mode = BindingMode.OneWay;
-            bindingy.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            e.SetBinding(EdgeVisualization.PositionUProperty, bindingy);
-
-
         }
 
         private double GetRandomNumber(double minimum, double maximum)
         {
             return _Random.NextDouble() * (maximum - minimum) + minimum;
         }
-
-        protected virtual ObservableCollection<VertexVisualization> VertexVisualizationList
-        {
-            get
-            {
-                return _VertexVisualizationList;
-            }
-            set
-            {
-                value = _VertexVisualizationList;
-            }
-
-        }
-        protected virtual Canvas Canvas
-        {
-            get
-            {
-                if (_Canvas == null) _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
-                return _Canvas;
-            }
-            set
-            {
-                value = _Canvas;
-            }
-        }
-
-
         /// <summary>
         /// 
         /// http://stackoverflow.com/questions/974598/find-all-controls-in-wpf-window-by-type
@@ -299,6 +216,91 @@ namespace Get.UI
                         yield return childOfChild;
                     }
                 }
+            }
+        }
+
+        public static FrameworkElement GetFrameworkElementParent<T>(FrameworkElement element)
+        {
+            FrameworkElement parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
+            if (parent != null)
+            {
+                if (parent.GetType().Equals(typeof(T)))
+                {
+                    return parent;
+                }
+                parent = GetFrameworkElementParent<T>(parent);
+            }
+            return parent;
+
+        }
+        public static FrameworkElement GetFrameworkElementParent(FrameworkElement element, string name)
+        {
+            FrameworkElement parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
+            if (parent != null)
+            {
+                if (parent.Name == name)
+                {
+                    return parent;
+                }
+                return GetFrameworkElementParent(parent, name);
+            }
+            return null;
+
+        }
+
+
+        public event RoutedEventHandler DragDelta
+        {
+            add { AddHandler(Thumb.DragDeltaEvent, value); }
+            remove { RemoveHandler(Thumb.DragDeltaEvent, value); }
+        }
+
+
+        public Graph Graph
+        {
+            get { return (Graph)GetValue(GraphProperty); }
+            set { SetValue(GraphProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Graph.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GraphProperty =
+            DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
+
+        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
+            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
+                Graph graph = e.NewValue as Graph;
+                //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
+                graphVisualization.InitialiseGraph(graph.Vertices, null);
+
+            }
+        }
+
+        protected virtual ObservableCollection<VertexVisualization> VertexVisualizationList
+        {
+            get
+            {
+                return _VertexVisualizationList;
+            }
+            set
+            {
+                value = _VertexVisualizationList;
+            }
+
+        }
+        protected virtual Canvas Canvas
+        {
+            get
+            {
+                if (_Canvas == null) _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
+                return _Canvas;
+            }
+            set
+            {
+                value = _Canvas;
             }
         }
 

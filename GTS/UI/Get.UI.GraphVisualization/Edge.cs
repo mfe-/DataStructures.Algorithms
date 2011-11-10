@@ -69,5 +69,29 @@ namespace Get.UI
             DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
 
 
+        protected VertexVisualization _VertexVisualizationV;
+        public VertexVisualization VertexVisualizationV
+        {
+            get
+            {
+                return _VertexVisualizationV;
+            }
+            set
+            {
+
+                _VertexVisualizationV = value;
+            }
+        }
+
+
+        public VertexVisualization VertexVisualizationU
+        {
+            get;
+            set;
+        }
+
+
+
+
     }
 }

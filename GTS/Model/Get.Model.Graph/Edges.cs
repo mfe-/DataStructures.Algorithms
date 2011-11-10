@@ -23,5 +23,10 @@ namespace Get.Model.Graph
 
         public Vertex U { get { return u; } set { u = value; } }
         public Vertex V { get { return v; } set { v = value; } }
+
+        public override string ToString()
+        {
+            return base.ToString() +" " + U.ToString() +" ->" + V.ToString();
+        }
     }
 }

@@ -14,11 +14,22 @@ namespace Get.UI
     {
         protected Control _item;
         protected Point _Position;
+        public static readonly RoutedEvent PositionChangedEvent;
 
         public MoveAbelItem()
         {
             //Occurs one or more times as the mouse changes position when a Thumb control has logical focus and mouse capture. 
             Loaded += new RoutedEventHandler(MoveAbelItem_Loaded);
+            this.PositionChanged += new RoutedEventHandler(MoveAbelItem_PositionChanged);
+        }
+
+        void MoveAbelItem_PositionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
+        static MoveAbelItem()
+        {
+            PositionChangedEvent = EventManager.RegisterRoutedEvent("PositionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MoveAbelItem));
         }
 
         protected virtual void MoveAbelItem_Loaded(object sender, RoutedEventArgs e)
@@ -56,6 +67,15 @@ namespace Get.UI
             }
         }
 
+        protected void OnPositionChanged()
+        {
+            RaiseEvent(new RoutedEventArgs(PositionChangedEvent));
+        }
+        protected void OnPositionChanged(RoutedEventArgs pRoutedEventArgs)
+        {
+            RaiseEvent(pRoutedEventArgs);
+        }
+
         protected Control item
         {
             get
@@ -74,10 +94,16 @@ namespace Get.UI
                 if (_Position != value)
                 {
                     _Position = value;
-                    NotifyPropertyChanged("Position");
+                    NotifyPropertyChanged("Position"); OnPositionChanged();
                     Debug.WriteLine(Position);
                 }
             }
+        }
+
+        public event RoutedEventHandler PositionChanged
+        {
+            add { AddHandler(PositionChangedEvent, value); }
+            remove { RemoveHandler(PositionChangedEvent, value); }
         }
 
 
