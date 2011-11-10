@@ -1,6 +1,8 @@
 ﻿
+using System.Xml.Serialization;
 namespace Get.Model.Graph
 {
+    [XmlRoot("Edge")]
     public class Edge
     {
         protected Vertex u;
@@ -20,13 +22,14 @@ namespace Get.Model.Graph
             v = pv;
             weighted = pweighted;
         }
-
+        [XmlElement("U")]
         public Vertex U { get { return u; } set { u = value; } }
+        [XmlElement("V")]
         public Vertex V { get { return v; } set { v = value; } }
 
         public override string ToString()
         {
-            return base.ToString() +" " + U.ToString() +" ->" + V.ToString();
+            return base.ToString() + " " + U.ToString() + " ->" + V.ToString();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace Get.Model.Graph
 {
+    [XmlRoot("Vertex")]
     public class Vertex
     {
         protected ObservableCollection<Edge> _Edges = new ObservableCollection<Edge>();
@@ -22,9 +24,11 @@ namespace Get.Model.Graph
         {
             _Edges.Add(new Edge(this, pu, pweighted));
         }
-
-        public int Weighted { get { return weighted;} set {weighted = value;} }
-
+        [XmlElement("Weighted")]
+        public int Weighted { get { return weighted; } set { weighted = value; } }
+        
+        [XmlArray("Edges")]
+        [XmlArrayItem("Edge", typeof(Edge))]
         public ObservableCollection<Edge> Edges { get { return _Edges; } set { _Edges = value; } }
 
         public override string ToString()
