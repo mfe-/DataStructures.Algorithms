@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Xml.Serialization;
 
 
 namespace Get.UI
@@ -86,9 +87,9 @@ namespace Get.UI
                 if (contentc == null) return;
                 VertexVisualization v = contentc.Content as VertexVisualization;
 
-                var x = _EdgeVisualizationList.Where(p => p.VertexVisualizationU.Vertex == v.Vertex || p.VertexVisualizationV.Vertex == v.Vertex).ToList<EdgeVisualization>();
+                var edgelist = _EdgeVisualizationList.Where(p => p.VertexVisualizationU.Vertex == v.Vertex || p.VertexVisualizationV.Vertex == v.Vertex).ToList<EdgeVisualization>();
 
-                foreach (EdgeVisualization edge in x)
+                foreach (EdgeVisualization edge in edgelist)
                 {
                     if (edge.VertexVisualizationU.Vertex != v.Vertex)
                     {
@@ -102,25 +103,6 @@ namespace Get.UI
 
             }
 
-        }
-        public static bool FilterEdge(Edge pEdge, IList<Edge> pEdges)
-        {
-            foreach (Edge e in pEdges)
-                if (pEdge.U == e.U || pEdge.V == e.V || pEdge.U == e.V || pEdge.V == e.U) return true;
-
-            return false;
-        }
-
-        protected virtual void setBinding(MoveAbelItem pMoveAbelItem, EdgeVisualization pEdgeVisualization, DependencyProperty pDependencyProperty)
-        {
-
-        }
-        private MoveAbelItem getMoveAbelItem(VertexVisualization pVertexVisualization)
-        {
-            ContentControl c = pVertexVisualization.Parent as ContentControl;
-            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
-
-            return FindVisualChildren<MoveAbelItem>(c.Template.LoadContent()).First();
         }
 
         protected virtual void InitialiseGraph(IList<Vertex> vertices, EdgeVisualization e)
@@ -167,16 +149,16 @@ namespace Get.UI
 
         }
 
-        protected virtual VertexVisualization getVertexVisualization(Vertex u)
-        {
-            return FindVisualChildren<VertexVisualization>(Canvas).Where(x => x.Vertex.Equals(u)).First();
-        }
-
         protected virtual Point getPositionFromVertexVisualization(VertexVisualization u)
         {
             double left = Canvas.GetLeft(u.Parent as UIElement);
             double top = Canvas.GetTop(u.Parent as UIElement);
             return new Point(left + (u.Width / 2), top + (u.Height / 2));
+        }
+
+        public virtual void Save()
+        {
+
         }
 
         private double GetRandomNumber(double minimum, double maximum)
@@ -279,6 +261,18 @@ namespace Get.UI
             set
             {
                 value = _VertexVisualizationList;
+            }
+
+        }
+        protected virtual ObservableCollection<EdgeVisualization> EdgeVisualizationList
+        {
+            get
+            {
+                return _EdgeVisualizationList;
+            }
+            set
+            {
+                value = _EdgeVisualizationList;
             }
 
         }

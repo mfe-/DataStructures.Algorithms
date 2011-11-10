@@ -30,13 +30,22 @@ namespace Get.Demo
         {
             Graph graph = new Graph();
 
-            Vertex v1 = new Vertex(3);
-            Vertex v2 = new Vertex(7);
+            Vertex v1 = new Vertex(1);
+            Vertex v2 = new Vertex(2);
 
-            Vertex v3 = new Vertex(1);
+            Vertex v3 = new Vertex(3);
+            Vertex v4 = new Vertex(4);
+
+            Vertex v5 = new Vertex(5);
+            Vertex v6 = new Vertex(6);
 
             v1.addEge(v2);
             v2.addEge(v3);
+            v3.addEge(v4);
+            //v4.addEge(v1);
+
+            //v1.addEge(v3);
+
 
             graph.addVertec(v1);
 
