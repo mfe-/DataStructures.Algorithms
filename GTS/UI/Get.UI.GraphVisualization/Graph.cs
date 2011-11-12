@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 
 namespace Get.UI
@@ -109,13 +110,29 @@ namespace Get.UI
         {
             foreach (Vertex a in vertices)
             {
-                VertexVisualization u = addVertex(a);
+                VertexVisualization u;
+                bool vertexexists = VertexVisualizationList.Where(h => h.Vertex.Equals(a)).Count().Equals(0) ? false : true;
+
+                if (!vertexexists)
+                {
+                    u = addVertex(a);
+                    Canvas.SetZIndex(u, 1);
+                }
+                else
+                {
+                    u = VertexVisualizationList.Where(g => g.Vertex.Equals(a)).First();
+                }
+
                 if (e != null)
                 {
                     e.PositionV = getPositionFromVertexVisualization(u);
                     e.VertexVisualizationV = u;
+                    Canvas.SetZIndex(e, -1);
                 }
 
+                if (vertexexists) return;
+
+                
                 foreach (Edge ed in a.Edges)
                 {
                     EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
@@ -130,10 +147,12 @@ namespace Get.UI
         }
         protected virtual VertexVisualization addVertex(Vertex v)
         {
+            VertexVisualization vertexcontrol;
+
             ContentControl c = new ContentControl();
             c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
 
-            VertexVisualization vertexcontrol = new VertexVisualization();
+            vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
             //vertexcontrol.Background = Brushes.Green;
 
@@ -146,6 +165,8 @@ namespace Get.UI
             Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight - 10));
 
             return vertexcontrol;
+
+
 
         }
 
@@ -248,6 +269,12 @@ namespace Get.UI
                 Graph graph = e.NewValue as Graph;
                 //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
                 graphVisualization.InitialiseGraph(graph.Vertices, null);
+
+                foreach (VertexVisualization v in graphVisualization.VertexVisualizationList)
+                    Debug.WriteLine(Canvas.GetZIndex(v));
+
+                foreach (EdgeVisualization v in graphVisualization.EdgeVisualizationList)
+                    Debug.WriteLine(Canvas.GetZIndex(v));
 
             }
         }

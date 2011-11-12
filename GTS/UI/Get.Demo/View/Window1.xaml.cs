@@ -42,13 +42,12 @@ namespace Get.Demo
             v1.addEge(v2);
             v2.addEge(v3);
             v3.addEge(v4);
-            //v4.addEge(v1);
-
-            //v1.addEge(v3);
-
+            v4.addEge(v1);
+            v1.addEge(v3);
+            
 
             graph.addVertec(v1);
-
+            //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
 
             _GraphVisualization.Graph = graph;
         }
