@@ -40,15 +40,15 @@ namespace Get.Demo
             Vertex v5 = new Vertex(5);
             Vertex v6 = new Vertex(6);
 
-            v1.addEge(v2);
-            v2.addEge(v3);
-            v3.addEge(v4);
-            //v4.addEge(v1);
-            //v1.addEge(v3);
+            v1.addEdge(v2);
+            v2.addEdge(v3);
+            v3.addEdge(v4);
+            v4.addEdge(v1);
+            v1.addEdge(v3);
             
 
             graph.addVertec(v1);
-            Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
+            //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
 
             _GraphVisualization.Graph = graph;
 

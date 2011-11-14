@@ -17,7 +17,7 @@ namespace Get.Model.Graph
         {
             weighted = pweighted;
         }
-        public void addEge(Vertex pu)
+        public void addEdge(Vertex pu)
         {
             _Edges.Add(new Edge(this, pu));
         }
