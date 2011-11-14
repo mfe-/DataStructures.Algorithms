@@ -49,6 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignerCanvas.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="ISelectable.cs" />
     <Compile Include="MoveAbelItem.cs" />

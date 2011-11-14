@@ -7,7 +7,9 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Markup;
 
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
 {
     public class MoveAbelItem : Thumb, INotifyPropertyChanged

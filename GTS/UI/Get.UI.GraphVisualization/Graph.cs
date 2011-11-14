@@ -4,19 +4,20 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Get.Model.Graph;
 using System.Windows.Markup;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Xml.Serialization;
 using System.Diagnostics;
 
+using Get.Model.Graph;
 
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
 {
     /// <summary>
+    /// Represents a control that enables a user to edit a Graph using a visual Graph display.
+    /// http://en.wikipedia.org/wiki/Graph_(mathematics)
+    /// 
     /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
     ///
     /// Step 1a) Using this custom control in a XAML file that exists in the current project.
@@ -48,50 +49,89 @@ namespace Get.UI
     [ContentProperty("Graph")]
     public class GraphVisualization : Control
     {
+        #region Members
+        /// <summary>
+        /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
+        /// http://msdn.microsoft.com/en-us/library/system.random.aspx?queryresult=true
+        /// </summary>
         protected Random _Random = new Random(DateTime.Now.Millisecond);
+        /// <summary>
+        /// Canvas on which we place our VertexVisualization and EdgeVisualization. So the ControlTemplate of the GraphVisualization requires a Canvas which is named _Canvas.
+        /// </summary>
         protected Canvas _Canvas = null;
+        /// <summary>
+        /// Represents a dynamic data collection of VertexVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
+        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
+        /// </summary>
         protected ObservableCollection<VertexVisualization> _VertexVisualizationList;
+        /// <summary>
+        /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
+        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
+        /// </summary>
         protected ObservableCollection<EdgeVisualization> _EdgeVisualizationList;
+        #endregion
 
+        #region Constructors
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
-
         }
+        /// <summary>
+        /// Initializes a new instance of the GraphVisualization class. 
+        /// </summary>
         public GraphVisualization()
             : base()
         {
             _VertexVisualizationList = new ObservableCollection<VertexVisualization>();
             _EdgeVisualizationList = new ObservableCollection<EdgeVisualization>();
-
-            DragDelta += new RoutedEventHandler(GraphVisualization_DragDelta);
         }
+        #endregion
 
+        #region Overriden Methods
+        /// <summary>
+        /// When overridden in a derived class, is invoked whenever application code or internal processes call ApplyTemplate.
+        /// http://msdn.microsoft.com/de-de/library/system.windows.frameworkelement.onapplytemplate.aspx#
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             if (this.Template != null)
             {
-                _Canvas = GraphVisualization.FindVisualChildren<Canvas>(this).First<Canvas>();
+                _Canvas = this.Template.FindName("_Canvas", this) as Canvas;
+                DragDelta += new RoutedEventHandler(GraphVisualization_DragDelta);
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Occurs one or more times as the mouse changes position when a Thumb control btw. MoveAbelItem has logical focus and mouse capture. 
+        /// The Thumb control receives focus and mouse capture when the user presses the left mouse button while pausing the mouse pointer over the Thumb control. 
+        /// The Thumb btw. MoveAbelItem control loses mouse capture when the user releases the left mouse button, or when the CancelDrag method is called.
+        /// A new DragDelta event occurs each time the mouse position moves on the screen.
+        /// Therefore, this event can be raised multiple times without a limit when a Thumb control has mouse capture.
+        /// http://msdn.microsoft.com/en-us/library/system.windows.controls.primitives.thumb.dragdeltaevent.aspx?queryresult=true
+        /// </summary>
+        /// <param name="sender">Object which raised Event. Keep in mind that this Event bubbled from the MoveAbelItem to the GraphVisualization</param>
+        /// <param name="e">Contains state information and event data associated with a routed event. </param>
         protected virtual void GraphVisualization_DragDelta(object sender, RoutedEventArgs e)
         {
             DragDeltaEventArgs dragDeltaEventArgs = e as DragDeltaEventArgs;
 
             if (dragDeltaEventArgs.OriginalSource != null && dragDeltaEventArgs.OriginalSource.GetType().Equals(typeof(MoveAbelItem)))
             {
+                //get MoveAbelItem which saves Position of Vertex
                 MoveAbelItem moveAbelItem = dragDeltaEventArgs.OriginalSource as MoveAbelItem;
+                //get the vertex which belongs to the MoveAbelItem
                 ContentControl contentc = GetFrameworkElementParent<ContentControl>(moveAbelItem as FrameworkElement) as ContentControl;
                 if (contentc == null) return;
                 VertexVisualization v = contentc.Content as VertexVisualization;
-
+                //get all edges of the vertex
                 var edgelist = _EdgeVisualizationList.Where(p => p.VertexVisualizationU.Vertex == v.Vertex || p.VertexVisualizationV.Vertex == v.Vertex).ToList<EdgeVisualization>();
-
+                //set new position to the edges
                 foreach (EdgeVisualization edge in edgelist)
                 {
+                    //determind which Position U / V should be changed
                     if (edge.VertexVisualizationU.Vertex != v.Vertex)
                     {
                         edge.PositionV = new Point(moveAbelItem.Position.X + v.ActualWidth / 2, moveAbelItem.Position.Y + v.ActualHeight / 2);
@@ -132,7 +172,7 @@ namespace Get.UI
 
                 if (vertexexists) return;
 
-                
+
                 foreach (Edge ed in a.Edges)
                 {
                     EdgeVisualization edgeVisualization = new EdgeVisualization() { Edge = ed };
@@ -145,29 +185,45 @@ namespace Get.UI
                 }
             }
         }
+        /// <summary>
+        /// Adds a Vertex to the _Canvas.
+        /// Important to know is that the VertexVisualization will be encapsulated by a ContentControl which is using the DesignerItemTemplate ControlTemplate. 
+        /// The DesignerItemTemplate contains the MoveAbelItem which enables dragging on the "VertexVisualization" control.
+        /// The position of VertexVisualization will be set randomly on the canvas.
+        /// </summary>
+        /// <param name="v">Vertex which should be added to the VertexVisualization</param>
+        /// <returns>Returns the created VertexVisualization</returns>
         protected virtual VertexVisualization addVertex(Vertex v)
         {
-            VertexVisualization vertexcontrol;
-
+            return addVertex(v, new Point(GetRandomNumber(0, Canvas.ActualWidth - 10), GetRandomNumber(0, Canvas.ActualHeight - 10)));
+        }
+        /// <summary>
+        /// Adds a Vertex to the _Canvas.
+        /// Important to know is that the VertexVisualization will be encapsulated by a ContentControl which is using the DesignerItemTemplate ControlTemplate. 
+        /// The DesignerItemTemplate contains the MoveAbelItem which enables dragging on the "VertexVisualization" control.
+        /// </summary>
+        /// <param name="v">Vertex which should be added to the VertexVisualization</param>
+        /// <param name="point">Sets the position where the VertexVisualization should be placed on the _Canvas</param>
+        /// <returns>Returns the created VertexVisualization</returns>
+        protected virtual VertexVisualization addVertex(Vertex v, Point point)
+        {
+            //Create a ContentControl
             ContentControl c = new ContentControl();
+            //Add the DesignerItemTemplate ControlTemplate that contains the MoveAbelItem
             c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
-
-            vertexcontrol = new VertexVisualization();
+            //create the VertexVisualization control
+            VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-            //vertexcontrol.Background = Brushes.Green;
-
+            //add the VertexVisualization to the contentcontrol
             c.Content = vertexcontrol;
 
             _VertexVisualizationList.Add(vertexcontrol);
             Canvas.Children.Add(c);
-
-            Canvas.SetLeft(c, GetRandomNumber(0, Canvas.ActualWidth - 10));
-            Canvas.SetTop(c, GetRandomNumber(0, Canvas.ActualHeight - 10));
+            
+            Canvas.SetLeft(c, point.X);
+            Canvas.SetTop(c, point.Y);
 
             return vertexcontrol;
-
-
-
         }
 
         protected virtual Point getPositionFromVertexVisualization(VertexVisualization u)
@@ -181,7 +237,12 @@ namespace Get.UI
         {
 
         }
-
+        /// <summary>
+        /// Generates a random number with the parameter minimum and maximum
+        /// </summary>
+        /// <param name="minimum"></param>
+        /// <param name="maximum"></param>
+        /// <returns>Randoum number between minimum and maximum</returns>
         private double GetRandomNumber(double minimum, double maximum)
         {
             return _Random.NextDouble() * (maximum - minimum) + minimum;
