@@ -9,7 +9,9 @@ using System.Diagnostics;
 using System.Windows;
 using Get.Model.Graph;
 using System.Windows.Media;
+using System.Windows.Markup;
 
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
 {
     public class EdgeVisualization : Control

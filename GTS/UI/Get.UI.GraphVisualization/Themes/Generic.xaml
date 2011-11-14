@@ -9,8 +9,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GraphVisualization}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Canvas Background="{TemplateBinding Background}" x:Name="_Canvas">
-                            <Canvas.Resources>
+                        <ScrollViewer Name="DesignerScrollViewer"
+                                  Background="Transparent"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto">
+                        <local:DesignerCanvas Background="{TemplateBinding Background}" x:Name="_Canvas">
+                            <local:DesignerCanvas.Resources>
                                 <ControlTemplate x:Key="DesignerItemTemplate" TargetType="ContentControl">
                                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}" ShowGridLines="false" >
                                         <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
@@ -19,10 +23,11 @@
                                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
                                     </Grid>
                                 </ControlTemplate>
-                            </Canvas.Resources>
-                            <Canvas.Children>
-                            </Canvas.Children>
-                        </Canvas>
+                            </local:DesignerCanvas.Resources>
+                            <local:DesignerCanvas.Children>
+                            </local:DesignerCanvas.Children>
+                        </local:DesignerCanvas>
+                        </ScrollViewer>    
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
