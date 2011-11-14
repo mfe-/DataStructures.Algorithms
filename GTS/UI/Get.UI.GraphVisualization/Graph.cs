@@ -104,6 +104,8 @@ namespace Get.UI
         }
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Occurs one or more times as the mouse changes position when a Thumb control btw. MoveAbelItem has logical focus and mouse capture. 
         /// The Thumb control receives focus and mouse capture when the user presses the left mouse button while pausing the mouse pointer over the Thumb control. 
@@ -145,7 +147,19 @@ namespace Get.UI
             }
 
         }
-
+        /// <summary>
+        /// Creates for each Vertex and Edge the proper control to display the Graph.
+        /// </summary>
+        /// <param name="vertices"></param>
+        protected virtual void InitialiseGraph(IList<Vertex> vertices)
+        {
+            InitialiseGraph(vertices, null);
+        }
+        /// <summary>
+        /// Creates for each Vertex a VertexVisualization and for each Edge a EdgeVisualization Control. 
+        /// </summary>
+        /// <param name="vertices">List of Vertices</param>
+        /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
         protected virtual void InitialiseGraph(IList<Vertex> vertices, EdgeVisualization e)
         {
             foreach (Vertex a in vertices)
@@ -225,7 +239,11 @@ namespace Get.UI
 
             return vertexcontrol;
         }
-
+        /// <summary>
+        /// Returns the position of the delivered VertexVisualization control
+        /// </summary>
+        /// <param name="u">From which VertexVisualization the position should be returned</param>
+        /// <returns>Position of the VertexVisualization control</returns>
         protected virtual Point getPositionFromVertexVisualization(VertexVisualization u)
         {
             double left = Canvas.GetLeft(u.Parent as UIElement);
@@ -240,8 +258,8 @@ namespace Get.UI
         /// <summary>
         /// Generates a random number with the parameter minimum and maximum
         /// </summary>
-        /// <param name="minimum"></param>
-        /// <param name="maximum"></param>
+        /// <param name="minimum">Minimum random value</param>
+        /// <param name="maximum">Maximum random value</param>
         /// <returns>Randoum number between minimum and maximum</returns>
         private double GetRandomNumber(double minimum, double maximum)
         {
@@ -303,7 +321,31 @@ namespace Get.UI
 
         }
 
+        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
+            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
+                Graph graph = e.NewValue as Graph;
 
+                graphVisualization.InitialiseGraph(graph.Vertices);
+
+                foreach (VertexVisualization v in graphVisualization.VertexVisualizationList)
+                    Debug.WriteLine(Canvas.GetZIndex(v));
+
+                foreach (EdgeVisualization v in graphVisualization.EdgeVisualizationList)
+                    Debug.WriteLine(Canvas.GetZIndex(v));
+
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Represents the method that will handle various routed events that do not have specific event data beyond the data that is common for all routed events. 
+        /// http://msdn.microsoft.com/en-us/library/system.windows.routedeventhandler.aspx?queryresult=true
+        /// </summary>
         public event RoutedEventHandler DragDelta
         {
             add { AddHandler(Thumb.DragDeltaEvent, value); }
@@ -321,26 +363,13 @@ namespace Get.UI
         public static readonly DependencyProperty GraphProperty =
             DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
 
-        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
-            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
-            {
-                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
-                Graph graph = e.NewValue as Graph;
-                //TODO: Vertex die miteinander verbunden sind sollen in der nähe platziert werden!
-                graphVisualization.InitialiseGraph(graph.Vertices, null);
 
-                foreach (VertexVisualization v in graphVisualization.VertexVisualizationList)
-                    Debug.WriteLine(Canvas.GetZIndex(v));
 
-                foreach (EdgeVisualization v in graphVisualization.EdgeVisualizationList)
-                    Debug.WriteLine(Canvas.GetZIndex(v));
-
-            }
-        }
-
-        protected virtual ObservableCollection<VertexVisualization> VertexVisualizationList
+        #region Properties
+        /// <summary>
+        /// Contains all VertexVisualization which are displayed on the Graph
+        /// </summary>
+        public virtual ObservableCollection<VertexVisualization> VertexVisualizationList
         {
             get
             {
@@ -352,7 +381,10 @@ namespace Get.UI
             }
 
         }
-        protected virtual ObservableCollection<EdgeVisualization> EdgeVisualizationList
+        /// <summary>
+        /// Contains all EdgeVisualization which are displayed on the Graph
+        /// </summary>
+        public virtual ObservableCollection<EdgeVisualization> EdgeVisualizationList
         {
             get
             {
@@ -364,6 +396,9 @@ namespace Get.UI
             }
 
         }
+        /// <summary>
+        /// Canvas of the GraphVisualization ControlTemplate where are the VertexVisualization and EdgeVisualization will be displayed
+        /// </summary>
         protected virtual Canvas Canvas
         {
             get
@@ -376,7 +411,7 @@ namespace Get.UI
                 value = _Canvas;
             }
         }
-
+        #endregion
 
     }
 }

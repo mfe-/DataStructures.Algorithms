@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Get.Model.Graph;
+using Get.UI;
 
 namespace Get.Demo
 {
@@ -42,14 +43,16 @@ namespace Get.Demo
             v1.addEge(v2);
             v2.addEge(v3);
             v3.addEge(v4);
-            v4.addEge(v1);
-            v1.addEge(v3);
+            //v4.addEge(v1);
+            //v1.addEge(v3);
             
 
             graph.addVertec(v1);
-            //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
+            Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
 
             _GraphVisualization.Graph = graph;
+
+            //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), Environment.CurrentDirectory + "\\vertex.xml", _GraphVisualization.VertexVisualizationList.First());
         }
     }
 }

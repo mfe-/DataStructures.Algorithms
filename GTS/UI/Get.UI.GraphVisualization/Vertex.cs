@@ -65,6 +65,7 @@ namespace Get.UI
 
             BorderBrushProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Black));
         }
+        [XmlElement("Vertex")]
         public Get.Model.Graph.Vertex Vertex
         {
             get { return (Get.Model.Graph.Vertex)GetValue(VertexProperty); }
