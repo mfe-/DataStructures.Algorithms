@@ -2,18 +2,17 @@
 using System.Xml.Serialization;
 using System.ComponentModel;
 using System;
+using System.Runtime.Serialization;
 
 namespace Get.Model.Graph
 {
-    [XmlRoot("Edge")]
-    public class Edge : INotifyPropertyChanged
+    [DataContract(Name = "Edge", Namespace = "http://Get.Model.Graph")]
+    public class Edge : INotifyPropertyChanged, IExtensibleDataObject
     {
         protected Vertex u;
         protected Vertex v;
 
         protected int weighted;
-
-        public Edge() { }
 
         public Edge(Vertex pu, Vertex pv)
         {
@@ -27,11 +26,11 @@ namespace Get.Model.Graph
             v = pv;
             weighted = pweighted;
         }
-        [XmlIgnore] //wegen Zirkuläre Verweise. Wenn Objekte auf sich selbst verweisen, resultiert die Serialisierung durch Replizierung auch dann in einer Endlosschleife, wenn die Verweise über andere Objekte führen.
+        [DataMember()]
         public Vertex U { get { return u; } set { u = value; NotifyPropertyChanged("U"); } }
-        [XmlElement("V")]
+        [DataMember()]
         public Vertex V { get { return v; } set { v = value; NotifyPropertyChanged("V"); } }
-        [XmlElement("Weighted")]
+        [DataMember()]
         public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
 
         public override string ToString()
@@ -52,6 +51,21 @@ namespace Get.Model.Graph
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
+
+        #region IExtensibleDataObject
+        protected ExtensionDataObject extensionData_Value;
+        public ExtensionDataObject ExtensionData
+        {
+            get
+            {
+                return extensionData_Value;
+            }
+            set
+            {
+                extensionData_Value = value;
             }
         }
         #endregion
