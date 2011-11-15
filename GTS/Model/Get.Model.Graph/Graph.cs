@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace Get.Model.Graph
 {
-    [XmlRoot("Graph")]
-    public class Graph
+    [DataContract(Name = "Edge", Namespace = "http://Get.Model.Graph")]
+    public class Graph : IExtensibleDataObject
     {
         public ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
 
@@ -20,8 +21,7 @@ namespace Get.Model.Graph
         {
             _Vertices.Add(pVertice);
         }
-        [XmlArray("Vertices")]
-        [XmlArrayItem("Vertex", typeof(Vertex))]
+        [DataMember()]
         public ObservableCollection<Vertex> Vertices
         {
             get
@@ -29,5 +29,19 @@ namespace Get.Model.Graph
                 return _Vertices;
             }
         }
+        #region IExtensibleDataObject
+        protected ExtensionDataObject extensionData_Value;
+        public ExtensionDataObject ExtensionData
+        {
+            get
+            {
+                return extensionData_Value;
+            }
+            set
+            {
+                extensionData_Value = value;
+            }
+        }
+        #endregion
     }
 }

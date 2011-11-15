@@ -13,6 +13,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Get.Model.Graph;
 using Get.UI;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Get.Demo
 {
@@ -49,10 +53,41 @@ namespace Get.Demo
 
             graph.addVertec(v1);
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
-
+            WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
 
-            //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), Environment.CurrentDirectory + "\\vertex.xml", _GraphVisualization.VertexVisualizationList.First());
+            //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), , _GraphVisualization.VertexVisualizationList.First());
         }
+        public static void WriteObject(string fileName, Type pTypToSerialize,object instanceofTypeToSerialize)
+        {
+            Console.WriteLine(
+                "Creating " + fileName);
+            FileStream writer = new FileStream(fileName, FileMode.Create);
+            DataContractSerializer ser =
+                new DataContractSerializer(pTypToSerialize);
+            ser.WriteObject(writer, instanceofTypeToSerialize);
+            writer.Close();
+
+        }
+
+        public static void ReadObject(string fileName, Type pTypToSerialize)
+        {
+            Console.WriteLine("Deserializing an instance of the object.");
+            FileStream fs = new FileStream(fileName,
+            FileMode.Open);
+            XmlDictionaryReader reader =
+                XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            DataContractSerializer ser = new DataContractSerializer(pTypToSerialize);
+
+            // Deserialize the data and read it from the instance.
+            //Person deserializedPerson =
+            //    (Person)ser.ReadObject(reader, true);
+            //reader.Close();
+            //fs.Close();
+            //Console.WriteLine(String.Format("{0} {1}, ID: {2}",
+            //deserializedPerson.FirstName, deserializedPerson.LastName,
+            //deserializedPerson.ID));
+        }
+
     }
 }

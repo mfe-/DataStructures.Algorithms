@@ -38,11 +38,6 @@ namespace Get.UI
         protected virtual void MoveAbelItem_LayoutUpdated(object sender, EventArgs e)
         {
             Position = getPositionInCanvas();
-            //get center position of this Connector relative to the DesignerCanvas
-            //this.Position = this.TransformToAncestor(item).Transform
-            //     (new Point(this.Width / 2, this.Height / 2));
-            ////http://www.codeproject.com/KB/WPF/WPFDiagramDesigner_Part3.aspx
-
         }
 
         protected virtual void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -79,7 +74,6 @@ namespace Get.UI
                 {
                     _Position = value;
                     NotifyPropertyChanged("Position");
-                    Debug.WriteLine(Position);
                 }
             }
         }
