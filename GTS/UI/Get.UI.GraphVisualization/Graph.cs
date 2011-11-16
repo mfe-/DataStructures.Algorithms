@@ -98,7 +98,7 @@ namespace Get.UI
 
             if (this.Template != null)
             {
-                _Canvas = this.Template.FindName("_Canvas", this) as Canvas;
+                _Canvas = this.Template.FindName("PART_DesignerCanvas", this) as Canvas;
                 DragDelta += new RoutedEventHandler(GraphVisualization_DragDelta);
             }
         }
@@ -125,7 +125,7 @@ namespace Get.UI
                 //get MoveAbelItem which saves Position of Vertex
                 MoveAbelItem moveAbelItem = dragDeltaEventArgs.OriginalSource as MoveAbelItem;
                 //get the vertex which belongs to the MoveAbelItem
-                ContentControl contentc = GetFrameworkElementParent<ContentControl>(moveAbelItem as FrameworkElement) as ContentControl;
+                DesignerItem contentc = GetFrameworkElementParent<DesignerItem>(moveAbelItem as FrameworkElement) as DesignerItem;
                 if (contentc == null) return;
                 VertexVisualization v = contentc.Content as VertexVisualization;
                 //get all edges of the vertex
@@ -222,9 +222,9 @@ namespace Get.UI
         protected virtual VertexVisualization addVertex(Vertex v, Point point)
         {
             //Create a ContentControl
-            ContentControl c = new ContentControl();
+            DesignerItem c = new DesignerItem();
             //Add the DesignerItemTemplate ControlTemplate that contains the MoveAbelItem
-            c.Template = Canvas.FindResource("DesignerItemTemplate") as ControlTemplate;
+            //c.Template = FindResource("DesignerItemTemplate") as ControlTemplate;
             //create the VertexVisualization control
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
