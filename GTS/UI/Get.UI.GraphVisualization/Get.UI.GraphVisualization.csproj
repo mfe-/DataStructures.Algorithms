@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignerCanvas.cs" />
+    <Compile Include="DesignerItem.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="ISelectable.cs" />
     <Compile Include="MoveAbelItem.cs" />
+    <Compile Include="ResizeDecorator.cs" />
     <Compile Include="Vertex.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
