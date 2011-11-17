@@ -330,13 +330,6 @@ namespace Get.UI
                 Graph graph = e.NewValue as Graph;
 
                 graphVisualization.InitialiseGraph(graph.Vertices);
-
-                foreach (VertexVisualization v in graphVisualization.VertexVisualizationList)
-                    Debug.WriteLine(Canvas.GetZIndex(v));
-
-                foreach (EdgeVisualization v in graphVisualization.EdgeVisualizationList)
-                    Debug.WriteLine(Canvas.GetZIndex(v));
-
             }
         }
 
