@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Input;
+using System.Windows.Media;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -16,6 +17,25 @@ namespace Get.UI
     /// </summary>
     public class DesignerCanvas : Canvas
     {
+        public DesignerCanvas()
+        {
+            //set backgroundcolor to activate PreviewMouseDown event
+            //http://social.msdn.microsoft.com/forums/en-US/wpf/thread/ad232a54-5ec2-4393-a281-f9f808f1e006/
+            Background = Brushes.White;
+        }
+        /// <summary>
+        /// Deselects all selected Items because the user clicked on the canvas
+        /// Invoked when an unhandled Mouse. MouseDown attached event reaches an element in its route that is derived 
+        /// from this class.Implement this method to add class handling for this event. (Inherited from UIElement.)
+        /// http://msdn.microsoft.com/de-de/library/system.windows.uielement.onmousedown.aspx
+        /// </summary>
+        /// <param name="e">The MouseButtonEventArgs that contains the event data.This event data reports details about the mouse button that was pressed and the handled state.</param>
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            DeselectAll();
+        }
+    
         /// <summary>
         /// Selected Items
         /// </summary>
