@@ -75,7 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DesignerItem}">
-                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" Background="Transparent">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" Background="White">
                         <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
                         <local:MoveAbelItem x:Name="PART_MoveAbelItem" Cursor="SizeAll"/>
                         <!--The ContentPresenter can be for example the VertexVisualization control -->
@@ -83,9 +83,9 @@
                         <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsSelected" Value="True">
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_DesignerItemDecorator" Property="ShowDecorator" Value="True" />
-                        </Trigger>-->
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
