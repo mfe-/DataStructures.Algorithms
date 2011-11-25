@@ -19,7 +19,15 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
             <TextBox Text="{Binding Path=PropertieModifiers,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Text="{Binding Path=text,UpdateSourceTrigger=PropertyChanged}"/>-->
             <ui:GraphVisualization x:Name="_GraphVisualization" BorderBrush="Gray">
-
+                <ui:GraphVisualization.Resources>
+                    <Style TargetType="{x:Type ui:VertexVisualization}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ui:DesignerItem}}}" Value="True">
+                                <Setter Property="BorderBrush" Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:GraphVisualization.Resources>
 
             </ui:GraphVisualization>
         </DockPanel>

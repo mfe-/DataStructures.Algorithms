@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Depth-first-Search.cs" />
     <Compile Include="Edges.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="Vertex.cs" />
