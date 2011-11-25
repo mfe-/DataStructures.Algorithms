@@ -52,7 +52,11 @@ namespace Get.UI
             set { SetValue(IsSelectedProperty, value); }
         }
 
-        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool),typeof(DesignerItem),
-            new FrameworkPropertyMetadata(false));
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new UIPropertyMetadata(false, OnIsSelectedChanged));
+
+        private static void OnIsSelectedChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+           
+        }
     }
 }
