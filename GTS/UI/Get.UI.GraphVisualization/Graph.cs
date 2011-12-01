@@ -75,6 +75,8 @@ namespace Get.UI
         static GraphVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
+            IsEnabledProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.None, OnIsEnabledChanged));
+            
         }
         /// <summary>
         /// Initializes a new instance of the GraphVisualization class. 
@@ -221,21 +223,19 @@ namespace Get.UI
         /// <returns>Returns the created VertexVisualization</returns>
         protected virtual VertexVisualization addVertex(Vertex v, Point point)
         {
-            //Create a ContentControl
-            DesignerItem c = new DesignerItem();
-            //Add the DesignerItemTemplate ControlTemplate that contains the MoveAbelItem
-            //c.Template = FindResource("DesignerItemTemplate") as ControlTemplate;
-            //create the VertexVisualization control
+            //Create a DesignerItem to make the VertexVisualization moveabel
+            DesignerItem designerItem = new DesignerItem();
+
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-            //add the VertexVisualization to the contentcontrol
-            c.Content = vertexcontrol;
+            //add the VertexVisualization to the DesignerItem
+            designerItem.Content = vertexcontrol;
 
             _VertexVisualizationList.Add(vertexcontrol);
-            Canvas.Children.Add(c);
+            Canvas.Children.Add(designerItem);
             
-            Canvas.SetLeft(c, point.X);
-            Canvas.SetTop(c, point.Y);
+            Canvas.SetLeft(designerItem, point.X);
+            Canvas.SetTop(designerItem, point.Y);
 
             return vertexcontrol;
         }
@@ -253,7 +253,7 @@ namespace Get.UI
 
         public virtual void Save()
         {
-
+            //todo save command
         }
         /// <summary>
         /// Generates a random number with the parameter minimum and maximum
@@ -330,6 +330,26 @@ namespace Get.UI
                 Graph graph = e.NewValue as Graph;
 
                 graphVisualization.InitialiseGraph(graph.Vertices);
+            }
+        }
+
+        /// <summary>
+        /// Callbackvalue of the DP IsEnabled. This Function will be called if the IsEnabled Property changed.
+        /// http://msdn.microsoft.com/en-us/library/system.windows.propertychangedcallback.aspx
+        /// </summary>
+        /// <param name="pDependencyObject">The DependencyObject on which the property has changed value.</param>
+        /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
+        private static void OnIsEnabledChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
+
+                foreach (VertexVisualization v in graphVisualization._VertexVisualizationList)
+                    v.IsEnabled = false;
+
+                foreach (EdgeVisualization ed in graphVisualization._EdgeVisualizationList)
+                    ed.IsEnabled = false;
             }
         }
 
