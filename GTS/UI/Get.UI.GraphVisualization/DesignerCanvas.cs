@@ -59,6 +59,7 @@ namespace Get.UI
             {
                 item.IsSelected = false;
             }
+            //todo nur ein element darf immer focus haben!
         }
         /// <summary>
         /// Measures the size of the current Canvas for the layout.
