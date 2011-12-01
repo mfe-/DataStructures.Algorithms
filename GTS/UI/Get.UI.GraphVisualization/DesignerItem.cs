@@ -56,7 +56,14 @@ namespace Get.UI
 
         private static void OnIsSelectedChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-           
+            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(DesignerItem)))
+            {
+                DesignerItem designerItem = pDependencyObject as DesignerItem;
+
+                designerItem.RaiseEvent(new RoutedEventArgs(DesignerItem.GotFocusEvent, designerItem));
+                
+            }
+
         }
     }
 }

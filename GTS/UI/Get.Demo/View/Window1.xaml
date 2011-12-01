@@ -27,6 +27,15 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
+
+                    <Style TargetType="{x:Type ui:EdgeVisualization}">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Foreground" Value="Green" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
                 </ui:GraphVisualization.Resources>
 
             </ui:GraphVisualization>

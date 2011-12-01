@@ -53,7 +53,19 @@ namespace Get.UI
         public VertexVisualization()
         {
         }
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            if (Parent != null)
+            {
+                UIElement uIElement = Parent as UIElement;
+                uIElement.GotFocus += (sender, eargs) =>
+                {
+                    Focus();
 
+                };
+            }
+        }
         static VertexVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(typeof(VertexVisualization)));

@@ -376,8 +376,6 @@ namespace Get.UI
         public static readonly DependencyProperty GraphProperty =
             DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
 
-
-
         #region Properties
         /// <summary>
         /// Contains all VertexVisualization which are displayed on the Graph
