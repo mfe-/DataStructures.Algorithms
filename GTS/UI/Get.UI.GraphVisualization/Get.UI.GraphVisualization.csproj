@@ -8,7 +8,7 @@
     <ProjectGuid>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.UI.GraphVisualization</RootNamespace>
+    <RootNamespace>Get.UI</RootNamespace>
     <AssemblyName>Get.UI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converter.cs" />
     <Compile Include="DesignerCanvas.cs" />
     <Compile Include="DesignerItem.cs" />
     <Compile Include="Edge.cs" />
