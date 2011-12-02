@@ -10,6 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 
 using Get.Model.Graph;
+using System.Windows.Data;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -76,7 +77,7 @@ namespace Get.UI
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(typeof(GraphVisualization)));
             IsEnabledProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.None, OnIsEnabledChanged));
-            
+
         }
         /// <summary>
         /// Initializes a new instance of the GraphVisualization class. 
@@ -127,22 +128,44 @@ namespace Get.UI
                 //get MoveAbelItem which saves Position of Vertex
                 MoveAbelItem moveAbelItem = dragDeltaEventArgs.OriginalSource as MoveAbelItem;
                 //get the vertex which belongs to the MoveAbelItem
-                DesignerItem contentc = GetFrameworkElementParent<DesignerItem>(moveAbelItem as FrameworkElement) as DesignerItem;
-                if (contentc == null) return;
-                VertexVisualization v = contentc.Content as VertexVisualization;
+                DesignerItem designerItem = GetFrameworkElementParent<DesignerItem>(moveAbelItem as FrameworkElement) as DesignerItem;
+                if (designerItem == null) return;
+                VertexVisualization v = designerItem.Content as VertexVisualization;
                 //get all edges of the vertex
                 var edgelist = _EdgeVisualizationList.Where(p => p.VertexVisualizationU.Vertex == v.Vertex || p.VertexVisualizationV.Vertex == v.Vertex).ToList<EdgeVisualization>();
-                //set new position to the edges
+                //set binding if there is no binding set
                 foreach (EdgeVisualization edge in edgelist)
                 {
                     //determind which Position U / V should be changed
                     if (edge.VertexVisualizationU.Vertex != v.Vertex)
                     {
-                        edge.PositionV = new Point(moveAbelItem.Position.X + v.ActualWidth / 2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                        if (edge.GetBindingExpression(EdgeVisualization.PositionVProperty) == null)
+                        {
+                            Binding binding = new Binding("Position");
+                            binding.Source = moveAbelItem;
+                            binding.Mode = BindingMode.TwoWay;
+                            binding.NotifyOnSourceUpdated = true;
+                            binding.NotifyOnTargetUpdated = true;
+                            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                            binding.Converter = Converters.PointAdderConverter;
+                            binding.ConverterParameter = new Point(v.ActualWidth / 2, v.ActualHeight / 2);
+                            edge.SetBinding(EdgeVisualization.PositionVProperty, binding);
+                        }
                     }
                     else
                     {
-                        edge.PositionU = new Point(moveAbelItem.Position.X + v.ActualWidth / 2, moveAbelItem.Position.Y + v.ActualHeight / 2);
+                        if (edge.GetBindingExpression(EdgeVisualization.PositionUProperty) == null)
+                        {
+                            Binding binding = new Binding("Position");
+                            binding.Source = moveAbelItem;
+                            binding.Mode = BindingMode.TwoWay;
+                            binding.NotifyOnSourceUpdated = true;
+                            binding.NotifyOnTargetUpdated = true;
+                            binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                            binding.Converter = Converters.PointAdderConverter;
+                            binding.ConverterParameter = new Point(v.ActualWidth / 2, v.ActualHeight / 2);
+                            edge.SetBinding(EdgeVisualization.PositionUProperty, binding);
+                        }
                     }
                 }
 
@@ -233,7 +256,7 @@ namespace Get.UI
 
             _VertexVisualizationList.Add(vertexcontrol);
             Canvas.Children.Add(designerItem);
-            
+
             Canvas.SetLeft(designerItem, point.X);
             Canvas.SetTop(designerItem, point.Y);
 
@@ -346,10 +369,10 @@ namespace Get.UI
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
 
                 foreach (VertexVisualization v in graphVisualization._VertexVisualizationList)
-                    v.IsEnabled = false;
+                    v.IsEnabled = (Boolean)e.NewValue;
 
                 foreach (EdgeVisualization ed in graphVisualization._EdgeVisualizationList)
-                    ed.IsEnabled = false;
+                    ed.IsEnabled = (Boolean)e.NewValue;
             }
         }
 
