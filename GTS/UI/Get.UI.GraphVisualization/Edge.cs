@@ -19,6 +19,9 @@ namespace Get.UI
         static EdgeVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
+            //PositionUProperty.OverrideMetadata(typeof(EdgeVisualization), new PropertyMetadata(new Point(0, 40)));
+            //PositionVProperty.OverrideMetadata(typeof(EdgeVisualization), new PropertyMetadata(new Point(40, 0)));
+            //Exception: --> PropertyMetadata is already registered for type ''.
         }
 
         public EdgeVisualization()

@@ -9,7 +9,7 @@
 xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
         xmlns:mgraph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph"
     xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
-    Title="Window1" Height="300"  Width="300">
+    Title="Window1" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:ModelView></local:ModelView>
     </Window.DataContext>
@@ -18,6 +18,17 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
             <!--<GetControls:ObjectControl ItemsSource="{Binding ObjectCore}"></GetControls:ObjectControl>
             <TextBox Text="{Binding Path=PropertieModifiers,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Text="{Binding Path=text,UpdateSourceTrigger=PropertyChanged}"/>-->
+            <Expander IsExpanded="True" Header="Symbols" Margin="0,1,0,0" >
+                <Expander.Content>
+                    <ui:Toolbox>
+                        <ItemsControl.Items>
+                            <ui:VertexVisualization />
+                            <ui:EdgeVisualization PositionU="0,40" PositionV="40,0" />
+                        </ItemsControl.Items>
+                    </ui:Toolbox>
+                </Expander.Content>
+            </Expander>
+            <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" Width="3" />
             <ui:GraphVisualization x:Name="_GraphVisualization" BorderBrush="Gray">
                 <ui:GraphVisualization.Resources>
                     <Style TargetType="{x:Type ui:VertexVisualization}">
@@ -25,6 +36,9 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                             <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ui:DesignerItem}}}" Value="True">
                                 <Setter Property="BorderBrush" Value="Green" />
                             </DataTrigger>
+                            <!--<Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="Green" />
+                            </Trigger>-->
                         </Style.Triggers>
                     </Style>
 
@@ -35,6 +49,7 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                             </Trigger>
                         </Style.Triggers>
                     </Style>
+
 
                 </ui:GraphVisualization.Resources>
 

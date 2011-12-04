@@ -34,13 +34,14 @@
                     <Border CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
                                  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                         <Border.Resources>
-                            <!--<Style TargetType="Border">
+                            <Style TargetType="Border">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DesignerItem}}}" Value="True">
+                                    <!--<DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DesignerItem}}}" Value="True">
                                         <Setter Property="BorderBrush" Value="Green" />
-                                    </DataTrigger> 
+                                    </DataTrigger>-->
                                 </Style.Triggers>
-                            </Style>-->
+
+                            </Style>
                         </Border.Resources>
                         <TextBlock Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                     </Border>
@@ -92,6 +93,72 @@
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ToolboxItem}">
+        <Setter Property="Control.Padding"
+                Value="5" />
+        <Setter Property="ContentControl.HorizontalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="ContentControl.VerticalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="ToolTip"
+                Value="{Binding ToolTip}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ToolboxItem}">
+                    <Grid>
+                        <Rectangle Name="Border"
+                                   StrokeThickness="1"
+                                   StrokeDashArray="2"
+                                   Fill="Transparent"
+                                   SnapsToDevicePixels="true" />
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
+                                          Margin="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="Border"
+                                    Property="Stroke"
+                                    Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:Toolbox}">
+        <Setter Property="SnapsToDevicePixels"
+                Value="true" />
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border BorderThickness="{TemplateBinding Border.BorderThickness}"
+                            Padding="{TemplateBinding Control.Padding}"
+                            BorderBrush="{TemplateBinding Border.BorderBrush}"
+                            Background="{TemplateBinding Panel.Background}"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Margin="0,5,0,5"
+                               ItemHeight="{Binding Path=DefaultItemSize.Height, RelativeSource={RelativeSource AncestorType=local:Toolbox}}"
+                               ItemWidth="{Binding Path=DefaultItemSize.Width, RelativeSource={RelativeSource AncestorType=local:Toolbox}}" />
+                </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
     </Style>

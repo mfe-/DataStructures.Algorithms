@@ -56,6 +56,7 @@
     <Compile Include="Edge.cs" />
     <Compile Include="MoveAbelItem.cs" />
     <Compile Include="ResizeDecorator.cs" />
+    <Compile Include="Toolbox.cs" />
     <Compile Include="Vertex.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
