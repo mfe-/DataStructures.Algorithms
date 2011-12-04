@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Threading;
 
 namespace Get.Demo
 {
@@ -25,6 +26,7 @@ namespace Get.Demo
     /// </summary>
     public partial class Window1 : Window
     {
+        List<Button> buttonlist = new List<Button>();
         public Window1()
         {
             InitializeComponent();
@@ -49,17 +51,49 @@ namespace Get.Demo
             v3.addEdge(v4);
             v4.addEdge(v1);
             v1.addEdge(v3);
-            
+
+
 
             graph.addVertec(v1);
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
             WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
-            //_GraphVisualization.EdgeVisualizationList.First().Focus();
+
+            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
+            //{
+            //    Vertex start;
+            //    IList<Vertex> vlist = graph.Vertices;
+
+            //    foreach (var a in vlist)
+            //    {
+            //        _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+            //            delegate()
+            //            {
+            //                _GraphVisualization.setFocus(a);
+            //                Thread.Sleep(900);
+            //                foreach (var b in a.Edges)
+            //                {
+            //                    _GraphVisualization.setFocus(b.U);
+            //                    Thread.Sleep(900);
+            //                    _GraphVisualization.setFocus(b.V);
+            //                    Thread.Sleep(900);
+            //                }
+            //            }));
+            //    }
+            //}));
+            //setFocusonControls.Start();
+
+            //foreach (var a in graph.Vertices)
+            //{
+            //    _GraphVisualization.setFocus(a);
+            //    Thread.Sleep(3000);
+            //}
+
+
 
             //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), , _GraphVisualization.VertexVisualizationList.First());
         }
-        public static void WriteObject(string fileName, Type pTypToSerialize,object instanceofTypeToSerialize)
+        public static void WriteObject(string fileName, Type pTypToSerialize, object instanceofTypeToSerialize)
         {
             Console.WriteLine(
                 "Creating " + fileName);
@@ -71,7 +105,7 @@ namespace Get.Demo
 
         }
 
-        public static void ReadObject(string fileName, Type pTypToSerialize)
+        public object ReadObject(string fileName, Type pTypToSerialize)
         {
             Console.WriteLine("Deserializing an instance of the object.");
             FileStream fs = new FileStream(fileName,
@@ -80,14 +114,61 @@ namespace Get.Demo
                 XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
             DataContractSerializer ser = new DataContractSerializer(pTypToSerialize);
 
+
             // Deserialize the data and read it from the instance.
-            //Person deserializedPerson =
-            //    (Person)ser.ReadObject(reader, true);
-            //reader.Close();
-            //fs.Close();
-            //Console.WriteLine(String.Format("{0} {1}, ID: {2}",
-            //deserializedPerson.FirstName, deserializedPerson.LastName,
-            //deserializedPerson.ID));
+            object deserializedobject = ser.ReadObject(reader, true);
+            reader.Close();
+            fs.Close();
+            return deserializedobject;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this._GraphVisualization.VertexVisualizationList.First().Focus();
+
+            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
+            //{
+
+            //    _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+            //        delegate()
+            //        {
+
+            //        }));
+
+            //}));
+            //setFocusonControls.Start();
+            //foreach (var item in _GraphVisualization.VertexVisualizationList)
+            //{
+
+            //    item.Focus();
+
+            //}
+
+
+            //http://www.mycsharp.de/wbb2/thread.php?postid=3701905#post3701905
+            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
+            //{
+
+            //    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+            //        delegate()
+            //        {
+            //            foreach (var item in this.buttonlist)
+            //            {
+            //                item.Background = Brushes.Green;
+            //                Thread.Sleep(900);
+
+
+            //            }
+            //        }));
+
+            //}));
+            //setFocusonControls.Start();
+
+
+
+
+
+
         }
 
     }

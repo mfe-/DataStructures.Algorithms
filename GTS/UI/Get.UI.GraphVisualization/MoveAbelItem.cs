@@ -107,7 +107,7 @@ namespace Get.UI
         [DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
-#if !SILVERLIGHT
+            #if !SILVERLIGHT
             // Verify that the property name matches a real,  
             // public, instance property on this object.
             if (TypeDescriptor.GetProperties(this)[propertyName] == null)
@@ -116,7 +116,7 @@ namespace Get.UI
 
 
             }
-#endif
+            #endif
         }
     }
 }
