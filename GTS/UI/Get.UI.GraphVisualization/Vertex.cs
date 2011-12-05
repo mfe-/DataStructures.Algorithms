@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
+using System.Windows.Media.Animation;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -50,21 +51,54 @@ namespace Get.UI
     [ContentProperty("Vertex")]
     public class VertexVisualization : Control
     {
+        protected Border Border { get; set; }
         public VertexVisualization()
         {
         }
-        protected override void OnInitialized(EventArgs e)
+        public override void OnApplyTemplate()
         {
-            base.OnInitialized(e);
-            if (Parent != null)
+            base.OnApplyTemplate();
+            if (this.Template != null)
             {
-                UIElement uIElement = Parent as UIElement;
-                uIElement.GotFocus += (sender, eargs) =>
+                Border = this.Template.FindName("PART_Border", this) as Border;
+                if (Parent != null)
                 {
-                    Focus();
+                    UIElement uIElement = Parent as UIElement;
+                    uIElement.GotFocus += (sender, eargs) =>
+                    {
+                        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
+                        Focus();
 
-                };
+                    };
+                }
             }
+            this.GotFocus += new RoutedEventHandler(VertexVisualization_GotFocus);
+        }
+
+        void VertexVisualization_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //EventTrigger g = (((this.Template as ControlTemplate).LoadContent() as Border).Triggers.First() as EventTrigger);
+            //Storyboard s = (g.Actions.First() as BeginStoryboard).Storyboard;
+            //ColorAnimation c = s.Children.First() as ColorAnimation;
+            //this.BeginAnimation(BorderBrushProperty, c);
+            //ColorAnimation colorAnimation = new ColorAnimation();
+            //colorAnimation.Duration = new Duration(new TimeSpan(0, 0, 10));
+
+            //colorAnimation.From = Colors.Red;
+            //colorAnimation.To = Colors.Orange ;
+
+            //this.BeginAnimation(Border.BorderBrushProperty, colorAnimation);
+
+            //var g = this.GetAnimationBaseValue(BorderBrushProperty);
+
+            //ColorAnimation ani = new ColorAnimation(Colors.Red, new Duration(new TimeSpan(0, 0, 0, 10, 0)));
+            //ani.RepeatBehavior = RepeatBehavior.Forever;
+
+            //Brush brush = Border.BorderBrush;
+
+            //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
+
+            e.Handled = true;
         }
         static VertexVisualization()
         {

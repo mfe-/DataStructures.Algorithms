@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</ProjectGuid>
+    <ProjectGuid>{A9BE51E5-8DAD-4559-8605-3C380299E542}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.UI</RootNamespace>
-    <AssemblyName>Get.UI</AssemblyName>
+    <RootNamespace>Get.UI.Base</RootNamespace>
+    <AssemblyName>Get.UI.Base</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -36,7 +36,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -50,18 +49,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter.cs" />
-    <Compile Include="Edge.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="ResizeDecorator.cs" />
+    <Compile Include="Toolbox.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Graph.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignerCanvas.cs" />
+    <Compile Include="DesignerItem.cs" />
+    <Compile Include="MoveAbelItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,16 +82,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Model\Get.Model.Graph\Get.Model.Graph.csproj">
-      <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Model.Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Get.UI.Base\Get.UI.Base.csproj">
-      <Project>{A9BE51E5-8DAD-4559-8605-3C380299E542}</Project>
-      <Name>Get.UI.Base</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

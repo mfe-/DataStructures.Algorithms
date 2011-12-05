@@ -18,6 +18,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace Get.Demo
 {
@@ -35,6 +36,7 @@ namespace Get.Demo
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
+            
             Graph graph = new Graph();
 
             Vertex v1 = new Vertex(1);
@@ -58,6 +60,7 @@ namespace Get.Demo
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
             WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
+            
 
             //Thread setFocusonControls = new Thread(new ThreadStart(delegate
             //{
@@ -89,9 +92,18 @@ namespace Get.Demo
             //    Thread.Sleep(3000);
             //}
 
-
+            this._GraphVisualization.VertexVisualizationList.First().Focus();
 
             //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), , _GraphVisualization.VertexVisualizationList.First());
+
+            ColorAnimation ani = new ColorAnimation(Colors.Red, new Duration(new TimeSpan(0, 0, 0, 10, 0)));
+            ani.RepeatBehavior = RepeatBehavior.Forever;
+            Brush brush = _border.BorderBrush;
+
+            //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
+
+           
+
         }
         public static void WriteObject(string fileName, Type pTypToSerialize, object instanceofTypeToSerialize)
         {
@@ -124,8 +136,8 @@ namespace Get.Demo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this._GraphVisualization.VertexVisualizationList.First().Focus();
 
+            this._GraphVisualization.VertexVisualizationList.First().Focus();
             //Thread setFocusonControls = new Thread(new ThreadStart(delegate
             //{
 

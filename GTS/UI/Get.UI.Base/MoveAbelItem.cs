@@ -9,8 +9,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
-namespace Get.UI
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Base", "Get.UI.Base")]
+namespace Get.UI.Base
 {
     public class MoveAbelItem : Thumb, INotifyPropertyChanged
     {

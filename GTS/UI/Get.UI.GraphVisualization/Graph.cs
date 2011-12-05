@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Get.Model.Graph;
 using System.Windows.Data;
 using System.Windows.Input;
+using Get.UI.Base;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -103,7 +104,7 @@ namespace Get.UI
             if (this.Template != null)
             {
                 _Canvas = this.Template.FindName("PART_DesignerCanvas", this) as Canvas;
-                _Canvas.AddHandler(DesignerCanvas.ChildAddedEvent, new Get.UI.DesignerCanvas.ChildAddedEventHandler(Canvas_ChildAdded), true);
+                _Canvas.AddHandler(DesignerCanvas.ChildAddedEvent, new Get.UI.Base.DesignerCanvas.ChildAddedEventHandler(Canvas_ChildAdded), true);
                 _Canvas.KeyDown += new KeyEventHandler(Canvas_KeyDown);
 
                 DragDelta += new RoutedEventHandler(GraphVisualization_DragDelta);
@@ -126,7 +127,7 @@ namespace Get.UI
         /// </summary>
         /// <param name="sender">Object which raised Event.</param>
         /// <param name="e">Contains state information and event data associated with a routed event. </param>
-        protected virtual void Canvas_ChildAdded(object sender, Get.UI.DesignerCanvas.RoutedChildAddedEventArgs e)
+        protected virtual void Canvas_ChildAdded(object sender, Get.UI.Base.DesignerCanvas.RoutedChildAddedEventArgs e)
         {
             if (e.Child.GetType().Equals(typeof(DesignerItem)))
             {
