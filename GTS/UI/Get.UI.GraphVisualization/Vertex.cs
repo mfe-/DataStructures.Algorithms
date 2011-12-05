@@ -72,33 +72,7 @@ namespace Get.UI
                     };
                 }
             }
-            this.GotFocus += new RoutedEventHandler(VertexVisualization_GotFocus);
-        }
-
-        void VertexVisualization_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //EventTrigger g = (((this.Template as ControlTemplate).LoadContent() as Border).Triggers.First() as EventTrigger);
-            //Storyboard s = (g.Actions.First() as BeginStoryboard).Storyboard;
-            //ColorAnimation c = s.Children.First() as ColorAnimation;
-            //this.BeginAnimation(BorderBrushProperty, c);
-            //ColorAnimation colorAnimation = new ColorAnimation();
-            //colorAnimation.Duration = new Duration(new TimeSpan(0, 0, 10));
-
-            //colorAnimation.From = Colors.Red;
-            //colorAnimation.To = Colors.Orange ;
-
-            //this.BeginAnimation(Border.BorderBrushProperty, colorAnimation);
-
-            //var g = this.GetAnimationBaseValue(BorderBrushProperty);
-
-            //ColorAnimation ani = new ColorAnimation(Colors.Red, new Duration(new TimeSpan(0, 0, 0, 10, 0)));
-            //ani.RepeatBehavior = RepeatBehavior.Forever;
-
-            //Brush brush = Border.BorderBrush;
-
-            //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
-
-            e.Handled = true;
+            
         }
         static VertexVisualization()
         {

@@ -92,13 +92,10 @@ namespace Get.Demo
             //    Thread.Sleep(3000);
             //}
 
-            this._GraphVisualization.VertexVisualizationList.First().Focus();
-
             //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), , _GraphVisualization.VertexVisualizationList.First());
 
-            ColorAnimation ani = new ColorAnimation(Colors.Red, new Duration(new TimeSpan(0, 0, 0, 10, 0)));
-            ani.RepeatBehavior = RepeatBehavior.Forever;
-            Brush brush = _border.BorderBrush;
+
+            
 
             //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
 
@@ -137,18 +134,22 @@ namespace Get.Demo
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            this._GraphVisualization.VertexVisualizationList.First().Focus();
-            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
-            //{
 
-            //    _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-            //        delegate()
-            //        {
+            Thread setFocusonControls = new Thread(new ThreadStart(delegate
+            {
 
-            //        }));
+                _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+                    delegate()
+                    {
+                        foreach (var o in this._GraphVisualization.VertexVisualizationList)
+                        {
+                            o.Focus();
+                            Thread.Sleep(400);
+                        }
+                    }));
 
-            //}));
-            //setFocusonControls.Start();
+            }));
+            setFocusonControls.Start();
             //foreach (var item in _GraphVisualization.VertexVisualizationList)
             //{
 
