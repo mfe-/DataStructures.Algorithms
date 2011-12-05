@@ -2,8 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Markup;
 
-namespace Get.UI
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Base", "Get.UI.Base")]
+namespace Get.UI.Base
 {
     /// <summary>
     /// Use the DesignerItem to make your controls moveabel on a Canvas Control

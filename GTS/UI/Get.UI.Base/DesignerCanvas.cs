@@ -10,8 +10,8 @@ using System.Windows.Media;
 using System.Xml;
 using System.IO;
 
-[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
-namespace Get.UI
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Base", "Get.UI.Base")]
+namespace Get.UI.Base
 {
     /// <summary>
     /// Adds some extra features to the Canvas like enabeling scrollbars

@@ -137,6 +137,10 @@
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
       <Name>Get.Model.Graph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Get.UI.Base\Get.UI.Base.csproj">
+      <Project>{A9BE51E5-8DAD-4559-8605-3C380299E542}</Project>
+      <Name>Get.UI.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Get.UI.Controls\Get.UI.Controls.csproj">
       <Project>{78FD1EED-3792-4435-AB56-6E101F44D835}</Project>
       <Name>Get.UI.Controls</Name>

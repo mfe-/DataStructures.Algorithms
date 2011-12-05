@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Get.UI"
+    xmlns:Base="http://schemas.get.com/winfx/2009/xaml/Base"
     xmlns:graph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph">
 
     <!--
@@ -13,11 +14,11 @@
                 <ControlTemplate TargetType="{x:Type local:GraphVisualization}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <ScrollViewer Name="DesignerScrollViewer" Background="Transparent" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <local:DesignerCanvas Background="{TemplateBinding Background}" x:Name="PART_DesignerCanvas">
-                                <local:DesignerCanvas.Children>
+                            <Base:DesignerCanvas Background="{TemplateBinding Background}" x:Name="PART_DesignerCanvas">
+                                <Base:DesignerCanvas.Children>
 
-                                </local:DesignerCanvas.Children>
-                            </local:DesignerCanvas>
+                                </Base:DesignerCanvas.Children>
+                            </Base:DesignerCanvas>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -32,7 +33,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:VertexVisualization}">
                     <Border CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
-                                 BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                 BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" x:Name="PART_Border">
                         <Border.Resources>
                             <Style TargetType="Border">
                                 <Style.Triggers>
@@ -43,7 +44,20 @@
 
                             </Style>
                         </Border.Resources>
-                        <TextBlock Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <!--<Border.Triggers>
+                            <EventTrigger RoutedEvent="GotFocus">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation 
+                                Storyboard.TargetName="_border"
+                                Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)"
+                                From="Black" To="Red" 
+                                Duration="00:00:01.000" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>-->
+                        <TextBlock Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -62,197 +76,6 @@
                           X2="{Binding Mode=TwoWay,Path=PositionV.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                           Y2="{Binding Mode=TwoWay,Path=PositionV.Y,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                   />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-    <!--
-    ControlTemplate of DesignerItem. Makes Controls which are set in the Content Propertie of the DesignerItem move abel.
-    -->
-    <Style TargetType="{x:Type local:DesignerItem}">
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:DesignerItem}">
-                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" Background="White">
-                        <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
-                        <local:MoveAbelItem x:Name="PART_MoveAbelItem" Cursor="SizeAll"/>
-                        <!--The ContentPresenter can be for example the VertexVisualization control -->
-                        <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding ContentControl.Content}" />
-                        <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsEnabled" Value="True" />
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="PART_DesignerItemDecorator" Property="ShowDecorator" Value="True" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:ToolboxItem}">
-        <Setter Property="Control.Padding"
-                Value="5" />
-        <Setter Property="ContentControl.HorizontalContentAlignment"
-                Value="Stretch" />
-        <Setter Property="ContentControl.VerticalContentAlignment"
-                Value="Stretch" />
-        <Setter Property="ToolTip"
-                Value="{Binding ToolTip}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ToolboxItem}">
-                    <Grid>
-                        <Rectangle Name="Border"
-                                   StrokeThickness="1"
-                                   StrokeDashArray="2"
-                                   Fill="Transparent"
-                                   SnapsToDevicePixels="true" />
-                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
-                                          Margin="{TemplateBinding Padding}"
-                                          SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="true">
-                            <Setter TargetName="Border"
-                                    Property="Stroke"
-                                    Value="Gray" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:Toolbox}">
-        <Setter Property="SnapsToDevicePixels"
-                Value="true" />
-        <Setter Property="Focusable"
-                Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border BorderThickness="{TemplateBinding Border.BorderThickness}"
-                            Padding="{TemplateBinding Control.Padding}"
-                            BorderBrush="{TemplateBinding Border.BorderBrush}"
-                            Background="{TemplateBinding Panel.Background}"
-                            SnapsToDevicePixels="True">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <WrapPanel Margin="0,5,0,5"
-                               ItemHeight="{Binding Path=DefaultItemSize.Height, RelativeSource={RelativeSource AncestorType=local:Toolbox}}"
-                               ItemWidth="{Binding Path=DefaultItemSize.Width, RelativeSource={RelativeSource AncestorType=local:Toolbox}}" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:ResizeChrome}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ResizeChrome}">
-                    <ControlTemplate.Resources>
-                        <Style TargetType="{x:Type Shape}" x:Key="ThumbCorner">
-                            <Setter Property="SnapsToDevicePixels" Value="true" />
-                            <Setter Property="Stroke" Value="LightSlateGray" />
-                            <Setter Property="StrokeThickness" Value=".5" />
-                            <Setter Property="Width" Value="7" />
-                            <Setter Property="Height" Value="7" />
-                            <Setter Property="Margin" Value="-2" />
-                            <Setter Property="Fill">
-                                <Setter.Value>
-                                    <RadialGradientBrush Center="0.3, 0.3" GradientOrigin="0.3, 0.3" RadiusX="0.7" RadiusY="0.7">
-                                        <GradientStop Color="White" Offset="0" />
-                                        <GradientStop Color="DarkSlateGray" Offset="0.9" />
-                                    </RadialGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ControlTemplate.Resources>
-                    <Grid>
-                        <Grid Opacity="0" Margin="-3">
-                            <!--<s:ResizeThumb Height="3"
-                                           Cursor="SizeNS"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Stretch" />
-                            <s:ResizeThumb Width="3"
-                                           Cursor="SizeWE"
-                                           VerticalAlignment="Stretch"
-                                           HorizontalAlignment="Left" />
-                            <s:ResizeThumb Width="3"
-                                           Cursor="SizeWE"
-                                           VerticalAlignment="Stretch"
-                                           HorizontalAlignment="Right" />
-                            <s:ResizeThumb Height="3"
-                                           Cursor="SizeNS"
-                                           VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Stretch" />
-                            <s:ResizeThumb Width="7"
-                                           Height="7"
-                                           Margin="-2"
-                                           Cursor="SizeNWSE"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Left" />
-                            <s:ResizeThumb Width="7"
-                                           Height="7"
-                                           Margin="-2"
-                                           Cursor="SizeNESW"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Right" />
-                            <s:ResizeThumb Width="7"
-                                           Height="7"
-                                           Margin="-2"
-                                           Cursor="SizeNESW"
-                                           VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Left" />
-                            <s:ResizeThumb Width="7"
-                                           Height="7"
-                                           Margin="-2"
-                                           Cursor="SizeNWSE"
-                                           VerticalAlignment="Bottom"
-                                           HorizontalAlignment="Right" />-->
-                        </Grid>
-                        <Grid IsHitTestVisible="False" Opacity="1" Margin="-3">
-                            <Rectangle SnapsToDevicePixels="True" StrokeThickness="1" Margin="1">
-                                <Rectangle.Stroke>
-                                    <LinearGradientBrush StartPoint="0, 0" EndPoint="1, .3" Opacity=".7">
-                                        <GradientStop Color="SlateGray" Offset="0" />
-                                        <GradientStop Color="LightGray" Offset=".5" />
-                                        <GradientStop Color="SlateGray" Offset="1" />
-                                    </LinearGradientBrush>
-                                </Rectangle.Stroke>
-                            </Rectangle>
-                            <!--4 vertices around the item-->
-                            <Ellipse Style="{StaticResource ThumbCorner}"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Bottom" />
-                            <Ellipse Style="{StaticResource ThumbCorner}"
-                                     HorizontalAlignment="Right"
-                                     VerticalAlignment="Bottom" />
-                        </Grid>
-                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -6,8 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Markup;
 
-namespace Get.UI
+[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Base", "Get.UI.Base")]
+namespace Get.UI.Base
 {
     /// <summary>
     /// ResizeDecorator is responsible to display and hide the Adorner control
