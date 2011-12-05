@@ -35,28 +35,21 @@
                     <Border CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
                                  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" x:Name="PART_Border">
                         <Border.Resources>
+                            <Storyboard x:Key="FocusColorAnimation">
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:04.000" />
+                            </Storyboard>
                             <Style TargetType="Border">
                                 <Style.Triggers>
-                                    <!--<DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:DesignerItem}}}" Value="True">
-                                        <Setter Property="BorderBrush" Value="Green" />
-                                    </DataTrigger>-->
-                                </Style.Triggers>
-
+                                    <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" Value="True">-->
+                                        <!--<Setter Property="BorderBrush" Value="Green" /> will not work because BorderBrush is already set in <Border/> -->
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard x:Name="DataChangeAnimation_BeginStoryboard" Storyboard="{StaticResource FocusColorAnimation}"/>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                </Style.Triggers>    
                             </Style>
-                        </Border.Resources>
-                        <!--<Border.Triggers>
-                            <EventTrigger RoutedEvent="GotFocus">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation 
-                                Storyboard.TargetName="_border"
-                                Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)"
-                                From="Black" To="Red" 
-                                Duration="00:00:01.000" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Border.Triggers>-->
+                        </Border.Resources>   
                         <TextBlock Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
