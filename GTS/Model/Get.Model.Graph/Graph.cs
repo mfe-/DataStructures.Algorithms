@@ -15,7 +15,7 @@ namespace Get.Model.Graph
 
         public Graph()
         {
-
+            _Vertices.LongCount();
         }
         public void addVertec(Vertex pVertice)
         {
@@ -43,5 +43,15 @@ namespace Get.Model.Graph
             }
         }
         #endregion
+
     }
+    public static class GraphExtension
+    {
+        //private static List<Vertex> counted;
+        //public static int CountV<Vertex>(this IEnumerable<Vertex> source)
+        //{
+        //    return 1;
+        //}
+    }
+
 }

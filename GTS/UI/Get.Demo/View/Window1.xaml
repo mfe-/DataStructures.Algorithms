@@ -71,7 +71,7 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
 
                 </Border.Triggers>
             </Border>-->
-            <Button Click="Button_Click" DockPanel.Dock="Bottom" Width="20" Height="20"></Button>
+            <!--<Button Click="Button_Click" DockPanel.Dock="Bottom" Width="20" Height="20"></Button>-->
         </DockPanel>
     </Window.Content>
 </Window>
