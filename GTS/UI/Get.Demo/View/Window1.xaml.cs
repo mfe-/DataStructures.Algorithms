@@ -19,6 +19,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Threading;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace Get.Demo
 {
@@ -27,6 +28,7 @@ namespace Get.Demo
     /// </summary>
     public partial class Window1 : Window
     {
+        DispatcherTimer timer = new DispatcherTimer();
         List<Button> buttonlist = new List<Button>();
         public Window1()
         {
@@ -36,7 +38,7 @@ namespace Get.Demo
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
             Graph graph = new Graph();
 
             Vertex v1 = new Vertex(1);
@@ -60,7 +62,13 @@ namespace Get.Demo
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
             WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
+            counter = _GraphVisualization.VertexVisualizationList.Count;
             
+            timer.Interval = TimeSpan.FromMilliseconds((9 * 120));
+            timer.Tick += new EventHandler(someEventHandler);
+            timer.Start();
+
+
 
             //Thread setFocusonControls = new Thread(new ThreadStart(delegate
             //{
@@ -95,12 +103,29 @@ namespace Get.Demo
             //Get.Common.XML.WriteXmlSerializer(typeof(VertexVisualization), , _GraphVisualization.VertexVisualizationList.First());
 
 
-            
+
 
             //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
 
-           
 
+
+        }
+        int counter;
+        private void someEventHandler(Object sender, EventArgs args)
+        {
+            if (counter == -1) this.timer.Stop();
+            for (int i = counter; i > 0; i--)
+            {
+                Vertex v = _GraphVisualization.VertexVisualizationList[i-1].Vertex;
+
+                _GraphVisualization.setFocus(v);
+                counter--;
+                return;
+
+            }
+            //if you want this event handler executed for just once
+            // DispatcherTimer thisTimer = (DispatcherTimer)sender;
+            //
         }
         public static void WriteObject(string fileName, Type pTypToSerialize, object instanceofTypeToSerialize)
         {
@@ -135,21 +160,21 @@ namespace Get.Demo
         {
 
 
-            Thread setFocusonControls = new Thread(new ThreadStart(delegate
-            {
+            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
+            //{
 
-                _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-                    delegate()
-                    {
-                        foreach (var o in this._GraphVisualization.VertexVisualizationList)
-                        {
-                            o.Focus();
-                            Thread.Sleep(400);
-                        }
-                    }));
+            //    _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+            //        delegate()
+            //        {
+            //            foreach (var o in this._GraphVisualization.VertexVisualizationList)
+            //            {
+            //                o.Focus();
+            //                Thread.Sleep(400);
+            //            }
+            //        }));
 
-            }));
-            setFocusonControls.Start();
+            //}));
+            //setFocusonControls.Start();
             //foreach (var item in _GraphVisualization.VertexVisualizationList)
             //{
 
