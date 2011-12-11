@@ -62,12 +62,27 @@ namespace Get.Demo
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
             WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
-            counter = _GraphVisualization.VertexVisualizationList.Count;
-            
-            timer.Interval = TimeSpan.FromMilliseconds((9 * 120));
-            timer.Tick += new EventHandler(someEventHandler);
-            timer.Start();
 
+            //count all VertexControls
+            int counter = _GraphVisualization.VertexVisualizationList.Count;
+
+            timer.Interval = TimeSpan.FromMilliseconds((9 * 120));
+            //iterate from behind and save iteration position so that only one control in the eventhandler will be set IsFocused=true
+            timer.Tick += new EventHandler(new EventHandler(delegate
+            {
+                if (counter == -1) this.timer.Stop();
+                for (int i = counter; i > 0; i--)
+                {
+                    Vertex v = _GraphVisualization.VertexVisualizationList[i - 1].Vertex;
+
+                    _GraphVisualization.setFocus(v);
+                    counter--;
+                    return;
+
+                }
+            }));
+            timer.Start();
+            //http://www.mycsharp.de/wbb2/thread.php?postid=3702712#post3702712
 
 
             //Thread setFocusonControls = new Thread(new ThreadStart(delegate
@@ -110,23 +125,8 @@ namespace Get.Demo
 
 
         }
-        int counter;
-        private void someEventHandler(Object sender, EventArgs args)
-        {
-            if (counter == -1) this.timer.Stop();
-            for (int i = counter; i > 0; i--)
-            {
-                Vertex v = _GraphVisualization.VertexVisualizationList[i-1].Vertex;
 
-                _GraphVisualization.setFocus(v);
-                counter--;
-                return;
 
-            }
-            //if you want this event handler executed for just once
-            // DispatcherTimer thisTimer = (DispatcherTimer)sender;
-            //
-        }
         public static void WriteObject(string fileName, Type pTypToSerialize, object instanceofTypeToSerialize)
         {
             Console.WriteLine(
