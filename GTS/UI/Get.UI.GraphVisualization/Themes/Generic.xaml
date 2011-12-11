@@ -36,7 +36,7 @@
                                  BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" x:Name="PART_Border">
                         <Border.Resources>
                             <Storyboard x:Key="FocusColorAnimation">
-                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:04.000" />
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:02.000" />
                             </Storyboard>
                             <Style TargetType="Border">
                                 <Style.Triggers>
