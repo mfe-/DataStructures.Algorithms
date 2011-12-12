@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using System.Threading;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Get.Demo
 {
@@ -35,6 +36,8 @@ namespace Get.Demo
             InitializeComponent();
             Loaded += new RoutedEventHandler(Window1_Loaded);
         }
+
+
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
@@ -81,8 +84,28 @@ namespace Get.Demo
 
                 }
             }));
-            timer.Start();
+            //timer.Start();
             //http://www.mycsharp.de/wbb2/thread.php?postid=3702712#post3702712
+
+
+
+
+            //Thread thread = new Thread(new ThreadStart(delegate
+            //{
+            //    foreach (Vertex v in _GraphVisualization.VertexVisualizationList.Vertex)
+            //    {
+            //        //do something with v
+
+            //        _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+            //          delegate()
+            //          {
+            //              _GraphVisualization.setFocus(v);
+            //          }));
+            //        mre.WaitOne(9 * 120);
+            //    }
+            //}));
+            //thread.Start();
+
 
 
             //Thread setFocusonControls = new Thread(new ThreadStart(delegate
@@ -122,7 +145,29 @@ namespace Get.Demo
 
             //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
 
+            //GetAllV(graph.Vertices.First(), null);
+            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { GetAllV((Vertex)(arr), null); }));
+            thread.Start(graph.Vertices.First());
 
+        }
+        ManualResetEvent mre = new ManualResetEvent(false);
+        public void GetAllV(Vertex v, Vertex firstVertex)
+        {
+            if (v == firstVertex) return;
+            if (firstVertex == null) firstVertex = v;
+
+            _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+              delegate()
+              {
+                  _GraphVisualization.setFocus(v);
+              }));
+            mre.WaitOne(10 * 120);
+
+            foreach (Edge e in v.Edges)
+            {
+                GetAllV(e.V, firstVertex);
+                return;
+            }
 
         }
 
