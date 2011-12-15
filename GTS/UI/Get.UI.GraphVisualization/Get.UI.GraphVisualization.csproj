@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Converter.cs" />
     <Compile Include="Edge.cs" />
+    <Compile Include="Commands.cs" />
     <Compile Include="Vertex.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
