@@ -11,6 +11,9 @@ namespace Get.UI.Base
     /// Use the DesignerItem to make your controls moveabel on a Canvas Control
     /// http://www.codeproject.com/KB/WPF/WPFDiagramDesigner_Part2.aspx
     /// </summary>
+    [TemplatePart(Name = "PART_MoveAbelItem", Type = typeof(MoveAbelItem))]
+    [TemplatePart(Name = "PART_ContentPresenter", Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = "PART_DesignerItemDecorator", Type = typeof(ResizeDecorator))]
     public class DesignerItem : ContentControl
     {
         /// <summary>

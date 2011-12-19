@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Model.Graph", "Model\Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.Base", "UI\Get.UI.Base\Get.UI.Base.csproj", "{A9BE51E5-8DAD-4559-8605-3C380299E542}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.TimeKeeping", "UI\Get.TimeKeeping\Get.UI.TimeKeeping.csproj", "{1922A09F-44A7-43F4-8C1F-81BE208096F9}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -117,6 +119,16 @@ Global
 		{A9BE51E5-8DAD-4559-8605-3C380299E542}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A9BE51E5-8DAD-4559-8605-3C380299E542}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A9BE51E5-8DAD-4559-8605-3C380299E542}.Release|x86.ActiveCfg = Release|Any CPU
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Debug|x86.ActiveCfg = Debug|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Debug|x86.Build.0 = Debug|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Release|Any CPU.ActiveCfg = Release|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Release|x86.ActiveCfg = Release|x86
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,5 +142,6 @@ Global
 		{F6441FDB-9D04-462D-8F62-DE84FC516654} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{4E17F47F-8DB8-41ED-BB04-A26D6793D224} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{A9BE51E5-8DAD-4559-8605-3C380299E542} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
+		{1922A09F-44A7-43F4-8C1F-81BE208096F9} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 	EndGlobalSection
 EndGlobal

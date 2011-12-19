@@ -49,6 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connector.cs" />
     <Compile Include="ResizeDecorator.cs" />
     <Compile Include="Toolbox.cs" />
     <Page Include="Themes\Generic.xaml">

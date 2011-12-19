@@ -4,6 +4,35 @@
     xmlns:local="clr-namespace:Get.UI.Base"
     >
 
+    <!-- Connector Style -->
+    <Style TargetType="{x:Type local:Connector}">
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Height" Value="8"/>
+        <Setter Property="Cursor" Value="Cross"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Connector}">
+                    <Grid>
+                        <!-- transparent extra space makes connector easier to hit -->
+                        <Rectangle Fill="Transparent" Margin="-2"/>
+                        <Rectangle Fill="Lavender" StrokeThickness="1" Stroke="#AA000080"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ConnectorDecoratorTemplate Default Template -->
+    <ControlTemplate x:Key="ConnectorDecoratorTemplate" TargetType="{x:Type Control}">
+        <Grid Margin="-5">
+            <local:Connector Orientation="Left" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <local:Connector Orientation="Top" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <local:Connector Orientation="Right" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <local:Connector Orientation="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        </Grid>
+    </ControlTemplate>
+
     <!--
     ControlTemplate of DesignerItem. Makes Controls which are set in the Content Propertie of the DesignerItem move abel.
     -->
@@ -12,12 +41,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DesignerItem}">
-                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}" Background="White">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
                         <!--Here we place our MoveAbelItem control to give the contentpresenter the ability that it can be moved-->
+                        <!-- moveabel item ist schuld, dass grid angezeigt wird-->
                         <local:MoveAbelItem x:Name="PART_MoveAbelItem" Cursor="SizeAll"/>
-                        <!--The ContentPresenter can be for example the VertexVisualization control -->
-                        <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding ContentControl.Content}" />
+                        <!--The ContentPresenter can be anycontrol which should be maked moveabel -->
+                        <ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch" Content="{TemplateBinding ContentControl.Content}" Margin="{TemplateBinding ContentControl.Padding}" />
                         <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
+                        <Control x:Name="PART_ConnectorDecorator" Template="{StaticResource ConnectorDecoratorTemplate}"  Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -27,6 +59,9 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_DesignerItemDecorator" Property="ShowDecorator" Value="True" />
                         </MultiTrigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="PART_ConnectorDecorator" Property="Visibility" Value="Visible" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
