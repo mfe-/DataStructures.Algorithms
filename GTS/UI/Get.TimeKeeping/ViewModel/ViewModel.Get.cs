@@ -10,22 +10,13 @@ namespace Get.UI.TimeKeeping
 {
     public class ViewModel_Get : ViewModelBase
     {
+        protected getEntities _context = new getEntities();
+
         public ViewModel_Get()
         {
-            using (getEntities context = new getEntities())
-            {
-                context.ContextOptions.LazyLoadingEnabled = false;
-                _Projects = context.g_project.ToObservableCollection();
-                _ProjectAssistens = context.g_projectassistent.ToObservableCollection();
-
-                // Load the orders for the customer explicitly.
-                //if (!contact.SalesOrderHeaders.IsLoaded)
-                //{
-                //    contact.SalesOrderHeaders.Load();
-                //}
-            }
-
-
+            _context.ContextOptions.LazyLoadingEnabled = true;
+            _Projects = _context.g_project.ToObservableCollection();
+            _ProjectAssistens = _context.g_projectassistent.ToObservableCollection();
         }
         private ObservableCollection<g_project> _Projects;
         public ObservableCollection<g_project> Projects
@@ -63,17 +54,36 @@ namespace Get.UI.TimeKeeping
             get
             {
                 if (SelectedProject == null) return new ObservableCollection<g_projectassistent>();
-                else
-                {
-                    var g =  _ProjectAssistens.Where(a => a.g_project.Equals(SelectedProject)).ToObservableCollection();
-                    return g;
-                }
+                else return _ProjectAssistens.Where(a => a.g_project.Equals(SelectedProject)).ToObservableCollection();        
             }
             set
             {
                 _ProjectAssistens = value;
                 NotifyPropertyChanged(this.GetMemberName(x => x.ProjectAssistens));
             }
+        }
+
+
+
+        private ObservableCollection<g_project_timesheet> _TimeSheet;
+        public ObservableCollection<g_project_timesheet> TimeSheet
+        {
+            get
+            {
+                return _TimeSheet;
+            }
+            set
+            {
+                _TimeSheet = value;
+                NotifyPropertyChanged(this.GetMemberName(x => x.TimeSheet));
+            }
+        }
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
+            _context.Dispose();
+
         }
     }
 }

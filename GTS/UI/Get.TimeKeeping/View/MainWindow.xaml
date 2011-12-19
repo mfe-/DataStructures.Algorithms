@@ -36,12 +36,24 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" >
-                            <TextBlock Text="{Binding Path=g_contacts}"></TextBlock>
+                            <TextBlock Text="{Binding Path=g_contacts.first_name}"></TextBlock>
+                            <TextBlock Text="{Binding Path=g_contacts.last_name}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
+            <!--Arbeitszeiten anzeigen
+            <ListBox ItemsSource="{Binding Path=ProjectAssistens,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="{Binding Path=g_contacts.first_name}"></TextBlock>
+                            <TextBlock Text="{Binding Path=g_contacts.last_name}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>-->
+
         </DockPanel>
     </Window.Content>
 
