@@ -13,6 +13,8 @@ using Get.Model.Graph;
 using System.Windows.Data;
 using System.Windows.Input;
 using Get.UI.Base;
+using System.Collections.Specialized;
+using System.Collections;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -135,6 +137,8 @@ namespace Get.UI
                 if(designerItem.Content.GetType().Equals(typeof(VertexVisualization)) || 
                     designerItem.Content.GetType().Equals(typeof(EdgeVisualization)))
                 {
+                    Vertex v = new Vertex();
+                    this.Graph.Vertices.Add(v);
                     //_Canvas.Children.Add(designerItem);
                     //if (designerItem.Content.GetType().Equals(typeof(VertexVisualization)))
                     //{
@@ -231,7 +235,7 @@ namespace Get.UI
         /// Creates for each Vertex and Edge the proper control to display the Graph.
         /// </summary>
         /// <param name="vertices"></param>
-        protected virtual void InitialiseGraph(IList<Vertex> vertices)
+        protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices)
         {
             InitialiseGraph(vertices, null);
         }
@@ -240,8 +244,9 @@ namespace Get.UI
         /// </summary>
         /// <param name="vertices">List of Vertices</param>
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
-        protected virtual void InitialiseGraph(IList<Vertex> vertices, EdgeVisualization e)
+        protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices, EdgeVisualization e)
         {
+            vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(vertices_CollectionChanged);
             foreach (Vertex a in vertices)
             {
                 VertexVisualization u;
@@ -273,10 +278,22 @@ namespace Get.UI
                     edgeVisualization.PositionU = getPositionFromVertexVisualization(u);
                     edgeVisualization.VertexVisualizationU = u;
 
-                    InitialiseGraph(new List<Vertex>() { ed.V }, edgeVisualization);
+                    InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edgeVisualization);
                     _EdgeVisualizationList.Add(edgeVisualization);
                     Canvas.Children.Add(edgeVisualization);
                 }
+            }
+        }
+
+        protected virtual void vertices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+            {
+                if (e.NewItems.Count.Equals(1))
+                {
+                    addVertex(e.NewItems[0] as Vertex);
+                }
+
             }
         }
         /// <summary>
@@ -397,20 +414,6 @@ namespace Get.UI
                 parent = GetFrameworkElementParent<T>(parent);
             }
             return parent;
-
-        }
-        public static FrameworkElement GetFrameworkElementParent(FrameworkElement element, string name)
-        {
-            FrameworkElement parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
-            if (parent != null)
-            {
-                if (parent.Name == name)
-                {
-                    return parent;
-                }
-                return GetFrameworkElementParent(parent, name);
-            }
-            return null;
 
         }
 
