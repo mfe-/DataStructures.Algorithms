@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Get.UI
 {
-    private class LoadGraphCommand : ICommand
+    public class LoadGraphCommand : ICommand
     {
         private readonly object _viewModel;
         //-----------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace Get.UI
         }
         #endregion
     }
-    private class SaveGraphCommand : ICommand
+    public class SaveGraphCommand : ICommand
     {
         private readonly object _viewModel;
         //-----------------------------------------------------------------
