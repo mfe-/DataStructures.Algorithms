@@ -9,7 +9,39 @@
     </Window.DataContext>
     <Window.Content>
         <DockPanel>
-            <ListBox ItemsSource="{Binding Path=Projects,IsAsync=True}"> </ListBox>
+            <!--Alle Projekte anzeigen-->
+            <ListBox ItemsSource="{Binding Path=Projects,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="{Binding Path=name}"></TextBlock>
+                            <TextBlock Name="customer" Text="{Binding Path=customer}" Visibility="Collapsed"></TextBlock>
+                            <TextBlock Name="customer_1" Text="{Binding Path=customer_1}" Visibility="Collapsed"></TextBlock>
+                            <TextBlock Name="comment" Text="{Binding Path=comment}" Visibility="Collapsed"></TextBlock>
+                            <TextBlock Name="open" Text="{Binding Path=open}" Visibility="Collapsed"></TextBlock>
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Value="True">
+                                <Setter TargetName="customer" Property="Visibility" Value="Visible"></Setter>
+                                <Setter TargetName="customer_1" Property="Visibility" Value="Visible"></Setter>
+                                <Setter TargetName="comment" Property="Visibility" Value="Visible"></Setter>
+                                <Setter TargetName="open" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!-- Alle Mitarbeiter anzeigen -->
+            <ListBox ItemsSource="{Binding Path=ProjectAssistens,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="{Binding Path=g_contacts}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
         </DockPanel>
     </Window.Content>
 
