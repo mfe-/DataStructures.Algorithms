@@ -165,6 +165,11 @@ namespace Get.Demo
 
             foreach (Edge e in v.Edges)
             {
+                _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+  delegate()
+  {
+      _GraphVisualization.setFocus(e);
+  })); mre.WaitOne(10 * 120);
                 GetAllV(e.V, firstVertex);
                 return;
             }
