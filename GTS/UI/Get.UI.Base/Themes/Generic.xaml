@@ -32,7 +32,17 @@
             <local:Connector Orientation="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </Grid>
     </ControlTemplate>
-
+    
+    <!-- DragThumb Default Template -->
+    <Style TargetType="{x:Type local:MoveAbelItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MoveAbelItem}">
+                    <Rectangle Fill="Transparent"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--
     ControlTemplate of DesignerItem. Makes Controls which are set in the Content Propertie of the DesignerItem move abel.
     -->

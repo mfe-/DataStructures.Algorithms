@@ -19,7 +19,7 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
             <!--<GetControls:ObjectControl ItemsSource="{Binding ObjectCore}"></GetControls:ObjectControl>
             <TextBox Text="{Binding Path=PropertieModifiers,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Text="{Binding Path=text,UpdateSourceTrigger=PropertyChanged}"/>-->
-            <Expander IsExpanded="True" Header="Symbols" Margin="0,1,0,0" >
+            <!--<Expander IsExpanded="True" Header="Symbols" Margin="0,1,0,0" >
                 <Expander.Content>
                     <Base:Toolbox>
                         <ItemsControl.Items>
@@ -28,14 +28,14 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                         </ItemsControl.Items>
                     </Base:Toolbox>
                 </Expander.Content>
-            </Expander>
+            </Expander>-->
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" Width="3" />
             <ui:GraphVisualization x:Name="_GraphVisualization" BorderBrush="Gray">
                 <ui:GraphVisualization.Resources>
                     <Style TargetType="{x:Type ui:VertexVisualization}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Base:DesignerItem}}}" Value="True">
-                                <Setter Property="BorderBrush" Value="Green" />
+                                <Setter Property="BorderThickness" Value="2" />
                             </DataTrigger>
                             <!--<Trigger Property="IsFocused" Value="True">
                                 <Setter Property="BorderBrush" Value="Green" />
@@ -46,7 +46,7 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                     <Style TargetType="{x:Type ui:EdgeVisualization}">
                         <Style.Triggers>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="Foreground" Value="Green" />
+                                <Setter Property="StrokeThickness" Value="2" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
