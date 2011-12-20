@@ -32,8 +32,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:VertexVisualization}">
-                    <Border CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" 
-                                 BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" x:Name="PART_Border">
+                    <Border CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" x:Name="PART_Border">
                         <Border.Resources>
                             <Storyboard x:Key="FocusColorAnimation">
                                 <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:02.000" />
@@ -63,7 +62,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:EdgeVisualization}">
-                    <Line Stroke="{TemplateBinding Foreground}" StrokeThickness="5"
+                    <Line Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}"
                           X1="{Binding Mode=TwoWay,Path=PositionU.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                           Y1="{Binding Mode=TwoWay,Path=PositionU.Y,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                           X2="{Binding Mode=TwoWay,Path=PositionV.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"

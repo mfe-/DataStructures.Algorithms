@@ -19,9 +19,7 @@ namespace Get.UI
         static EdgeVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
-            //PositionUProperty.OverrideMetadata(typeof(EdgeVisualization), new PropertyMetadata(new Point(0, 40)));
-            //PositionVProperty.OverrideMetadata(typeof(EdgeVisualization), new PropertyMetadata(new Point(40, 0)));
-            //Exception: --> PropertyMetadata is already registered for type ''.
+            StrokeThicknessProperty = System.Windows.Shapes.Line.StrokeThicknessProperty.AddOwner(typeof(EdgeVisualization), new PropertyMetadata((double)1));
         }
 
         public EdgeVisualization()
@@ -49,6 +47,15 @@ namespace Get.UI
                 EdgeVisualization edgeVisualization = pDependencyObject as EdgeVisualization;
 
             }
+        }
+
+        public static readonly DependencyProperty StrokeThicknessProperty;
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double StrokeThickness
+        {
+            get { return (double)GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
         }
 
         public Point PositionU
