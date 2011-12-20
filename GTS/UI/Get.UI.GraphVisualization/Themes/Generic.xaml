@@ -37,13 +37,16 @@
                             <Storyboard x:Key="FocusColorAnimation">
                                 <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:02.000" />
                             </Storyboard>
+                            <Storyboard  x:Key="BorderThicknessAnimation">
+                                <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="1,1,1,1" To="2,2,2,2" FillBehavior="Stop" Duration="00:00:02.000" />
+                            </Storyboard>
                             <Style TargetType="Border">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="True">
                                     <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" Value="True">-->
                                         <!--<Setter Property="BorderBrush" Value="Green" /> will not work because BorderBrush is already set in <Border/> -->
                                         <DataTrigger.EnterActions>
-                                            <BeginStoryboard x:Name="DataChangeAnimation_BeginStoryboard" Storyboard="{StaticResource FocusColorAnimation}"/>
+                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimation}"/>
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
                                 </Style.Triggers>    
