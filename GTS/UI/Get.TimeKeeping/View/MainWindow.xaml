@@ -4,13 +4,19 @@
         xmlns:local="clr-namespace:Get.UI.TimeKeeping"
         Title="TimeKeeping Start"
         >
+    <Window.Resources>
+        <!--<style targettype="{x:type textblock}">
+            <setter property="margin" value="2" />
+        </style>-->
+    </Window.Resources>
     <Window.DataContext>
         <local:ViewModel_Get></local:ViewModel_Get>
     </Window.DataContext>
     <Window.Content>
         <DockPanel>
             <!--Alle Projekte anzeigen-->
-            <ListBox ItemsSource="{Binding Path=Projects,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ListBox ItemsSource="{Binding Path=Projects,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Width="200">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" >
@@ -32,27 +38,37 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <!-- Alle Mitarbeiter anzeigen -->
-            <ListBox ItemsSource="{Binding Path=ProjectAssistens,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ListBox ItemsSource="{Binding Path=ProjectAssistens,IsAsync=True}" SelectedItem="{Binding Path=SelectedProjectAssisten,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Width="200">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Horizontal" >
                             <TextBlock Text="{Binding Path=g_contacts.first_name}"></TextBlock>
-                            <TextBlock Text="{Binding Path=g_contacts.last_name}"></TextBlock>
+                            <TextBlock Text="{Binding Path=g_contacts.last_name}" ></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <!--Arbeitszeiten anzeigen
-            <ListBox ItemsSource="{Binding Path=ProjectAssistens,IsAsync=True}" SelectedItem="{Binding Path=SelectedProject,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <!--Arbeitszeiten anzeigen-->
+            <ListBox ItemsSource="{Binding Path=TimeSheet,IsAsync=True,UpdateSourceTrigger=PropertyChanged}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" >
-                            <TextBlock Text="{Binding Path=g_contacts.first_name}"></TextBlock>
-                            <TextBlock Text="{Binding Path=g_contacts.last_name}"></TextBlock>
+                        <DataTemplate.Resources>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Margin" Value="2" />
+                            </Style>
+                        </DataTemplate.Resources>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding Path=from}"></TextBlock>
+                            <TextBlock Text="{Binding Path=to}"></TextBlock>
+                            <TextBlock Text="{Binding Path=to}"></TextBlock>
+                            <TextBlock Text="{Binding Path=work}"></TextBlock>
+                            <TextBlock Text="{Binding Path=created_at}"></TextBlock>
+                            <TextBlock Text="{Binding Path=comment}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>-->
+            </ListBox>
 
         </DockPanel>
     </Window.Content>
