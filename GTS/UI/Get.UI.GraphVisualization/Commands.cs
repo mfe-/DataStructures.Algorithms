@@ -60,4 +60,31 @@ namespace Get.UI
         }
         #endregion
     }
+    public class AddVertexCommand : ICommand
+    {
+        private readonly object _viewModel;
+        //-----------------------------------------------------------------
+        public AddVertexCommand(object viewModel)
+        {
+            _viewModel = viewModel;
+        }
+        //-----------------------------------------------------------------
+        #region ICommand Members
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+        //-----------------------------------------------------------------
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+        //-----------------------------------------------------------------
+        public void Execute(object parameter)
+        {
+            //_viewModel.Start();
+        }
+        #endregion
+    }
 }

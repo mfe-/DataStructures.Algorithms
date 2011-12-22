@@ -15,6 +15,9 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <ScrollViewer Name="DesignerScrollViewer" Background="Transparent" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <Base:DesignerCanvas Background="{TemplateBinding Background}" x:Name="PART_DesignerCanvas">
+                                <Base:DesignerCanvas.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path=AddVertexCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:GraphVisualization}}}" />
+                                </Base:DesignerCanvas.InputBindings>
                                 <Base:DesignerCanvas.Children>
 
                                 </Base:DesignerCanvas.Children>

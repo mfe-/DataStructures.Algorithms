@@ -91,6 +91,7 @@ namespace Get.UI
         {
             _VertexVisualizationList = new ObservableCollection<VertexVisualization>();
             _EdgeVisualizationList = new ObservableCollection<EdgeVisualization>();
+            AddVertexCommand = new AddVertexCommand(this);
         }
         #endregion
 
@@ -518,6 +519,13 @@ namespace Get.UI
                 value = _Canvas;
             }
         }
+
+        public AddVertexCommand AddVertexCommand
+        {
+            get;
+            set;
+        }
+
         #endregion
 
     }
