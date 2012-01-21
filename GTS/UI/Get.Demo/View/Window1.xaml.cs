@@ -59,12 +59,21 @@ namespace Get.Demo
             v4.addEdge(v1);
             v1.addEdge(v3);
 
-
-
             graph.addVertec(v1);
+
+
+
+
+
+
+
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
             WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
+
+            v1.addEdge(new Vertex(18));
+
+            graph.Vertices.Add(new Vertex(3));
 
             //count all VertexControls
             int counter = _GraphVisualization.VertexVisualizationList.Count;
@@ -166,10 +175,11 @@ namespace Get.Demo
             foreach (Edge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-  delegate()
-  {
-      _GraphVisualization.setFocus(e);
-  })); mre.WaitOne(10 * 120);
+                  delegate()
+                  {
+                      _GraphVisualization.setFocus(e);
+                  }));
+                mre.WaitOne(10 * 120);
                 GetAllV(e.V, firstVertex);
                 return;
             }
