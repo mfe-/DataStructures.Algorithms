@@ -247,7 +247,6 @@ namespace Get.UI
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
         protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices, EdgeVisualization e)
         {
-            vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(vertices_CollectionChanged);
             foreach (Vertex a in vertices)
             {
                 VertexVisualization u;
@@ -255,6 +254,7 @@ namespace Get.UI
 
                 if (!vertexexists)
                 {
+                    a.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     u = addVertex(a);
                     Canvas.SetZIndex(u, 1);
                 }
@@ -286,13 +286,18 @@ namespace Get.UI
             }
         }
 
-        protected virtual void vertices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        protected virtual void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action.Equals(NotifyCollectionChangedAction.Add))
             {
                 if (e.NewItems.Count.Equals(1))
                 {
-                    addVertex(e.NewItems[0] as Vertex);
+                    var item = e.NewItems[0];
+                    if (item != null && item.Equals(typeof(Edge)))
+                    {
+
+                    }
+                    //addVertex( as Vertex);
                 }
 
             }
@@ -425,6 +430,8 @@ namespace Get.UI
             {
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
                 Graph graph = e.NewValue as Graph;
+
+                graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
 
                 graphVisualization.InitialiseGraph(graph.Vertices);
             }
