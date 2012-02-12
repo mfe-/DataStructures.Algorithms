@@ -8,8 +8,7 @@ using System.Runtime.Serialization;
 
 namespace Get.Model.Graph
 {
-    [DataContract(Name = "Edge", Namespace = "http://Get.Model.Graph")]
-    public class Graph : IExtensibleDataObject
+    public class Graph 
     {
         public ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
 
@@ -21,7 +20,7 @@ namespace Get.Model.Graph
         {
             _Vertices.Add(pVertice);
         }
-        [DataMember()]
+
         public ObservableCollection<Vertex> Vertices
         {
             get
@@ -29,29 +28,9 @@ namespace Get.Model.Graph
                 return _Vertices;
             }
         }
-        #region IExtensibleDataObject
-        protected ExtensionDataObject extensionData_Value;
-        public ExtensionDataObject ExtensionData
-        {
-            get
-            {
-                return extensionData_Value;
-            }
-            set
-            {
-                extensionData_Value = value;
-            }
-        }
-        #endregion
+   
 
     }
-    public static class GraphExtension
-    {
-        //private static List<Vertex> counted;
-        //public static int CountV<Vertex>(this IEnumerable<Vertex> source)
-        //{
-        //    return 1;
-        //}
-    }
+
 
 }

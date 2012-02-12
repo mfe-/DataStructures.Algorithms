@@ -6,8 +6,8 @@ using System.Runtime.Serialization;
 
 namespace Get.Model.Graph
 {
-    [DataContract(Name = "Edge", Namespace = "http://Get.Model.Graph")]
-    public class Edge : INotifyPropertyChanged, IExtensibleDataObject
+
+    public class Edge : INotifyPropertyChanged
     {
         protected Vertex u;
         protected Vertex v;
@@ -26,11 +26,11 @@ namespace Get.Model.Graph
             v = pv;
             weighted = pweighted;
         }
-        [DataMember()]
+
         public Vertex U { get { return u; } set { u = value; NotifyPropertyChanged("U"); } }
-        [DataMember()]
+
         public Vertex V { get { return v; } set { v = value; NotifyPropertyChanged("V"); } }
-        [DataMember()]
+
         public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
 
         public override string ToString()
@@ -55,19 +55,5 @@ namespace Get.Model.Graph
         }
         #endregion
 
-        #region IExtensibleDataObject
-        protected ExtensionDataObject extensionData_Value;
-        public ExtensionDataObject ExtensionData
-        {
-            get
-            {
-                return extensionData_Value;
-            }
-            set
-            {
-                extensionData_Value = value;
-            }
-        }
-        #endregion
     }
 }
