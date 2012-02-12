@@ -4,11 +4,11 @@
     xmlns:local="clr-namespace:Get.Demo"
     xmlns:GetCommon="http://schemas.get.com/winfx/2009/xaml"
     xmlns:GetCommonConverter="http://schemas.get.com/winfx/2009/xaml/Converter"
-        xmlns:GetControls="http://schemas.get.com/winfx/2009/xaml/Controls"
+    xmlns:GetControls="http://schemas.get.com/winfx/2009/xaml/Controls"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
-        xmlns:Base="http://schemas.get.com/winfx/2009/xaml/Base"
-        xmlns:mgraph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph"
+    xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
+    xmlns:Base="http://schemas.get.com/winfx/2009/xaml/Base"
+    xmlns:mgraph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph"
     xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
     Title="Window1" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -30,7 +30,7 @@ xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
                 </Expander.Content>
             </Expander>-->
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" Width="3" />
-            <ui:GraphVisualization x:Name="_GraphVisualization" BorderBrush="Gray">
+            <ui:GraphVisualization x:Name="_GraphVisualization" >
                 <ui:GraphVisualization.Resources>
                     <Style TargetType="{x:Type ui:VertexVisualization}">
                         <Style.Triggers>

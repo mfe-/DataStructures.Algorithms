@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
+using System.Diagnostics;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -49,30 +51,31 @@ namespace Get.UI
     ///
     /// </summary>
     [ContentProperty("Vertex")]
-    public class VertexVisualization : Control
+    public class VertexVisualization : Control, INotifyPropertyChanged
     {
         protected Border Border { get; set; }
         public VertexVisualization()
         {
+            
         }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             if (this.Template != null)
             {
-                Border = this.Template.FindName("PART_Border", this) as Border;
-                if (Parent != null)
-                {
-                    UIElement uIElement = Parent as UIElement;
-                    uIElement.GotFocus += (sender, eargs) =>
-                    {
-                        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
-                        Focus();
+                //Border = this.Template.FindName("PART_Border", this) as Border;
+                //if (Parent != null)
+                //{
+                //    UIElement uIElement = Parent as UIElement;
+                //    uIElement.GotFocus += (sender, eargs) =>
+                //    {
+                //        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
+                //        Focus();
 
-                    };
-                }
+                //    };
+                //}
             }
-            
+
         }
         static VertexVisualization()
         {
@@ -97,7 +100,54 @@ namespace Get.UI
         public static readonly DependencyProperty VertexProperty =
             DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
 
+        private Point _Position;
+        public virtual Point Position
+        {
+            get { return _Position; }
+            set
+            {
+                if (_Position != value)
+                {
+                    _Position = value;
+                    NotifyPropertyChanged("Position");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Notify using String property name
+        /// </summary>
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            this.VerifyPropertyName(propertyName);
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Warns the developer if this object does not have
+        /// a public property with the specified name. This 
+        /// method does not exist in a Release build.
+        /// </summary>
+        [Conditional("DEBUG")]
+        [DebuggerStepThrough]
+        public void VerifyPropertyName(string propertyName)
+        {
+            #if !SILVERLIGHT
+            // Verify that the property name matches a real,  
+            // public, instance property on this object.
+            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
+            {
+                string msg = "Invalid property name: " + propertyName;
 
 
+            }
+            #endif
+        }
     }
 }
