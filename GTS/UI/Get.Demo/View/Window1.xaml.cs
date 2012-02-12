@@ -61,14 +61,8 @@ namespace Get.Demo
 
             graph.addVertec(v1);
 
-
-
-
-
-
-
             //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
-            WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
+            //WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
 
             v1.addEdge(new Vertex(18));
@@ -76,23 +70,23 @@ namespace Get.Demo
             graph.Vertices.Add(new Vertex(3));
 
             //count all VertexControls
-            int counter = _GraphVisualization.VertexVisualizationList.Count;
+            ////////////int counter = _GraphVisualization.VertexVisualizationList.Count;
 
-            timer.Interval = TimeSpan.FromMilliseconds((9 * 120));
-            //iterate from behind and save iteration position so that only one control in the eventhandler will be set IsFocused=true
-            timer.Tick += new EventHandler(new EventHandler(delegate
-            {
-                if (counter == -1) this.timer.Stop();
-                for (int i = counter; i > 0; i--)
-                {
-                    Vertex v = _GraphVisualization.VertexVisualizationList[i - 1].Vertex;
+            ////////////timer.Interval = TimeSpan.FromMilliseconds((9 * 120));
+            //////////////iterate from behind and save iteration position so that only one control in the eventhandler will be set IsFocused=true
+            ////////////timer.Tick += new EventHandler(new EventHandler(delegate
+            ////////////{
+            ////////////    if (counter == -1) this.timer.Stop();
+            ////////////    for (int i = counter; i > 0; i--)
+            ////////////    {
+            ////////////        Vertex v = _GraphVisualization.VertexVisualizationList[i - 1].Vertex;
 
-                    _GraphVisualization.setFocus(v);
-                    counter--;
-                    return;
+            ////////////        _GraphVisualization.setFocus(v);
+            ////////////        counter--;
+            ////////////        return;
 
-                }
-            }));
+            ////////////    }
+            ////////////}));
             //timer.Start();
             //http://www.mycsharp.de/wbb2/thread.php?postid=3702712#post3702712
 
@@ -168,7 +162,7 @@ namespace Get.Demo
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
               delegate()
               {
-                  _GraphVisualization.setFocus(v);
+                  //_GraphVisualization.setFocus(v);
               }));
             mre.WaitOne(10 * 120);
 
@@ -177,7 +171,7 @@ namespace Get.Demo
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()
                   {
-                      _GraphVisualization.setFocus(e);
+                      //_GraphVisualization.setFocus(e);
                   }));
                 mre.WaitOne(10 * 120);
                 GetAllV(e.V, firstVertex);
