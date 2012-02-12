@@ -84,6 +84,7 @@ namespace Get.UI
             BorderThicknessProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(new Thickness(1)));
 
             BorderBrushProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Black));
+            BackgroundProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.White));
         }
 
         public Get.Model.Graph.Vertex Vertex
