@@ -67,16 +67,38 @@ namespace Get.UI
         /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
         /// </summary>
         protected ObservableCollection<EdgeVisualization> _EdgeVisualizationList = new ObservableCollection<EdgeVisualization>();
+
+        public static RoutedCommand AddVertex = new RoutedCommand();
+
+        public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
+        "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphVisualization));
+
         #endregion
+
+        public GraphVisualization()
+        { 
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
+        }
 
         static GraphVisualization()
         {
-            //BackgroundProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Gray));
+            //set the backgroundcolor 
+            BackgroundProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(Brushes.Transparent));
         }
-
+        /// <summary>
+        /// Called before the MouseLeftButtonDown event occurs.
+        /// Preprares the drag and drop of the Vertex item. Raises the MouseDoubleClickEvent if the click counts equal two.
+        /// </summary>
+        /// <param name="e">The data for the event.</param>
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
+            
+            if(e.ClickCount.Equals(2))
+            {
+                RaiseMouseDoubleClickEvent();
+            }
 
             if (e.Source != null && e.Source.GetType().Equals(typeof(VertexVisualization)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null)
             {
@@ -86,6 +108,10 @@ namespace Get.UI
                 setPosition(SelectedItem, p);
             }
         }
+        /// <summary>
+        /// Called before the MouseMove event occurs. Moves the Vertex item.
+        /// </summary>
+        /// <param name="e">The data for the event.</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -97,6 +123,10 @@ namespace Get.UI
                 setPosition(SelectedItem, p);
             }
         }
+        /// <summary>
+        /// Called before the MouseLeftButtonUp event occurs. Exits the drag and drop operation of the vertex item.
+        /// </summary>
+        /// <param name="e">The data for the event.</param>
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
@@ -111,6 +141,39 @@ namespace Get.UI
         }
         protected FrameworkElement SelectedItem { get; set; }
 
+        #region Save Command
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //IEnumerable<DesignerItem> designerItems = this.Children.OfType<DesignerItem>();
+            //IEnumerable<Connection> connections = this.Children.OfType<Connection>();
+
+            //XElement designerItemsXML = SerializeDesignerItems(designerItems);
+            //XElement connectionsXML = SerializeConnections(connections);
+
+            //XElement root = new XElement("Root");
+            //root.Add(designerItemsXML);
+            //root.Add(connectionsXML);
+
+            //SaveFile(root);
+        }
+        /// <summary>
+        /// Will be executed when the AddVertex command was called.
+        /// </summary>
+        /// <param name="sender">Object which raised the event</param>
+        /// <param name="e">An ExecutedRoutedEventArgs that contains the event data. </param>
+        protected void AddVertex_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization gv = sender as GraphVisualization;
+
+                gv.Graph.addVertec(new Vertex());
+                addVertex(new Vertex());
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Measures the size of the current Canvas for the layout.
@@ -187,8 +250,8 @@ namespace Get.UI
                     binding.NotifyOnTargetUpdated = true;
                     binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                     binding.Converter = Converters.PointAdderConverter;
-                    binding.ConverterParameter = new Point(u.ActualWidth / 2, u.ActualHeight / 2);
-                    //e.SetBinding(EdgeVisualization.PositionVProperty, binding);
+                    binding.ConverterParameter = new Point(u.Width / 2, u.Height / 2);
+                    e.SetBinding(EdgeVisualization.PositionVProperty, binding);
 
                     Canvas.SetZIndex(e, -1);
                 }
@@ -208,9 +271,9 @@ namespace Get.UI
                     binding.NotifyOnSourceUpdated = true;
                     binding.NotifyOnTargetUpdated = true;
                     binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    //binding.Converter = Converters.PointAdderConverter;
-                    //binding.ConverterParameter = new Point(u.ActualWidth / 2, u.ActualHeight / 2);
-                    //edv.SetBinding(EdgeVisualization.PositionUProperty, binding);
+                    binding.Converter = Converters.PointAdderConverter;
+                    binding.ConverterParameter = new Point(u.Width / 2, u.Height / 2);
+                    edv.SetBinding(EdgeVisualization.PositionUProperty, binding);
 
                     InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
                     _EdgeVisualizationList.Add(edv);
@@ -254,13 +317,8 @@ namespace Get.UI
         /// <returns>Returns the created VertexVisualization</returns>
         protected virtual VertexVisualization addVertex(Vertex v, Point point)
         {
-            //Create a DesignerItem to make the VertexVisualization moveabel
-            //DesignerItem designerItem = new DesignerItem();
-
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-            //add the VertexVisualization to the DesignerItem
-            //designerItem.Content = vertexcontrol;
 
             _VertexVisualizationList.Add(vertexcontrol);
 
@@ -288,6 +346,7 @@ namespace Get.UI
             Canvas.SetLeft(f, p.X);
             Canvas.SetTop(f, p.Y);
         }
+
         /// <summary>
         /// Generates a random number with the parameter minimum and maximum
         /// </summary>
@@ -309,6 +368,23 @@ namespace Get.UI
         public static readonly DependencyProperty GraphProperty =
             DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphVisualization), new UIPropertyMetadata(null, OnGraphChanged));
 
+        /// <summary>
+        /// This method raises the MouseDoubleClick event
+        /// </summary>
+        private void RaiseMouseDoubleClickEvent()
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(GraphVisualization.MouseDoubleClickEvent);
+            RaiseEvent(newEventArgs);
+        }
+
+        /// <summary>
+        /// MouseDoubleClick CLR accessors for the event
+        /// </summary>
+        public event RoutedEventHandler MouseDoubleClick
+        {
+            add { AddHandler(MouseDoubleClickEvent, value); }
+            remove { RemoveHandler(MouseDoubleClickEvent, value); }
+        }
 
 
     }

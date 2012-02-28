@@ -56,7 +56,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -136,21 +138,9 @@
       <Project>{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8}</Project>
       <Name>Get.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Model\Get.Model.Core\Get.Model.Core.csproj">
-      <Project>{573023D8-D9EB-4055-8EC4-D3DAD320E36B}</Project>
-      <Name>Get.Model.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Model\Get.Model.Graph\Get.Model.Graph.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
       <Name>Get.Model.Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Get.UI.Base\Get.UI.Base.csproj">
-      <Project>{A9BE51E5-8DAD-4559-8605-3C380299E542}</Project>
-      <Name>Get.UI.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Get.UI.Controls\Get.UI.Controls.csproj">
-      <Project>{78FD1EED-3792-4435-AB56-6E101F44D835}</Project>
-      <Name>Get.UI.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Get.UI.GraphVisualization\Get.UI.GraphVisualization.csproj">
       <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
