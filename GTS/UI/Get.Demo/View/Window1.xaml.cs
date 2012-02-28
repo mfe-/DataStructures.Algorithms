@@ -180,36 +180,6 @@ namespace Get.Demo
 
         }
 
-
-        public static void WriteObject(string fileName, Type pTypToSerialize, object instanceofTypeToSerialize)
-        {
-            Console.WriteLine(
-                "Creating " + fileName);
-            FileStream writer = new FileStream(fileName, FileMode.Create);
-            DataContractSerializer ser =
-                new DataContractSerializer(pTypToSerialize);
-            ser.WriteObject(writer, instanceofTypeToSerialize);
-            writer.Close();
-
-        }
-
-        public object ReadObject(string fileName, Type pTypToSerialize)
-        {
-            Console.WriteLine("Deserializing an instance of the object.");
-            FileStream fs = new FileStream(fileName,
-            FileMode.Open);
-            XmlDictionaryReader reader =
-                XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-            DataContractSerializer ser = new DataContractSerializer(pTypToSerialize);
-
-
-            // Deserialize the data and read it from the instance.
-            object deserializedobject = ser.ReadObject(reader, true);
-            reader.Close();
-            fs.Close();
-            return deserializedobject;
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 

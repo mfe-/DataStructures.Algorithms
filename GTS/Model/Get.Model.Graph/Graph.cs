@@ -28,8 +28,6 @@ namespace Get.Model.Graph
                 return _Vertices;
             }
         }
-   
-
     }
 
 

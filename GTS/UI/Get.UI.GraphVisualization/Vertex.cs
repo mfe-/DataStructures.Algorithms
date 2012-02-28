@@ -51,6 +51,7 @@ namespace Get.UI
     ///
     /// </summary>
     [ContentProperty("Vertex")]
+    [TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
     public class VertexVisualization : Control, INotifyPropertyChanged
     {
         protected Border Border { get; set; }
@@ -74,6 +75,7 @@ namespace Get.UI
 
                 //    };
                 //}
+                
             }
 
         }
