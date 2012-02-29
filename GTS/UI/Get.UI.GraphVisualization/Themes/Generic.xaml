@@ -31,8 +31,11 @@
                             <Storyboard x:Key="FocusColorAnimation">
                                 <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:02.000" />
                             </Storyboard>
-                            <Storyboard  x:Key="BorderThicknessAnimation">
+                            <Storyboard  x:Key="BorderThicknessAnimationDown">
                                 <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="1,1,1,1" To="2,2,2,2" FillBehavior="Stop" Duration="00:00:02.000" />
+                            </Storyboard>
+                            <Storyboard x:Key="BorderThicknessAnimationUp">
+                                <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="2,2,2,2" To="1,1,1,1" FillBehavior="HoldEnd" Duration="00:00:02.000" />
                             </Storyboard>
                             <Style TargetType="Border">
                                 <Style.Triggers>
@@ -40,9 +43,14 @@
                                         <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" Value="True">-->
                                         <!--<Setter Property="BorderBrush" Value="Green" /> will not work because BorderBrush is already set in <Border/> -->
                                         <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimation}"/>
+                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationDown}"/>
                                         </DataTrigger.EnterActions>
                                     </DataTrigger>
+                                    <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationUp}"/>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>-->
                                 </Style.Triggers>
                             </Style>
                         </Border.Resources>
@@ -52,16 +60,6 @@
             </Setter.Value>
         </Setter>
 
-        <!--<Style.Triggers>
-            <EventTrigger RoutedEvent="Loaded">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation Storyboard.TargetName="PART_Border"
-                                     From="10" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>-->
     </Style>
     <!--
     ControlTemplate of EdgeVisualization
