@@ -33,13 +33,12 @@
 
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
             <ui:GraphVisualization x:Name="_GraphVisualization"
-Cinch:SingleEventCommand.CommandParameter="b"
-Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
-Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertex}"
-                                   >
+                Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
+                Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
+                Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertex}">
                 <ui:GraphVisualization.Resources>
                     <Style TargetType="{x:Type ui:VertexVisualization}">
-                        <Setter Property="Opacity" Value="0" />
+
                         <Style.Triggers>
                             <!--<DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Base:DesignerItem}}}" Value="True">
                                 <Setter Property="BorderThickness" Value="2" />
@@ -47,17 +46,7 @@ Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVer
                             <!--<Trigger Property="IsFocused" Value="True">
                                 <Setter Property="BorderBrush" Value="Green" />
                             </Trigger>-->
-                            <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                                        <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                            <SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
+ 
                         </Style.Triggers>
 
                     </Style>

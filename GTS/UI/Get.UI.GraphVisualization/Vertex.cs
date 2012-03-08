@@ -115,7 +115,7 @@ namespace Get.UI
                 }
             }
         }
-        public bool IsFocused { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
