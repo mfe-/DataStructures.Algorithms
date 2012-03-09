@@ -76,7 +76,7 @@ namespace Get.UI
         #endregion
 
         public GraphVisualization()
-        { 
+        {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
         }
@@ -94,8 +94,8 @@ namespace Get.UI
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            
-            if(e.ClickCount.Equals(2))
+
+            if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
             {
                 RaiseMouseDoubleClickEvent();
             }
@@ -345,6 +345,24 @@ namespace Get.UI
         {
             Canvas.SetLeft(f, p.X);
             Canvas.SetTop(f, p.Y);
+        }
+        /// <summary>
+        /// Searches for the overgiven vertex and returns the vertexVisualization control which is representing it
+        /// </summary>
+        /// <param name="v">Vertex which should be looked up</param>
+        /// <returns>Control which is using the Vertex</returns>
+        protected virtual VertexVisualization getVertexVisualization(Vertex v)
+        {
+            return Children.OfType<VertexVisualization>().Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexVisualization>();
+        }
+        /// <summary>
+        /// Calls the focus method on the VertexVisualization control
+        /// </summary>
+        /// <param name="v"></param>
+        public virtual void setFocus(Vertex v)
+        {
+            if (getVertexVisualization(v) != null)
+                getVertexVisualization(v).Focus();
         }
 
         /// <summary>

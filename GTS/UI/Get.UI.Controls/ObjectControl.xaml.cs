@@ -18,6 +18,11 @@ using Get.Model.Core;
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Controls", "Get.UI.Controls")]
 namespace Get.UI.Controls
 {
+
+
+    //http://www.c-sharpcorner.com/uploadfile/dpatra/making-timeline-control-for-datagrid-in-wpf/
+    //http://www.codeproject.com/Articles/72670/WPF-A-TimeLineControl
+    //http://sachabarber.net/?p=716
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// http://msdn.microsoft.com/de-de/library/system.windows.markup.contentpropertyattribute.aspx
