@@ -68,27 +68,27 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
+                        <EventTrigger RoutedEvent="GotFocus">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="1,1,1,1" To="2,2,2,2" FillBehavior="Stop" Duration="00:00:02.000" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="LostFocus">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="2,2,2,2" To="1,1,1,1" FillBehavior="HoldEnd" Duration="00:00:02.000" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-
             </Setter.Value>
-
         </Setter>
         <Setter Property="Opacity" Value="0" />
-        <Style.Triggers>
-        <EventTrigger RoutedEvent="Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                    <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
-                        <SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1" />
-                    </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-            </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
     </Style>
+    
     <!--
     ControlTemplate of EdgeVisualization
     -->

@@ -162,7 +162,7 @@ namespace Get.Demo
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
               delegate()
               {
-                  //_GraphVisualization.setFocus(v);
+                  _GraphVisualization.setFocus(v);
               }));
             mre.WaitOne(10 * 120);
 
