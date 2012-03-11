@@ -98,12 +98,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Model\Get.Model.Core\Get.Model.Core.csproj">
-      <Project>{573023D8-D9EB-4055-8EC4-D3DAD320E36B}</Project>
-      <Name>Get.Model.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

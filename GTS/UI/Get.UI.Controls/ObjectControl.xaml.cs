@@ -13,7 +13,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Markup;
 using System.ComponentModel;
-using Get.Model.Core;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Controls", "Get.UI.Controls")]
 namespace Get.UI.Controls
