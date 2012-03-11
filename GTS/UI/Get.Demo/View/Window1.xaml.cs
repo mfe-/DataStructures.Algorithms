@@ -35,37 +35,14 @@ namespace Get.Demo
         {
             InitializeComponent();
             Loaded += new RoutedEventHandler(Window1_Loaded);
+
         }
-
-
-
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
-
             Graph graph = new Graph();
+            graph.Load("Vertex.xml");
 
-            Vertex v1 = new Vertex(1);
-            Vertex v2 = new Vertex(2);
-
-            Vertex v3 = new Vertex(3);
-            Vertex v4 = new Vertex(4);
-
-            Vertex v5 = new Vertex(5);
-            Vertex v6 = new Vertex(6);
-
-            v1.addEdge(v2);
-            v2.addEdge(v3);
-            v3.addEdge(v4);
-            v4.addEdge(v1);
-            v1.addEdge(v3);
-
-            graph.addVertec(v1);
-
-            //Get.Common.XML.WriteXmlSerializer(typeof(Graph), Environment.CurrentDirectory +"\\graph.xml", graph);
-            //WriteObject(Environment.CurrentDirectory + "\\vertex.xml", typeof(Graph), graph);
             _GraphVisualization.Graph = graph;
-
-            v1.addEdge(new Vertex(18));
 
             graph.Vertices.Add(new Vertex(3));
 
