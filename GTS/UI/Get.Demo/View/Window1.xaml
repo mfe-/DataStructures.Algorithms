@@ -12,6 +12,9 @@
     <!--<Window.DataContext>
         <local:ModelView></local:ModelView>
     </Window.DataContext>-->
+    <Window.Resources>
+
+    </Window.Resources>
     <Window.Content>
         <DockPanel>
             <!--<GetControls:ObjectControl ItemsSource="{Binding ObjectCore}"></GetControls:ObjectControl>
@@ -36,6 +39,11 @@
                 Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
                 Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
                 Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertex}">
+                <ui:GraphVisualization.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="_Save" Command="Save" />
+                    </ContextMenu>
+                </ui:GraphVisualization.ContextMenu>
                 <ui:GraphVisualization.Resources>
                     <Style TargetType="{x:Type ui:VertexVisualization}">
 
