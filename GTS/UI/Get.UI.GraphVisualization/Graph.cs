@@ -16,6 +16,7 @@ using Get.Model.Graph;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace Get.UI
 {
@@ -49,7 +50,7 @@ namespace Get.UI
     ///
     /// </summary>
     [ContentProperty("Graph")]
-    public class GraphVisualization : Canvas
+    public partial class GraphVisualization : Canvas
     {
         #region Members
         /// <summary>
@@ -75,11 +76,7 @@ namespace Get.UI
 
         #endregion
 
-        public GraphVisualization()
-        {
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
-        }
+
 
         static GraphVisualization()
         {
@@ -141,39 +138,6 @@ namespace Get.UI
         }
         protected FrameworkElement SelectedItem { get; set; }
 
-        #region Save Command
-
-        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            //IEnumerable<DesignerItem> designerItems = this.Children.OfType<DesignerItem>();
-            //IEnumerable<Connection> connections = this.Children.OfType<Connection>();
-
-            //XElement designerItemsXML = SerializeDesignerItems(designerItems);
-            //XElement connectionsXML = SerializeConnections(connections);
-
-            //XElement root = new XElement("Root");
-            //root.Add(designerItemsXML);
-            //root.Add(connectionsXML);
-
-            //SaveFile(root);
-        }
-        /// <summary>
-        /// Will be executed when the AddVertex command was called.
-        /// </summary>
-        /// <param name="sender">Object which raised the event</param>
-        /// <param name="e">An ExecutedRoutedEventArgs that contains the event data. </param>
-        protected void AddVertex_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
-            {
-                GraphVisualization gv = sender as GraphVisualization;
-
-                gv.Graph.addVertec(new Vertex());
-                addVertex(new Vertex());
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Measures the size of the current Canvas for the layout.
@@ -335,13 +299,13 @@ namespace Get.UI
         /// </summary>
         /// <param name="u">From which VertexVisualization the position should be returned</param>
         /// <returns>Position of the VertexVisualization control</returns>
-        public virtual Point getPosition(FrameworkElement u)
+        protected virtual Point getPosition(FrameworkElement u)
         {
             double left = Canvas.GetLeft(u as UIElement);
             double top = Canvas.GetTop(u as UIElement);
             return new Point(left + (u.Width / 2), top + (u.Height / 2));
         }
-        public virtual void setPosition(FrameworkElement f, Point p)
+        protected virtual void setPosition(FrameworkElement f, Point p)
         {
             Canvas.SetLeft(f, p.X);
             Canvas.SetTop(f, p.Y);
