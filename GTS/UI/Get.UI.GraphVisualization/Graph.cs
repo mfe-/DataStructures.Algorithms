@@ -248,7 +248,13 @@ namespace Get.UI
 
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null || e.NewValue.GetType() != (typeof(Graph))) return;
+            if (e.NewValue == null && pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
+            {
+                GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
+                graphVisualization.Children.Clear();
+                return;
+            }
+            if(e.NewValue.GetType() != (typeof(Graph))) return;
             if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
             {
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
