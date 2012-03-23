@@ -42,6 +42,7 @@
                 <ui:GraphVisualization.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="_Save" Command="Save" />
+                        <MenuItem Header="_Load" Command="Open" />
                     </ContextMenu>
                 </ui:GraphVisualization.ContextMenu>
                 <ui:GraphVisualization.Resources>

@@ -40,11 +40,52 @@ namespace Get.Demo
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
             Graph graph = new Graph();
-            graph.Load("Vertex.xml");
+            //graph.Load("Vertex.xml");
+
+            Vertex va = new Vertex(1);
+            Vertex vb = new Vertex(2);
+            Vertex vc = new Vertex(3);
+            Vertex vd = new Vertex(4);
+            Vertex ve = new Vertex(5);
+            Vertex vf = new Vertex(6);
+            Vertex vg = new Vertex(7);
+            Vertex vh = new Vertex(8);
+            Vertex vi = new Vertex(9);
+            Vertex vj = new Vertex(10);
+            Vertex vk = new Vertex(11);
+            Vertex vl = new Vertex(12);
+
+            //va.addEdge(vc);
+            //va.addEdge(vd);
+            //va.addEdge(ve);
+            //va.addEdge(vf);
+            //va.addEdge(vk);
+
+            //vc.addEdge(vg);
+            //vc.addEdge(vb);
+            //vc.addEdge(vd);
+
+            //vd.addEdge(ve);
+
+            //vg.addEdge(vh);
+            //vh.addEdge(vi);
+            //vi.addEdge(vj);
+            //vj.addEdge(vf);
+
+            //vh.addEdge(vd);
+            //vi.addEdge(ve);
+
+            //vg.addEdge(vl);
+            //vl.addEdge(vk);
+
+
+            graph.addVertec(va);
+
+            //List<Vertex> l = graph.Vertices.First().Depth_first_Search(new List<Vertex>());
 
             _GraphVisualization.Graph = graph;
 
-            graph.Vertices.Add(new Vertex(3));
+            //graph.Vertices.Add(new Vertex(3));
 
             //count all VertexControls
             ////////////int counter = _GraphVisualization.VertexVisualizationList.Count;

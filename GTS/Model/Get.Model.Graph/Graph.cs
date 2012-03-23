@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Get.Model.Graph
 {
@@ -50,6 +51,25 @@ namespace Get.Model.Graph
 
             }
         }
+        /// <summary>
+        /// Serialize the Graph into a XElement
+        /// </summary>
+        /// <param name="g">Graph to save</param>
+        /// <returns>Serialized Graph</returns>
+        public static XElement Save(this Graph g)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
+                {
+                    NetDataContractSerializer serializer = new NetDataContractSerializer();
+                    serializer.WriteObject(writer, g);
+                    writer.Flush();
+                    ms.Position = 0;
+                    return XElement.Load(ms);
+                }
+            }
+        }
         public static void Load(this Graph g, String pfilename)
         {
             using (FileStream fs = new FileStream(pfilename, FileMode.Open))
@@ -62,7 +82,30 @@ namespace Get.Model.Graph
                     g.Vertices.Add(v);
                 }
             }
-
         }
+        /// <summary>
+        /// Return all vertices which are reachable from s
+        /// http://en.wikipedia.org/wiki/Depth_first_search
+        /// </summary>
+        /// <param name="s">Start vertex</param>
+        /// <returns>All reachable vertices</returns>
+        public static List<Vertex> Depth_first_Search(this Vertex s,List<Vertex> rv)
+        {
+            if(!rv.Contains(s))
+                rv.Add(s); //visit   http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-96
+            foreach(Edge e in s.Edges)
+            {
+                if (!rv.Contains(e.V))
+                {
+                    rv.Add(e.V);
+                    Depth_first_Search(e.V, rv);
+                }
+            }
+            return rv;
+        }
+        //private static DFS1(Vertex v)
+        //{
+
+        //}
     }
 }
