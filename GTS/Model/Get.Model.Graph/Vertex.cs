@@ -61,7 +61,7 @@ namespace Get.Model.Graph
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return base.ToString() + Weighted;
+            return base.ToString() + string.Empty + Weighted;
         }
 
         #region INotifyPropertyChanged

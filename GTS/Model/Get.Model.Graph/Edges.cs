@@ -55,7 +55,7 @@ namespace Get.Model.Graph
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return base.ToString() + " " + U.ToString() + " ->" + V.ToString();
+            return base.ToString() + string.Empty + U.ToString() + " ->" + V.ToString();
         }
 
         #region INotifyPropertyChanged
