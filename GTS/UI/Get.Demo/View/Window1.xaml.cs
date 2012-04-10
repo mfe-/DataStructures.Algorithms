@@ -55,28 +55,28 @@ namespace Get.Demo
             Vertex vk = new Vertex(11);
             Vertex vl = new Vertex(12);
 
-            //va.addEdge(vc);
-            //va.addEdge(vd);
-            //va.addEdge(ve);
-            //va.addEdge(vf);
-            //va.addEdge(vk);
+            va.addEdge(vc);
+            va.addEdge(vd);
+            va.addEdge(ve);
+            va.addEdge(vf);
+            va.addEdge(vk);
 
-            //vc.addEdge(vg);
-            //vc.addEdge(vb);
-            //vc.addEdge(vd);
+            vc.addEdge(vg);
+            vc.addEdge(vb);
+            vc.addEdge(vd);
 
-            //vd.addEdge(ve);
+            vd.addEdge(ve);
 
-            //vg.addEdge(vh);
-            //vh.addEdge(vi);
-            //vi.addEdge(vj);
-            //vj.addEdge(vf);
+            vg.addEdge(vh);
+            vh.addEdge(vi);
+            vi.addEdge(vj);
+            vj.addEdge(vf);
 
-            //vh.addEdge(vd);
-            //vi.addEdge(ve);
+            vh.addEdge(vd);
+            vi.addEdge(ve);
 
-            //vg.addEdge(vl);
-            //vl.addEdge(vk);
+            vg.addEdge(vl);
+            vl.addEdge(vk);
 
 
             graph.addVertec(va);

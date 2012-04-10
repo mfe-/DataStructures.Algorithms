@@ -34,13 +34,34 @@ namespace Get.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+
+            //XElement serializedItems = new XElement("DesignerItems",
+            //               from item in designerItems
+            //               let contentXaml = XamlWriter.Save(((DesignerItem)item).Content)
+            //               select new XElement("DesignerItem",
+            //                          new XElement("Left", Canvas.GetLeft(item)),
+            //                          new XElement("Top", Canvas.GetTop(item)),
+            //                          new XElement("Width", item.Width),
+            //                          new XElement("Height", item.Height),
+            //                          new XElement("ID", item.ID),
+            //                          new XElement("zIndex", Canvas.GetZIndex(item)),
+            //                          new XElement("IsGroup", item.IsGroup),
+            //                          new XElement("ParentID", item.ParentID),
+            //                          new XElement("Content", contentXaml)
+            //                      )
+            //           );
+
+            //return serializedItems;
+
             XElement Xgraph = this.Graph.Save();
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
-                from item in this.Children.OfType<FrameworkElement>()
+                from item in this.Children.OfType<VertexVisualization>()
                 //let Contentxaml = XamlWriter.Save(item.Conte)
                 select new XElement(item.GetType().ToString(),
+                    new XElement("ID",item.GetHashCode()),
+                    new XElement("VertexID",item.Vertex.GetHashCode()),
                     new XElement("Position", this.getPosition(item)),
                     new XElement(WidthProperty.Name, item.Width),
                     new XElement(HeightProperty.Name, item.Height),
@@ -173,20 +194,20 @@ namespace Get.UI
             return null;
         }
 
-        private static DesignerItem DeserializeDesignerItem(XElement itemXML, Guid id, double OffsetX, double OffsetY)
-        {
-            DesignerItem item = new DesignerItem(id);
-            item.Width = Double.Parse(itemXML.Element("Width").Value, CultureInfo.InvariantCulture);
-            item.Height = Double.Parse(itemXML.Element("Height").Value, CultureInfo.InvariantCulture);
-            item.ParentID = new Guid(itemXML.Element("ParentID").Value);
-            item.IsGroup = Boolean.Parse(itemXML.Element("IsGroup").Value);
-            Canvas.SetLeft(item, Double.Parse(itemXML.Element("Left").Value, CultureInfo.InvariantCulture) + OffsetX);
-            Canvas.SetTop(item, Double.Parse(itemXML.Element("Top").Value, CultureInfo.InvariantCulture) + OffsetY);
-            Canvas.SetZIndex(item, Int32.Parse(itemXML.Element("zIndex").Value));
-            Object content = XamlReader.Load(XmlReader.Create(new StringReader(itemXML.Element("Content").Value)));
-            item.Content = content;
-            return item;
-        }
+        //private static DesignerItem DeserializeDesignerItem(XElement itemXML, Guid id, double OffsetX, double OffsetY)
+        //{
+        //    DesignerItem item = new DesignerItem(id);
+        //    item.Width = Double.Parse(itemXML.Element("Width").Value, CultureInfo.InvariantCulture);
+        //    item.Height = Double.Parse(itemXML.Element("Height").Value, CultureInfo.InvariantCulture);
+        //    item.ParentID = new Guid(itemXML.Element("ParentID").Value);
+        //    item.IsGroup = Boolean.Parse(itemXML.Element("IsGroup").Value);
+        //    Canvas.SetLeft(item, Double.Parse(itemXML.Element("Left").Value, CultureInfo.InvariantCulture) + OffsetX);
+        //    Canvas.SetTop(item, Double.Parse(itemXML.Element("Top").Value, CultureInfo.InvariantCulture) + OffsetY);
+        //    Canvas.SetZIndex(item, Int32.Parse(itemXML.Element("zIndex").Value));
+        //    Object content = XamlReader.Load(XmlReader.Create(new StringReader(itemXML.Element("Content").Value)));
+        //    item.Content = content;
+        //    return item;
+        //}
 
         #endregion
     }
