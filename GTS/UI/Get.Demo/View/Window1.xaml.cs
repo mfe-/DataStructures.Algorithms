@@ -21,6 +21,7 @@ using System.Threading;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Diagnostics;
+using Get.Common.Mathematics;
 
 namespace Get.Demo
 {
@@ -39,6 +40,8 @@ namespace Get.Demo
         }
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
+            var o = Mathematics.gcd(2008, 6318);
+
             Graph graph = new Graph();
             //graph.Load("Vertex.xml");
 

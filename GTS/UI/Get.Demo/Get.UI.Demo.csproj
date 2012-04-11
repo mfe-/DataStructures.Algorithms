@@ -134,6 +134,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Get.Common.Mathematics\Get.Common.Mathematics.csproj">
+      <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
+      <Name>Get.Common.Mathematics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Get.Common\Get.Common.csproj">
       <Project>{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8}</Project>
       <Name>Get.Common</Name>
