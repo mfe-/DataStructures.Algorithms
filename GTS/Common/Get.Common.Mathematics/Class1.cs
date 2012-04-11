@@ -9,14 +9,14 @@ namespace Get.Common.Mathematics
     public class Mathematics
     {
         /// <summary>
-        /// Greatest common divisor - implement Euclidean algorithm
+        /// Greatest common divisor using the Euclidean algorithm
         /// http://en.wikipedia.org/wiki/Greatest_common_divisor
         /// http://en.wikipedia.org/wiki/Binary_GCD_algorithm
         /// http://en.wikipedia.org/wiki/Euclidean_algorithm
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
+        /// <param name="a">Natural number</param>
+        /// <param name="b">Natural number</param>
+        /// <returns>Greatest common divisor of a and b</returns>
         public static int gcd(int a, int b)
         {
             int r = 0, q, x, y;
@@ -42,24 +42,31 @@ namespace Get.Common.Mathematics
                 a = y;
                 b = r;
             }
-            while (0 <= r && r < y && r!=0);
-
+            while (b!=0);
+            //a contains value of b
             return a == 0 ? 1 : a;
         }
-        //public static int gcd2(int x, int y)
-        //{//http://www.daniweb.com/software-development/csharp/code/217166/two-ways-to-implement-the-gcd
-        //    while (x != y)
-        //    {
-        //        if (x > y)
-        //        {
-        //            x = x - y;
-        //        }
-        //        else
-        //        {
-        //            y = y - x;
-        //        }
-        //    }
-        //    return x;
-        //}
+        /// <summary>
+        /// Greatest common divisor based on the Euclidean algorithm
+        /// http://www.daniweb.com/software-development/csharp/code/217166/two-ways-to-implement-the-gcd
+        /// </summary>
+        /// <param name="x">Natural number</param>
+        /// <param name="y">Natural number</param>
+        /// <returns>Greatest common divisor of a and b</returns>
+        public static int gcd2(int x, int y)
+        {
+            while (x != y)
+            {
+                if (x > y)
+                {
+                    x = x - y;
+                }
+                else
+                {
+                    y = y - x;
+                }
+            }
+            return x;
+        }
     }
 }
