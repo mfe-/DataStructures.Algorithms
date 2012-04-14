@@ -23,7 +23,7 @@ namespace Get.UI
         public GraphVisualization()
         {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open,Load_Executed));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
         }
 
@@ -41,8 +41,8 @@ namespace Get.UI
                 from item in this.Children.OfType<VertexVisualization>()
                 //let Contentxaml = XamlWriter.Save(item.Conte)
                 select new XElement(item.GetType().ToString(),
-                    new XElement("ID",item.GetHashCode()),
-                    new XElement("VertexID",item.Vertex.GetHashCode()),
+                    new XElement("ID", item.GetHashCode()),
+                    new XElement("VertexID", item.Vertex.GetHashCode()),
                     //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
                     //use instead point.ToString(CultureInfo.InvariantCulture)
                     new XElement("Position", this.getPosition(item)),
@@ -60,10 +60,10 @@ namespace Get.UI
         }
         protected void Load_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement root = LoadSerializedDataFromFile();
+            XElement root = LoadSerializedDataFromFile(e.Parameter.ToString());
 
-            this.Graph=null;
-            if(root != null && root.HasElements)
+            this.Graph = null;
+            if (root != null && root.HasElements)
             {
                 if (root.Elements().Where(a => a.Name.LocalName.Equals("Graph")).Count().Equals(0)) return;
                 if (root.Elements().Where(a => a.Name.LocalName.Equals("FrameworkElements")).Count().Equals(0)) return;
@@ -80,57 +80,31 @@ namespace Get.UI
                 this.Graph = g;
 
                 //set positions of items
-                IEnumerable<XElement> itemsXML = root.Elements("FrameworkElements").First().Elements(typeof(VertexVisualization).FullName);
-                foreach (XElement itemXML in itemsXML)
-                {
-                    VertexVisualization vv = Children.OfType<VertexVisualization>().Where(a => a.Vertex.GetHashCode().ToString().Equals(itemXML.Element("VertexID").Value)).FirstOrDefault<VertexVisualization>();
-                    //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
-                    //use instead point.ToString(CultureInfo.InvariantCulture)
-                    setPosition(vv, Point.Parse(itemXML.Element("Position").Value.Replace(',','.').Replace(';',',')));
-                    Canvas.SetZIndex(vv, Int32.Parse(itemXML.Element("ZIndex").Value));
-                }
+                root.Elements("FrameworkElements").First().Elements(typeof(VertexVisualization).FullName).ToList().ForEach(
+                    y =>
+                    {
+                        XElement itemXML = y;
+                        VertexVisualization vv = Children.OfType<VertexVisualization>().Where(a => a.Vertex.GetHashCode().ToString().Equals(itemXML.Element("VertexID").Value)).FirstOrDefault<VertexVisualization>();
+                        //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
+                        //use instead point.ToString(CultureInfo.InvariantCulture)
+                        setPosition(vv, Point.Parse(itemXML.Element("Position").Value.Replace(',', '.').Replace(';', ',')));
+                        Canvas.SetZIndex(vv, Int32.Parse(itemXML.Element("ZIndex").Value));
+                    });
+
                 //setFocus position of edges
-                Children.OfType<EdgeVisualization>().ToList().ForEach(i => {
+                Children.OfType<EdgeVisualization>().ToList().ForEach(i =>
+                {
                     VertexVisualization u = getVertexVisualization(i.Edge.U);
                     Point pu = getPosition(u);
                     Point pv = getPosition(getVertexVisualization(i.Edge.V));
-                    Point para = new Point(u.Width, u.Height);
-                    i.PositionU = (Point)Converters.PointAdderConverter.Convert(pu, null, para, System.Globalization.CultureInfo.CurrentCulture);
-                    i.PositionV = (Point)Converters.PointAdderConverter.Convert(pv, null, para, System.Globalization.CultureInfo.CurrentCulture);
+
+                    i.PositionU = new Point(pu.X - u.Width / 2, pu.Y - u.Height / 2);
+                    i.PositionV = new Point(pv.X - u.Width / 2, pv.Y - u.Height / 2);
                 });
 
             }
-          
-
-            //root.Elements(
-
-            //IEnumerable<XElement> itemsXML = root.Elements("DesignerItems").Elements("DesignerItem");
-            //foreach (XElement itemXML in itemsXML)
-            //{
-            //    Guid id = new Guid(itemXML.Element("ID").Value);
-            //    DesignerItem item = DeserializeDesignerItem(itemXML, id, 0, 0);
-            //    this.Children.Add(item);
-            //    SetConnectorDecoratorTemplate(item);
-            //}
-
             this.InvalidateVisual();
 
-            //IEnumerable<XElement> connectionsXML = root.Elements("Connections").Elements("Connection");
-            //foreach (XElement connectionXML in connectionsXML)
-            //{
-            //    Guid sourceID = new Guid(connectionXML.Element("SourceID").Value);
-            //    Guid sinkID = new Guid(connectionXML.Element("SinkID").Value);
-
-            //    String sourceConnectorName = connectionXML.Element("SourceConnectorName").Value;
-            //    String sinkConnectorName = connectionXML.Element("SinkConnectorName").Value;
-
-            //    Connector sourceConnector = GetConnector(sourceID, sourceConnectorName);
-            //    Connector sinkConnector = GetConnector(sinkID, sinkConnectorName);
-
-            //    Connection connection = new Connection(sourceConnector, sinkConnector);
-            //    Canvas.SetZIndex(connection, Int32.Parse(connectionXML.Element("zIndex").Value));
-            //    this.Children.Add(connection);
-            //}
         }
         /// <summary>
         /// Will be executed when the AddVertex command was called.
@@ -169,24 +143,31 @@ namespace Get.UI
             }
         }
 
-        private XElement LoadSerializedDataFromFile()
+        private XElement LoadSerializedDataFromFile(string path)
         {
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Filter = "Designer Files (*.xml)|*.xml|All Files (*.*)|*.*";
-
-            if (openFile.ShowDialog() == true)
+            if (path != null)
             {
-                try
+                return XElement.Load(path);
+            }
+            else
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                openFile.Filter = "Designer Files (*.xml)|*.xml|All Files (*.*)|*.*";
+
+                if (openFile.ShowDialog() == true)
                 {
-                    return XElement.Load(openFile.FileName);
+                    try
+                    {
+                        return XElement.Load(openFile.FileName);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.StackTrace, e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.StackTrace, e.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                return null;
             }
 
-            return null;
         }
 
         //private static DesignerItem DeserializeDesignerItem(XElement itemXML, Guid id, double OffsetX, double OffsetY)
