@@ -34,25 +34,6 @@ namespace Get.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
-            //XElement serializedItems = new XElement("DesignerItems",
-            //               from item in designerItems
-            //               let contentXaml = XamlWriter.Save(((DesignerItem)item).Content)
-            //               select new XElement("DesignerItem",
-            //                          new XElement("Left", Canvas.GetLeft(item)),
-            //                          new XElement("Top", Canvas.GetTop(item)),
-            //                          new XElement("Width", item.Width),
-            //                          new XElement("Height", item.Height),
-            //                          new XElement("ID", item.ID),
-            //                          new XElement("zIndex", Canvas.GetZIndex(item)),
-            //                          new XElement("IsGroup", item.IsGroup),
-            //                          new XElement("ParentID", item.ParentID),
-            //                          new XElement("Content", contentXaml)
-            //                      )
-            //           );
-
-            //return serializedItems;
-
             XElement Xgraph = this.Graph.Save();
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
@@ -62,6 +43,8 @@ namespace Get.UI
                 select new XElement(item.GetType().ToString(),
                     new XElement("ID",item.GetHashCode()),
                     new XElement("VertexID",item.Vertex.GetHashCode()),
+                    //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
+                    //use instead point.ToString(CultureInfo.InvariantCulture)
                     new XElement("Position", this.getPosition(item)),
                     new XElement(WidthProperty.Name, item.Width),
                     new XElement(HeightProperty.Name, item.Height),
@@ -97,12 +80,24 @@ namespace Get.UI
                 this.Graph = g;
 
                 //set positions of items
-
-                //IEnumerable<XElement> itemsXML = root.Elements("FrameworkElements");
-                //foreach (XElement itemXML in itemsXML)
-                //{
-
-                //}
+                IEnumerable<XElement> itemsXML = root.Elements("FrameworkElements").First().Elements(typeof(VertexVisualization).FullName);
+                foreach (XElement itemXML in itemsXML)
+                {
+                    VertexVisualization vv = Children.OfType<VertexVisualization>().Where(a => a.Vertex.GetHashCode().ToString().Equals(itemXML.Element("VertexID").Value)).FirstOrDefault<VertexVisualization>();
+                    //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
+                    //use instead point.ToString(CultureInfo.InvariantCulture)
+                    setPosition(vv, Point.Parse(itemXML.Element("Position").Value.Replace(',','.').Replace(';',',')));
+                    Canvas.SetZIndex(vv, Int32.Parse(itemXML.Element("ZIndex").Value));
+                }
+                //setFocus position of edges
+                Children.OfType<EdgeVisualization>().ToList().ForEach(i => {
+                    VertexVisualization u = getVertexVisualization(i.Edge.U);
+                    Point pu = getPosition(u);
+                    Point pv = getPosition(getVertexVisualization(i.Edge.V));
+                    Point para = new Point(u.Width, u.Height);
+                    i.PositionU = (Point)Converters.PointAdderConverter.Convert(pu, null, para, System.Globalization.CultureInfo.CurrentCulture);
+                    i.PositionV = (Point)Converters.PointAdderConverter.Convert(pv, null, para, System.Globalization.CultureInfo.CurrentCulture);
+                });
 
             }
           
