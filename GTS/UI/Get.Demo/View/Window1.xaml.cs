@@ -31,7 +31,7 @@ namespace Get.Demo
     public partial class Window1 : Window
     {
         DispatcherTimer timer = new DispatcherTimer();
-        List<Button> buttonlist = new List<Button>();
+
         public Window1()
         {
             InitializeComponent();
@@ -40,13 +40,13 @@ namespace Get.Demo
         }
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
-            var o = Mathematics.gcd(2008, 6318);
+            //var o = Mathematics.gcd(2008, 6318);
 
             Graph graph = new Graph();
             //graph.Load("Vertex.xml");
 
             Vertex va = new Vertex(1);
-            Vertex vb = new Vertex(2);
+            Vertex vb = new Vertex(1);
             Vertex vc = new Vertex(3);
             Vertex vd = new Vertex(4);
             Vertex ve = new Vertex(5);
@@ -81,8 +81,9 @@ namespace Get.Demo
             vg.addEdge(vl);
             vl.addEdge(vk);
 
-
+            va.GetHashCode();
             graph.addVertec(va);
+
 
             //List<Vertex> l = graph.Vertices.First().Depth_first_Search(new List<Vertex>());
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Resources;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Get.UI.TimeKeeping
 {
@@ -28,6 +29,23 @@ namespace Get.UI.TimeKeeping
             Tray.CreateMenuItem("Pausieren");
             Tray.CreateMenuItem("Arbeitszeit beenden");
             Tray.CreateMenuItem("Arbeitszeit nachtragen");
+
+            Tray.NotifyIcon.ContextMenu.MenuItems.Find("Arbeitszeit aufnehmen",false).First().Click += (sender, eargs) =>
+            {
+                MainWindow w = new MainWindow();
+                w.Show();
+
+            };
+
+            if (Debugger.IsAttached)
+            {
+                MainWindow w = new MainWindow();
+                w.Show();
+            }
+
+
+
+            
         }
         protected override void OnExit(ExitEventArgs e)
         {

@@ -73,13 +73,16 @@ namespace Get.Model.Graph
         public static void Load(this Graph g, String pfilename)
         {
             using (FileStream fs = new FileStream(pfilename, FileMode.Open))
-            using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas()))
             {
-                NetDataContractSerializer serializer = new NetDataContractSerializer();
-                Graph a = (Graph)serializer.ReadObject(reader, true);
-                foreach (var v in a.Vertices)
+                XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = 100 };
+                using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, xmlDictionaryReaderQuotas))
                 {
-                    g.Vertices.Add(v);
+                    NetDataContractSerializer serializer = new NetDataContractSerializer();
+                    Graph a = (Graph)serializer.ReadObject(reader, true);
+                    foreach (var v in a.Vertices)
+                    {
+                        g.Vertices.Add(v);
+                    }
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System;
 
 namespace Get.Model.Graph
 {
@@ -9,6 +10,8 @@ namespace Get.Model.Graph
     {
         #region Members
         protected ObservableCollection<Edge> _Edges = new ObservableCollection<Edge>();
+        [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
+        protected Guid _Guid;
 
         protected int weighted;
         #endregion
@@ -16,13 +19,13 @@ namespace Get.Model.Graph
         /// <summary>
         /// Initializes a new instance of the Vertex class.
         /// </summary>
-        public Vertex() { }
+        public Vertex() { _Guid = Guid.NewGuid(); }
 
         /// <summary>
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
         /// <param name="pweighted"></param>
-        public Vertex(int pweighted)
+        public Vertex(int pweighted) :this()
         {
             weighted = pweighted;
         }
@@ -62,6 +65,26 @@ namespace Get.Model.Graph
         public override string ToString()
         {
             return base.ToString() + string.Empty + Weighted;
+        }
+        /// <summary>
+        /// Determines with the guid whether the specified Object is equal to the current Object.
+        /// http://msdn.microsoft.com/en-us/library/bsc2ak47.aspx
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object. </param>
+        /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
+        public override bool Equals(object obj)
+        {
+            if(!obj.GetType().Equals(typeof(Vertex))) return false;
+
+            return this._Guid.Equals((obj as Vertex)._Guid);
+        }
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>A hash code for the current Object.</returns>
+        public override int GetHashCode()
+        {
+            return _Guid.GetHashCode();
         }
 
         #region INotifyPropertyChanged
