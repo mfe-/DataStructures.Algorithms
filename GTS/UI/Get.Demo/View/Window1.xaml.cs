@@ -42,51 +42,51 @@ namespace Get.Demo
         {
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory+"\\graph.xml", _GraphVisualization);
+                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\graph.xml", _GraphVisualization);
             }
             //var o = Mathematics.gcd(2008, 6318);
 
-            Graph graph = new Graph();
-            //graph.Load("Vertex.xml");
+            //Graph graph = new Graph();
+            ////graph.Load("Vertex.xml");
 
-            Vertex va = new Vertex(1);
-            Vertex vb = new Vertex(2);
-            Vertex vc = new Vertex(3);
-            Vertex vd = new Vertex(4);
-            Vertex ve = new Vertex(5);
-            Vertex vf = new Vertex(6);
-            Vertex vg = new Vertex(7);
-            Vertex vh = new Vertex(8);
-            Vertex vi = new Vertex(9);
-            Vertex vj = new Vertex(10);
-            Vertex vk = new Vertex(11);
-            Vertex vl = new Vertex(12);
+            //Vertex va = new Vertex(1);
+            //Vertex vb = new Vertex(2);
+            //Vertex vc = new Vertex(3);
+            //Vertex vd = new Vertex(4);
+            //Vertex ve = new Vertex(5);
+            //Vertex vf = new Vertex(6);
+            //Vertex vg = new Vertex(7);
+            //Vertex vh = new Vertex(8);
+            //Vertex vi = new Vertex(9);
+            //Vertex vj = new Vertex(10);
+            //Vertex vk = new Vertex(11);
+            //Vertex vl = new Vertex(12);
 
-            va.addEdge(vc);
-            va.addEdge(vd);
-            va.addEdge(ve);
-            va.addEdge(vf);
-            va.addEdge(vk);
+            //va.addEdge(vc);
+            //va.addEdge(vd);
+            //va.addEdge(ve);
+            //va.addEdge(vf);
+            //va.addEdge(vk);
 
-            vc.addEdge(vg);
-            vc.addEdge(vb);
-            vc.addEdge(vd);
+            //vc.addEdge(vg);
+            //vc.addEdge(vb);
+            //vc.addEdge(vd);
 
-            vd.addEdge(ve);
+            //vd.addEdge(ve);
 
-            vg.addEdge(vh);
-            vh.addEdge(vi);
-            vi.addEdge(vj);
-            vj.addEdge(vf);
+            //vg.addEdge(vh);
+            //vh.addEdge(vi);
+            //vi.addEdge(vj);
+            //vj.addEdge(vf);
 
-            vh.addEdge(vd);
-            vi.addEdge(ve);
+            //vh.addEdge(vd);
+            //vi.addEdge(ve);
 
-            vg.addEdge(vl);
-            vl.addEdge(vk);
+            //vg.addEdge(vl);
+            //vl.addEdge(vk);
 
 
-            graph.addVertec(va);
+            //graph.addVertec(va);
 
             //_GraphVisualization.Graph = graph;
 
@@ -172,8 +172,13 @@ namespace Get.Demo
             //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
 
             //GetAllV(graph.Vertices.First(), null);
-            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { GetAllV((Vertex)(arr), null); }));
-            thread.Start(graph.Vertices.First());
+
+            _GraphVisualization.Graph.Vertices.First().Depth_First_Traversal().ToList().ForEach(g=>{
+                Debug.WriteLine(g);
+            });
+
+            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
+            //thread.Start(_GraphVisualization.Graph.Vertices.First());
 
         }
         ManualResetEvent mre = new ManualResetEvent(false);
@@ -187,19 +192,50 @@ namespace Get.Demo
               {
                   _GraphVisualization.setFocus(v);
               }));
-            mre.WaitOne(10 * 120);
+            mre.WaitOne(20 * 120);
 
             foreach (Edge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()
                   {
-                      //_GraphVisualization.setFocus(e);
+                      _GraphVisualization.setFocus(e);
                   }));
-                mre.WaitOne(10 * 120);
+                mre.WaitOne(20 * 120);
                 GetAllV(e.V, firstVertex);
                 return;
             }
+
+        }
+        //http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-90
+        public void dft(Vertex v, List<Vertex> visited)
+        {
+            //visist x
+            visited.Add(v);
+            _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+              delegate()
+              {
+                  _GraphVisualization.setFocus(v);
+                  Debug.WriteLine(v + " visited");
+              }));
+            mre.WaitOne(10 * 120);
+            //FOR each y such that (x,y) is an edge DO 
+            foreach (Edge e in v.Edges)
+            {
+                _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
+                  delegate()
+                  {
+                      _GraphVisualization.setFocus(e);
+                      Debug.WriteLine(e + " visited");
+                  }));
+                mre.WaitOne(10 * 120);
+                if (!visited.Exists(g => g.Equals(e.V)))
+                {
+                    dft(e.V, visited);
+                }
+
+            }
+            Debug.WriteLine(visited.Count);
 
         }
 

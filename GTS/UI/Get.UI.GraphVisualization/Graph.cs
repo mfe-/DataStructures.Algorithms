@@ -58,16 +58,6 @@ namespace Get.UI
         /// http://msdn.microsoft.com/en-us/library/system.random.aspx?queryresult=true
         /// </summary>
         protected Random _Random = new Random(DateTime.Now.Millisecond);
-        /// <summary>
-        /// Represents a dynamic data collection of VertexVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
-        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
-        /// </summary>
-        protected ObservableCollection<VertexVisualization> _VertexVisualizationList = new ObservableCollection<VertexVisualization>();
-        /// <summary>
-        /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
-        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
-        /// </summary>
-        protected ObservableCollection<EdgeVisualization> _EdgeVisualizationList = new ObservableCollection<EdgeVisualization>();
 
         public static RoutedCommand AddVertex = new RoutedCommand();
 
@@ -75,8 +65,6 @@ namespace Get.UI
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphVisualization));
 
         #endregion
-
-
 
         static GraphVisualization()
         {
@@ -189,7 +177,7 @@ namespace Get.UI
             foreach (Vertex a in vertices)
             {
                 VertexVisualization u;
-                bool vertexexists = _VertexVisualizationList.Where(h => h.Vertex.Equals(a)).Count().Equals(0) ? false : true;
+                bool vertexexists = getVertexVisualization(a)==null ? false : true;
 
                 if (!vertexexists)
                 {
@@ -199,7 +187,7 @@ namespace Get.UI
                 }
                 else
                 {
-                    u = _VertexVisualizationList.Where(g => g.Vertex.Equals(a)).First();
+                    u = VertexVisualizations.Where(g => g.Vertex.Equals(a)).First();
                 }
 
                 if (e != null)
@@ -240,7 +228,7 @@ namespace Get.UI
                     edv.SetBinding(EdgeVisualization.PositionUProperty, binding);
 
                     InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
-                    _EdgeVisualizationList.Add(edv);
+
                     this.Children.Add(edv);
                 }
             }
@@ -290,8 +278,6 @@ namespace Get.UI
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
 
-            _VertexVisualizationList.Add(vertexcontrol);
-
             vertexcontrol.Position = point;
             SetLeft(vertexcontrol, point.X);
             SetTop(vertexcontrol, point.Y);
@@ -323,7 +309,16 @@ namespace Get.UI
         /// <returns>Control which is using the Vertex</returns>
         protected virtual VertexVisualization getVertexVisualization(Vertex v)
         {
-            return Children.OfType<VertexVisualization>().Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexVisualization>();
+            return VertexVisualizations.Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexVisualization>();
+        }
+        /// <summary>
+        /// Searches for the overgiven edge and returns the EdgeVisualization control which is representing it
+        /// </summary>
+        /// <param name="v">edge which should be looked up</param>
+        /// <returns>Control which is using the edge</returns>
+        protected virtual EdgeVisualization getVertexVisualization(Edge e)
+        {
+            return EdgeVisualizations.Where(a => a.Edge.Equals(e)).FirstOrDefault<EdgeVisualization>();
         }
         /// <summary>
         /// Calls the focus method on the VertexVisualization control
@@ -333,6 +328,15 @@ namespace Get.UI
         {
             if (getVertexVisualization(v) != null)
                 getVertexVisualization(v).Focus();
+        }
+        /// <summary>
+        /// Calls the focus method on the VertexVisualization control
+        /// </summary>
+        /// <param name="v"></param>
+        public virtual void setFocus(Edge e)
+        {
+            if (getVertexVisualization(e) != null)
+                getVertexVisualization(e).Focus();
         }
 
         /// <summary>
@@ -372,6 +376,28 @@ namespace Get.UI
         {
             add { AddHandler(MouseDoubleClickEvent, value); }
             remove { RemoveHandler(MouseDoubleClickEvent, value); }
+        }
+        /// <summary>
+        /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
+        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
+        /// </summary>
+        public IEnumerable<EdgeVisualization> EdgeVisualizations
+        {
+            get
+            {
+                return Children.OfType<EdgeVisualization>();
+            }
+        }
+        /// <summary>
+        /// Represents a dynamic data collection of VertexVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
+        /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true
+        /// </summary>
+        public IEnumerable<VertexVisualization> VertexVisualizations
+        {
+            get
+            {
+                return Children.OfType<VertexVisualization>();
+            }
         }
 
 

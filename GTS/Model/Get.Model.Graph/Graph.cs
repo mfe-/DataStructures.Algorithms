@@ -87,24 +87,30 @@ namespace Get.Model.Graph
             }
         }
         /// <summary>
-        /// Return all vertices which are reachable from s
-        /// http://en.wikipedia.org/wiki/Depth_first_search
+        /// Returns all vertices from the graph
+        /// http://www.brpreiss.com/books/opus4/html/page551.html
+        /// http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-90
         /// </summary>
-        /// <param name="s">Start vertex</param>
+        /// <param name="s">Root vertex of graph</param>
         /// <returns>All reachable vertices</returns>
-        public static List<Vertex> Depth_first_Search(this Vertex s,List<Vertex> rv)
+        public static IEnumerable<Vertex> Depth_First_Traversal(this Vertex s)
         {
-            if(!rv.Contains(s))
-                rv.Add(s); //visit   http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-96
-            foreach(Edge e in s.Edges)
+            return Depth_First_Traversal(s, new List<Vertex>());
+        }
+        private static List<Vertex> Depth_First_Traversal(this Vertex s, List<Vertex> visited)
+        {
+            //visist x
+            visited.Add(s);
+
+            //FOR each y such that (x,y) is an edge DO 
+            foreach (Edge e in s.Edges)
             {
-                if (!rv.Contains(e.V))
+                if (!visited.Contains(e.V))
                 {
-                    rv.Add(e.V);
-                    Depth_first_Search(e.V, rv);
+                    visited = Depth_First_Traversal(e.V, visited);
                 }
             }
-            return rv;
+            return visited;
         }
         //private static DFS1(Vertex v)
         //{
