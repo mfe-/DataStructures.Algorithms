@@ -94,9 +94,9 @@ namespace Get.UI
                 //setFocus position of edges
                 Children.OfType<EdgeVisualization>().ToList().ForEach(i =>
                 {
-                    VertexVisualization u = getVertexVisualization(i.Edge.U);
+                    VertexVisualization u = getItem(i.Edge.U);
                     Point pu = getPosition(u);
-                    Point pv = getPosition(getVertexVisualization(i.Edge.V));
+                    Point pv = getPosition(getItem(i.Edge.V));
 
                     i.PositionU = new Point(pu.X - u.Width / 2, pu.Y - u.Height / 2);
                     i.PositionV = new Point(pv.X - u.Width / 2, pv.Y - u.Height / 2);

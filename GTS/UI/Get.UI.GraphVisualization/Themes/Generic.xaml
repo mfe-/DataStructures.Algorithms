@@ -87,6 +87,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Opacity" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>
 
     <!--
@@ -131,6 +132,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Opacity" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>
 
 </ResourceDictionary>

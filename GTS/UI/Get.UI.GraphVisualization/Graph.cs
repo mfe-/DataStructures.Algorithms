@@ -177,7 +177,7 @@ namespace Get.UI
             foreach (Vertex a in vertices)
             {
                 VertexVisualization u;
-                bool vertexexists = getVertexVisualization(a)==null ? false : true;
+                bool vertexexists = getItem(a)==null ? false : true;
 
                 if (!vertexexists)
                 {
@@ -277,7 +277,7 @@ namespace Get.UI
         {
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-
+            
             vertexcontrol.Position = point;
             SetLeft(vertexcontrol, point.X);
             SetTop(vertexcontrol, point.Y);
@@ -307,7 +307,7 @@ namespace Get.UI
         /// </summary>
         /// <param name="v">Vertex which should be looked up</param>
         /// <returns>Control which is using the Vertex</returns>
-        protected virtual VertexVisualization getVertexVisualization(Vertex v)
+        protected virtual VertexVisualization getItem(Vertex v)
         {
             return VertexVisualizations.Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexVisualization>();
         }
@@ -316,7 +316,7 @@ namespace Get.UI
         /// </summary>
         /// <param name="v">edge which should be looked up</param>
         /// <returns>Control which is using the edge</returns>
-        protected virtual EdgeVisualization getVertexVisualization(Edge e)
+        protected virtual EdgeVisualization getItem(Edge e)
         {
             return EdgeVisualizations.Where(a => a.Edge.Equals(e)).FirstOrDefault<EdgeVisualization>();
         }
@@ -326,8 +326,8 @@ namespace Get.UI
         /// <param name="v"></param>
         public virtual void setFocus(Vertex v)
         {
-            if (getVertexVisualization(v) != null)
-                getVertexVisualization(v).Focus();
+            if (getItem(v) != null)
+                getItem(v).Focus();
         }
         /// <summary>
         /// Calls the focus method on the VertexVisualization control
@@ -335,8 +335,8 @@ namespace Get.UI
         /// <param name="v"></param>
         public virtual void setFocus(Edge e)
         {
-            if (getVertexVisualization(e) != null)
-                getVertexVisualization(e).Focus();
+            if (getItem(e) != null)
+                getItem(e).Focus();
         }
 
         /// <summary>
