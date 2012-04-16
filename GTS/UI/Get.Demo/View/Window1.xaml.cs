@@ -173,12 +173,12 @@ namespace Get.Demo
 
             //GetAllV(graph.Vertices.First(), null);
 
-            _GraphVisualization.Graph.Vertices.First().Depth_First_Traversal().ToList().ForEach(g=>{
-                Debug.WriteLine(g);
-            });
+            //_GraphVisualization.Graph.Vertices.First().Depth_First_Traversal().ToList().ForEach(g=>{
+            //    Debug.WriteLine(g);
+            //});
 
             Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
-            //thread.Start(_GraphVisualization.Graph.Vertices.First());
+            thread.Start(_GraphVisualization.Graph.Vertices.First());
 
         }
         ManualResetEvent mre = new ManualResetEvent(false);
