@@ -42,6 +42,17 @@ namespace Get.Model.Graph
         public ObservableCollection<Edge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged("Edges"); } }
 
         /// <summary>
+        /// Amount of neighbours
+        /// </summary>
+        public int VertexSize
+        {
+            get
+            {
+                return Edges.Count; //Knotengrad
+            }
+        }
+
+        /// <summary>
         /// Adds a vertex by adding a connection from the instance to the overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>

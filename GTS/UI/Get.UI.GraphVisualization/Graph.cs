@@ -193,7 +193,6 @@ namespace Get.UI
                 if (e != null)
                 {
                     e.PositionV = getPosition(u);
-                    e.VertexVisualizationV = u;
 
                     Binding binding = new Binding("Position");
                     binding.Source = u;
@@ -215,7 +214,7 @@ namespace Get.UI
                 {
                     EdgeVisualization edv = new EdgeVisualization() { Edge = ed };
                     edv.PositionU = getPosition(u);
-                    edv.VertexVisualizationU = u;
+
 
                     Binding binding = new Binding("Position");
                     binding.Source = u;
@@ -337,6 +336,10 @@ namespace Get.UI
         {
             if (getItem(e) != null)
                 getItem(e).Focus();
+        }
+        public virtual void setFocus(Edge e, AsyncCallback b)
+        {
+            //todo delgeate zum mitgeben der ausgeführt werden soll wenn focus ausgeführt soll
         }
 
         /// <summary>

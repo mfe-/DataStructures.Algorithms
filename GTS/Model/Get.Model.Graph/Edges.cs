@@ -48,6 +48,7 @@ namespace Get.Model.Graph
         /// <summary>
         /// Gets or sets the Weighted of the Edge
         /// </summary>
+        [DataMember(Name = "Weighted", IsRequired = true)]
         public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
         /// <summary>
         /// Returns a string that represents the current object.
