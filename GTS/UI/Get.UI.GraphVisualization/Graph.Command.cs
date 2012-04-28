@@ -60,7 +60,7 @@ namespace Get.UI
         }
         protected void Load_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement root = LoadSerializedDataFromFile(e.Parameter.ToString());
+            XElement root = LoadSerializedDataFromFile(e.Parameter!=null ? e.Parameter.ToString() : String.Empty);
 
             this.Graph = null;
             if (root != null && root.HasElements)
@@ -117,7 +117,7 @@ namespace Get.UI
             {
                 GraphVisualization gv = sender as GraphVisualization;
 
-                gv.Graph.addVertec(new Vertex());
+                gv.Graph.addVertex(new Vertex());
                 addVertex(new Vertex());
             }
         }
@@ -145,7 +145,7 @@ namespace Get.UI
 
         private XElement LoadSerializedDataFromFile(string path)
         {
-            if (path != null)
+            if (!path.Equals(String.Empty))
             {
                 return XElement.Load(path);
             }

@@ -25,9 +25,23 @@ namespace Get.UI
         public EdgeVisualization()
             : base()
         {
+            //todo: ondrawing überschreiben und TextBlock hinzufügen?
+        }
+        /// <summary>
+        /// Participates in rendering operations that are directed by the layout system. Adds the weighted as text in the middle of the edge
+        /// </summary>
+        /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+ 	        base.OnRender(drawingContext);
+                                                             
+            Point p = new Point((PositionV.X + PositionU.X)/2+4, (PositionV.Y + PositionU.Y)/2);
+
+            drawingContext.DrawText(new FormattedText(Edge.Weighted.ToString(), 
+                System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
+                this.FontSize, this.Foreground), p);
 
         }
-
         public Get.Model.Graph.Edge Edge
         {
             get { return (Get.Model.Graph.Edge)GetValue(EdgeProperty); }
@@ -51,13 +65,18 @@ namespace Get.UI
 
         public static readonly DependencyProperty StrokeThicknessProperty;
 
+        /// <summary>
+        /// Gets or sets the width of the shape outline. 
+        /// </summary>
         [TypeConverter(typeof(LengthConverter))]
         public double StrokeThickness
         {
             get { return (double)GetValue(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
-
+        /// <summary>
+        /// Gets or sets the value of the position from the correspondending U Vertex control
+        /// </summary>
         public Point PositionU
         {
             get { return (Point)GetValue(PositionUProperty); }
@@ -68,8 +87,9 @@ namespace Get.UI
         public static readonly DependencyProperty PositionUProperty =
             DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
 
-
-
+        /// <summary>
+        /// Gets or sets the value of the position from the correspondending V Vertex control
+        /// </summary>
         public Point PositionV
         {
             get { return (Point)GetValue(PositionVProperty); }
@@ -79,30 +99,6 @@ namespace Get.UI
         // Using a DependencyProperty as the backing store for PositionV.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionVProperty =
             DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
-
-
-        protected VertexVisualization _VertexVisualizationV;
-        public VertexVisualization VertexVisualizationV
-        {
-            get
-            {
-                return _VertexVisualizationV;
-            }
-            set
-            {
-
-                _VertexVisualizationV = value;
-            }
-        }
-
-
-        public VertexVisualization VertexVisualizationU
-        {
-            get;
-            set;
-        }
-
-
 
 
     }
