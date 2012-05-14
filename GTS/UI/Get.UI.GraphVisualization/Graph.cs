@@ -80,17 +80,33 @@ namespace Get.UI
         {
             base.OnMouseLeftButtonDown(e);
 
+            this.Focus();
+
             if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
             {
                 RaiseMouseDoubleClickEvent();
             }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexVisualization)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null)
+            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexVisualization)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
                 this.SelectedItem = (FrameworkElement)e.Source;
                 this.SelectedItem.Focus();
                 Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
                 setPosition(SelectedItem, p);
+            }
+
+            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexVisualization)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            {
+                //create a temporary edge
+                EdgeVisualization ev = new EdgeVisualization();
+                
+                VertexVisualization vv = e.Source as VertexVisualization;
+                ev.Edge = new Edge(vv.Vertex, null);
+
+                ev.PositionU = getPosition(vv);
+                ev.PositionV = e.GetPosition(this);
+                this.SelectedItem = ev;
+                this.Children.Add(ev);
             }
         }
         /// <summary>
@@ -100,13 +116,22 @@ namespace Get.UI
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexVisualization)))
+            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexVisualization)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
                 VertexVisualization v = SelectedItem as VertexVisualization;
                 Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
                 v.Position = p;
                 setPosition(SelectedItem, p);
             }
+
+            //move edge
+            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeVisualization)))
+            {
+                EdgeVisualization ev = SelectedItem as EdgeVisualization;
+                Point p = new Point((e.GetPosition(this).X-4), (e.GetPosition(this).Y)-4);
+                ev.PositionV = p;
+            }
+
         }
         /// <summary>
         /// Called before the MouseLeftButtonUp event occurs. Exits the drag and drop operation of the vertex item.
@@ -115,12 +140,33 @@ namespace Get.UI
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexVisualization)))
+            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexVisualization)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
                 VertexVisualization v = SelectedItem as VertexVisualization;
                 Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
                 v.Position = p;
                 setPosition(SelectedItem, p);
+                SelectedItem = null;
+            }
+            //add edge to graph or remove temporary edge
+            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null )
+            {
+                
+                HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+                FrameworkElement u = result.VisualHit as FrameworkElement;
+                VertexVisualization vv = u.TemplatedParent as VertexVisualization;
+
+                EdgeVisualization ev = SelectedItem as EdgeVisualization;
+
+                if (vv != null)
+                {
+                    //first find the vertex where we started 
+                    Vertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
+                    //add to model edge 
+                    v.addEdge(vv.Vertex);
+                }
+
+                this.Children.Remove(SelectedItem);
                 SelectedItem = null;
             }
         }
@@ -176,12 +222,14 @@ namespace Get.UI
         {
             foreach (Vertex a in vertices)
             {
+                a.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+
                 VertexVisualization u;
                 bool vertexexists = getItem(a)==null ? false : true;
 
                 if (!vertexexists)
                 {
-                    //a.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    
                     u = addVertex(a);
                     Canvas.SetZIndex(u, 1);
                 }
@@ -209,12 +257,12 @@ namespace Get.UI
 
                 if (vertexexists) return;
 
-
                 foreach (Edge ed in a.Edges)
                 {
                     EdgeVisualization edv = new EdgeVisualization() { Edge = ed };
                     edv.PositionU = getPosition(u);
 
+                    ed.V.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
 
                     Binding binding = new Binding("Position");
                     binding.Source = u;
@@ -233,6 +281,25 @@ namespace Get.UI
             }
         }
 
+        protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            IList<object> items = e.NewItems.SyncRoot as IList<object>;
+            if(e.Action.Equals(NotifyCollectionChangedAction.Add))
+            {
+                object item = items.First();
+
+                if (item.GetType().Equals(typeof(Edge)))
+                {
+                    Edge edge = item as Edge;
+                    addEdge(edge);
+                }
+                if (item.GetType().Equals(typeof(Vertex)))
+                {
+                    addVertex(item as Vertex,Mouse.GetPosition(this).Add(-25,-25));
+                }
+            }
+        }
+
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null && pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
@@ -247,15 +314,13 @@ namespace Get.UI
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
                 Graph graph = e.NewValue as Graph;
 
-                //graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
+                graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
 
                 graphVisualization.InitialiseGraph(graph.Vertices);
             }
         }
         /// <summary>
         /// Adds a Vertex to the _Canvas.
-        /// Important to know is that the VertexVisualization will be encapsulated by a ContentControl which is using the DesignerItemTemplate ControlTemplate. 
-        /// The DesignerItemTemplate contains the MoveAbelItem which enables dragging on the "VertexVisualization" control.
         /// The position of VertexVisualization will be set randomly on the canvas.
         /// </summary>
         /// <param name="v">Vertex which should be added to the VertexVisualization</param>
@@ -266,8 +331,6 @@ namespace Get.UI
         }
         /// <summary>
         /// Adds a Vertex to the _Canvas.
-        /// Important to know is that the VertexVisualization will be encapsulated by a ContentControl which is using the DesignerItemTemplate ControlTemplate. 
-        /// The DesignerItemTemplate contains the MoveAbelItem which enables dragging on the "VertexVisualization" control.
         /// </summary>
         /// <param name="v">Vertex which should be added to the VertexVisualization</param>
         /// <param name="point">Sets the position where the VertexVisualization should be placed on the _Canvas</param>
@@ -282,8 +345,50 @@ namespace Get.UI
             SetTop(vertexcontrol, point.Y);
 
             this.Children.Add(vertexcontrol);
-
+            v.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             return vertexcontrol;
+        }
+
+        void Co(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        protected virtual EdgeVisualization addEdge(Edge e)
+        {
+            EdgeVisualization edv = new EdgeVisualization() { Edge = e };
+            VertexVisualization uv = VertexVisualizations.Where(z => z.Vertex.Equals(e.U)).First();
+            edv.PositionU = getPosition(uv);
+
+
+            Binding bindingU = new Binding("Position");
+            bindingU.Source = uv;
+            bindingU.Mode = BindingMode.TwoWay;
+            bindingU.NotifyOnSourceUpdated = true;
+            bindingU.NotifyOnTargetUpdated = true;
+            bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            bindingU.Converter = Converters.PointAdderConverter;
+            bindingU.ConverterParameter = new Point(uv.Width / 2, uv.Height / 2);
+            edv.SetBinding(EdgeVisualization.PositionUProperty, bindingU);
+
+            this.Children.Add(edv);
+
+            VertexVisualization vv = VertexVisualizations.Where(z => z.Vertex.Equals(e.V)).First();
+            edv.PositionV = getPosition(vv);
+
+            Binding bindingV = new Binding("Position");
+            bindingV.Source = vv;
+            bindingV.Mode = BindingMode.TwoWay;
+            bindingV.NotifyOnSourceUpdated = true;
+            bindingV.NotifyOnTargetUpdated = true;
+            bindingV.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            bindingV.Converter = Converters.PointAdderConverter;
+            bindingV.ConverterParameter = new Point(vv.Width / 2, vv.Height / 2);
+            edv.SetBinding(EdgeVisualization.PositionVProperty, bindingV);
+
+            Canvas.SetZIndex(edv, -1);
+
+            return edv;
+
         }
         /// <summary>
         /// Returns the position of the delivered VertexVisualization control

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Get.Common.Mathematics
 {
-    public class Mathematics
+    public partial class Mathematics
     {
         /// <summary>
         /// Greatest common divisor using the Euclidean algorithm

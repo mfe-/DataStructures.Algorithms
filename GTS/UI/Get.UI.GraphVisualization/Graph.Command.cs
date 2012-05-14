@@ -117,8 +117,12 @@ namespace Get.UI
             {
                 GraphVisualization gv = sender as GraphVisualization;
 
-                gv.Graph.addVertex(new Vertex());
-                addVertex(new Vertex());
+                //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
+                Point p = (Mouse.GetPosition(sender as IInputElement));
+                Vertex v =new Vertex();
+
+                gv.Graph.addVertex(v);
+
             }
         }
 

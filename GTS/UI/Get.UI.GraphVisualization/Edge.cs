@@ -37,7 +37,7 @@ namespace Get.UI
                                                              
             Point p = new Point((PositionV.X + PositionU.X)/2+4, (PositionV.Y + PositionU.Y)/2);
 
-            drawingContext.DrawText(new FormattedText(Edge.Weighted.ToString(), 
+            drawingContext.DrawText(new FormattedText(Edge!=null ? Edge.Weighted.ToString() : "", 
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
 
