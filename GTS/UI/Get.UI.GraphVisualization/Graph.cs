@@ -294,9 +294,12 @@ namespace Get.UI
                     Edge edge = item as Edge;
                     addEdge(edge);
 
-                    if(this.Graph.Vertices.Contains(edge.U))
+                    //because vertex is duplicated remove from root
+                    if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count>1)
                     {
-                        this.Graph.Vertices.Remove(edge.U);
+                        this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+                        this.Graph.Vertices.Remove(edge.V);
+                        this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
@@ -392,6 +395,7 @@ namespace Get.UI
             this.Children.Add(edv);
 
             VertexVisualization vv = VertexVisualizations.Where(z => z.Vertex.Equals(e.V)).First();
+
             edv.PositionV = getPosition(vv);
 
             Binding bindingV = new Binding("Position");
