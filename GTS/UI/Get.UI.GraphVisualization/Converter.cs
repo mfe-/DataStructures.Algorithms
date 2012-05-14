@@ -12,6 +12,10 @@ namespace Get.UI
     public static class Converters
     {
         public static PointAdderConverter PointAdderConverter = new PointAdderConverter();
+        public static Point Add(this Point p,int x,int y)
+        {
+            return new Point(p.X+x,p.Y+y);
+        }
     }
     public sealed class PointAdderConverter : IValueConverter
     {

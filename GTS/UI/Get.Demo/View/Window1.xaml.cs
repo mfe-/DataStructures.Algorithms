@@ -42,14 +42,18 @@ namespace Get.Demo
         {
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
             }
             //var o = Mathematics.gcd(2008, 6318);
+            int[] v1 = Mathematics.CreateMatrix(new int[] { 1, 5, 2 }, new int[] { 3, 2, 1 }, new int[] { 0, 1, 2 });
 
-            //Graph graph = new Graph();
+            int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
+
+            //var r = v1.Add(v2);
+            Graph graph = new Graph();
             //////graph.Load("Vertex.xml");
 
-            //Vertex va = new Vertex(1);
+            Vertex va = new Vertex(1);
             //Vertex vb = new Vertex(2);
             //Vertex vc = new Vertex(3);
             //Vertex vd = new Vertex(4);
@@ -99,12 +103,11 @@ namespace Get.Demo
             //vl.addEdge(vk);
 
 
-            //graph.addVertex(va);
-            //graph.StartVertex = va;
+            graph.addVertex(va);
+            graph.StartVertex = va;
 
-            //_GraphVisualization.Graph = graph;
-            //var g = graph.Dijkstra(graph.StartVertex);
-
+            _GraphVisualization.Graph = graph;
+            //var g = graph.Dijkstra(graph.StartVertex
             //Debug.WriteLine("a2");
             ////graph.Vertices.Add(new Vertex(3));
 
@@ -196,8 +199,8 @@ namespace Get.Demo
             //Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
             //thread.Start(_GraphVisualization.Graph.Vertices.First());
 
-            _GraphVisualization.Graph.Dijkstra(_GraphVisualization.Graph.StartVertex);
-
+            //_GraphVisualization.Graph.Dijkstra(_GraphVisualization.Graph.StartVertex);
+            
         }
         ManualResetEvent mre = new ManualResetEvent(false);
         public void GetAllV(Vertex v, Vertex firstVertex)

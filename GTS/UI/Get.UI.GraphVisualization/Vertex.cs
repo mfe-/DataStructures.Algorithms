@@ -54,14 +54,19 @@ namespace Get.UI
     [TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
     public class VertexVisualization : Control, INotifyPropertyChanged
     {
-        protected Border Border { get; set; }
+        AdornerLayer _adornerLayer;
+        AdornerItem _adornerItem;
+
         public VertexVisualization()
         {
-            
+
         }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            _adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            _adornerItem = new AdornerItem(this);
+            _adornerItem.MouseDown += new MouseButtonEventHandler(AdornerItem_MouseDown);
             if (this.Template != null)
             {
                 //Border = this.Template.FindName("PART_Border", this) as Border;
@@ -75,10 +80,33 @@ namespace Get.UI
 
                 //    };
                 //}
-                
+
             }
 
         }
+
+        protected void AdornerItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            RaiseEvent(e);
+        }
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            if (_adornerLayer.GetAdorners(this)==null)
+                _adornerLayer.Add(_adornerItem);
+        }
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            if (!IsFocused.Equals(true))
+                _adornerLayer.Remove(_adornerItem);
+        }
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            _adornerLayer.Remove(_adornerItem);
+        }
+        
         static VertexVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(typeof(VertexVisualization)));
@@ -141,7 +169,7 @@ namespace Get.UI
         [DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
-            #if !SILVERLIGHT
+#if !SILVERLIGHT
             // Verify that the property name matches a real,  
             // public, instance property on this object.
             if (TypeDescriptor.GetProperties(this)[propertyName] == null)
@@ -150,7 +178,9 @@ namespace Get.UI
 
 
             }
-            #endif
+#endif
         }
+
+
     }
 }
