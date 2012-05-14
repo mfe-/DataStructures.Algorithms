@@ -99,7 +99,7 @@ namespace Get.UI
             {
                 //create a temporary edge
                 EdgeVisualization ev = new EdgeVisualization();
-                
+                Canvas.SetZIndex(ev, -1);
                 VertexVisualization vv = e.Source as VertexVisualization;
                 ev.Edge = new Edge(vv.Vertex, null);
 
@@ -149,7 +149,7 @@ namespace Get.UI
                 SelectedItem = null;
             }
             //add edge to graph or remove temporary edge
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null )
+            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeVisualization)))
             {
                 
                 HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
@@ -283,21 +283,40 @@ namespace Get.UI
 
         protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            IList<object> items = e.NewItems.SyncRoot as IList<object>;
+            
             if(e.Action.Equals(NotifyCollectionChangedAction.Add))
             {
+                IList<object> items = e.NewItems.SyncRoot as IList<object>;
                 object item = items.First();
 
                 if (item.GetType().Equals(typeof(Edge)))
                 {
                     Edge edge = item as Edge;
                     addEdge(edge);
+
+                    if(this.Graph.Vertices.Contains(edge.U))
+                    {
+                        this.Graph.Vertices.Remove(edge.U);
+                    }
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
                     addVertex(item as Vertex,Mouse.GetPosition(this).Add(-25,-25));
                 }
             }
+            if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
+            {
+                IList<object> items = e.OldItems.SyncRoot as IList<object>;
+                object item = items.First();
+                if (item.GetType().Equals(typeof(Vertex)))
+                {
+                    //catch Visualization item
+                    Vertex v = item as Vertex;
+                    VertexVisualization vv= VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
+                    this.Children.Remove(vv);
+                }
+            }
+                Debug.WriteLine(this.Graph.Vertices.Count);
         }
 
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
@@ -505,6 +524,16 @@ namespace Get.UI
             get
             {
                 return Children.OfType<VertexVisualization>();
+            }
+        }
+        /// <summary>
+        /// Represents a dynamic data collection of Frameworkelements which got focused
+        /// </summary>
+        public FrameworkElement FocusedFrameworkElement
+        {
+            get
+            {
+                return this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true)).First();
             }
         }
 
