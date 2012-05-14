@@ -25,8 +25,38 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
+        }
+        #region Delete Command
+
+        private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            {
+                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
+
+                List<EdgeVisualization> elist=EdgeVisualizations.Where(a => a.Edge.U.Equals(vv.Vertex)).ToList<EdgeVisualization>();
+                //case Vertex is connected
+                if (elist.Count < 0)
+                {
+
+                }
+                else
+                {
+                //case vertex isnt connected
+                    this.Graph.Vertices.Remove(vv.Vertex);
+                }
+                
+
+            }
         }
 
+        private void Delete_Enabled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = FocusedFrameworkElement!=null;
+        }
+
+        #endregion
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
@@ -121,6 +151,7 @@ namespace Get.UI
                 Point p = (Mouse.GetPosition(sender as IInputElement));
                 Vertex v =new Vertex();
 
+                //todo: Bug Graph wird nicht korrekt erstellt - wenn man eine edge verbindet kommts sowieso zu einer exception odeR?
                 gv.Graph.addVertex(v);
 
             }
@@ -173,21 +204,6 @@ namespace Get.UI
             }
 
         }
-
-        //private static DesignerItem DeserializeDesignerItem(XElement itemXML, Guid id, double OffsetX, double OffsetY)
-        //{
-        //    DesignerItem item = new DesignerItem(id);
-        //    item.Width = Double.Parse(itemXML.Element("Width").Value, CultureInfo.InvariantCulture);
-        //    item.Height = Double.Parse(itemXML.Element("Height").Value, CultureInfo.InvariantCulture);
-        //    item.ParentID = new Guid(itemXML.Element("ParentID").Value);
-        //    item.IsGroup = Boolean.Parse(itemXML.Element("IsGroup").Value);
-        //    Canvas.SetLeft(item, Double.Parse(itemXML.Element("Left").Value, CultureInfo.InvariantCulture) + OffsetX);
-        //    Canvas.SetTop(item, Double.Parse(itemXML.Element("Top").Value, CultureInfo.InvariantCulture) + OffsetY);
-        //    Canvas.SetZIndex(item, Int32.Parse(itemXML.Element("zIndex").Value));
-        //    Object content = XamlReader.Load(XmlReader.Create(new StringReader(itemXML.Element("Content").Value)));
-        //    item.Content = content;
-        //    return item;
-        //}
 
         #endregion
     }
