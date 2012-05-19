@@ -45,4 +45,42 @@ namespace Get.Common.Mathematics
             return v;
         }
     }
+    public struct Matrix
+    {
+        private int[][] _m;
+
+        public Matrix(int m, int n)
+        {
+            _m = new int[m][];
+            for (int i = 0; i < m; i++)
+            {
+                _m[i] = new int[n];
+            }
+
+        }
+        public Matrix(params int[][] args)
+        {
+            _m = new int[args.Length][];
+            for (int i = 0; i < args.Length; i++)
+            {
+                _m[i] = args[i];
+            }
+
+        }
+
+        public int m
+        {
+            get
+            {
+                return _m.Length;
+            }
+        }
+        public int n
+        {
+            get
+            {
+                return _m.First().Length;
+            }
+        }
+    }
 }
