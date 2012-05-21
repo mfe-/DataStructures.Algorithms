@@ -104,20 +104,46 @@ namespace Get.Model.Graph
         //    //return g.Connected(a,b) ==null ? false : true;
         //    return false;
         //}
+
+        /// <summary>
+        /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
+        /// mit aij = FAllunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
+        /// http://en.wikipedia.org/wiki/Adjacency_list
+        /// </summary>
+        /// <param name="g">Graph on which the adjacency list should be created</param>
+        /// <returns></returns>
         public static object AdjacencyList(this Graph g)
         {
-            //Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
-            //mit aij = FAllunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
-            //http://en.wikipedia.org/wiki/Adjacency_list
-            return null;
+            var vertices = Depth_First_Traversal(g).OrderBy(a => a.Weighted).ThenBy(a=>a.VertexSize).ThenBy(a=>a.GetHashCode()).ToArray();
+            var edges = vertices.SelectMany(a => a.Edges).Distinct<Edge>();
+            //create matrix
+            int c = vertices.Count<Vertex>();
+            int[][] m = new int[c][];
+            for (int o = 0; o < c; o++)
+            {
+                int[] row = new int [c];
+                for (int y = 0; y < c; y++)
+                {
+                    Vertex i = vertices[o];
+                    Vertex j = vertices[y];
+
+                    if (g.Directed)
+                    {
+                        row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
+                    }
+                    else
+                    {
+                        //direction doesnt matter
+                        row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j) || b.U.Equals(i) && b.V.Equals(j)).Count() == 0 ? 0 : 1;
+                    }
+                }
+
+                m[o] = row;
+            }
+
+            return m;
         }
-        private static bool Is()
-        {
-            //G heißt kreisfrei, wenn es in G von jedem Knoten u zu jedem anderen Knoten v höchstens einen Weg gibt. 
-            //also alle vertexe durchlaufen und eine liste anlegen 
-            //a hat eine kante auf b,d,e 
-            return true;
-        }
+
         public static Graph Kruskal(this Graph g, Vertex start)
         {
             return null;

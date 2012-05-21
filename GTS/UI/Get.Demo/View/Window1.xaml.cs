@@ -42,8 +42,10 @@ namespace Get.Demo
         {
             if (Debugger.IsAttached)
             {
-                //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
             }
+            _GraphVisualization.Graph.AdjacencyList();
+
             //var o = Mathematics.gcd(2008, 6318);
             int[] v1 = Mathematics.CreateMatrix(new int[] { 1, 5, 2 }, new int[] { 3, 2, 1 }, new int[] { 0, 1, 2 });
 
@@ -103,10 +105,10 @@ namespace Get.Demo
             //vl.addEdge(vk);
 
 
-            graph.addVertex(va);
-            graph.StartVertex = va;
+            //graph.addVertex(va);
+            //graph.StartVertex = va;
 
-            _GraphVisualization.Graph = graph;
+            //_GraphVisualization.Graph = graph;
             //var g = graph.Dijkstra(graph.StartVertex
             //Debug.WriteLine("a2");
             ////graph.Vertices.Add(new Vertex(3));

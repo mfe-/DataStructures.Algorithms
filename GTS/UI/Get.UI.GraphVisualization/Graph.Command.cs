@@ -13,6 +13,8 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace Get.UI
 {
@@ -24,6 +26,8 @@ namespace Get.UI
         {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, Copy_Executed));
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
         }
@@ -57,6 +61,36 @@ namespace Get.UI
         }
 
         #endregion
+
+        private void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //http://stackoverflow.com/questions/2522380/get-a-bitmap-image-from-a-control-view
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)FocusedFrameworkElement.ActualWidth, (int)FocusedFrameworkElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(FocusedFrameworkElement);
+            //todo funktioniert noch nicht
+            PngBitmapEncoder png = new PngBitmapEncoder();
+            png.Frames.Add(BitmapFrame.Create(rtb));
+            MemoryStream stream = new MemoryStream();
+            png.Save(stream);
+            //System.Drawing.Image image = Image.FromStream(stream);
+
+            Clipboard.SetImage(rtb);
+
+        }
+        private void Paste_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            {
+                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
+
+                Vertex newVertex = new Vertex();
+
+                newVertex.Weighted = vv.Vertex.Weighted;
+
+                this.Graph.addVertex(newVertex);
+
+            }
+        }
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
