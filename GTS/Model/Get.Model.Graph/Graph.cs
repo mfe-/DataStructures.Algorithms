@@ -12,6 +12,7 @@ namespace Get.Model.Graph
 
         protected Vertex _StartVertex = null;
         protected Vertex _EndVertex = null;
+        protected bool _directed = false;
 
         public Graph()
         {
@@ -44,6 +45,7 @@ namespace Get.Model.Graph
             set
             {
                 _StartVertex = value;
+                NotifyPropertyChanged("StartVertex");
             }
         }
         /// <summary>
@@ -59,6 +61,23 @@ namespace Get.Model.Graph
             set
             {
                 _EndVertex = value;
+                NotifyPropertyChanged("EndVertex");
+            }
+        }
+        /// <summary>
+        /// Gets or sets if the graph is directed
+        /// </summary>
+        [DataMember(Name = "Directed")]
+        public bool Directed
+        {
+            get
+            {
+                return _directed;
+            }
+            set
+            {
+                _directed = value;
+                NotifyPropertyChanged("Directed");
             }
         }
 
