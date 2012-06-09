@@ -77,8 +77,8 @@ namespace Get.Common.Cinch
         /// <summary>
         /// Event Dependency Property
         /// </summary>
-        public static readonly DependencyProperty EventProperty = 
-            DependencyProperty.Register("Event", typeof(string), typeof(CommandEvent), 
+        public static readonly DependencyProperty EventProperty =
+            DependencyProperty.Register("Event", typeof(string), typeof(CommandEvent),
             new UIPropertyMetadata(string.Empty));
 
         /// <summary>
@@ -88,6 +88,24 @@ namespace Get.Common.Cinch
         {
             get { return (string)GetValue(EventProperty); }
             set { SetValue(EventProperty, value); }
+        }
+        #endregion
+
+        #region Argument DP
+        /// <summary>
+        /// Event Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ArgumentProperty =
+            DependencyProperty.Register("Argument", typeof(string), typeof(CommandEvent),
+            new UIPropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// Gets or sets the Event property.
+        /// </summary>
+        public string Argument
+        {
+            get { return (string)GetValue(ArgumentProperty); }
+            set { SetValue(ArgumentProperty, value); }
         }
         #endregion
 
@@ -166,7 +184,12 @@ namespace Get.Common.Cinch
             {
                 var ep = new EventParameters(sender, e);
                 if (Command.CanExecute(ep))
-                    Command.Execute(ep);
+                {
+                    if(Argument == null)
+                        Command.Execute(ep);
+                    else
+                        Command.Execute(Argument);
+                }
             }
 #if DEBUG
             else
