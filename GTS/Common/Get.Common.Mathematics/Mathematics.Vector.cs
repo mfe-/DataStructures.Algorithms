@@ -58,6 +58,10 @@ namespace Get.Common.Mathematics
             }
 
         }
+        //public Matrix(int[][] m)
+        //{
+        //    _m = m;
+        //}
         public Matrix(params int[][] args)
         {
             _m = new int[args.Length][];
@@ -81,6 +85,19 @@ namespace Get.Common.Mathematics
             {
                 return _m.First().Length;
             }
+        }
+        public override string ToString()
+        {
+            //return base.ToString();
+            string s = String.Empty;
+            for (int z = 0; z < _m.Length; z++)
+            {
+                for (int y = 0; y < _m[z].Length; y++)
+                {
+                    s += _m[z][y].ToString() + " ";
+                }
+            }
+            return s;
         }
     }
 }
