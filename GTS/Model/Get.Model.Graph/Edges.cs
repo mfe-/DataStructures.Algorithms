@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace Get.Model.Graph
 {
+    [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge : INotifyPropertyChanged
     {

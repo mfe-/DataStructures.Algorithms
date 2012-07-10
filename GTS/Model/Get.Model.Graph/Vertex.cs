@@ -2,9 +2,12 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Get.Model.Graph
 {
+    [DebuggerDisplay("Vertex = {Weighted},Size={Size}, GUID = {_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex : INotifyPropertyChanged
     {
@@ -44,7 +47,7 @@ namespace Get.Model.Graph
         /// <summary>
         /// Amount of neighbours
         /// </summary>
-        public int VertexSize
+        public int Size
         {
             get
             {
