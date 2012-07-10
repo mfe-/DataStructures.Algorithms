@@ -44,18 +44,33 @@ namespace Get.Demo
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
             }
-            _GraphVisualization.Graph.AdjacencyList();
+
+            var z = _GraphVisualization.Graph.Kruskal(_GraphVisualization.Graph.StartVertex);
+
+            var o = z.AdjacencyList();
+            var m = _GraphVisualization.Graph.AdjacencyList();
+
+            this.uout(m);
+            this.uout(o);
+
+            _GraphVisualization.Graph.addVertex(_GraphVisualization.Graph.Vertices.First().Edges.First().V);
+
+            var r = _GraphVisualization.Graph.AdjacencyList();
 
             //var o = Mathematics.gcd(2008, 6318);
             int[] v1 = Mathematics.CreateMatrix(new int[] { 1, 5, 2 }, new int[] { 3, 2, 1 }, new int[] { 0, 1, 2 });
 
             int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
-
+            Vertex va = new Vertex(1);
             //var r = v1.Add(v2);
             Graph graph = new Graph();
             //////graph.Load("Vertex.xml");
 
-            Vertex va = new Vertex(1);
+            Int64 zu = 45;
+
+
+
+
             //Vertex vb = new Vertex(2);
             //Vertex vc = new Vertex(3);
             //Vertex vd = new Vertex(4);
@@ -87,7 +102,7 @@ namespace Get.Demo
             //ve.addEdge(vf, 2);
 
             //vg.addEdge(vf, 5);
-            
+
             //vc.addEdge(vb);
             //vc.addEdge(vd);
 
@@ -202,7 +217,7 @@ namespace Get.Demo
             //thread.Start(_GraphVisualization.Graph.Vertices.First());
 
             //_GraphVisualization.Graph.Dijkstra(_GraphVisualization.Graph.StartVertex);
-            
+
         }
         ManualResetEvent mre = new ManualResetEvent(false);
         public void GetAllV(Vertex v, Vertex firstVertex)
@@ -261,7 +276,19 @@ namespace Get.Demo
             Debug.WriteLine(visited.Count);
 
         }
-
+        private void uout(int[][] _m)
+        {
+            string s = String.Empty;
+            for (int z = 0; z < _m.Length; z++)
+            {
+                for (int y = 0; y < _m[z].Length; y++)
+                {
+                    s += _m[z][y].ToString() + " ";
+                }
+                s += "\n";
+            }
+            System.Diagnostics.Debug.WriteLine(s);
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
