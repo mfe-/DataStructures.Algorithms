@@ -71,7 +71,10 @@ namespace Get.Common.Mathematics
             }
 
         }
-
+        public static Matrix operator +(Matrix c1, Matrix c2)
+        {
+            return new Matrix(1,2);
+        }
         public int m
         {
             get

@@ -43,6 +43,7 @@
                     <ContextMenu>
                         <MenuItem Header="_Save" Command="Save" />
                         <MenuItem Header="_Load" Command="Open" />
+                        <MenuItem Header="_Print" Command="Print" />
                     </ContextMenu>
                 </ui:GraphVisualization.ContextMenu>
                 <ui:GraphVisualization.Resources>

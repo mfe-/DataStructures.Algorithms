@@ -30,37 +30,23 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
-        }
-        #region Delete Command
+            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
 
-        private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
+        }
+
+        private void Print_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
             {
-                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
-
-                List<EdgeVisualization> elist=EdgeVisualizations.Where(a => a.Edge.U.Equals(vv.Vertex)).ToList<EdgeVisualization>();
-                //case Vertex is connected
-                if (elist.Count < 0)
-                {
-
+                PrintDialog printDialog = new PrintDialog();
+                if (printDialog.ShowDialog() == true)
+                { 
+                    printDialog.PrintVisual(sender as GraphVisualization, "GraphVisualization"); 
                 }
-                else
-                {
-                //case vertex isnt connected
-                    this.Graph.Vertices.Remove(vv.Vertex);
-                }
-                
-
             }
+
         }
 
-        private void Delete_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = FocusedFrameworkElement!=null;
-        }
-
-        #endregion
 
         private void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -91,6 +77,38 @@ namespace Get.UI
 
             }
         }
+
+        #region Delete Command
+
+        private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            {
+                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
+
+                List<EdgeVisualization> elist = EdgeVisualizations.Where(a => a.Edge.U.Equals(vv.Vertex)).ToList<EdgeVisualization>();
+                //case Vertex is connected
+                if (elist.Count < 0)
+                {
+
+                }
+                else
+                {
+                    //case vertex isnt connected
+                    this.Graph.Vertices.Remove(vv.Vertex);
+                }
+
+
+            }
+        }
+
+        private void Delete_Enabled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = FocusedFrameworkElement != null;
+        }
+
+        #endregion
+
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
@@ -122,9 +140,14 @@ namespace Get.UI
             SaveFile(root);
 
         }
+        /// <summary>
+        /// Will be executed when the Load command was called
+        /// </summary>
+        /// <param name="sender">Object which raised Command</param>
+        /// <param name="e">Provides event informations</param>
         protected void Load_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement root = LoadSerializedDataFromFile(e.Parameter!=null ? e.Parameter.ToString() : String.Empty);
+            XElement root = LoadSerializedDataFromFile(e.Parameter != null ? e.Parameter.ToString() : String.Empty);
 
             this.Graph = null;
             if (root != null && root.HasElements)
@@ -183,7 +206,7 @@ namespace Get.UI
 
                 //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
                 Point p = (Mouse.GetPosition(sender as IInputElement));
-                Vertex v =new Vertex();
+                Vertex v = new Vertex();
 
                 //todo: Bug Graph wird nicht korrekt erstellt - wenn man eine edge verbindet kommts sowieso zu einer exception odeR?
                 gv.Graph.addVertex(v);

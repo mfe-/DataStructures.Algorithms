@@ -44,11 +44,20 @@ namespace Get.Model.Graph
                 }
             }
         }
+        /// <summary>
+        /// Deserialize the Graph from a xml file
+        /// </summary>
+        /// <param name="g">where the graph should be into deserialize </param>
+        /// <param name="pfilename">filename to the xml file which contains the data of the graph</param>
         public static void Load(this Graph g, String pfilename)
+        {
+            Load(g, pfilename, 100);
+        }
+        public static void Load(this Graph g, String pfilename, int maxDepth)
         {
             using (FileStream fs = new FileStream(pfilename, FileMode.Open))
             {
-                XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = 100 };
+                XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = maxDepth };
                 using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, xmlDictionaryReaderQuotas))
                 {
                     NetDataContractSerializer serializer = new NetDataContractSerializer();
@@ -75,8 +84,6 @@ namespace Get.Model.Graph
 
             foreach (Vertex v in u.Vertices)
                 g.Vertices.Add(v);
-
-
 
         }
         public static IEnumerable<Vertex> Sort(this IEnumerable<Vertex> l)
@@ -115,7 +122,7 @@ namespace Get.Model.Graph
 
         /// <summary>
         /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
-        /// mit aij = FAllunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
+        /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
         /// http://en.wikipedia.org/wiki/Adjacency_list
         /// </summary>
         /// <param name="g">Graph on which the adjacency list should be created</param>
@@ -135,15 +142,7 @@ namespace Get.Model.Graph
                     Vertex i = vertices[o];
                     Vertex j = vertices[y];
 
-                    if (g.Directed)
-                    {
-                        row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
-                    }
-                    else
-                    {
-                        //direction doesnt matter, not tested yet
-                        row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j) || b.U.Equals(i) && b.V.Equals(j)).Count() == 0 ? 0 : 1;
-                    }
+                    row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
                 }
 
                 m[o] = row;
@@ -182,7 +181,7 @@ namespace Get.Model.Graph
                 u.addEdge(v, e.Weighted);
                 v.addEdge(u, e.Weighted);
                 //check if circle
-                var o = DepthFirstSearch(u, u,true);
+                var o = DepthFirstSearch(u, u, true);
                 //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
                 if (o.Last().V.Equals(u))
                 {
@@ -220,7 +219,7 @@ namespace Get.Model.Graph
         {
             IList<Edge> l = DepthFirstSearch(start, new List<Edge>(), goal, directed).ToList<Edge>();
             //when graph is directed and there exists edges with cycle remove it a->b & b->a ... we need only one edge of them
-            if (directed == true && l.Count >= 2 && (l.Last().V.Equals(l[l.Count-2].U) && l.Last().U.Equals(l[l.Count-2].V)))
+            if (directed == true && l.Count >= 2 && (l.Last().V.Equals(l[l.Count - 2].U) && l.Last().U.Equals(l[l.Count - 2].V)))
             {
                 l.Remove(l.Last());
             }
