@@ -10,6 +10,7 @@ using System.Windows;
 using Get.Model.Graph;
 using System.Windows.Media;
 using System.Windows.Markup;
+using System.Windows.Shapes;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -33,13 +34,27 @@ namespace Get.UI
         /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
         protected override void OnRender(DrawingContext drawingContext)
         {
- 	        base.OnRender(drawingContext);
-                                                             
-            Point p = new Point((PositionV.X + PositionU.X)/2+4, (PositionV.Y + PositionU.Y)/2);
+            base.OnRender(drawingContext);
 
-            drawingContext.DrawText(new FormattedText(Edge!=null ? Edge.Weighted.ToString() : "", 
+            Point p = new Point((PositionV.X + PositionU.X) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
+
+            drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
+
+            if (Directed == false) //set temporäry to false
+            {
+                Pen pen = new Pen(this.Foreground, this.StrokeThickness);
+
+                int angle = 45;
+                int length = 10;
+                Point PositionVArrowLeft;
+                Point PositionVArrowRight;
+
+
+
+            }
+
 
         }
         public Get.Model.Graph.Edge Edge
@@ -99,6 +114,20 @@ namespace Get.UI
         // Using a DependencyProperty as the backing store for PositionV.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionVProperty =
             DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
+
+
+
+        public bool Directed
+        {
+            get { return (bool)GetValue(DirectedProperty); }
+            set { SetValue(DirectedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DirectedProperty =
+            DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeVisualization), new UIPropertyMetadata(false));
+
+
 
 
     }

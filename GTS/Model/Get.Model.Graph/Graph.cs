@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Get.Common.Mathematics;
+
 
 namespace Get.Model.Graph
 {
@@ -72,12 +74,28 @@ namespace Get.Model.Graph
         {
             get
             {
+                
+                //Handschlaglemma: In einem schlichten ungerichteten Graphen G gilt: sum(d(v))_(v e V(G))=2|E(g)|
+
+                //todo schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false!
+                //ansonsten directed=true
+                Matrix m = new Matrix(this.AdjacencyList());
+
+                
                 return _directed;
             }
             set
             {
+                if (value.Equals(false))
+                {
+                    //Interpreatoin einer ungerichteten Kante als Paar gerichtter Kanten v1-->v2 & v1<--v2 = v1---v2
+                    //get all edges and check if there exists a couple of edge otherwise add the missing one
+
+
+                }
                 _directed = value;
                 NotifyPropertyChanged("Directed");
+                //todo wenn directed auf false gesetzt wird überall fehlende edges hinzufügen!
             }
         }
 

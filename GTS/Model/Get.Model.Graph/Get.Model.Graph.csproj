@@ -49,6 +49,12 @@
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Get.Common.Mathematics\Get.Common.Mathematics.csproj">
+      <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
+      <Name>Get.Common.Mathematics</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
