@@ -116,6 +116,25 @@ namespace Get.UI
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+
+            if (Debugger.IsAttached)
+            {
+                TextBlock textblock = Children.OfType<TextBlock>().FirstOrDefault<TextBlock>();
+                if (textblock == null)
+                {
+                    textblock = new TextBlock();
+                    textblock.Text = Mouse.GetPosition(this).ToString();
+                    SetLeft(textblock, 0);
+                    SetTop(textblock, 0);
+                    Children.Add(textblock);
+                }
+                else
+                {
+                    textblock.Text = Mouse.GetPosition(this).ToString();
+                }
+
+            }
+
             if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexVisualization)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
                 VertexVisualization v = SelectedItem as VertexVisualization;
