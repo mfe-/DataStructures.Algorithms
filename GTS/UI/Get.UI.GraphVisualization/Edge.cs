@@ -41,9 +41,32 @@ namespace Get.UI
             drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
-                
-            //drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(PositionV.X, PositionV.Y), 2, 2);
+            
+            if (PositionV.X > PositionU.X)
+            {
+                double dx = PositionV.X - PositionU.X;
+                double dy = PositionV.Y - PositionU.Y;
 
+                double alpha = Math.Atan2(dy, dx);
+
+                double dxx = 20 / Math.Cos(alpha);
+                double dyy = Math.Sin(alpha) * 20;
+                drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(PositionV.X - dxx, PositionV.Y - dyy), 2, 2);
+
+            }
+            else
+            {
+                double dx = PositionU.X - PositionV.X;
+                double dy = PositionU.Y - PositionV.Y;
+
+                double alpha = Math.Atan2(dy, dx);
+
+                double dxx = 20 / Math.Cos(alpha);
+                double dyy = Math.Sin(alpha) * 20;
+                //drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(PositionV.X + dxx, PositionV.Y + dyy), 2, 2);
+
+            }
+           
         }
         public Get.Model.Graph.Edge Edge
         {
