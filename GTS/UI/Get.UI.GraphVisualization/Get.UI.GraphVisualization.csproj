@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdornerItem.cs" />
+    <Compile Include="Arrow.cs" />
     <Compile Include="Graph.Command.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="Edge.cs" />
