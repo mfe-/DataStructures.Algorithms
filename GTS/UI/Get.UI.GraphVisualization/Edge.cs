@@ -41,41 +41,8 @@ namespace Get.UI
             drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
-
-            if (Directed == false) //set temporäry to false
-            {
-                Pen pen = new Pen(this.Foreground, this.StrokeThickness);
-                Debug.WriteLine("Edge "+this.Edge.ToString() +" P1: " + PositionU.X + "," + PositionU.Y + " P2 " + PositionV.X + "," + PositionV.Y +"weight: " + this.Edge.Weighted);
-                //arrow properties
-                double angle = 45;
-                double length = 10;
-
-                double k = Math.Abs((PositionV.Y - PositionU.Y) / (PositionV.X - PositionU.X));
-                Debug.WriteLine("k: " + k + "p3" + "");
-                double phi = Math.Atan(k);
-
-                if (phi < 0)
-                    Debug.WriteLine("phi: " + phi);
-
-                //sin(phi) = gegenkathete/hypothenuse = delta y /20
-                //-> delta y = 20 * sin(phi)
-                double deltay = 20 * Math.Sin(phi);
-                //cos(phi) = ankatehte / hypothenuse = deltax/20 -> deltax = 20 * cos(phi)
-                double deltax = 20 * Math.Cos(phi);
-                //x3 = x2 - deltax
-                //y3 = y2 - deltay
-                //kA ob des für alle winkel giltat oda ob s vorzeichen no dreha muasch bi üba 175
-
-                drawingContext.DrawEllipse(BorderBrush, pen, new Point(PositionV.X - 20, PositionV.Y - 20), 2, 2);
-
-                Point PositionVArrowLeft;
-                Point PositionVArrowRight;
-
-
-                // óder http://de.wikipedia.org/wiki/Geradengleichung
-
-            }
-
+                
+            //drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(PositionV.X, PositionV.Y), 2, 2);
 
         }
         public Get.Model.Graph.Edge Edge
