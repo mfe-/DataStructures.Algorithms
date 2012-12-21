@@ -47,26 +47,30 @@ namespace Get.Demo
 
             var z = _GraphVisualization.Graph.Kruskal(_GraphVisualization.Graph.StartVertex);
 
-            var o = z.AdjacencyList();
-            var m = _GraphVisualization.Graph.AdjacencyList();
+            //var o = z.AdjacencyList();
+            //var m = _GraphVisualization.Graph.AdjacencyList();
 
-            this.uout(m);
-            this.uout(o);
+            //this.uout(m);
+            //this.uout(o);
 
-            _GraphVisualization.Graph.addVertex(_GraphVisualization.Graph.Vertices.First().Edges.First().V);
+            //_GraphVisualization.Graph.addVertex(_GraphVisualization.Graph.Vertices.First().Edges.First().V);
 
-            var r = _GraphVisualization.Graph.AdjacencyList();
+            //var r = _GraphVisualization.Graph.AdjacencyList();
+
+
+
+
 
             //var o = Mathematics.gcd(2008, 6318);
-            int[] v1 = Mathematics.CreateMatrix(new int[] { 1, 5, 2 }, new int[] { 3, 2, 1 }, new int[] { 0, 1, 2 });
+            //int[] v1 = Mathematics.CreateMatrix(new int[] { 1, 5, 2 }, new int[] { 3, 2, 1 }, new int[] { 0, 1, 2 });
 
-            int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
-            Vertex va = new Vertex(1);
-            //var r = v1.Add(v2);
-            Graph graph = new Graph();
-            //////graph.Load("Vertex.xml");
+            //int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
+            //Vertex va = new Vertex(1);
+            ////var r = v1.Add(v2);
+            //Graph graph = new Graph();
+            ////////graph.Load("Vertex.xml");
 
-            Int64 zu = 45;
+            //Int64 zu = 45;
 
 
 
@@ -207,14 +211,14 @@ namespace Get.Demo
 
             //brush.BeginAnimation(SolidColorBrush.ColorProperty, ani);
 
-            //GetAllV(graph.Vertices.First(), null);
+            //GetAllV(_GraphVisualization.Graph.Vertices.First(), null);
 
             //_GraphVisualization.Graph.Vertices.First().Depth_First_Traversal().ToList().ForEach(g=>{
             //    Debug.WriteLine(g);
             //});
 
-            //Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
-            //thread.Start(_GraphVisualization.Graph.Vertices.First());
+            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
+            thread.Start(_GraphVisualization.Graph.Vertices.First());
 
             //_GraphVisualization.Graph.Dijkstra(_GraphVisualization.Graph.StartVertex);
 
