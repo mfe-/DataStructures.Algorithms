@@ -93,9 +93,13 @@ namespace Get.Model.Graph
 
 
                 }
+                else
+                {
+                    //todo wenn directed auf false gesetzt wird überall fehlende edges hinzufügen!
+                }
                 _directed = value;
                 NotifyPropertyChanged("Directed");
-                //todo wenn directed auf false gesetzt wird überall fehlende edges hinzufügen!
+                
             }
         }
 

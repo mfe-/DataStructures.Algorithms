@@ -104,6 +104,7 @@ namespace Get.UI
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
+            if(_adornerLayer!=null)
             _adornerLayer.Remove(_adornerItem);
         }
         
