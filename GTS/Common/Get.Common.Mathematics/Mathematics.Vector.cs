@@ -47,7 +47,7 @@ namespace Get.Common.Mathematics
     //}
     public struct Matrix
     {
-        private int[][] _m;
+        internal int[][] _m;
 
         public Matrix(int m, int n)
         {
@@ -88,6 +88,16 @@ namespace Get.Common.Mathematics
             {
                 return _m.First().Length;
             }
+        }
+        public override bool Equals(object obj)
+        {
+            if(!obj.GetType().Equals(typeof(Matrix))) return false;
+
+            Matrix mob = (Matrix)obj;
+
+            //TODO;
+
+            return true;
         }
         public override string ToString()
         {
