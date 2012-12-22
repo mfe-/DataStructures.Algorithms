@@ -45,7 +45,7 @@ namespace Get.Demo
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
             }
 
-            var z = _GraphVisualization.Graph.Kruskal(_GraphVisualization.Graph.StartVertex);
+            
 
             //var o = z.AdjacencyList();
             //var m = _GraphVisualization.Graph.AdjacencyList();

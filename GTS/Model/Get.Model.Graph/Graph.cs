@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Linq;
 using Get.Common.Mathematics;
 
 
@@ -74,15 +75,32 @@ namespace Get.Model.Graph
         {
             get
             {
-                
-                //Handschlaglemma: In einem schlichten ungerichteten Graphen G gilt: sum(d(v))_(v e V(G))=2|E(g)|
+                //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
+                //Schlichte ungerichtete Graphen haben daher eine symmetrische Adjazenzmatrix.
+                //es muss daher von i nach j eine kantegeben und von j nach i, das entspricht aij=aji
+                //also ist der graph genau dann ungerichtet wenn die matrix symmetrisch ist
+                //http://en.wikipedia.org/wiki/Transpose
+                //a transportieren also a^t = a symmetrisch
+                int[][] matrix = this.AdjacencyList();
+                int[][] matrixT = new int[matrix.Length][];
+                for (int i = 0; i < matrix.Length; i++)
+                {
+                    matrixT[i] = new int[matrix.Length];
+                }
 
-                //todo schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false!
-                //ansonsten directed=true
-                Matrix m = new Matrix(this.AdjacencyList());
+                //transportieren
+                for (int i = 0; i < matrix.Length; i++)
+                    for (int j = 0; j < matrix[i].Length; j++)
+                        matrixT[j][i] = matrix[i][j];
 
-                
-                return _directed;
+                //check if result1 = matrixT1 --> symmetry --> v1->v2 & v1<-v2 = undirected
+                for (int i = 0; i < matrix.Length; i++)
+                    for (int j = 0; j < matrix[i].Length; j++)
+                    {
+                        if (matrix[i][j] != matrixT[i][j]) return true;
+                    }
+
+                return false;
             }
             set
             {
@@ -90,12 +108,27 @@ namespace Get.Model.Graph
                 {
                     //Interpreatoin einer ungerichteten Kante als Paar gerichtter Kanten v1-->v2 & v1<--v2 = v1---v2
                     //get all edges and check if there exists a couple of edge otherwise add the missing one
+                    foreach (Vertex v in this.Depth_First_Traversal().Sort().Distinct<Vertex>())
+                        foreach (Edge e in v.Edges)
+                        {
+                            if (e.V.Edges.Where(a => a.V.Equals(v)).Count().Equals(0))
+                            {
+                                e.V.addEdge(v);
+                            }
 
+                        }
 
                 }
                 else
                 {
-                    //todo wenn directed auf false gesetzt wird überall fehlende edges hinzufügen!
+                    //wenn directed auf true gesetzt wird alle doppelten edges löschen (eigentlich würde es reichen eine einzige kante zu entfernen
+                    foreach (Vertex v in this.Depth_First_Traversal().Sort().Distinct<Vertex>())
+                        foreach (Edge e in v.Edges)
+                        {
+                            Edge edgeback = e.V.Edges.Where(a => a.V.Equals(v)).First<Edge>();
+                            e.V.Edges.Remove(edgeback);
+
+                        }
                 }
                 _directed = value;
                 NotifyPropertyChanged("Directed");
