@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Get.Model.Graph.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class GraphExensionsTest
     {
 
         public Graph g;
@@ -64,43 +64,17 @@ namespace Get.Model.Graph.Test
                               new int[]{0,0,0,0,0,1,0}
                              };
 
-         for( int i = 0; i < matrix.Length; i++ ) 
-				for( int j = 0; j < matrix[i].Length; j++ ) 
-					Assert.AreEqual(matrix[i][j], result[i][j]);
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    Assert.AreEqual(matrix[i][j], result[i][j]);
 
         }
         [TestMethod]
-        public void DirectedTest()
+        public void KruskalTest()
         {
-            Assert.AreEqual(g.Directed, true);
-
-            TestContext.WriteLine("g.Directed: " + g.Directed + " Graph.Edges: " + g.Depth_First_Traversal().Sort().Distinct<Vertex>().SelectMany(a => a.Edges).Distinct<Edge>().Count());
-
-            //create undirected graph with doppeltenkanten z.b aus v1-v2 wird mit v1->v2 und v1<-v2 dargestellt 
-            foreach (Vertex v in g.Depth_First_Traversal().Sort().Distinct<Vertex>())
-                foreach (Edge e in v.Edges)
-                {
-                    if (e.V.Edges.Where(a => a.V.Equals(v)).Count().Equals(0))
-                    {
-                        e.V.addEdge(v);
-                    }
-
-                }
-
-            Assert.AreEqual(g.Directed, false);
-
-            TestContext.WriteLine("g.Directed: " + g.Directed + " Graph.Edges: " + g.Depth_First_Traversal().Sort().Distinct<Vertex>().SelectMany(a => a.Edges).Distinct<Edge>().Count());
-
-
-            g.Directed = true;
-
-            TestContext.WriteLine("g.Directed: " + g.Directed + " Graph.Edges: " + g.Depth_First_Traversal().Sort().Distinct<Vertex>().SelectMany(a => a.Edges).Distinct<Edge>().Count());
-            Assert.IsTrue(g.Directed);
-
-
-
-
+            g.Kruskal(g.Vertices.First());
         }
+
         [TestMethod]
         public void DepthFirstSearchTest()
         {
@@ -142,13 +116,8 @@ namespace Get.Model.Graph.Test
 
         }
 
-        public TestContext TestContext { get;set; }
-        [TestMethod]
-        public void dftTest()
-        {
+        public TestContext TestContext { get; set; }
 
-            //hier die extension dft aufrufen und nacher schauen ob alle vertexes besucht wurden
-
-        }
+ 
     }
 }

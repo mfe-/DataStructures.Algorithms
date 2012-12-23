@@ -104,6 +104,7 @@ namespace Get.Model.Graph
             }
             set
             {
+                if (this.Vertices == null) this._Vertices = new ObservableCollection<Vertex>();
                 if (value.Equals(false))
                 {
                     //Interpreatoin einer ungerichteten Kante als Paar gerichtter Kanten v1-->v2 & v1<--v2 = v1---v2

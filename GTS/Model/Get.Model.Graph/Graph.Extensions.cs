@@ -168,6 +168,9 @@ namespace Get.Model.Graph
                 z.Edges.Clear();
             }
 
+            //work only with undircted graphs
+            g.Directed = false;
+
             var vertices = Depth_First_Traversal(g);
             //order edges by pyramiding weighted
             Edge[] edges = vertices.SelectMany(a => a.Edges).Distinct().OrderBy(e => e.Weighted).ToArray();
