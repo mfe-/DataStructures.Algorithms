@@ -43,11 +43,22 @@ namespace Get.UI
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
 
-            
+ EdgeVisualization edgev = this;
 
-            //drawingContext.DrawText(new FormattedText((alpha*180/Math.PI).ToString(),
-            //    System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
-            //       this.FontSize, this.Foreground), p);
+            double dx = edgev.PositionV.X - edgev.PositionU.X;
+            double dy = edgev.PositionV.Y - edgev.PositionU.Y;
+            double alpha = Math.Atan2(dy, dx);
+            double b = Math.Sqrt((dx * dx) + (dy * dy));
+
+            double r = 20;
+
+            double c = (b - r) * Math.Sin(alpha);
+            double d = (b - r) * Math.Cos(alpha);
+
+            double dxx = edgev.PositionU.X + d;
+            double dyy = edgev.PositionU.Y + c;
+
+            drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(dxx, dyy), 2, 2);
 
         }
         public Get.Model.Graph.Edge Edge
@@ -93,25 +104,9 @@ namespace Get.UI
 
         // Using a DependencyProperty as the backing store for PositionU.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionUProperty =
-            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(new Point(), OnPositionUChanged));
+            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(new Point()));
 
-        private static void OnPositionUChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if ((e.NewValue != null && e.NewValue.GetType().Equals(typeof(Point))) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeVisualization))))
-            {
-                EdgeVisualization edgeVisualization = pDependencyObject as EdgeVisualization;
 
-                if (edgeVisualization.Directed.Equals(false))
-                {
-                    Binding bindingPosition = new Binding("PositionU");
-
-                    bindingPosition.Converter = EdgeVisualization.MoveConverter;
-                    bindingPosition.ConverterParameter = 20;
-                    edgeVisualization.SetBinding(EdgeVisualization.PositionUProperty, bindingPosition);
-                }
-            }
-
-        }
 
         /// <summary>
         /// Gets or sets the value of the position from the correspondending V Vertex control
@@ -139,50 +134,5 @@ namespace Get.UI
             DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeVisualization), new UIPropertyMetadata(false));
 
 
-        public static MoveConverter MoveConverter = new MoveConverter();
-
-    }
-    public sealed class MoveConverter : IValueConverter
-    {
-        #region IValueConverter Members
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value">EdgeVisualization</param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter">move pixel</param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value == null) return string.Empty;
-            if (!value.GetType().Equals(typeof(EdgeVisualization))) return value;
-            if (parameter == null) return value;
-
-            EdgeVisualization edgev = value as EdgeVisualization;
-
-            double dx = edgev.PositionV.X - edgev.PositionU.X;
-            double dy = edgev.PositionV.Y - edgev.PositionU.Y;
-            double alpha = Math.Atan2(dy, dx);
-            double b = Math.Sqrt((dx * dx) + (dy * dy));
-
-            double r = 20;
-
-            double c = (b - r) * Math.Sin(alpha);
-            double d = (b - r) * Math.Cos(alpha);
-
-            double dxx = edgev.PositionU.X + d;
-            double dyy = edgev.PositionU.Y + c;
-
-            return new Point(dxx,dyy);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return value;
-        }
-
-        #endregion
     }
 }
