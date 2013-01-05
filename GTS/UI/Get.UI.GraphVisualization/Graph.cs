@@ -147,7 +147,7 @@ namespace Get.UI
             if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeVisualization)))
             {
                 EdgeVisualization ev = SelectedItem as EdgeVisualization;
-                Point p = new Point((e.GetPosition(this).X-4), (e.GetPosition(this).Y)-4);
+                Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
                 ev.PositionV = p;
             }
 
@@ -170,7 +170,7 @@ namespace Get.UI
             //add edge to graph or remove temporary edge
             if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeVisualization)))
             {
-                
+
                 HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
                 FrameworkElement u = result.VisualHit as FrameworkElement;
                 VertexVisualization vv = u.TemplatedParent as VertexVisualization;
@@ -244,11 +244,11 @@ namespace Get.UI
                 a.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
 
                 VertexVisualization u;
-                bool vertexexists = getItem(a)==null ? false : true;
+                bool vertexexists = getItem(a) == null ? false : true;
 
                 if (!vertexexists)
                 {
-                    
+
                     u = addVertex(a);
                     Canvas.SetZIndex(u, 1);
                 }
@@ -256,54 +256,30 @@ namespace Get.UI
                 {
                     u = VertexVisualizations.Where(g => g.Vertex.Equals(a)).First();
                 }
-
+                //add edge to vertex2
                 if (e != null)
                 {
-                    e.PositionV = getPosition(u);
+                    EdgeVisualization edv = addEdge(e, u, EdgeVisualization.PositionVProperty);
 
-                    Binding binding = new Binding("Position");
-                    binding.Source = u;
-                    binding.Mode = BindingMode.TwoWay;
-                    binding.NotifyOnSourceUpdated = true;
-                    binding.NotifyOnTargetUpdated = true;
-                    binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    binding.Converter = Converters.PointAdderConverter;
-                    binding.ConverterParameter = new Point(u.Width / 2, u.Height / 2);
-                    e.SetBinding(EdgeVisualization.PositionVProperty, binding);
-
-                    Canvas.SetZIndex(e, -1);
+                    this.Children.Add(edv);
+                    Canvas.SetZIndex(edv, -1);
                 }
 
                 if (vertexexists) return;
-
+                //add edge from vertex1
                 foreach (Edge ed in a.Edges)
                 {
-                    EdgeVisualization edv = new EdgeVisualization() { Edge = ed };
-                    edv.PositionU = getPosition(u);
-
-                    ed.V.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
-
-                    Binding binding = new Binding("Position");
-                    binding.Source = u;
-                    binding.Mode = BindingMode.TwoWay;
-                    binding.NotifyOnSourceUpdated = true;
-                    binding.NotifyOnTargetUpdated = true;
-                    binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    binding.Converter = Converters.PointAdderConverter;
-                    binding.ConverterParameter = new Point(u.Width / 2, u.Height / 2);
-                    edv.SetBinding(EdgeVisualization.PositionUProperty, binding);
-
+                    EdgeVisualization edv = addEdge(ed, u, EdgeVisualization.PositionUProperty);
+                    
                     InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
-
-                    this.Children.Add(edv);
                 }
             }
         }
 
         protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            
-            if(e.Action.Equals(NotifyCollectionChangedAction.Add))
+
+            if (e.Action.Equals(NotifyCollectionChangedAction.Add))
             {
                 IList<object> items = e.NewItems.SyncRoot as IList<object>;
                 object item = items.First();
@@ -314,7 +290,7 @@ namespace Get.UI
                     addEdge(edge);
 
                     //because vertex is duplicated remove from root
-                    if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count>1)
+                    if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.V);
@@ -323,7 +299,7 @@ namespace Get.UI
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
-                    addVertex(item as Vertex,Mouse.GetPosition(this).Add(-25,-25));
+                    addVertex(item as Vertex, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
             if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
@@ -334,11 +310,11 @@ namespace Get.UI
                 {
                     //catch Visualization item
                     Vertex v = item as Vertex;
-                    VertexVisualization vv= VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
+                    VertexVisualization vv = VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
                     this.Children.Remove(vv);
                 }
             }
-                Debug.WriteLine(this.Graph.Vertices.Count);
+            Debug.WriteLine(this.Graph.Vertices.Count);
         }
 
         private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
@@ -349,7 +325,7 @@ namespace Get.UI
                 graphVisualization.Children.Clear();
                 return;
             }
-            if(e.NewValue.GetType() != (typeof(Graph))) return;
+            if (e.NewValue.GetType() != (typeof(Graph))) return;
             if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphVisualization)))
             {
                 GraphVisualization graphVisualization = pDependencyObject as GraphVisualization;
@@ -380,7 +356,7 @@ namespace Get.UI
         {
             VertexVisualization vertexcontrol = new VertexVisualization();
             vertexcontrol.Vertex = v;
-            
+
             vertexcontrol.Position = point;
             SetLeft(vertexcontrol, point.X);
             SetTop(vertexcontrol, point.Y);
@@ -390,48 +366,105 @@ namespace Get.UI
             return vertexcontrol;
         }
 
-        void Co(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        #region addEdge
+        /// <summary>
+        /// Creates a EdgeVisualization by searching the proper vertices v1 and v2 in the graph and connects them (u->v)
+        /// </summary>
+        /// <param name="e">The Edge which should be visualised</param>
+        /// <returns>Returns the created EdgeVisualization</returns>
         protected virtual EdgeVisualization addEdge(Edge e)
         {
-            EdgeVisualization edv = new EdgeVisualization() { Edge = e };
+            return addEdge(e, true);
+        }
+        /// <summary>
+        /// Creates a EdgeVisualization by searching the proper vertices v1 and v2 in the graph and connects them (u->v)
+        /// </summary>
+        /// <param name="e">The Edge which should be visualised</param>
+        /// <param name="pAddtoCanvas">Determineds whether the EdgeVisualization should be displayed.</param>
+        /// <returns>Returns the created EdgeVisualization</returns>
+        protected virtual EdgeVisualization addEdge(Edge e, bool pAddtoCanvas)
+        {
+            //get vertex1
             VertexVisualization uv = VertexVisualizations.Where(z => z.Vertex.Equals(e.U)).First();
-            edv.PositionU = getPosition(uv);
+
+            if (uv == null)
+                throw new Exception("There was no proper VertexVisualization found for the Ege.U. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
+
+            EdgeVisualization edv = addEdge(e, uv, EdgeVisualization.PositionUProperty);
 
 
+            //get vertex2
+            VertexVisualization vv = VertexVisualizations.Where(z => z.Vertex.Equals(e.V)).First();
+            if (vv == null)
+                throw new Exception("There was no proper VertexVisualization found for the Ege.V. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
+
+            edv = addEdge(edv, vv, EdgeVisualization.PositionVProperty);
+
+
+
+            //add to canvas
+            if (pAddtoCanvas)
+            {
+                this.Children.Add(edv);
+                Canvas.SetZIndex(edv, -1);
+            }
+
+            return edv;
+        }
+        /// <summary>
+        /// Creates a EdgeVisualization by using the overgiven VertexVisualization. Use this when at runtime the second VertexVisualization doesnt exist.
+        /// </summary>
+        /// <param name="e">The Edge which should be visualised</param>
+        /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
+        /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
+        /// <returns>Returns the created EdgeVisualization</returns>
+        protected virtual EdgeVisualization addEdge(Edge pEdge, VertexVisualization pVertexVisualization, DependencyProperty pDependencyProperty)
+        {
+            EdgeVisualization edv = new EdgeVisualization() { Edge = pEdge };
+            VertexVisualization uv = pVertexVisualization;
+
+            CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+
+            return edv;
+        }
+        /// <summary>
+        /// Adds the second VertexVisualization to the EdgeVisualization, by using the overgiven VertexVisualization
+        /// </summary>
+        /// <param name="pEdgeVisualization">The EdgeVisualization which should be used</param>
+        /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
+        /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
+        /// <returns>Returns the modified EdgeVisualization</returns>
+        protected virtual EdgeVisualization addEdge(EdgeVisualization pEdgeVisualization, VertexVisualization pVertexVisualization, DependencyProperty pDependencyProperty)
+        {
+            EdgeVisualization edv = pEdgeVisualization;
+            VertexVisualization uv = pVertexVisualization;
+
+            CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+
+            return edv;
+        }
+        /// <summary>
+        /// Creates a binding between the Edge.Position and the Vertex.Position
+        /// </summary>
+        /// <param name="pSetBindingSource">EdgeVisualization on which the binding should be set</param>
+        /// <param name="pBindingSource">From which VertexVisualization the position should be used</param>
+        /// <param name="pDependencyProperty">On which Position Property the binding should be set. Use EdgeVisualization.PositionUProperty or dgeVisualization.PositionVProperty))</param>
+        /// <param name="Converter">Set a Converter if needed</param>
+        /// <param name="ConverterParameter">Parameter for the Converter</param>
+        protected virtual void CreatePositionBinding(EdgeVisualization pSetBindingSource, VertexVisualization pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
+        {
             Binding bindingU = new Binding("Position");
-            bindingU.Source = uv;
+            bindingU.Source = pBindingSource;
             bindingU.Mode = BindingMode.TwoWay;
             bindingU.NotifyOnSourceUpdated = true;
             bindingU.NotifyOnTargetUpdated = true;
             bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            bindingU.Converter = Converters.PointAdderConverter;
-            bindingU.ConverterParameter = new Point(uv.Width / 2, uv.Height / 2);
-            edv.SetBinding(EdgeVisualization.PositionUProperty, bindingU);
-
-            this.Children.Add(edv);
-
-            VertexVisualization vv = VertexVisualizations.Where(z => z.Vertex.Equals(e.V)).First();
-
-            edv.PositionV = getPosition(vv);
-
-            Binding bindingV = new Binding("Position");
-            bindingV.Source = vv;
-            bindingV.Mode = BindingMode.TwoWay;
-            bindingV.NotifyOnSourceUpdated = true;
-            bindingV.NotifyOnTargetUpdated = true;
-            bindingV.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            bindingV.Converter = Converters.PointAdderConverter;
-            bindingV.ConverterParameter = new Point(vv.Width / 2, vv.Height / 2);
-            edv.SetBinding(EdgeVisualization.PositionVProperty, bindingV);
-
-            Canvas.SetZIndex(edv, -1);
-
-            return edv;
-
+            bindingU.Converter = Converter;
+            bindingU.ConverterParameter = ConverterParameter;
+            pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
         }
+        #endregion
+
         /// <summary>
         /// Returns the position of the delivered VertexVisualization control
         /// </summary>
