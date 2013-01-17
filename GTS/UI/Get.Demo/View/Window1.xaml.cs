@@ -42,7 +42,7 @@ namespace Get.Demo
         {
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
             }
 
             
@@ -67,67 +67,69 @@ namespace Get.Demo
             //int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
             //Vertex va = new Vertex(1);
             ////var r = v1.Add(v2);
-            //Graph graph = new Graph();
+           
             ////////graph.Load("Vertex.xml");
 
             //Int64 zu = 45;
 
+            Graph graph = new Graph();
+
+            Vertex va = new Vertex(1);
+            Vertex vb = new Vertex(2);
+            Vertex vc = new Vertex(3);
+            Vertex vd = new Vertex(4);
+            Vertex ve = new Vertex(5);
+            Vertex vf = new Vertex(6);
+            Vertex vg = new Vertex(7);
+            Vertex vh = new Vertex(8);
+            Vertex vi = new Vertex(9);
+            Vertex vj = new Vertex(10);
+            Vertex vk = new Vertex(11);
+            Vertex vl = new Vertex(12);
+
+            va.addEdge(vb, 2);
+            va.addEdge(vd, 3);
+            va.addEdge(vc, 5);
+
+            vb.addEdge(vc, 4);
+            vb.addEdge(ve, 6);
+
+            vc.addEdge(ve, 4);
+            vc.addEdge(vd, 1);
+            vc.addEdge(vf, 1);
+
+            vd.addEdge(vf, 3);
+
+            vf.addEdge(ve, 2);
+
+            ve.addEdge(vg, 2);
+            ve.addEdge(vf, 2);
+
+            vg.addEdge(vf, 5);
+
+            vc.addEdge(vb);
+            vc.addEdge(vd);
+
+            vd.addEdge(ve);
+
+            vg.addEdge(vh);
+            vh.addEdge(vi);
+            vi.addEdge(vj);
+            vj.addEdge(vf);
+
+            vh.addEdge(vd);
+            vi.addEdge(ve);
+
+            vg.addEdge(vl);
+            vl.addEdge(vk);
 
 
+            graph.addVertex(va);
+            graph.StartVertex = va;
 
-            //Vertex vb = new Vertex(2);
-            //Vertex vc = new Vertex(3);
-            //Vertex vd = new Vertex(4);
-            //Vertex ve = new Vertex(5);
-            //Vertex vf = new Vertex(6);
-            //Vertex vg = new Vertex(7);
-            ////Vertex vh = new Vertex(8);
-            ////Vertex vi = new Vertex(9);
-            ////Vertex vj = new Vertex(10);
-            ////Vertex vk = new Vertex(11);
-            ////Vertex vl = new Vertex(12);
-
-            //va.addEdge(vb, 2);
-            //va.addEdge(vd, 3);
-            //va.addEdge(vc, 5);
-
-            //vb.addEdge(vc, 4);
-            //vb.addEdge(ve, 6);
-
-            //vc.addEdge(ve,4);
-            //vc.addEdge(vd, 1);
-            //vc.addEdge(vf, 1);
-
-            //vd.addEdge(vf, 3);
-
-            //vf.addEdge(ve, 2);
-
-            //ve.addEdge(vg, 2);
-            //ve.addEdge(vf, 2);
-
-            //vg.addEdge(vf, 5);
-
-            //vc.addEdge(vb);
-            //vc.addEdge(vd);
-
-            //vd.addEdge(ve);
-
-            //vg.addEdge(vh);
-            //vh.addEdge(vi);
-            //vi.addEdge(vj);
-            //vj.addEdge(vf);
-
-            //vh.addEdge(vd);
-            //vi.addEdge(ve);
-
-            //vg.addEdge(vl);
-            //vl.addEdge(vk);
+            _GraphVisualization.Graph = graph;
 
 
-            //graph.addVertex(va);
-            //graph.StartVertex = va;
-
-            //_GraphVisualization.Graph = graph;
             //var g = graph.Dijkstra(graph.StartVertex
             //Debug.WriteLine("a2");
             ////graph.Vertices.Add(new Vertex(3));
@@ -217,8 +219,8 @@ namespace Get.Demo
             //    Debug.WriteLine(g);
             //});
 
-            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
-            thread.Start(_GraphVisualization.Graph.Vertices.First());
+            //Thread thread = new Thread(new ParameterizedThreadStart(delegate(object arr) { dft((Vertex)(arr), new List<Vertex>()); }));
+            //thread.Start(_GraphVisualization.Graph.Vertices.First());
 
             //_GraphVisualization.Graph.Dijkstra(_GraphVisualization.Graph.StartVertex);
 

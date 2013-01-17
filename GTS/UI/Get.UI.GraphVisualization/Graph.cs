@@ -423,7 +423,18 @@ namespace Get.UI
             EdgeVisualization edv = new EdgeVisualization() { Edge = pEdge };
             VertexVisualization uv = pVertexVisualization;
 
+            if (pDependencyProperty.Equals(EdgeVisualization.PositionUProperty))
+            {
+                edv.PositionU = getPosition(pVertexVisualization);
+            }
+            else
+            {
+                edv.PositionV = getPosition(pVertexVisualization);
+            }
+
             CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+
+            CreateDirectedBinding(edv, this.Graph);
 
             return edv;
         }
@@ -439,7 +450,18 @@ namespace Get.UI
             EdgeVisualization edv = pEdgeVisualization;
             VertexVisualization uv = pVertexVisualization;
 
-            CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+            if (pDependencyProperty.Equals(EdgeVisualization.PositionUProperty))
+            {
+                edv.PositionU = getPosition(pVertexVisualization);
+                CreatePositionBinding(edv, uv, pDependencyProperty, null, new Point(uv.Width / 2, uv.Height / 2));
+            }
+            else
+            {
+                edv.PositionV = getPosition(pVertexVisualization);
+                CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+            }
+
+            
 
             return edv;
         }
@@ -459,9 +481,23 @@ namespace Get.UI
             bindingU.NotifyOnSourceUpdated = true;
             bindingU.NotifyOnTargetUpdated = true;
             bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            bindingU.Converter = Converter;
+            bindingU.Converter = Converters.PointAdderConverter;
             bindingU.ConverterParameter = ConverterParameter;
             pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
+        }
+        //not tested yet
+        protected virtual void CreateDirectedBinding(EdgeVisualization pSetBindingSource, Graph pGraphSource)
+        {
+            if (pSetBindingSource.GetBindingExpression(EdgeVisualization.DirectedProperty) == null)
+            {
+                Binding bindingDirected = new Binding("Directed");
+                bindingDirected.Source = pGraphSource;
+                bindingDirected.Mode = BindingMode.OneWay;
+                bindingDirected.NotifyOnSourceUpdated = true;
+                bindingDirected.NotifyOnTargetUpdated = false;
+                bindingDirected.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pSetBindingSource.SetBinding(EdgeVisualization.DirectedProperty, bindingDirected);
+            }
         }
         #endregion
 
