@@ -17,44 +17,36 @@ namespace Get.UI
     {
         #region Dependency Properties
 
-        public static readonly DependencyProperty X1Property = DependencyProperty.Register("X1", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty Y1Property = DependencyProperty.Register("Y1", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty X2Property = DependencyProperty.Register("X2", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty Y2Property = DependencyProperty.Register("Y2", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+
+        public Point Point1
+        {
+            get { return (Point)GetValue(Point1Property); }
+            set { SetValue(Point1Property, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Point1.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Point1Property =
+            DependencyProperty.Register("Point1", typeof(Point), typeof(Arrow), new FrameworkPropertyMetadata(new Point(), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+
+
+        public Point Point2
+        {
+            get { return (Point)GetValue(Point2Property); }
+            set { SetValue(Point2Property, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Point2.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty Point2Property =
+            DependencyProperty.Register("Point2", typeof(Point), typeof(Arrow), new FrameworkPropertyMetadata(new Point(), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
         public static readonly DependencyProperty HeadWidthProperty = DependencyProperty.Register("HeadWidth", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty HeadHeightProperty = DependencyProperty.Register("HeadHeight", typeof(double), typeof(Arrow), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         #endregion
 
         #region CLR Properties
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double X1
-        {
-            get { return (double)base.GetValue(X1Property); }
-            set { base.SetValue(X1Property, value); }
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double Y1
-        {
-            get { return (double)base.GetValue(Y1Property); }
-            set { base.SetValue(Y1Property, value); }
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double X2
-        {
-            get { return (double)base.GetValue(X2Property); }
-            set { base.SetValue(X2Property, value); }
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double Y2
-        {
-            get { return (double)base.GetValue(Y2Property); }
-            set { base.SetValue(Y2Property, value); }
-        }
 
         [TypeConverter(typeof(LengthConverter))]
         public double HeadWidth
@@ -100,20 +92,20 @@ namespace Get.UI
 
         private void InternalDrawArrowGeometry(StreamGeometryContext context)
         {
-            double theta = Math.Atan2(Y1 - Y2, X1 - X2);
+            double theta = Math.Atan2(Point1.Y - Point2.Y, Point1.X - Point2.X);
             double sint = Math.Sin(theta);
             double cost = Math.Cos(theta);
 
-            Point pt1 = new Point(X1, this.Y1);
-            Point pt2 = new Point(X2, this.Y2);
+            Point pt1 = Point1;
+            Point pt2 = Point2;
 
             Point pt3 = new Point(
-                X2 + (HeadWidth * cost - HeadHeight * sint),
-                Y2 + (HeadWidth * sint + HeadHeight * cost));
+                Point2.X + (HeadWidth * cost - HeadHeight * sint),
+                Point2.Y + (HeadWidth * sint + HeadHeight * cost));
 
             Point pt4 = new Point(
-                X2 + (HeadWidth * cost + HeadHeight * sint),
-                Y2 - (HeadHeight * cost - HeadWidth * sint));
+                Point2.X + (HeadWidth * cost + HeadHeight * sint),
+                Point2.Y - (HeadHeight * cost - HeadWidth * sint));
 
             context.BeginFigure(pt1, true, false);
             context.LineTo(pt2, true, true);

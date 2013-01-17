@@ -45,8 +45,8 @@ namespace Get.UI
 
  EdgeVisualization edgev = this;
 
-            double dx = edgev.PositionV.X - edgev.PositionU.X;
-            double dy = edgev.PositionV.Y - edgev.PositionU.Y;
+            double dx = (edgev.PositionV.X ) - edgev.PositionU.X;
+            double dy = (edgev.PositionV.Y ) - edgev.PositionU.Y;
             double alpha = Math.Atan2(dy, dx);
             double b = Math.Sqrt((dx * dx) + (dy * dy));
 
@@ -134,5 +134,51 @@ namespace Get.UI
             DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeVisualization), new UIPropertyMetadata(false));
 
 
+        public static ShiftConverter ShiftConverter = new ShiftConverter();
+
+    }
+    public sealed class ShiftConverter : IValueConverter
+    {
+        #region IValueConverter Members
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value">EdgeVisualization</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter">move pixel</param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return string.Empty;
+            if (!value.GetType().Equals(typeof(Point))) return value;
+            if (value == null) return value;
+            Point p = (Point)value;
+            
+            //EdgeVisualization edgev = value as EdgeVisualization;
+
+            //double dx = edgev.PositionV.X - edgev.PositionU.X;
+            //double dy = edgev.PositionV.Y - edgev.PositionU.Y;
+            //double alpha = Math.Atan2(dy, dx);
+            //double b = Math.Sqrt((dx * dx) + (dy * dy));
+
+            //double r = 20;
+
+            //double c = (b - r) * Math.Sin(alpha);
+            //double d = (b - r) * Math.Cos(alpha);
+
+            //double dxx = edgev.PositionU.X + d;
+            //double dyy = edgev.PositionU.Y + c;
+
+            return new Point(p.X+20, p.Y+20);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+
+        #endregion
     }
 }
