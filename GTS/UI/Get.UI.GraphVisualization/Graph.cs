@@ -59,7 +59,8 @@ namespace Get.UI
         /// </summary>
         protected Random _Random = new Random(DateTime.Now.Millisecond);
 
-        public static RoutedCommand AddVertex = new RoutedCommand();
+        public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
+        public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
 
         public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphVisualization));
@@ -546,7 +547,7 @@ namespace Get.UI
         /// Calls the focus method on the VertexVisualization control
         /// </summary>
         /// <param name="v"></param>
-        public virtual void setFocus(Vertex v)
+        public virtual void SetFocus(Vertex v)
         {
             if (getItem(v) != null)
                 getItem(v).Focus();
@@ -555,12 +556,12 @@ namespace Get.UI
         /// Calls the focus method on the VertexVisualization control
         /// </summary>
         /// <param name="v"></param>
-        public virtual void setFocus(Edge e)
+        public virtual void SetFocus(Edge e)
         {
             if (getItem(e) != null)
                 getItem(e).Focus();
         }
-        public virtual void setFocus(Edge e, AsyncCallback b)
+        public virtual void SetFocus(Edge e, AsyncCallback b)
         {
             //todo delgeate zum mitgeben der ausgeführt werden soll wenn focus ausgeführt soll
         }
