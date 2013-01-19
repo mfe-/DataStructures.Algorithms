@@ -114,7 +114,7 @@ namespace Get.Model.Graph
                         {
                             if (e.V.Edges.Where(a => a.V.Equals(v)).Count().Equals(0))
                             {
-                                e.V.addEdge(v);
+                                e.V.addEdge(v,e.Weighted);
                             }
 
                         }
@@ -122,7 +122,7 @@ namespace Get.Model.Graph
                 }
                 else
                 {
-                    //wenn directed auf true gesetzt wird alle doppelten edges löschen (eigentlich würde es reichen eine einzige kante zu entfernen
+                    //wenn directed auf true gesetzt wird, alle doppelten edges löschen (eigentlich würde es reichen eine einzige kante zu entfernen)
                     foreach (Vertex v in this.Depth_First_Traversal().Sort().Distinct<Vertex>())
                         foreach (Edge e in v.Edges)
                         {

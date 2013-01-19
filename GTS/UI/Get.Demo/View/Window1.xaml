@@ -38,7 +38,7 @@
             <ui:GraphVisualization x:Name="_GraphVisualization"
                 Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
                 Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
-                Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertex}">
+                Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertexRoutedCommand}">
                 <ui:GraphVisualization.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="_Save" Command="Save" />

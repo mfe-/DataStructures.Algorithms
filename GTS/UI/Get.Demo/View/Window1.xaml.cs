@@ -43,6 +43,7 @@ namespace Get.Demo
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
             }
 
             
@@ -234,7 +235,7 @@ namespace Get.Demo
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
               delegate()
               {
-                  _GraphVisualization.setFocus(v);
+                  _GraphVisualization.SetFocus(v);
               }));
             mre.WaitOne(20 * 120);
 
@@ -243,7 +244,7 @@ namespace Get.Demo
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()
                   {
-                      _GraphVisualization.setFocus(e);
+                      _GraphVisualization.SetFocus(e);
                   }));
                 mre.WaitOne(20 * 120);
                 GetAllV(e.V, firstVertex);
@@ -259,7 +260,7 @@ namespace Get.Demo
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
               delegate()
               {
-                  _GraphVisualization.setFocus(v);
+                  _GraphVisualization.SetFocus(v);
                   Debug.WriteLine(v + " visited");
               }));
             mre.WaitOne(10 * 120);
@@ -269,7 +270,7 @@ namespace Get.Demo
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()
                   {
-                      _GraphVisualization.setFocus(e);
+                      _GraphVisualization.SetFocus(e);
                       Debug.WriteLine(e + " visited");
                   }));
                 mre.WaitOne(10 * 120);

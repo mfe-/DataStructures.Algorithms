@@ -28,9 +28,10 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, Copy_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertex, AddVertex_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertexRoutedCommand, AddVertex_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphVisualization.SetDirectedRoutedCommand,SetDirected_Executed));
 
         }
 
@@ -52,7 +53,7 @@ namespace Get.UI
         {
             //http://stackoverflow.com/questions/2522380/get-a-bitmap-image-from-a-control-view
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)FocusedFrameworkElement.ActualWidth, (int)FocusedFrameworkElement.ActualHeight, 96, 96, PixelFormats.Pbgra32);
-            rtb.Render(FocusedFrameworkElement);
+            rtb.Render(this);
             //todo funktioniert noch nicht
             PngBitmapEncoder png = new PngBitmapEncoder();
             png.Frames.Add(BitmapFrame.Create(rtb));
@@ -192,6 +193,21 @@ namespace Get.UI
             }
             this.InvalidateVisual();
 
+        }
+
+        protected void SetDirected_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            {
+                if (e.Parameter != null && e.Parameter.GetType().Equals(typeof(bool)))
+                {
+                    this.Graph.Directed = (bool)e.Parameter;
+                }
+                else
+                {
+                    this.Graph.Directed = !this.Graph.Directed;
+                }
+            }
         }
         /// <summary>
         /// Will be executed when the AddVertex command was called.
