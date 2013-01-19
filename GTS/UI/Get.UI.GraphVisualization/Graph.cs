@@ -336,6 +336,8 @@ namespace Get.UI
                 graphVisualization.InitialiseGraph(graph.Vertices);
             }
         }
+
+        #region addVertex
         /// <summary>
         /// Adds a Vertex to the _Canvas.
         /// The position of VertexVisualization will be set randomly on the canvas.
@@ -365,6 +367,8 @@ namespace Get.UI
             v.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             return vertexcontrol;
         }
+
+        #endregion
 
         #region addEdge
         /// <summary>
@@ -475,15 +479,18 @@ namespace Get.UI
         /// <param name="ConverterParameter">Parameter for the Converter</param>
         protected virtual void CreatePositionBinding(EdgeVisualization pSetBindingSource, VertexVisualization pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
         {
-            Binding bindingU = new Binding("Position");
-            bindingU.Source = pBindingSource;
-            bindingU.Mode = BindingMode.TwoWay;
-            bindingU.NotifyOnSourceUpdated = true;
-            bindingU.NotifyOnTargetUpdated = true;
-            bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            bindingU.Converter = Converters.PointAdderConverter;
-            bindingU.ConverterParameter = ConverterParameter;
-            pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
+            if (pSetBindingSource.GetBindingExpression(pDependencyProperty) == null)
+            {
+                Binding bindingU = new Binding("Position");
+                bindingU.Source = pBindingSource;
+                bindingU.Mode = BindingMode.TwoWay;
+                bindingU.NotifyOnSourceUpdated = true;
+                bindingU.NotifyOnTargetUpdated = true;
+                bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                bindingU.Converter = Converters.PointAdderConverter;
+                bindingU.ConverterParameter = ConverterParameter;
+                pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
+            }
         }
         //not tested yet
         protected virtual void CreateDirectedBinding(EdgeVisualization pSetBindingSource, Graph pGraphSource)
