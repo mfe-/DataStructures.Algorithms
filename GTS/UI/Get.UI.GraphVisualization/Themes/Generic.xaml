@@ -119,8 +119,14 @@
                     <DockPanel>
                         <!--use when local:EdgeVisualization.Directed=true-->
                         <local:Arrow Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}" HeadWidth="10" HeadHeight="10"
-                        Point1="{Binding Mode=TwoWay,Path=PositionU,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
-                        Point2="{Binding Mode=TwoWay,Path=PositionV,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" >
+                        Point1="{Binding Mode=TwoWay,Path=PositionU,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}">
+                            <local:Arrow.Point2>
+                                <!--Because Point1 and Point2 are the coordinates to the vertex center, we have to calculate the right coordinates with the converter-->
+                                <MultiBinding Converter="{x:Static local:EdgeVisualization.ShiftConverter}" Mode="OneWay" NotifyOnSourceUpdated="False" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="PositionU" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}" />
+                                    <Binding Path="PositionV" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}" />
+                                </MultiBinding>
+                            </local:Arrow.Point2>
                             <local:Arrow.Style>
                                 <Style TargetType="{x:Type local:Arrow}">
                                     <Style.Triggers>
@@ -182,11 +188,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="PositionU"> pfeile sieht man nicht weil diese vom vertex verdeckt sind!!!
-            <Setter.Value>
-                <Binding Path="{Binding Path=PositionV,Converter={x:Static local:EdgeVisualization.ShiftConverter}}" />
-            </Setter.Value>
-        </Setter>-->
         <Setter Property="Opacity" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>

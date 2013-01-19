@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Markup;
 using System.Windows.Shapes;
 using System.Windows.Data;
+using System.Globalization;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
@@ -42,23 +43,6 @@ namespace Get.UI
             drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
                 System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
-
- EdgeVisualization edgev = this;
-
-            double dx = (edgev.PositionV.X ) - edgev.PositionU.X;
-            double dy = (edgev.PositionV.Y ) - edgev.PositionU.Y;
-            double alpha = Math.Atan2(dy, dx);
-            double b = Math.Sqrt((dx * dx) + (dy * dy));
-
-            double r = 20;
-
-            double c = (b - r) * Math.Sin(alpha);
-            double d = (b - r) * Math.Cos(alpha);
-
-            double dxx = edgev.PositionU.X + d;
-            double dyy = edgev.PositionU.Y + c;
-
-            drawingContext.DrawEllipse(BorderBrush, new Pen(this.Foreground, this.StrokeThickness), new Point(dxx, dyy), 2, 2);
 
         }
         public Get.Model.Graph.Edge Edge
@@ -137,48 +121,40 @@ namespace Get.UI
         public static ShiftConverter ShiftConverter = new ShiftConverter();
 
     }
-    public sealed class ShiftConverter : IValueConverter
+    public class ShiftConverter : IMultiValueConverter
     {
-        #region IValueConverter Members
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value">EdgeVisualization</param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter">move pixel</param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return string.Empty;
-            if (!value.GetType().Equals(typeof(Point))) return value;
-            if (value == null) return value;
-            Point p = (Point)value;
-            
+            if (values == null) return new Point[]{};
+            if (!values.GetType().Equals(typeof(System.Object[]))) return values;
+            if (!values.Length.Equals(2)) return new Point[] { };
+            if (!values[0].GetType().Equals(typeof(Point))) return new Point[] { };
+            if (!values[1].GetType().Equals(typeof(Point))) return new Point[] { };
+
+            Point pu = (Point)values[0];
+            Point pv = (Point)values[1];
+
             //EdgeVisualization edgev = value as EdgeVisualization;
 
-            //double dx = edgev.PositionV.X - edgev.PositionU.X;
-            //double dy = edgev.PositionV.Y - edgev.PositionU.Y;
-            //double alpha = Math.Atan2(dy, dx);
-            //double b = Math.Sqrt((dx * dx) + (dy * dy));
+            double dx = pv.X - pu.X;
+            double dy = pv.Y - pu.Y;
+            double alpha = Math.Atan2(dy, dx);
+            double b = Math.Sqrt((dx * dx) + (dy * dy));
 
-            //double r = 20;
+            double r = 20;
 
-            //double c = (b - r) * Math.Sin(alpha);
-            //double d = (b - r) * Math.Cos(alpha);
+            double c = (b - r) * Math.Sin(alpha);
+            double d = (b - r) * Math.Cos(alpha);
 
-            //double dxx = edgev.PositionU.X + d;
-            //double dyy = edgev.PositionU.Y + c;
+            double dxx = pu.X + d;
+            double dyy = pu.Y + c;
 
-            return new Point(p.X+20, p.Y+20);
+            return new Point(dxx, dyy);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return value;
+            return new object[]{value};
         }
-
-        #endregion
     }
 }
