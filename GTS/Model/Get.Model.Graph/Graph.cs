@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Linq;
 using Get.Common.Mathematics;
+using System;
 
 
 namespace Get.Model.Graph
@@ -154,6 +155,17 @@ namespace Get.Model.Graph
         }
         #endregion
 
+    }
+    public class DirectedException : Exception
+    {
+        protected const String Directedmessage = "Graph must be directed";
+        protected const String Undirectedmessage = "Graph must be undirected";
+
+        public DirectedException(bool pDirected)
+            : base(pDirected==true ? Directedmessage : Undirectedmessage)
+        {
+
+        }
     }
 
 }
