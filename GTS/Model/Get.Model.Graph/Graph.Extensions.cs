@@ -86,6 +86,7 @@ namespace Get.Model.Graph
                 g.Vertices.Add(v);
 
         }
+        
         public static IEnumerable<Vertex> Sort(this IEnumerable<Vertex> l)
         {
             return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
