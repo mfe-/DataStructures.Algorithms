@@ -12,18 +12,18 @@ namespace Get.Model.Graph.Test
     {
 
         public Graph g;
+        Vertex v1 = new Vertex() { Weighted = 1 };
+        Vertex v2 = new Vertex() { Weighted = 2 };
+        Vertex v3 = new Vertex() { Weighted = 3 };
+        Vertex v4 = new Vertex() { Weighted = 4 };
+        Vertex v5 = new Vertex() { Weighted = 5 };
+        Vertex v6 = new Vertex() { Weighted = 6 };
+        Vertex v7 = new Vertex() { Weighted = 7 };
 
         [TestInitialize]
         public void Initialize()
         {
             Graph g = new Graph();
-            Vertex v1 = new Vertex() { Weighted = 1 };
-            Vertex v2 = new Vertex() { Weighted = 2 }; ;
-            Vertex v3 = new Vertex() { Weighted = 3 }; ;
-            Vertex v4 = new Vertex() { Weighted = 4 }; ;
-            Vertex v5 = new Vertex() { Weighted = 5 }; ;
-            Vertex v6 = new Vertex() { Weighted = 6 }; ;
-            Vertex v7 = new Vertex() { Weighted = 7 }; ;
 
             g.addVertex(v1);
 
@@ -48,7 +48,7 @@ namespace Get.Model.Graph.Test
 
             this.g = g;
         }
-
+      
         [TestMethod]
         public void DirectedTest()
         {
@@ -79,8 +79,8 @@ namespace Get.Model.Graph.Test
 
         }
 
-        public TestContext TestContext { get;set; }
-      
+        public TestContext TestContext { get; set; }
+
     }
 }
 

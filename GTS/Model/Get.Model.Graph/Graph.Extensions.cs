@@ -152,8 +152,11 @@ namespace Get.Model.Graph
             return m;
         }
 
-        public static Graph Kruskal(this Graph g, Vertex start)
+        public static Graph Kruskal(this Graph g)
         {
+            //work only with undircted graphs
+            if(g.Directed.Equals(true))
+                throw new DirectedException(false);
             //create g'
             Graph g_ = new Graph();
             //copy object instance
@@ -169,12 +172,10 @@ namespace Get.Model.Graph
                 z.Edges.Clear();
             }
 
-            //work only with undircted graphs
-            g.Directed = false;
-
             var vertices = Depth_First_Traversal(g);
             //order edges by pyramiding weighted
             Edge[] edges = vertices.SelectMany(a => a.Edges).Distinct().OrderBy(e => e.Weighted).ToArray();
+            
 
             for (int i = 0; i < edges.Length; i++)
             {
