@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Edges.Test.cs" />
     <Compile Include="Graph.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Graph.Extensions.Test.cs" />

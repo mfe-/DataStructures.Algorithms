@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections;
+using System;
 
 namespace Get.Model.Graph
 {
     [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
-    public class Edge : INotifyPropertyChanged
+    public class Edge : INotifyPropertyChanged, IEqualityComparer
     {
         #region Members
         protected Vertex u;
@@ -58,7 +61,52 @@ namespace Get.Model.Graph
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return base.ToString() + string.Empty + U.ToString() + " ->" + V.ToString();
+            return base.ToString() + string.Empty + U.ToString() + " -> " + V.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!obj.GetType().Equals(typeof(Edge))) return false;
+
+            //true if objA is the same instance as objB or if both are null; otherwise, false.
+            if (Object.ReferenceEquals(this, obj)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(obj, null)) return false;
+
+            Edge edge = obj as Edge;
+
+            return Equals(edge, false);
+        }
+        public bool Equals(Edge edge, bool permute)
+        {
+            if (permute)
+            {
+                if (!this.U.Equals(edge.V)) return false;
+                if (!this.V.Equals(edge.U)) return false;
+                if (!this.Weighted.Equals(edge.Weighted)) return false;
+                if (!this.GetHashCode().Equals(edge.GetHashCode())) return false;
+                return true;
+            }
+            else
+            {
+                if (!this.U.Equals(edge.U)) return false;
+                if (!this.V.Equals(edge.V)) return false;
+                if (!this.Weighted.Equals(edge.Weighted)) return false;
+                if (!this.GetHashCode().Equals(edge.GetHashCode())) return false;
+                return true;
+            }
+        }
+        /// <summary>
+        /// Serves as a hash function for the type edge.
+        /// The implementation of the GetHashCode method does not guarantee unique return values for different objects.
+        /// The HasCode will be calculated with the GetHasCode functions from the vertex u and v. Transported edges will have the same value.
+        /// http://msdn.microsoft.com/en-us/library/system.object.gethashcode.aspx
+        /// </summary>
+        /// <returns>A hash code for the current Object.</returns>
+        public override int GetHashCode()
+        {
+            return Math.Abs(U.GetHashCode()) + Math.Abs(V.GetHashCode()); 
         }
 
         #region INotifyPropertyChanged
@@ -75,6 +123,39 @@ namespace Get.Model.Graph
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+        #endregion
+
+        #region IEqualityComparer
+        /// <summary>
+        /// http://msdn.microsoft.com/en-us/library/bb338049(v=vs.100).aspx
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool Equals(object x, object y)
+        {
+            if (!x.GetType().Equals(typeof(Edge))) return false;
+            if (!y.GetType().Equals(typeof(Edge))) return false;
+
+            Edge e1 = x as Edge;
+            Edge e2 = y as Edge;
+
+            //edge are equal
+            if (e1.Equals(e2) && e2.Equals(e1)) return true;
+
+            //edges are not equal but transposed (e1: v1->v2 e2: v2->v1 )
+            if ((e1.Equals(e2) && e2.Equals(e1)).Equals(false) &&
+                (e1.Equals(e2, true) && e2.Equals(e1, true)).Equals(true)) return true;
+                
+            //diffrent edges
+            return false;
+
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return obj.GetHashCode();
         }
         #endregion
 
