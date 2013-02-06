@@ -80,10 +80,7 @@ namespace Get.Model.Graph.Test
             //e1=e2
             Assert.IsFalse(e1.Equals(e2));
 
-            Assert.IsTrue(e1.Equals(e1, e1));
 
-            //e1=e2 equals with 2 parameters should return true when e1: v1->v2 and e2: v2->v1 
-            Assert.IsTrue(e1.Equals(e2, e1));
 
 
         }
