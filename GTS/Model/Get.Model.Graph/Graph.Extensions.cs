@@ -93,7 +93,7 @@ namespace Get.Model.Graph
         }
         public static IEnumerable<Vertex> ToVertexList(this IEnumerable<Edge> l)
         {
-            return l.SelectMany(a => new List<Vertex>() {a.U,a.V}).Distinct();
+            return l.SelectMany(a => new List<Vertex>() { a.U, a.V }).Distinct();
         }
         /// <summary>
         /// Returns all vertices from the graph
@@ -177,7 +177,7 @@ namespace Get.Model.Graph
 
             var vertices = Depth_First_Traversal(g);
             //order edges by pyramiding weighted
-            Edge[] edges = vertices.SelectMany(a => a.Edges).Distinct().OrderBy(e => e.Weighted).ToArray();
+            Edge[] edges = vertices.SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new Edge(null, null)).ToArray();
 
 
             for (int i = 0; i < edges.Length; i++)
@@ -191,14 +191,14 @@ namespace Get.Model.Graph
                 //check if circle
                 var o = DepthFirstSearch(u, u);
                 //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
-                if (o.Last().V.Equals(u))
+                if (o.First().U.Equals(u) && o.Last().V.Equals(u))
                 {
                     u.Edges.Remove(u.Edges.Last());
                 }
             }
             return g_;
         }
-        
+
         public static Edge Dijkstra(this Graph g, Vertex start)
         {
             //tabel
@@ -226,31 +226,27 @@ namespace Get.Model.Graph
         }
         private static IEnumerable<Edge> DepthFirstSearch(Vertex current, List<Edge> edges, Vertex goal)
         {
-            //check if we found the goal
-            if (current.Equals(goal))
+            //mark edge
+            foreach (Edge e in current.Edges)
             {
-                return edges;
-            }
-            else
-            {
-                //mark edge
-                foreach (Edge e in current.Edges)
+                //check if we found the goal && last check should be enable circule detection
+                if (e.V.Equals(goal))
                 {
-                    //do not add already visited vertex
-                    if (!edges.ToVertexList().Contains(e.V))
-                    {
-                        edges.Add(e);
-                        current = e.V;
-                        DepthFirstSearch(current, edges, goal);
-                    }
-                    //leave the method if we found the goal (so that no other edges will be added)
-                    if (edges.Last().V.Equals(goal)) return edges;
+                    edges.Add(e);
+                    return edges;
                 }
+                //do not add already visited vertex
+                if (!edges.ToVertexList().Contains(e.V))
+                {
+                    edges.Add(e);
+                    current = e.V;
+                    DepthFirstSearch(current, edges, goal);
+                }
+                if (edges.Last().V.Equals(goal)) return edges;
             }
 
 
             return edges;
-
         }
 
         /// <summary>

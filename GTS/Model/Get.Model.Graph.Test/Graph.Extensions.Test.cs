@@ -93,6 +93,15 @@ namespace Get.Model.Graph.Test
             Assert.AreEqual(resultv6.Count(), 6);
             Assert.AreEqual(resultv6.Last().V, v1);
 
+            //circule detection
+            var resultv2 = v2.DepthFirstSearch(v2);
+            Assert.AreEqual(resultv2.Last().V, v2);
+
+            var resultv3 = v3.DepthFirstSearch(v3);
+            Assert.AreEqual(resultv3.Last().V, v3);
+
+            resultv6 = v6.DepthFirstSearch(v6);
+            Assert.AreEqual(resultv6.Last().V, v6);
         }
 
         [TestMethod]

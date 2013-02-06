@@ -9,7 +9,7 @@ namespace Get.Model.Graph
 {
     [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
-    public class Edge : INotifyPropertyChanged, IEqualityComparer
+    public class Edge : INotifyPropertyChanged, IEqualityComparer<Edge>
     {
         #region Members
         protected Vertex u;
@@ -106,7 +106,7 @@ namespace Get.Model.Graph
         /// <returns>A hash code for the current Object.</returns>
         public override int GetHashCode()
         {
-            return Math.Abs(U.GetHashCode()) + Math.Abs(V.GetHashCode()); 
+            return Math.Abs(U.GetHashCode()) + Math.Abs(V.GetHashCode());
         }
 
         #region INotifyPropertyChanged
@@ -133,27 +133,19 @@ namespace Get.Model.Graph
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool Equals(object x, object y)
+        public bool Equals(Edge e1, Edge e2)
         {
-            if (!x.GetType().Equals(typeof(Edge))) return false;
-            if (!y.GetType().Equals(typeof(Edge))) return false;
-
-            Edge e1 = x as Edge;
-            Edge e2 = y as Edge;
-
             //edge are equal
             if (e1.Equals(e2) && e2.Equals(e1)) return true;
 
             //edges are not equal but transposed (e1: v1->v2 e2: v2->v1 )
             if ((e1.Equals(e2) && e2.Equals(e1)).Equals(false) &&
                 (e1.Equals(e2, true) && e2.Equals(e1, true)).Equals(true)) return true;
-                
+
             //diffrent edges
             return false;
-
         }
-
-        public int GetHashCode(object obj)
+        public int GetHashCode(Edge obj)
         {
             return obj.GetHashCode();
         }
