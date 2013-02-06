@@ -81,14 +81,24 @@ namespace Get.Model.Graph.Test
             }
 
             //1-6
-            var result = v1.DepthFirstSearch(v6,true);
+            var resultv1 = v1.DepthFirstSearch(v6);
+            //some possible ways
+            //1->3->6, 1->3->5->6,1->2->3->5->6,1->4->6
+            //because of so much possible solutions we equal them like that way
+            Assert.AreEqual(resultv1.Count(), 4);
+            Assert.AreEqual(resultv1.Last().V, v6);
 
+
+            var resultv6 = v6.DepthFirstSearch(v1);
+            Assert.AreEqual(resultv6.Count(), 6);
+            Assert.AreEqual(resultv6.Last().V, v1);
 
         }
 
         [TestMethod]
         public void KruskalTest()
         {
+            //check if exception will be thrown
             try
             {
                 g.Kruskal();

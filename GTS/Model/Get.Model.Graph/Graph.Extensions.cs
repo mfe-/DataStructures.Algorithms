@@ -86,10 +86,14 @@ namespace Get.Model.Graph
                 g.Vertices.Add(v);
 
         }
-        
+
         public static IEnumerable<Vertex> Sort(this IEnumerable<Vertex> l)
         {
             return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
+        }
+        public static IEnumerable<Vertex> ToVertexList(this IEnumerable<Edge> l)
+        {
+            return l.SelectMany(a => new List<Vertex>() {a.U,a.V}).Distinct();
         }
         /// <summary>
         /// Returns all vertices from the graph
@@ -120,7 +124,6 @@ namespace Get.Model.Graph
             }
             return visited;
         }
-
         /// <summary>
         /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
         /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
@@ -155,7 +158,7 @@ namespace Get.Model.Graph
         public static Graph Kruskal(this Graph g)
         {
             //work only with undircted graphs
-            if(g.Directed.Equals(true))
+            if (g.Directed.Equals(true))
                 throw new DirectedException(false);
             //create g'
             Graph g_ = new Graph();
@@ -175,7 +178,7 @@ namespace Get.Model.Graph
             var vertices = Depth_First_Traversal(g);
             //order edges by pyramiding weighted
             Edge[] edges = vertices.SelectMany(a => a.Edges).Distinct().OrderBy(e => e.Weighted).ToArray();
-            
+
 
             for (int i = 0; i < edges.Length; i++)
             {
@@ -186,7 +189,7 @@ namespace Get.Model.Graph
                 u.addEdge(v, e.Weighted);
                 v.addEdge(u, e.Weighted);
                 //check if circle
-                var o = DepthFirstSearch(u, u, true);
+                var o = DepthFirstSearch(u, u);
                 //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
                 if (o.Last().V.Equals(u))
                 {
@@ -195,6 +198,7 @@ namespace Get.Model.Graph
             }
             return g_;
         }
+        
         public static Edge Dijkstra(this Graph g, Vertex start)
         {
             //tabel
@@ -218,39 +222,29 @@ namespace Get.Model.Graph
         /// <returns>Returns a list of containing all edges which are required to get the path beginning from the start to the goal vertex</returns>
         public static IEnumerable<Edge> DepthFirstSearch(this Vertex start, Vertex goal)
         {
-            return DepthFirstSearch(start, new List<Edge>(), goal, false);
+            return DepthFirstSearch(start, new List<Edge>(), goal);
         }
-        public static IEnumerable<Edge> DepthFirstSearch(this Vertex start, Vertex goal, bool directed)
+        private static IEnumerable<Edge> DepthFirstSearch(Vertex current, List<Edge> edges, Vertex goal)
         {
-            IList<Edge> l = DepthFirstSearch(start, new List<Edge>(), goal, directed).ToList<Edge>();
-            //when graph is directed and there exists edges with cycle remove it a->b & b->a ... we need only one edge of them
-            if (directed == true && l.Count >= 2 && (l.Last().V.Equals(l[l.Count - 2].U) && l.Last().U.Equals(l[l.Count - 2].V)))
+            //check if we found the goal
+            if (current.Equals(goal))
             {
-                l.Remove(l.Last());
+                return edges;
             }
-
-            return l;
-        }
-        private static IEnumerable<Edge> DepthFirstSearch(Vertex p, List<Edge> edges, Vertex goal, bool directed)
-        {
-            foreach (Edge e in p.Edges)
+            else
             {
-                //check if the recursiv call terminated because it found the goal
-                if (goal != null && (edges.Count > 0 && edges.Last<Edge>().V.Equals(goal)))
-                    return edges;
-                //only add unmarked edges
-                if (edges.Where(a => a.U.Equals(p) && a.V.Equals(e.V)).Count() == 0)
+                //mark edge
+                foreach (Edge e in current.Edges)
                 {
-                    //mark edge
-                    edges.Add(new Edge(p, e.V, e.Weighted));
-                    //when directed dont go back!
-                    if (directed == true && (edges.Last().U.Equals(edges.First().V) && edges.Last().V.Equals(edges.First().U)) && edges.Count.Equals(2))
-                        edges.Remove(edges.Last());
-
-                    if (goal == null || (goal != null && !e.V.Equals(goal)))
-                        DepthFirstSearch(e.V, edges, goal, directed);
-                    else if (goal != null && e.V.Equals(goal))
-                        return edges;
+                    //do not add already visited vertex
+                    if (!edges.ToVertexList().Contains(e.V))
+                    {
+                        edges.Add(e);
+                        current = e.V;
+                        DepthFirstSearch(current, edges, goal);
+                    }
+                    //leave the method if we found the goal (so that no other edges will be added)
+                    if (edges.Last().V.Equals(goal)) return edges;
                 }
             }
 
@@ -258,6 +252,7 @@ namespace Get.Model.Graph
             return edges;
 
         }
+
         /// <summary>
         /// Determinds if the overgivven vertex is adjacent to the current vertex
         /// </summary>
