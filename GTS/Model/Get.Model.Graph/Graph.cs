@@ -11,15 +11,26 @@ namespace Get.Model.Graph
     [DataContract(Namespace = "http://schemas.get.com/Graph/")]
     public class Graph : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Store unconnected vertices
+        /// </summary>
         [DataMember(Name = "Vertices")]
-        public ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
+        protected ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
 
         protected Vertex _StartVertex = null;
         protected Vertex _EndVertex = null;
-        protected bool _directed = false;
 
         public Graph()
         {
+            _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Vertices_CollectionChanged);
+        }
+
+        protected virtual void Vertices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //todo
+            //check if startvertex == null and set it
+            //throw new NotImplementedException();
+            //register edges event and check if the unconnected vertex gets connected -> remove from _Vertices list
         }
         public void addVertex(Vertex pVertice)
         {
@@ -132,7 +143,6 @@ namespace Get.Model.Graph
 
                         }
                 }
-                _directed = value;
                 NotifyPropertyChanged("Directed");
                 
             }

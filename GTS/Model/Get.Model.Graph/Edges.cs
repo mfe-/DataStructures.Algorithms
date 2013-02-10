@@ -19,6 +19,11 @@ namespace Get.Model.Graph
         #endregion
 
         /// <summary>
+        /// Initializes a new instance of the Edge class for using the IEqualityComparer on Distinct
+        /// </summary>
+        public Edge() { }
+
+        /// <summary>
         /// Initializes a new instance of the Edge class.
         /// </summary>
         /// <param name="pu">Vertex of the Edge</param>
@@ -78,7 +83,13 @@ namespace Get.Model.Graph
 
             return Equals(edge, false);
         }
-        public bool Equals(Edge edge, bool permute)
+        /// <summary>
+        /// Returns a value indicating whether this instance is equal to the edge.
+        /// </summary>
+        /// <param name="edge">The edge to compare to this instance.</param>
+        /// <param name="permute">If the parameter is true transported edges will be handled as equal</param>
+        /// <returns>True if the instance and the overgiven edge are euqa; otherwiese, false.</returns>
+        protected virtual bool Equals(Edge edge, bool permute)
         {
             if (permute)
             {
@@ -100,7 +111,7 @@ namespace Get.Model.Graph
         /// <summary>
         /// Serves as a hash function for the type edge.
         /// The implementation of the GetHashCode method does not guarantee unique return values for different objects.
-        /// The HasCode will be calculated with the GetHasCode functions from the vertex u and v. Transported edges will have the same value.
+        /// The HasCode will be calculated with the GetHasCode functions from the vertex u and v. Transported edges have the same values.
         /// http://msdn.microsoft.com/en-us/library/system.object.gethashcode.aspx
         /// </summary>
         /// <returns>A hash code for the current Object.</returns>

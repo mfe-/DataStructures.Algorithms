@@ -56,21 +56,41 @@ namespace Get.Model.Graph
         }
 
         /// <summary>
-        /// Adds a vertex by adding a connection from the instance to the overgiven vertex
+        /// Adds an directed edge to the vertex the overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
-        public void addEdge(Vertex pu)
+        public Edge addEdge(Vertex pu)
         {
-            _Edges.Add(new Edge(this, pu));
+            addEdge(pu, 0, false);
+            return _Edges.Last();
         }
         /// <summary>
-        /// Adds a vertex by adding a connection from the instance to the overgiven vertex
+        /// Creates an un/directed edge to the overgiven Vertex
+        /// </summary>
+        /// <param name="pu">Vertex to connect</param>
+        /// <param name="pweighted">Weighted of the Edge</param>
+        /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
+        public void addEdge(Vertex pu, int pweighted,bool undirected)
+        {
+
+            Edge e1 = new Edge(this, pu,pweighted);
+            _Edges.Add(e1);
+            if (undirected == true)
+            {
+                pu.addEdge(this, pweighted);
+            }
+
+        }
+
+        /// <summary>
+        /// Adds a directed edge to the overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
         /// <param name="pweighted">Weighted of the added vertex</param>
-        public void addEdge(Vertex pu, int pweighted)
+        public Edge addEdge(Vertex pu, int pweighted)
         {
-            _Edges.Add(new Edge(this, pu, pweighted));
+            addEdge(pu, pweighted, false);
+            return _Edges.Last();
         }
         /// <summary>
         /// Returns a string that represents the current object.
