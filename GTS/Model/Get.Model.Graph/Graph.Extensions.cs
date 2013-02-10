@@ -155,7 +155,7 @@ namespace Get.Model.Graph
             return m;
         }
 
-        public static Graph Kruskal(this Graph g)
+        public static int Kruskal(this Graph g)
         {
             //work only with undircted graphs
             if (g.Directed.Equals(true))
@@ -175,28 +175,38 @@ namespace Get.Model.Graph
                 z.Edges.Clear();
             }
 
+            Edge EdgeComparer = new Edge(null, null);
+
             var vertices = Depth_First_Traversal(g);
             //order edges by pyramiding weighted
-            Edge[] edges = vertices.SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new Edge(null, null)).ToArray();
+            Edge[] edges = vertices.SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(EdgeComparer).ToArray();
 
-
+            int weight = 0;
             for (int i = 0; i < edges.Length; i++)
             {
                 Edge e = edges[i];
+                weight = weight + e.Weighted;
                 Vertex u = g_.Vertices.Where(a => a.Equals(e.U)).First<Vertex>();
                 Vertex v = g_.Vertices.Where(a => a.Equals(e.V)).First<Vertex>();
                 //add 2x edges to create a undirected graph
                 u.addEdge(v, e.Weighted);
                 v.addEdge(u, e.Weighted);
                 //check if circle
+
+                if (i == 6)
+                    System.Diagnostics.Debug.WriteLine(i);
+
                 var o = DepthFirstSearch(u, u);
                 //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
                 if (o.First().U.Equals(u) && o.Last().V.Equals(u))
                 {
                     u.Edges.Remove(u.Edges.Last());
+                    v.Edges.Remove(v.Edges.Last());
+                    weight = weight - e.Weighted;
                 }
             }
-            return g_;
+            g = g_;
+            return weight;
         }
 
         public static Edge Dijkstra(this Graph g, Vertex start)
@@ -229,18 +239,27 @@ namespace Get.Model.Graph
             //mark edge
             foreach (Edge e in current.Edges)
             {
-                //check if we found the goal && last check should be enable circule detection
+
+                //check if we found the goal
                 if (e.V.Equals(goal))
                 {
-                    edges.Add(e);
-                    return edges;
+                    //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
+                    if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
+                        || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit edge ausgehend vom start), (schauen ob dazwischen noch andere edges sind)
+                        edges.Find(delegate(Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null))) 
+                    { 
+                        edges.Add(e);
+                        return edges;
+                    }
                 }
                 //do not add already visited vertex
                 if (!edges.ToVertexList().Contains(e.V))
                 {
-                    edges.Add(e);
-                    current = e.V;
-                    DepthFirstSearch(current, edges, goal);
+                    if ((!edges.Count.Equals(0) && (e.V != edges.First().U)) || edges.Count.Equals(0))
+                    {
+                        edges.Add(e);
+                        DepthFirstSearch(e.V, edges, goal);
+                    }
                 }
                 if (edges.Last().V.Equals(goal)) return edges;
             }
