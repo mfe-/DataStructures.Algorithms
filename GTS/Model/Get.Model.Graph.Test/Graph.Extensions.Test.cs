@@ -94,6 +94,27 @@ namespace Get.Model.Graph.Test
             Assert.AreEqual(resultv6.Last().V, v1);
 
             //circule detection
+            Vertex a = new Vertex(1);
+            Vertex b = new Vertex(2);
+
+            //2 undirected connected Vertices
+            a.addEdge(b);
+            b.addEdge(a);
+
+            var resultva = b.DepthFirstSearch(b);
+            Assert.AreNotEqual(resultva.First().U, resultva.Last().V);
+
+            //3 undirected connected vertices with circle
+            Vertex c = new Vertex(3);
+            //connect a with c
+            a.addEdge(c);
+            c.addEdge(a);
+            //connect b with c
+            b.addEdge(c);
+            c.addEdge(b);
+            var resultvc = c.DepthFirstSearch(c);
+            Assert.AreEqual(resultvc.Last().V, c);
+
             var resultv2 = v2.DepthFirstSearch(v2);
             Assert.AreEqual(resultv2.Last().V, v2);
 
@@ -102,6 +123,53 @@ namespace Get.Model.Graph.Test
 
             resultv6 = v6.DepthFirstSearch(v6);
             Assert.AreEqual(resultv6.Last().V, v6);
+
+            //circule detection in paths
+            a = new Vertex(1);
+            b = new Vertex(2);
+            c = new Vertex(3);
+
+            //create undirected pah
+            a.addEdge(b);
+            b.addEdge(a);
+            b.addEdge(c);
+            c.addEdge(b);
+            var resultp = a.DepthFirstSearch(a);
+            Assert.AreNotEqual(resultp.First(), resultp.Last());
+
+            //example which occours in kruskal
+            a = new Vertex(3);
+            b = new Vertex(6);
+            c = new Vertex(4);
+
+            a.addEdge(b);
+            b.addEdge(a);
+
+            b.addEdge(c);
+            c.addEdge(b);
+
+            var result34 = a.DepthFirstSearch(a);
+            Assert.AreNotEqual(result34.First(), result34.Last());
+
+            //example which occours in kruskal
+            v1 = new Vertex(1);
+            v2 = new Vertex(2);
+            v3 = new Vertex(3);
+            v4 = new Vertex(4);
+            v5 = new Vertex(5);
+            v6 = new Vertex(6);
+            v7 = new Vertex(7);
+
+            v3.addEdge(v6, 0, true);
+            v3.addEdge(v4, 0, true);
+            v1.addEdge(v2, 0, true);
+            v5.addEdge(v6, 0, true);
+            v5.addEdge(v7, 0, true);
+            v1.addEdge(v4, 0, true);
+            v4.addEdge(v6, 0, true);
+
+            var circule634 = v6.DepthFirstSearch(v6);
+            Assert.AreEqual(circule634.Last().V, v6);
         }
 
         [TestMethod]
@@ -117,7 +185,8 @@ namespace Get.Model.Graph.Test
                 g.Directed = false;
             }
 
-            g.Kruskal();
+            int a = g.Kruskal();
+            Assert.AreEqual(a, 11);
         }
 
         public TestContext TestContext { get; set; }
