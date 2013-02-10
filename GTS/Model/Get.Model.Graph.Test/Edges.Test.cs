@@ -51,7 +51,7 @@ namespace Get.Model.Graph.Test
         public void GetHashCodeTest()
         {
             //hascode of transported edges must be the same
-            Edge e1 = g._Vertices.First().Edges.First();
+            Edge e1 = g.Vertices.First().Edges.First();
             //create a transported edge
             e1.V.addEdge(e1.U, e1.Weighted);
 
