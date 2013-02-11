@@ -32,6 +32,17 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.SetDirectedRoutedCommand,SetDirected_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphVisualization.KruskalRoutedCommand,Kruskal_Executed));
+
+        }
+
+        private void Kruskal_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            {
+                this.Graph =null;
+                this.Graph = this.Graph.Kruskal();
+            }
 
         }
 

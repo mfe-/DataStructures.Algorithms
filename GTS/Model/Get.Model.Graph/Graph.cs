@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using System.Linq;
 using Get.Common.Mathematics;
 using System;
+using System.Collections.Specialized;
+using System.Collections.Generic;
 
 
 namespace Get.Model.Graph
@@ -22,21 +24,66 @@ namespace Get.Model.Graph
 
         public Graph()
         {
-            _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Vertices_CollectionChanged);
+            _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
         }
 
-        protected virtual void Vertices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        protected virtual void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             //todo
             //check if startvertex == null and set it
             //throw new NotImplementedException();
             //register edges event and check if the unconnected vertex gets connected -> remove from _Vertices list
+
+            //if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+            //{
+
+            //    IList<object> items = e.NewItems.SyncRoot as IList<object>;
+            //    object item = items.First();
+
+            //    if (item.GetType().Equals(typeof(Edge)))
+            //    {
+            //        Edge edge = item as Edge;
+            //        //remove the connected vertex if its hold in the "unconnected" vertice list
+            //        if (this.Vertices.Contains(edge.V) && edge.V!=StartVertex)
+            //        {
+            //            this.Vertices.Remove(edge.V);
+            //        }
+            //    }
+            //    if (item.GetType().Equals(typeof(Vertex)))
+            //    {
+            //        Vertex vertex = item as Vertex;
+            //        if (StartVertex == null)
+            //        {
+            //            StartVertex = vertex;
+            //        }
+            //        vertex.Edges.CollectionChanged+=new NotifyCollectionChangedEventHandler(CollectionChanged);
+
+            //    }
+            //}
+            //if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
+            //{
+            //    IList<object> items = e.OldItems.SyncRoot as IList<object>;
+            //    object item = items.First();
+
+            //    if (item.GetType().Equals(typeof(Edge)))
+            //    {
+
+            //    }
+            //    if (item.GetType().Equals(typeof(Vertex)))
+            //    {
+            //        Vertex vertex = item as Vertex;
+            //        //if (StartVertex == vertex)
+            //        //{
+            //        //    StartVertex = vertex;
+            //        //}
+            //        vertex.Edges.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+
+            //    }
+            //}
         }
         public void addVertex(Vertex pVertice)
         {
-            if (StartVertex == null)
-                StartVertex = pVertice;
-
+            pVertice.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             _Vertices.Add(pVertice);
         }
 
