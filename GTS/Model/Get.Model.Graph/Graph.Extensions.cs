@@ -205,6 +205,10 @@ namespace Get.Model.Graph
                     weight = weight - e.Weighted;
                 }
             }
+            for (int i = 0; i < g_.Vertices.Count; i++)
+                if (g_.Vertices[i] != g_.StartVertex)
+                    g_.Vertices.Remove(g_.Vertices[i]);
+
 
             return g_;
         }
