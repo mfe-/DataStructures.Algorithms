@@ -155,7 +155,7 @@ namespace Get.Model.Graph
             return m;
         }
 
-        public static int Kruskal(this Graph g)
+        public static Graph Kruskal(this Graph g)
         {
             //work only with undircted graphs
             if (g.Directed.Equals(true))
@@ -205,8 +205,8 @@ namespace Get.Model.Graph
                     weight = weight - e.Weighted;
                 }
             }
-            g = g_;
-            return weight;
+
+            return g_;
         }
 
         public static Edge Dijkstra(this Graph g, Vertex start)

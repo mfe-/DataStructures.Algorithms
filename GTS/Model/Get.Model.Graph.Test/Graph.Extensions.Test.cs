@@ -185,7 +185,7 @@ namespace Get.Model.Graph.Test
                 g.Directed = false;
             }
 
-            int a = g.Kruskal();
+            int a = g.Kruskal().Depth_First_Traversal().SelectMany(z=>z.Edges).Distinct(new Edge()).Sum(b=>b.Weighted);
             Assert.AreEqual(a, 11);
         }
 

@@ -61,6 +61,7 @@ namespace Get.UI
 
         public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
         public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
+        public static RoutedCommand KruskalRoutedCommand = new RoutedCommand();
 
         public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphVisualization));

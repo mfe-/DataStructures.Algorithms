@@ -48,7 +48,6 @@ namespace Get.Model.Graph.Test
 
             this.g = g;
         }
-      
         [TestMethod]
         public void DirectedTest()
         {
@@ -76,6 +75,48 @@ namespace Get.Model.Graph.Test
 
             TestContext.WriteLine("g.Directed: " + g.Directed + " Graph.Edges: " + g.Depth_First_Traversal().Sort().Distinct<Vertex>().SelectMany(a => a.Edges).Distinct<Edge>().Count());
             Assert.IsTrue(g.Directed);
+
+        }
+        
+        [TestMethod]
+        public void CollectionChangedTest()
+        {
+            v1 = new Vertex(1);
+            v2 = new Vertex(2);
+            v3 = new Vertex(3);
+            v4 = new Vertex(4);
+            v5 = new Vertex(5);
+            v6 = new Vertex(6);
+            v7 = new Vertex(7);
+
+            g = new Graph();
+
+            g.addVertex(v1);
+            g.addVertex(v2);
+            g.addVertex(v3);
+            g.addVertex(v4);
+            g.addVertex(v5);
+            g.addVertex(v6);
+            g.addVertex(v7);
+
+            v3.addEdge(v6, 0, true);
+            //v6 will be connected with v3 ... so v6 is not required to hold in list
+            Assert.AreEqual(g.Vertices.Contains(v6), false);
+            Assert.AreEqual(g.Vertices.Count, 6);
+
+            v3.addEdge(v4, 0, true);
+            Assert.AreEqual(g.Vertices.Contains(v4), false);
+            v1.addEdge(v2, 0, true);
+            Assert.AreEqual(g.Vertices.Contains(v2), false);
+            v5.addEdge(v6, 0, true);
+            Assert.AreEqual(g.Vertices.Contains(v6), false);
+            v5.addEdge(v7, 0, true);
+            Assert.AreEqual(g.Vertices.Contains(v7), false);
+            v1.addEdge(v4, 0, true);
+            Assert.AreEqual(g.Vertices.Contains(v4), false);
+            v4.addEdge(v6, 0, true);
+
+
 
         }
 
