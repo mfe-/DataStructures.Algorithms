@@ -40,8 +40,10 @@ namespace Get.UI
         {
             if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
             {
-                this.Graph =null;
-                this.Graph = this.Graph.Kruskal();
+                
+                Graph kruskal = this.Graph.Kruskal();
+                this.Graph = null;
+                this.Graph = kruskal;
             }
 
         }
