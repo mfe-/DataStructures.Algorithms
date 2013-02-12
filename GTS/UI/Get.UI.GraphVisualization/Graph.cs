@@ -73,6 +73,8 @@ namespace Get.UI
             //set the backgroundcolor 
             BackgroundProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(Brushes.Transparent));
         }
+
+        #region Drag and Drop
         /// <summary>
         /// Called before the MouseLeftButtonDown event occurs.
         /// Preprares the drag and drop of the Vertex item. Raises the MouseDoubleClickEvent if the click counts equal two.
@@ -191,6 +193,9 @@ namespace Get.UI
                 SelectedItem = null;
             }
         }
+
+        #endregion Drag and Drop
+
         protected FrameworkElement SelectedItem { get; set; }
 
 
@@ -289,7 +294,12 @@ namespace Get.UI
                 if (item.GetType().Equals(typeof(Edge)))
                 {
                     Edge edge = item as Edge;
-                    addEdge(edge);
+                    //todo ausprogrammieren und testen -> ändern die kurskal durchführt sollen sofort am graph sichtbar werden
+                    //if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
+                    //{
+                    //    addEdge(edge);
+                    //}
+
 
                     //because vertex is duplicated remove from root
                     if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
@@ -315,6 +325,17 @@ namespace Get.UI
                     VertexVisualization vv = VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
                     this.Children.Remove(vv);
                 }
+                //todo ausprogrammieren und testen -> ändern die kurskal durchführt sollen sofort am graph sichtbar werden
+                //if (item.GetType().Equals(typeof(Edge)))
+                //{
+                //    Edge edge = item as Edge;
+                //    if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
+                //    {
+                //        EdgeVisualization ev = EdgeVisualizations.Where(a => a.Edge.Equals(edge)).First();
+                //        this.Children.Remove(ev);
+                //    }
+
+                //}
             }
             Debug.WriteLine(this.Graph.Vertices.Count);
         }

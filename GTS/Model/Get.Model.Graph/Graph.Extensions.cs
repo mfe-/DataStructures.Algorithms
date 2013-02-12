@@ -161,33 +161,28 @@ namespace Get.Model.Graph
             if (g.Directed.Equals(true))
                 throw new DirectedException(false);
             //create g'
-            Graph g_ = new Graph();
-            //copy object instance
-            XElement xg_ = g.Save();
-            g_.Load(xg_);
+            Graph g_ = g;
+
+            List<Vertex> vertices = new List<Vertex>();
+            //order edges by pyramiding weighted
+            Edge[] edges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new Edge()).ToArray();
             //remove edges 
             foreach (Vertex z in g_.Depth_First_Traversal())
             {
-                if (!g_.Depth_First_Traversal().ToArray().Contains(z))
-                {
-                    g_.addVertex(z);
-                }
+                vertices.Add(z);
+                //statt z.Edges.Clear() Edges einzeln raus löschen, damit der Graph beim CollectionChanged die Edges ebenfalls rauslöschen kann (Clear gibt beim sender nicht an welche Edge betroffen ist))
+                for (int i = 0; i < z.Edges.Count; i++)
+                    z.Edges.RemoveAt(i);
                 z.Edges.Clear();
             }
-
-            Edge EdgeComparer = new Edge(null, null);
-
-            var vertices = Depth_First_Traversal(g);
-            //order edges by pyramiding weighted
-            Edge[] edges = vertices.SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(EdgeComparer).ToArray();
 
             int weight = 0;
             for (int i = 0; i < edges.Length; i++)
             {
                 Edge e = edges[i];
                 weight = weight + e.Weighted;
-                Vertex u = g_.Vertices.Where(a => a.Equals(e.U)).First<Vertex>();
-                Vertex v = g_.Vertices.Where(a => a.Equals(e.V)).First<Vertex>();
+                Vertex u = vertices.Where(a => a.Equals(e.U)).First<Vertex>();
+                Vertex v = vertices.Where(a => a.Equals(e.V)).First<Vertex>();
                 //add 2x edges to create a undirected graph
                 u.addEdge(v, e.Weighted);
                 v.addEdge(u, e.Weighted);
@@ -205,10 +200,6 @@ namespace Get.Model.Graph
                     weight = weight - e.Weighted;
                 }
             }
-            for (int i = 0; i < g_.Vertices.Count; i++)
-                if (g_.Vertices[i] != g_.StartVertex)
-                    g_.Vertices.Remove(g_.Vertices[i]);
-
 
             return g_;
         }
@@ -250,8 +241,8 @@ namespace Get.Model.Graph
                     //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
                     if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
                         || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit edge ausgehend vom start), (schauen ob dazwischen noch andere edges sind)
-                        edges.Find(delegate(Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null))) 
-                    { 
+                        edges.Find(delegate(Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
+                    {
                         edges.Add(e);
                         return edges;
                     }
