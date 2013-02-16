@@ -27,59 +27,95 @@ namespace Get.Model.Graph
             _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the class should raise the CollectionChanged event and handle unconnected vertices. Disable this for better performance.
+        /// </summary>
+        protected bool _ManageUnconnectedVertices = true;
+        public bool ManageUnconnectedVertices
+        {
+            get
+            {
+                return _ManageUnconnectedVertices;
+            }
+            set
+            {
+                _ManageUnconnectedVertices = value;
+                if (_ManageUnconnectedVertices == false)
+                {
+                    _Vertices.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                }
+                else
+                {
+                    _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                }
+                NotifyPropertyChanged("ManageUnconnectedVertices");
+            }
+        }
+
         protected virtual void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            //todo
-            //check if startvertex == null and set it
-            //throw new NotImplementedException();
-            //register edges event and check if the unconnected vertex gets connected -> remove from _Vertices list
+            if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+            {
 
-            //if (e.Action.Equals(NotifyCollectionChangedAction.Add))
-            //{
+                IList<object> items = e.NewItems.SyncRoot as IList<object>;
+                object item = items.First();
 
-            //    IList<object> items = e.NewItems.SyncRoot as IList<object>;
-            //    object item = items.First();
+                if (item.GetType().Equals(typeof(Edge)))
+                {
+                    Edge edge = item as Edge;
 
-            //    if (item.GetType().Equals(typeof(Edge)))
-            //    {
-            //        Edge edge = item as Edge;
-            //        //remove the connected vertex if its hold in the "unconnected" vertice list
-            //        if (this.Vertices.Contains(edge.V) && edge.V!=StartVertex)
-            //        {
-            //            this.Vertices.Remove(edge.V);
-            //        }
-            //    }
-            //    if (item.GetType().Equals(typeof(Vertex)))
-            //    {
-            //        Vertex vertex = item as Vertex;
-            //        if (StartVertex == null)
-            //        {
-            //            StartVertex = vertex;
-            //        }
-            //        vertex.Edges.CollectionChanged+=new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    if (this.Vertices.Contains(edge.V))
+                    {
+                        //remove the connected vertex if its hold in the "unconnected" vertice list
+                        if ((this.Vertices.Contains(edge.V) && this.Vertices.Contains(edge.U) && edge.V != StartVertex) || (StartVertex.DepthFirstSearch(edge.V).Count()!=0 && StartVertex.DepthFirstSearch(edge.V).Last().V.Equals(edge.V)))
+                        {
+                            this.Vertices.Remove(edge.V);
+                        }
 
-            //    }
-            //}
-            //if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
-            //{
-            //    IList<object> items = e.OldItems.SyncRoot as IList<object>;
-            //    object item = items.First();
+                    }
+                    //regarding the new connection the unconnected vertices could be connected, so check them if they are connected and remove them.
+                    for (int i = 0; i < Vertices.Count; i++)
+                    {
+                        IEnumerable<Edge> result = StartVertex.DepthFirstSearch(Vertices[i]);
+                        if ((result.Count() != 0 && result.Last().V.Equals(Vertices[i])) && Vertices[i] != StartVertex)
+                        {
+                            _Vertices.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                            _Vertices.RemoveAt(i);
+                            _Vertices.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                        }
+                    }
+                }
+                if (item.GetType().Equals(typeof(Vertex)))
+                {
+                    Vertex vertex = item as Vertex;
+                    if (StartVertex == null)
+                    {
+                        StartVertex = vertex;
+                    }
+                    vertex.Edges.CollectionChanged+=new NotifyCollectionChangedEventHandler(CollectionChanged);
 
-            //    if (item.GetType().Equals(typeof(Edge)))
-            //    {
+                }
+            }
+            if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
+            {
+                IList<object> items = e.OldItems.SyncRoot as IList<object>;
+                object item = items.First();
 
-            //    }
-            //    if (item.GetType().Equals(typeof(Vertex)))
-            //    {
-            //        Vertex vertex = item as Vertex;
-            //        //if (StartVertex == vertex)
-            //        //{
-            //        //    StartVertex = vertex;
-            //        //}
-            //        vertex.Edges.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+                if (item.GetType().Equals(typeof(Edge)))
+                {
 
-            //    }
-            //}
+                }
+                if (item.GetType().Equals(typeof(Vertex)))
+                {
+                    Vertex vertex = item as Vertex;
+                    //if (StartVertex == vertex)
+                    //{
+                    //    StartVertex = vertex;
+                    //}
+                    vertex.Edges.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+
+                }
+            }
         }
         public void addVertex(Vertex pVertice)
         {

@@ -175,7 +175,7 @@ namespace Get.Model.Graph
                     z.Edges.RemoveAt(i);
                 z.Edges.Clear();
             }
-
+            g.ManageUnconnectedVertices = false;
             int weight = 0;
             for (int i = 0; i < edges.Length; i++)
             {
@@ -187,9 +187,6 @@ namespace Get.Model.Graph
                 u.addEdge(v, e.Weighted);
                 v.addEdge(u, e.Weighted);
                 //check if circle
-
-                if (i == 6)
-                    System.Diagnostics.Debug.WriteLine(i);
 
                 var o = DepthFirstSearch(u, u);
                 //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
