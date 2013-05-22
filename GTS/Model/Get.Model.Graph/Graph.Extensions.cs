@@ -124,6 +124,39 @@ namespace Get.Model.Graph
             }
             return visited;
         }
+        public static List<Edge> Breadth_First_Search(this Vertex start, Vertex target)
+        {
+            List<Edge> l = new List<Edge>();
+            //TODO
+            //Stack<Vertex> stack = new Stack<Vertex>();
+            
+            //Vertex current = start;
+            
+            //for (int i = 1; i <= current.Edges.Count; i++)
+            //{
+            //    Vertex v = current.Edges[i-1].V;
+            //    if (v.Equals(target))
+            //    {
+            //        return l;
+            //    }
+            //    else if (i.Equals(current.Edges.Count) && !v.Equals(target))
+            //    {
+            //        i = 1;
+            //        stack.Push(v);
+            //        current = stack.Pop();
+                    
+            //    }
+            //    else
+            //    {
+            //        stack.Push(v);
+            //    }
+
+            //}
+
+            return l;
+
+
+        }
         /// <summary>
         /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
         /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
@@ -160,12 +193,14 @@ namespace Get.Model.Graph
             //work only with undircted graphs
             if (g.Directed.Equals(true))
                 throw new DirectedException(false);
+            //handle unconnected vertices by our self
+            g.ManageUnconnectedVertices = false;
             //create g'
             Graph g_ = g;
 
             List<Vertex> vertices = new List<Vertex>();
             //order edges by pyramiding weighted
-            Edge[] edges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new Edge()).ToArray();
+            Edge[] edges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
             //remove edges 
             foreach (Vertex z in g_.Depth_First_Traversal())
             {
@@ -175,7 +210,7 @@ namespace Get.Model.Graph
                     z.Edges.RemoveAt(i);
                 z.Edges.Clear();
             }
-            g.ManageUnconnectedVertices = false;
+
             int weight = 0;
             for (int i = 0; i < edges.Length; i++)
             {
@@ -189,7 +224,7 @@ namespace Get.Model.Graph
                 //check if circle
 
                 var o = DepthFirstSearch(u, u);
-                //er macht irgendwie die liste falsch mit e.count = 7 und zwar 5->7 , 5->6 , 6->3, 3->6 , 6->5 ... schaut nach ob last 5 hat und -> zirkel.... also falsch
+
                 if (o.First().U.Equals(u) && o.Last().V.Equals(u))
                 {
                     u.Edges.Remove(u.Edges.Last());
@@ -212,6 +247,10 @@ namespace Get.Model.Graph
                     min = e.Weighted;
                 }
             }
+            return null;
+        }
+        public static IEnumerable<IVertex> Deph_First_Search(this Vertex v, Vertex goal)
+        {
             return null;
         }
         /// <summary>
@@ -283,19 +322,6 @@ namespace Get.Model.Graph
         }
 
 
-        //public static IEnumerable<Edge> DepthFirstSearch(this Graph g)
-        //{
-        //    //possible ways
-        //    List<Edge> edges = new List<Edge>();
-        //    Vertex current = g.Vertices.First();
-
-        //    foreach (Vertex v in g.Vertices)
-        //    {
-        //        DepthFirstSearch(v, edges,null);
-        //    }
-
-        //    return edges;
-        //}
         public static object Connected(this Graph g, Vertex a, Vertex b)
         {
             // Eine Folge von karten e1,e2,...ek e E(G) eines ungerichteten G heißt katenfolge , wenn es knoten v,v1,v2,...vk1 w eV(G) mit 

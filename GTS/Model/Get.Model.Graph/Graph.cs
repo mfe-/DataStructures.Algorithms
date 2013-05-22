@@ -28,7 +28,8 @@ namespace Get.Model.Graph
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the class should raise the CollectionChanged event and handle unconnected vertices. Disable this for better performance.
+        /// Gets or sets a value indicating whether the class should raise the CollectionChanged event and handle unconnected vertices.
+        /// Disable this for better performance.
         /// </summary>
         protected bool _ManageUnconnectedVertices = true;
         public bool ManageUnconnectedVertices
@@ -51,7 +52,12 @@ namespace Get.Model.Graph
                 NotifyPropertyChanged("ManageUnconnectedVertices");
             }
         }
-
+        /// <summary>
+        /// Trys to determine if the vertex state changed to"unconnected" and needs to be safed in the list of the unconnected vertices. 
+        /// If the state changes from unconnected to connected remove it from the "unconnected" vertices list.
+        /// </summary>
+        /// <param name="sender">Object which raised event</param>
+        /// <param name="e">Provides some eventdata</param>
         protected virtual void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action.Equals(NotifyCollectionChangedAction.Add))
@@ -81,7 +87,7 @@ namespace Get.Model.Graph
                         {
                             _Vertices.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
                             _Vertices.RemoveAt(i);
-                            _Vertices.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                            _Vertices.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
                         }
                     }
                 }
@@ -103,7 +109,18 @@ namespace Get.Model.Graph
 
                 if (item.GetType().Equals(typeof(Edge)))
                 {
+                    //todo not implemented :code follows
 
+                    //check if we can reach e.V
+                    //Edge edge = item as Edge;
+                    //IEnumerable<Edge> result  = StartVertex.DepthFirstSearch(edge.V);
+                    //if(result.Count().Equals(0) || !(result.Count()!=0 && !result.Last().Equals(edge.V)))
+                    //{
+                    //    edge.V.Edges.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                    //    _Vertices.Add(edge.V);
+                    //    edge.V.Edges.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChanged);
+                    //}
+                    //to here
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
@@ -119,7 +136,9 @@ namespace Get.Model.Graph
         }
         public void addVertex(Vertex pVertice)
         {
-            pVertice.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+            //warum collection changed anmelden das bringt doch nichts?? nochmal überprüfen und dann entfernen wenn es keinen grund gibt das zu behalten
+            //eigentlich würde das glaube ich sogar fehler produzieren, aber da die collectionchanged event sowieso jedesmal wieder abgemeldet wird kann nichts passieren
+            //pVertice.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             _Vertices.Add(pVertice);
         }
 

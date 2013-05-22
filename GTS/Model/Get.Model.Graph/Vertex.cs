@@ -4,12 +4,13 @@ using System.Runtime.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Get.Model.Graph
 {
     [DebuggerDisplay("Vertex = {Weighted},Size={Size}, GUID = {_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
-    public class Vertex : INotifyPropertyChanged
+    public class Vertex : IVertex, INotifyPropertyChanged
     {
         #region Members
         protected ObservableCollection<Edge> _Edges = new ObservableCollection<Edge>();
@@ -139,5 +140,10 @@ namespace Get.Model.Graph
         #endregion
 
 
+    }
+    public interface IVertex
+    {
+        int Weighted { get; set; }
+        ObservableCollection<Edge> Edges { get; set; }
     }
 }

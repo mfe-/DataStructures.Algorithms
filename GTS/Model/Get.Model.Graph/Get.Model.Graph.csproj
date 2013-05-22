@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Edge.Extensions.cs" />
     <Compile Include="Graph.Extensions.cs" />
     <Compile Include="Edges.cs" />
     <Compile Include="Graph.cs" />

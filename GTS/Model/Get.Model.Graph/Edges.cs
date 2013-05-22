@@ -9,7 +9,7 @@ namespace Get.Model.Graph
 {
     [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
-    public class Edge : INotifyPropertyChanged, IEqualityComparer<Edge>
+    public class Edge : IEdge, INotifyPropertyChanged
     {
         #region Members
         protected Vertex u;
@@ -45,6 +45,7 @@ namespace Get.Model.Graph
             v = pv;
             weighted = pweighted;
         }
+
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
@@ -60,6 +61,7 @@ namespace Get.Model.Graph
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
         public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
+        
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -83,31 +85,7 @@ namespace Get.Model.Graph
 
             return Equals(edge, false);
         }
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to the edge.
-        /// </summary>
-        /// <param name="edge">The edge to compare to this instance.</param>
-        /// <param name="permute">If the parameter is true transported edges will be handled as equal</param>
-        /// <returns>True if the instance and the overgiven edge are euqa; otherwiese, false.</returns>
-        protected virtual bool Equals(Edge edge, bool permute)
-        {
-            if (permute)
-            {
-                if (!this.U.Equals(edge.V)) return false;
-                if (!this.V.Equals(edge.U)) return false;
-                if (!this.Weighted.Equals(edge.Weighted)) return false;
-                if (!this.GetHashCode().Equals(edge.GetHashCode())) return false;
-                return true;
-            }
-            else
-            {
-                if (!this.U.Equals(edge.U)) return false;
-                if (!this.V.Equals(edge.V)) return false;
-                if (!this.Weighted.Equals(edge.Weighted)) return false;
-                if (!this.GetHashCode().Equals(edge.GetHashCode())) return false;
-                return true;
-            }
-        }
+
         /// <summary>
         /// Serves as a hash function for the type edge.
         /// The implementation of the GetHashCode method does not guarantee unique return values for different objects.
@@ -137,30 +115,11 @@ namespace Get.Model.Graph
         }
         #endregion
 
-        #region IEqualityComparer
-        /// <summary>
-        /// http://msdn.microsoft.com/en-us/library/bb338049(v=vs.100).aspx
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public bool Equals(Edge e1, Edge e2)
-        {
-            //edge are equal
-            if (e1.Equals(e2) && e2.Equals(e1)) return true;
-
-            //edges are not equal but transposed (e1: v1->v2 e2: v2->v1 )
-            if ((e1.Equals(e2) && e2.Equals(e1)).Equals(false) &&
-                (e1.Equals(e2, true) && e2.Equals(e1, true)).Equals(true)) return true;
-
-            //diffrent edges
-            return false;
-        }
-        public int GetHashCode(Edge obj)
-        {
-            return obj.GetHashCode();
-        }
-        #endregion
-
+    }
+    public interface IEdge
+    {
+        Vertex U { get; set; }
+        Vertex V { get; set; }
+        int Weighted { get; set; }
     }
 }
