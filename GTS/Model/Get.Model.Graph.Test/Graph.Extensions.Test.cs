@@ -185,8 +185,26 @@ namespace Get.Model.Graph.Test
                 g.Directed = false;
             }
 
-            int a = g.Kruskal().Depth_First_Traversal().SelectMany(z=>z.Edges).Distinct(new Edge()).Sum(b=>b.Weighted);
+            int a = g.Kruskal().Depth_First_Traversal().SelectMany(z => z.Edges).Distinct(new EdgeExtensions.EdgeComparer()).Sum(b => b.Weighted);
             Assert.AreEqual(a, 11);
+        }
+        [TestMethod]
+        public void Breadth_First_Search()
+        {
+            g.StartVertex.Breadth_First_Search(v7);
+
+        }
+        [TestMethod]
+        public void Deph_First_Search()
+        {
+            List<IVertex> result = g.StartVertex.Deph_First_Search().ToList();
+
+            List<Vertex> result2 = g.Depth_First_Traversal().ToList();
+
+            foreach (Vertex v in result2)
+            {
+                Assert.IsTrue(result.Contains(v));
+            }
         }
 
         public TestContext TestContext { get; set; }

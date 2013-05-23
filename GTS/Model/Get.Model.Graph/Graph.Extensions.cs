@@ -124,6 +124,29 @@ namespace Get.Model.Graph
             }
             return visited;
         }
+        public static IEnumerable<IVertex> Deph_First_Search(this IVertex s)
+        {
+            List<IVertex> visited = new List<IVertex>();
+
+            Stack<IVertex> stack = new Stack<IVertex>();
+
+            stack.Push(s);
+
+            while (stack.Count != 0)
+            {
+                IVertex v = stack.Pop();
+                visited.Add(v);
+                foreach (IEdge e in v.Edges)
+                {
+                    if (!visited.Contains(e.V))
+                    {
+                        stack.Push(e.V);
+                    }
+                }
+            }
+
+            return visited;
+        }
         public static List<Edge> Breadth_First_Search(this Vertex start, Vertex target)
         {
             List<Edge> l = new List<Edge>();
@@ -193,8 +216,8 @@ namespace Get.Model.Graph
             //work only with undircted graphs
             if (g.Directed.Equals(true))
                 throw new DirectedException(false);
-            //handle unconnected vertices by our self
-            g.ManageUnconnectedVertices = false;
+
+
             //create g'
             Graph g_ = g;
 
@@ -205,9 +228,7 @@ namespace Get.Model.Graph
             foreach (Vertex z in g_.Depth_First_Traversal())
             {
                 vertices.Add(z);
-                //statt z.Edges.Clear() Edges einzeln raus löschen, damit der Graph beim CollectionChanged die Edges ebenfalls rauslöschen kann (Clear gibt beim sender nicht an welche Edge betroffen ist))
-                for (int i = 0; i < z.Edges.Count; i++)
-                    z.Edges.RemoveAt(i);
+
                 z.Edges.Clear();
             }
 
@@ -247,10 +268,6 @@ namespace Get.Model.Graph
                     min = e.Weighted;
                 }
             }
-            return null;
-        }
-        public static IEnumerable<IVertex> Deph_First_Search(this Vertex v, Vertex goal)
-        {
             return null;
         }
         /// <summary>
