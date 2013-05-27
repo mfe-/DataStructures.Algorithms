@@ -191,13 +191,13 @@ namespace Get.Model.Graph.Test
         [TestMethod]
         public void Breadth_First_Search()
         {
-            g.StartVertex.Breadth_First_Search(v7);
+            g.Start.Breadth_First_Search(v7);
 
         }
         [TestMethod]
         public void Deph_First_Search()
         {
-            List<IVertex> result = g.StartVertex.Deph_First_Search().ToList();
+            List<IVertex> result = g.Start.Deph_First_Search().ToList();
 
             List<Vertex> result2 = g.Depth_First_Traversal().ToList();
 

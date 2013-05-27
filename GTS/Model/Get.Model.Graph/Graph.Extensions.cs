@@ -78,8 +78,8 @@ namespace Get.Model.Graph
             NetDataContractSerializer ndcs = new NetDataContractSerializer();
             Graph u = ndcs.ReadObject(memoryStream) as Graph;
 
-            g.StartVertex = u.StartVertex;
-            g.EndVertex = u.EndVertex;
+            g.Start = u.Start;
+
             g.Directed = u.Directed;
 
             foreach (Vertex v in u.Vertices)
