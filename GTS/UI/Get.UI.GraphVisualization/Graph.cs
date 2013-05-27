@@ -329,11 +329,7 @@ namespace Get.UI
                 //if (item.GetType().Equals(typeof(Edge)))
                 //{
                 //    Edge edge = item as Edge;
-                //    if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
-                //    {
-                //        EdgeVisualization ev = EdgeVisualizations.Where(a => a.Edge.Equals(edge)).First();
-                //        this.Children.Remove(ev);
-                //    }
+                //    removeEdge(edge);
 
                 //}
             }
@@ -530,6 +526,25 @@ namespace Get.UI
             }
         }
         #endregion
+
+        protected virtual void removeEdge(Edge pEdge)
+        {
+            Edge edge = pEdge;
+            if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
+            {
+                EdgeVisualization ev = EdgeVisualizations.Where(a => a.Edge.Equals(edge)).First();
+                this.Children.Remove(ev);
+            }
+
+            if (Graph.Directed.Equals(false))
+            {
+                //graph is undirected so remove opposite edge, if exists
+                if (!EdgeVisualizations.Where(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).Count().Equals(0))
+                {
+                    removeEdge(EdgeVisualizations.Where(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).First().Edge);
+                }
+            }
+        }
 
         /// <summary>
         /// Returns the position of the delivered VertexVisualization control

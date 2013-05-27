@@ -19,8 +19,7 @@ namespace Get.Model.Graph
         [DataMember(Name = "Vertices")]
         protected ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
 
-        protected Vertex _StartVertex = null;
-        protected Vertex _EndVertex = null;
+        protected Vertex _Start = null;
 
         public Graph()
         {
@@ -39,41 +38,25 @@ namespace Get.Model.Graph
         {
             _Vertices.Add(pVertice);
 
-            if (StartVertex == null)
+            if (Start == null)
             {
-                StartVertex = pVertice;
+                Start = pVertice;
             }
         }
         /// <summary>
         /// Gets or sets the start vertex of the graph
         /// </summary>
         [DataMember(Name = "StartVertex")]
-        public Vertex StartVertex
+        public Vertex Start
         {
             get
             {
-                return _StartVertex;
+                return _Start;
             }
             set
             {
-                _StartVertex = value;
+                _Start = value;
                 NotifyPropertyChanged("StartVertex");
-            }
-        }
-        /// <summary>
-        /// Gets or sets the end vertex of the graph
-        /// </summary>
-        [DataMember(Name = "EndVertex")]
-        public Vertex EndVertex
-        {
-            get
-            {
-                return _EndVertex;
-            }
-            set
-            {
-                _EndVertex = value;
-                NotifyPropertyChanged("EndVertex");
             }
         }
         /// <summary>
