@@ -246,27 +246,27 @@ namespace Get.UI
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
         protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices, EdgeVisualization e)
         {
-            foreach (Vertex a in vertices)
+            foreach (Vertex vertex in vertices)
             {
-                a.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                vertex.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
 
-                VertexVisualization u;
-                bool vertexexists = getItem(a) == null ? false : true;
+                VertexVisualization visualvertex;
+                bool vertexexists = getItem(vertex) == null ? false : true;
 
                 if (!vertexexists)
                 {
 
-                    u = addVertex(a);
-                    Canvas.SetZIndex(u, 1);
+                    visualvertex = addVertex(vertex);
+                    Canvas.SetZIndex(visualvertex, 1);
                 }
                 else
                 {
-                    u = VertexVisualizations.Where(g => g.Vertex.Equals(a)).First();
+                    visualvertex = VertexVisualizations.Where(g => g.Vertex.Equals(vertex)).First();
                 }
                 //add edge to vertex2
                 if (e != null)
                 {
-                    EdgeVisualization edv = addEdge(e, u, EdgeVisualization.PositionVProperty);
+                    EdgeVisualization edv = addEdge(e, visualvertex, EdgeVisualization.PositionVProperty);
 
                     this.Children.Add(edv);
                     Canvas.SetZIndex(edv, -1);
@@ -274,9 +274,9 @@ namespace Get.UI
 
                 if (vertexexists) return;
                 //add edge from vertex1
-                foreach (Edge ed in a.Edges)
+                foreach (Edge ed in vertex.Edges)
                 {
-                    EdgeVisualization edv = addEdge(ed, u, EdgeVisualization.PositionUProperty);
+                    EdgeVisualization edv = addEdge(ed, visualvertex, EdgeVisualization.PositionUProperty);
                     
                     InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
                 }
@@ -294,20 +294,42 @@ namespace Get.UI
                 if (item.GetType().Equals(typeof(Edge)))
                 {
                     Edge edge = item as Edge;
-                    //todo ausprogrammieren und testen -> ändern die kurskal durchführt sollen sofort am graph sichtbar werden
-                    //if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
-                    //{
-                    //    addEdge(edge);
-                    //}
 
-
-                    //because vertex is duplicated remove from root
+                    //check if vertex is kept in Graph.Vertices and will be moved into the depper graph - if yes its duplicated so remove from graph.vertices
                     if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.V);
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
+                    VertexVisualization uvisual = null;
+                    VertexVisualization vvisual = null;
+
+
+                    //check if  both vertices u and v exists, otherwise create visualvertex
+                    if (getItem(edge.U) == null)
+                    {
+                        uvisual = addVertex(edge.U);
+                    }
+
+                    if (getItem(edge.V) == null)
+                    {
+                        vvisual = addVertex(edge.V);
+                    }
+
+                    //added item already exists - nothing to do
+                    if (getItem(edge) != null)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        addEdge(edge);
+                    }
+
+                    
+
+
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
