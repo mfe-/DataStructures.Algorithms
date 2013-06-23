@@ -29,7 +29,8 @@ namespace Get.Model.Graph
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
         /// <param name="pweighted"></param>
-        public Vertex(int pweighted) :this()
+        public Vertex(int pweighted)
+            : this()
         {
             weighted = pweighted;
         }
@@ -57,7 +58,7 @@ namespace Get.Model.Graph
         }
 
         /// <summary>
-        /// Adds an directed edge to the vertex the overgiven vertex
+        /// Adds an directed edge to overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
         public Edge addEdge(Vertex pu)
@@ -71,10 +72,10 @@ namespace Get.Model.Graph
         /// <param name="pu">Vertex to connect</param>
         /// <param name="pweighted">Weighted of the Edge</param>
         /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public void addEdge(Vertex pu, int pweighted,bool undirected)
+        public void addEdge(Vertex pu, int pweighted, bool undirected)
         {
 
-            Edge e1 = new Edge(this, pu,pweighted);
+            Edge e1 = new Edge(this, pu, pweighted);
             _Edges.Add(e1);
             if (undirected == true)
             {
@@ -109,7 +110,7 @@ namespace Get.Model.Graph
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            if(!obj.GetType().Equals(typeof(Vertex))) return false;
+            if (!obj.GetType().Equals(typeof(Vertex))) return false;
 
             return this._Guid.Equals((obj as Vertex)._Guid);
         }
@@ -139,11 +140,13 @@ namespace Get.Model.Graph
         }
         #endregion
 
-
     }
     public interface IVertex
     {
         int Weighted { get; set; }
         ObservableCollection<Edge> Edges { get; set; }
+        Edge addEdge(Vertex pu);
+        Edge addEdge(Vertex pu, int pweighted);
+        void addEdge(Vertex pu, int pweighted, bool undirected);
     }
 }
