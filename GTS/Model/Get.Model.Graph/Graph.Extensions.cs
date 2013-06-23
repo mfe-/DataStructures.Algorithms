@@ -180,6 +180,8 @@ namespace Get.Model.Graph
 
 
         }
+        //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
+
         /// <summary>
         /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
         /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
