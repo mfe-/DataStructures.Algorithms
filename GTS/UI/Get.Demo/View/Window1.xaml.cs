@@ -38,15 +38,98 @@ namespace Get.Demo
             Loaded += new RoutedEventHandler(Window1_Loaded);
 
         }
+        public void SimulateGraphChanges()
+        {
+            Graph graph = new Graph();
+
+            Vertex va = new Vertex(1);
+            Vertex vb = new Vertex(2);
+            Vertex vc = new Vertex(3);
+            Vertex vd = new Vertex(4);
+            Vertex ve = new Vertex(5);
+            Vertex vf = new Vertex(6);
+            Vertex vg = new Vertex(7);
+            Vertex vh = new Vertex(8);
+            Vertex vi = new Vertex(9);
+            Vertex vj = new Vertex(10);
+            Vertex vk = new Vertex(11);
+            Vertex vl = new Vertex(12);
+
+            Queue<Action> que = new Queue<Action>();
+            que.Enqueue(() => va.addEdge(vb, 2));
+
+
+            que.Enqueue(() => va.addEdge(vb, 2, graph.Directed));
+            que.Enqueue(() => va.addEdge(vd, 3, graph.Directed));
+            que.Enqueue(() => va.addEdge(vc, 5, graph.Directed));
+
+            que.Enqueue(() => vb.addEdge(vc, 4, graph.Directed));
+            que.Enqueue(() => vb.addEdge(ve, 6, graph.Directed));
+
+            que.Enqueue(() => vc.addEdge(ve, 4, graph.Directed));
+            que.Enqueue(() => vc.addEdge(vd, 1, graph.Directed));
+            que.Enqueue(() => vc.addEdge(vf, 1, graph.Directed));
+
+            que.Enqueue(() => vd.addEdge(vf, 3, graph.Directed));
+
+            que.Enqueue(() => vf.addEdge(ve, 2, graph.Directed));
+
+            que.Enqueue(() => ve.addEdge(vg, 2, graph.Directed));
+            que.Enqueue(() => ve.addEdge(vf, 2, graph.Directed));
+
+            que.Enqueue(() => vg.addEdge(vf, 5, graph.Directed));
+
+            que.Enqueue(() => vc.addEdge(vb,3, graph.Directed));
+            que.Enqueue(() => vc.addEdge(vd,2, graph.Directed));
+
+            que.Enqueue(() => vd.addEdge(ve,2, graph.Directed));
+
+            que.Enqueue(() => vg.addEdge(vh,8, graph.Directed));
+            que.Enqueue(() => vh.addEdge(vi,10, graph.Directed));
+            que.Enqueue(() => vi.addEdge(vj,1, graph.Directed));
+            que.Enqueue(() => vj.addEdge(vf,2, graph.Directed));
+
+            que.Enqueue(() => vh.addEdge(vd,5, graph.Directed));
+            que.Enqueue(() => vi.addEdge(ve,7, graph.Directed));
+
+            que.Enqueue(() => vg.addEdge(vl,1, graph.Directed));
+            que.Enqueue(() => vl.addEdge(vk,8, graph.Directed));
+
+            graph.addVertex(va);
+            graph.Start = va;
+
+            _GraphVisualization.Graph = graph;
+            ManualResetEvent mre = new ManualResetEvent(false);
+
+            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object param)
+            {
+                while (que.Count != 0)
+                {
+                    Action action = que.Dequeue();
+                    Dispatcher.BeginInvoke(action);
+
+                    mre.WaitOne(20 * 120);
+                }
+            }));
+            thread.Start();
+
+        }
+        
+        public void SimulateGraphLoadFromFile()
+        {
+            ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+        }
+
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                SimulateGraphChanges();
+                //SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
             }
 
-            
+
 
             //var o = z.AdjacencyList();
             //var m = _GraphVisualization.Graph.AdjacencyList();
@@ -68,25 +151,25 @@ namespace Get.Demo
             //int[] v2 = Mathematics.CreateVector(1, 2, 3, 4, 5, 6, 7);
             //Vertex va = new Vertex(1);
             ////var r = v1.Add(v2);
-           
+
             ////////graph.Load("Vertex.xml");
 
             //Int64 zu = 45;
 
-            //Graph graph = new Graph();
+            Graph graph = new Graph();
 
-            //Vertex va = new Vertex(1);
-            //Vertex vb = new Vertex(2);
-            //Vertex vc = new Vertex(3);
-            //Vertex vd = new Vertex(4);
-            //Vertex ve = new Vertex(5);
-            //Vertex vf = new Vertex(6);
-            //Vertex vg = new Vertex(7);
-            //Vertex vh = new Vertex(8);
-            //Vertex vi = new Vertex(9);
-            //Vertex vj = new Vertex(10);
-            //Vertex vk = new Vertex(11);
-            //Vertex vl = new Vertex(12);
+            Vertex va = new Vertex(1);
+            Vertex vb = new Vertex(2);
+            Vertex vc = new Vertex(3);
+            Vertex vd = new Vertex(4);
+            Vertex ve = new Vertex(5);
+            Vertex vf = new Vertex(6);
+            Vertex vg = new Vertex(7);
+            Vertex vh = new Vertex(8);
+            Vertex vi = new Vertex(9);
+            Vertex vj = new Vertex(10);
+            Vertex vk = new Vertex(11);
+            Vertex vl = new Vertex(12);
 
             //va.addEdge(vb, 2);
             //va.addEdge(vd, 3);
