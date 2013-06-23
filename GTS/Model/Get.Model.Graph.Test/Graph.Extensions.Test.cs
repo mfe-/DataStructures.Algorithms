@@ -178,14 +178,14 @@ namespace Get.Model.Graph.Test
             //check if exception will be thrown
             try
             {
-                g.Kruskal();
+                g.Kruskal_DepthFirstSearch();
             }
             catch (DirectedException de)
             {
                 g.Directed = false;
             }
 
-            int a = g.Kruskal().Depth_First_Traversal().SelectMany(z => z.Edges).Distinct(new EdgeExtensions.EdgeComparer()).Sum(b => b.Weighted);
+            int a = g.Kruskal_DepthFirstSearch().Depth_First_Traversal().SelectMany(z => z.Edges).Distinct(new EdgeExtensions.EdgeComparer()).Sum(b => b.Weighted);
             Assert.AreEqual(a, 11);
         }
         [TestMethod]

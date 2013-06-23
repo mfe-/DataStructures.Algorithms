@@ -62,6 +62,7 @@ namespace Get.UI
         public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
         public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
         public static RoutedCommand KruskalRoutedCommand = new RoutedCommand();
+        public static RoutedCommand ClearGraphCommand = new RoutedCommand();
 
         public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphVisualization));
@@ -72,6 +73,8 @@ namespace Get.UI
         {
             //set the backgroundcolor 
             BackgroundProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(Brushes.Transparent));
+            //enables commands in contextmenue if no item got is focused
+            FocusableProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(true));
         }
 
         #region Drag and Drop
@@ -347,13 +350,13 @@ namespace Get.UI
                     VertexVisualization vv = VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
                     this.Children.Remove(vv);
                 }
-                //todo ausprogrammieren und testen -> ändern die kurskal durchführt sollen sofort am graph sichtbar werden
-                //if (item.GetType().Equals(typeof(Edge)))
-                //{
-                //    Edge edge = item as Edge;
-                //    removeEdge(edge);
 
-                //}
+                if (item.GetType().Equals(typeof(Edge)))
+                {
+                    Edge edge = item as Edge;
+                    removeEdge(edge);
+
+                }
             }
             Debug.WriteLine(this.Graph.Vertices.Count);
         }

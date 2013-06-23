@@ -170,7 +170,7 @@ namespace Get.UI
         [DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
-#if !SILVERLIGHT
+            #if !SILVERLIGHT
             // Verify that the property name matches a real,  
             // public, instance property on this object.
             if (TypeDescriptor.GetProperties(this)[propertyName] == null)
@@ -179,9 +179,26 @@ namespace Get.UI
 
 
             }
-#endif
+            #endif
         }
 
+        public static IntToStringConverter IntToStringConverter = new IntToStringConverter();
+    }
+    public class IntToStringConverter : IValueConverter
+    {
 
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return string.Empty;
+            if (!value.GetType().Equals(typeof(int))) return string.Empty;
+            if (parameter == null) return value;
+
+            return value.ToString() + string.Empty + parameter;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

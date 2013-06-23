@@ -213,7 +213,7 @@ namespace Get.Model.Graph
             return m;
         }
 
-        public static Graph Kruskal(this Graph g)
+        public static Graph Kruskal_DepthFirstSearch(this Graph g)
         {
             //work only with undircted graphs
             if (g.Directed.Equals(true))

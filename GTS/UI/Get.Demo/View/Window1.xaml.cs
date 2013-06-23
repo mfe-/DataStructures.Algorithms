@@ -40,7 +40,7 @@ namespace Get.Demo
         }
         public void SimulateGraphChanges()
         {
-            Graph graph = new Graph();
+            Graph graph = new Graph(false);
 
             Vertex va = new Vertex(1);
             Vertex vb = new Vertex(2);
@@ -56,8 +56,6 @@ namespace Get.Demo
             Vertex vl = new Vertex(12);
 
             Queue<Action> que = new Queue<Action>();
-            que.Enqueue(() => va.addEdge(vb, 2));
-
 
             que.Enqueue(() => va.addEdge(vb, 2, graph.Directed));
             que.Enqueue(() => va.addEdge(vd, 3, graph.Directed));
@@ -95,6 +93,8 @@ namespace Get.Demo
             que.Enqueue(() => vg.addEdge(vl,1, graph.Directed));
             que.Enqueue(() => vl.addEdge(vk,8, graph.Directed));
 
+            que.Enqueue(() => va.removeEdge(vb, graph.Directed));
+
             graph.addVertex(va);
             graph.Start = va;
 
@@ -124,9 +124,10 @@ namespace Get.Demo
         {
             if (Debugger.IsAttached)
             {
-                SimulateGraphChanges();
+                //SimulateGraphChanges();
                 //SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
+                _GraphVisualization.Graph = new Graph();
             }
 
 
@@ -378,58 +379,6 @@ namespace Get.Demo
                 s += "\n";
             }
             System.Diagnostics.Debug.WriteLine(s);
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-
-            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
-            //{
-
-            //    _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-            //        delegate()
-            //        {
-            //            foreach (var o in this._GraphVisualization.VertexVisualizationList)
-            //            {
-            //                o.Focus();
-            //                Thread.Sleep(400);
-            //            }
-            //        }));
-
-            //}));
-            //setFocusonControls.Start();
-            //foreach (var item in _GraphVisualization.VertexVisualizationList)
-            //{
-
-            //    item.Focus();
-
-            //}
-
-
-            //http://www.mycsharp.de/wbb2/thread.php?postid=3701905#post3701905
-            //Thread setFocusonControls = new Thread(new ThreadStart(delegate
-            //{
-
-            //    this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-            //        delegate()
-            //        {
-            //            foreach (var item in this.buttonlist)
-            //            {
-            //                item.Background = Brushes.Green;
-            //                Thread.Sleep(900);
-
-
-            //            }
-            //        }));
-
-            //}));
-            //setFocusonControls.Start();
-
-
-
-
-
-
         }
 
     }
