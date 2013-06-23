@@ -57,11 +57,12 @@ namespace Get.Model.Graph
             }
         }
 
+        #region addEdge
         /// <summary>
         /// Adds an directed edge to overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
-        public Edge addEdge(Vertex pu)
+        public virtual Edge addEdge(Vertex pu)
         {
             addEdge(pu, 0, false);
             return _Edges.Last();
@@ -72,7 +73,7 @@ namespace Get.Model.Graph
         /// <param name="pu">Vertex to connect</param>
         /// <param name="pweighted">Weighted of the Edge</param>
         /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public void addEdge(Vertex pu, int pweighted, bool undirected)
+        public virtual void addEdge(Vertex pu, int pweighted, bool undirected)
         {
 
             Edge e1 = new Edge(this, pu, pweighted);
@@ -89,11 +90,34 @@ namespace Get.Model.Graph
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
         /// <param name="pweighted">Weighted of the added vertex</param>
-        public Edge addEdge(Vertex pu, int pweighted)
+        public virtual Edge addEdge(Vertex pu, int pweighted)
         {
             addEdge(pu, pweighted, false);
             return _Edges.Last();
         }
+        #endregion
+
+        #region removeEdge
+        public virtual void removeEdge(Vertex pu)
+        {
+            removeEdge(pu, true);
+        }
+        public virtual void removeEdge(Vertex pu,bool directed)
+        {
+            Edge edge = this.Edges.Where(a => a.U.Equals(this) && a.V.Equals(pu)).FirstOrDefault<Edge>();
+
+            if (directed.Equals(false))
+            {
+                Edge edged = edge.V.Edges.Where(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted)).FirstOrDefault<Edge>();
+
+                edge.V.Edges.Remove(edged);
+            }
+            this.Edges.Remove(edge);
+
+
+        }
+        #endregion 
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -148,5 +172,8 @@ namespace Get.Model.Graph
         Edge addEdge(Vertex pu);
         Edge addEdge(Vertex pu, int pweighted);
         void addEdge(Vertex pu, int pweighted, bool undirected);
+        void removeEdge(Vertex pu);
+        void removeEdge(Vertex pu,bool directed);
+
     }
 }

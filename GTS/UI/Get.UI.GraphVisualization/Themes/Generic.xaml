@@ -66,10 +66,30 @@
                                            <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="True">
                                                 <Setter Property="FontWeight" Value="Bold" />
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
                                 </TextBlock>
+                                <TextBox
+                                    Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}}
+                                    ,Converter={x:Static local:VertexVisualization.IntToStringConverter}}">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}">
+                                            <Setter Property="Width" Value="35" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
 
                             </StackPanel>
                         </Border>
@@ -100,7 +120,7 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                       
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

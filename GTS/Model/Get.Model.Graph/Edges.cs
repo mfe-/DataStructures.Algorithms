@@ -118,8 +118,8 @@ namespace Get.Model.Graph
     }
     public interface IEdge
     {
-        IVertex U { get; set; }
-        IVertex V { get; set; }
+        Vertex U { get; set; }
+        Vertex V { get; set; }
         int Weighted { get; set; }
     }
 }

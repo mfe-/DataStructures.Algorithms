@@ -33,15 +33,24 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.SetDirectedRoutedCommand,SetDirected_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.KruskalRoutedCommand,Kruskal_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphVisualization.ClearGraphCommand, ClearGraph_Executed));
 
         }
+        private void ClearGraph_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            {
+                this.Graph = null;
+                this.Graph = new Graph();
+            }
 
+        }
         private void Kruskal_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
             {
                 
-                Graph kruskal = this.Graph.Kruskal();
+                Graph kruskal = this.Graph.Kruskal_DepthFirstSearch();
                 this.Graph = null;
                 this.Graph = kruskal;
             }
@@ -237,8 +246,7 @@ namespace Get.UI
                 Point p = (Mouse.GetPosition(sender as IInputElement));
                 Vertex v = new Vertex();
 
-                //todo: Bug Graph wird nicht korrekt erstellt - wenn man eine edge verbindet kommts sowieso zu einer exception odeR?
-                gv.Graph.addVertex(v);
+                gv.Graph.addVertex(new Vertex());
 
             }
         }
