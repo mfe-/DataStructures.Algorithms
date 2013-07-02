@@ -198,7 +198,19 @@ namespace Get.UI
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value == null) return 0;
+            if (!value.GetType().Equals(typeof(string))) return 0;
+
+            int result = 0;
+
+            if (Int32.TryParse(value.ToString(), out result))
+            {
+                return result;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
