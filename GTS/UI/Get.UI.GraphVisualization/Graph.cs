@@ -305,6 +305,12 @@ namespace Get.UI
                         this.Graph.Vertices.Remove(edge.V);
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
+                    if (this.Graph.Vertices.Contains(edge.U) && this.Graph.Vertices.Count > 1)
+                    {
+                        this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+                        this.Graph.Vertices.Remove(edge.U);
+                        this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    }
                     VertexVisualization uvisual = null;
                     VertexVisualization vvisual = null;
 
