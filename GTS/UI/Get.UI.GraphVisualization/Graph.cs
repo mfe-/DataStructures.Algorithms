@@ -87,7 +87,10 @@ namespace Get.UI
         {
             base.OnMouseLeftButtonDown(e);
 
-            this.Focus();
+            if (e.Source is GraphVisualization)
+            {
+                this.Focus();
+            }
 
             if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
             {
@@ -228,7 +231,7 @@ namespace Get.UI
                 }
             }
 
-            // add some extra margin
+            // add some extra margin for scrollviewer
             size.Width += 10;
             size.Height += 10;
             return size;
@@ -272,6 +275,7 @@ namespace Get.UI
                     EdgeVisualization edv = addEdge(e, visualvertex, EdgeVisualization.PositionVProperty);
 
                     this.Children.Add(edv);
+                    //bug? position of edge missing?
                     Canvas.SetZIndex(edv, -1);
                 }
 
@@ -280,7 +284,7 @@ namespace Get.UI
                 foreach (Edge ed in vertex.Edges)
                 {
                     EdgeVisualization edv = addEdge(ed, visualvertex, EdgeVisualization.PositionUProperty);
-                    
+
                     InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
                 }
             }
@@ -305,12 +309,13 @@ namespace Get.UI
                         this.Graph.Vertices.Remove(edge.V);
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
-                    if (this.Graph.Vertices.Contains(edge.U) && this.Graph.Vertices.Count > 1)
+                    if (this.Graph.Vertices.Contains(edge.U) && this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.U);
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
+
                     VertexVisualization uvisual = null;
                     VertexVisualization vvisual = null;
 
@@ -336,7 +341,7 @@ namespace Get.UI
                         addEdge(edge);
                     }
 
-                    
+
 
 
                 }
@@ -460,6 +465,7 @@ namespace Get.UI
             if (pAddtoCanvas)
             {
                 this.Children.Add(edv);
+                //bug? position of edge missing?
                 Canvas.SetZIndex(edv, -1);
             }
 
@@ -515,7 +521,7 @@ namespace Get.UI
                 CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
             }
 
-            
+
 
             return edv;
         }

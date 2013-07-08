@@ -166,13 +166,25 @@
     ControlTemplate of EdgeVisualization
     -->
     <Style TargetType="{x:Type local:EdgeVisualization}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="StrokeThickness" Value="5" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="StrokeThickness" Value="5" />
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="StrokeThickness" Value="5" />
+            </Trigger>
+        </Style.Triggers>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:EdgeVisualization}">
                     <DockPanel>
                         <!--use when local:EdgeVisualization.Directed=true-->
-                        <local:Arrow Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}" HeadWidth="10" HeadHeight="10"
-                        Point1="{Binding Mode=TwoWay,Path=PositionU,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}">
+                        <local:Arrow x:Name="PART_Arrow" Grid.Column="0"  Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}" HeadWidth="10" HeadHeight="10"
+                        Point1="{Binding Mode=TwoWay,Path=PositionU,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
+                                     Focusable="{TemplateBinding Focusable}">
                             <local:Arrow.Point2>
                                 <!--Because Point1 and Point2 are the coordinates to the vertex center, we have to calculate the right coordinates with the converter-->
                                 <MultiBinding Converter="{x:Static local:EdgeVisualization.ShiftConverter}" Mode="OneWay" NotifyOnSourceUpdated="False" UpdateSourceTrigger="PropertyChanged">
@@ -180,40 +192,31 @@
                                     <Binding Path="PositionV" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}" />
                                 </MultiBinding>
                             </local:Arrow.Point2>
-                            <local:Arrow.Style>
-                                <Style TargetType="{x:Type local:Arrow}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mode=TwoWay,Path=Directed,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mode=TwoWay,Path=Directed,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </local:Arrow.Style>
                         </local:Arrow>
+
                         <!--use when local:EdgeVisualization.Directed=false-->
-                        <Line Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}"
+                        <Line x:Name="PART_Line" Grid.Column="0"  Stroke="{TemplateBinding Foreground}" StrokeThickness="{TemplateBinding StrokeThickness}" Focusable="{TemplateBinding Focusable}"
                         X1="{Binding Mode=TwoWay,Path=PositionU.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                         Y1="{Binding Mode=TwoWay,Path=PositionU.Y,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                         X2="{Binding Mode=TwoWay,Path=PositionV.X,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}"
                         Y2="{Binding Mode=TwoWay,Path=PositionV.Y,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" >
-                            <Line.Style>
-                                <Style TargetType="{x:Type Line}" >
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mode=TwoWay,Path=Directed,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" Value="True">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mode=TwoWay,Path=Directed,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Line.Style>
                         </Line>
+                        <!--<TextBlock Text="{Binding Mode=TwoWay,Path=Edge.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:EdgeVisualization}}}" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Bottom" />-->
+                        <!--<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Center" Fill="Blue" Panel.ZIndex="5" Width="20" Height="5"/>-->
                     </DockPanel>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Directed" Value="True">
+                            <Setter TargetName="PART_Line" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Directed" Value="False">
+                            <Setter TargetName="PART_Line" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Directed" Value="False">
+                            <Setter TargetName="PART_Arrow" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Directed" Value="True">
+                            <Setter TargetName="PART_Arrow" Property="Visibility" Value="Visible" />
+                        </Trigger>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
@@ -241,6 +244,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Focusable" Value="True" />
         <Setter Property="Opacity" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>

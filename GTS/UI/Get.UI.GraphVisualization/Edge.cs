@@ -13,12 +13,18 @@ using System.Windows.Markup;
 using System.Windows.Shapes;
 using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Input;
+using System.Timers;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace Get.UI
 {
     public class EdgeVisualization : Control
     {
+        protected string Input = String.Empty;
+        protected Timer InputDelay;
+        protected int Ticks = 0;
+
         static EdgeVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
@@ -28,8 +34,72 @@ namespace Get.UI
         public EdgeVisualization()
             : base()
         {
-            //todo: ondrawing überschreiben und TextBlock hinzufügen?
+            InputDelay = new Timer();
+            // Set the Interval to 500 milliseconds
+            InputDelay.Interval = 500;
+            InputDelay.Enabled = true;
+            InputDelay.Elapsed += new ElapsedEventHandler(InputDelay_Elapsed);
+
         }
+
+        protected virtual void InputDelay_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Ticks += 500;
+            int value = 0;
+            if (Ticks >= 1000)
+            {
+                if (Int32.TryParse(this.Input, out value))
+                {
+                    this.Edge.Weighted = value;
+                }
+                Input = String.Empty;
+                InputDelay.Stop();
+            }
+
+        }
+        protected override Size MeasureOverride(Size constraint)
+        {
+            //does not work
+            //add some extra space for better selecting the item (IsMouseover, OnClick usw)
+            return base.MeasureOverride(new Size(constraint.Width + 5, constraint.Height + 10));
+        }
+
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.Focus();
+        }
+
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
+            if (this.IsFocused.Equals(true))
+            {
+                InputDelay.Start();
+
+                bool shiftPressed = false;
+                string input = String.Empty;
+
+                if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+                {
+                    shiftPressed = true;
+                }
+                else
+                {
+                    if (shiftPressed == false && e.Key >= Key.D0 && e.Key <= Key.D9)
+                    {
+                        // Number keys pressed so need to so special processing
+                        // also check if shift pressed
+                        input += e.Key.ToString()[1].ToString();
+                        Debug.WriteLine(input);
+                    }
+
+                }
+            }
+            base.OnPreviewKeyDown(e);
+        }
+
         /// <summary>
         /// Participates in rendering operations that are directed by the layout system. Adds the weighted as text in the middle of the edge
         /// </summary>
@@ -50,6 +120,7 @@ namespace Get.UI
             get { return (Get.Model.Graph.Edge)GetValue(EdgeProperty); }
             set { SetValue(EdgeProperty, value); }
         }
+
 
         // Using a DependencyProperty as the backing store for Edge.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EdgeProperty =
@@ -125,11 +196,17 @@ namespace Get.UI
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values == null) return new Point[]{};
+            if (values == null) return new Point[] { };
             if (!values.GetType().Equals(typeof(System.Object[]))) return values;
             if (!values.Length.Equals(2)) return new Point[] { };
             if (!values[0].GetType().Equals(typeof(Point))) return new Point[] { };
             if (!values[1].GetType().Equals(typeof(Point))) return new Point[] { };
+
+            double r = 20;
+
+            if ((parameter == null)) r = 20;
+            if ((parameter != null) && !(Double.TryParse(parameter.ToString(), out r))) r = 20;
+
 
             Point pu = (Point)values[0];
             Point pv = (Point)values[1];
@@ -140,8 +217,6 @@ namespace Get.UI
             double dy = pv.Y - pu.Y;
             double alpha = Math.Atan2(dy, dx);
             double b = Math.Sqrt((dx * dx) + (dy * dy));
-
-            double r = 20;
 
             double c = (b - r) * Math.Sin(alpha);
             double d = (b - r) * Math.Cos(alpha);
@@ -154,7 +229,7 @@ namespace Get.UI
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return new object[]{value};
+            return new object[] { value };
         }
     }
 }
