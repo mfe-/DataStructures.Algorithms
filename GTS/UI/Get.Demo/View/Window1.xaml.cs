@@ -82,7 +82,7 @@ namespace Get.Demo
 
             que.Enqueue(() => vd.addEdge(ve,2, graph.Directed));
 
-            que.Enqueue(() => vg.addEdge(vh,8, graph.Directed));
+            que.Enqueue(() => vg.addEdge(vh,6, graph.Directed));
             que.Enqueue(() => vh.addEdge(vi,10, graph.Directed));
             que.Enqueue(() => vi.addEdge(vj,1, graph.Directed));
             que.Enqueue(() => vj.addEdge(vf,2, graph.Directed));
@@ -94,6 +94,10 @@ namespace Get.Demo
             que.Enqueue(() => vl.addEdge(vk,8, graph.Directed));
 
             que.Enqueue(() => va.removeEdge(vb, graph.Directed));
+
+            que.Enqueue(() => vh.Weighted=20);
+
+            que.Enqueue(() => vc.Weighted = 11);
 
             graph.addVertex(va);
             graph.Start = va;
@@ -108,7 +112,7 @@ namespace Get.Demo
                     Action action = que.Dequeue();
                     Dispatcher.BeginInvoke(action);
 
-                    mre.WaitOne(20 * 120);
+                    mre.WaitOne(10 * 120);
                 }
             }));
             thread.Start();
@@ -125,9 +129,10 @@ namespace Get.Demo
             if (Debugger.IsAttached)
             {
                 //SimulateGraphChanges();
-                //SimulateGraphLoadFromFile();
+                SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
-                _GraphVisualization.Graph = new Graph();
+                //_GraphVisualization.Graph = new Graph();
+
             }
 
 

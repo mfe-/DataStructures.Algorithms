@@ -35,46 +35,41 @@
             -->
 
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
-            <ui:GraphVisualization x:Name="_GraphVisualization"
+
+                <ui:GraphVisualization x:Name="_GraphVisualization"
                 Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
                 Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
                 Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertexRoutedCommand}">
-                <ui:GraphVisualization.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="_Save" Command="Save" />
-                        <MenuItem Header="_Load" Command="Open" />
-                        <MenuItem Header="_Print" Command="Print" />
-                        <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphVisualization.KruskalRoutedCommand}" />
-                        <MenuItem Header="_Clear" Command="{x:Static ui:GraphVisualization.ClearGraphCommand}" />
-                    </ContextMenu>
-                </ui:GraphVisualization.ContextMenu>
-                <ui:GraphVisualization.Resources>
-                    <Style TargetType="{x:Type ui:VertexVisualization}">
+                    <ui:GraphVisualization.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="_Save" Command="Save" />
+                            <MenuItem Header="_Load" Command="Open" />
+                            <MenuItem Header="_Print" Command="Print" />
+                            <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphVisualization.KruskalRoutedCommand}" />
+                            <MenuItem Header="_Clear" Command="{x:Static ui:GraphVisualization.ClearGraphCommand}" />
+                            <MenuItem Header="_Direct" Command="{x:Static ui:GraphVisualization.SetDirectedRoutedCommand}" />
+                        </ContextMenu>
+                    </ui:GraphVisualization.ContextMenu>
+                    <ui:GraphVisualization.Resources>
+                        <Style TargetType="{x:Type ui:VertexVisualization}">
 
-                        <Style.Triggers>
-                            <!--<DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Base:DesignerItem}}}" Value="True">
-                                <Setter Property="BorderThickness" Value="2" />
-                            </DataTrigger>-->
-                            <!--<Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="Green" />
-                            </Trigger>-->
- 
-                        </Style.Triggers>
-
-                    </Style>
-
-                    <Style TargetType="{x:Type ui:EdgeVisualization}">
-                        <Style.Triggers>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="StrokeThickness" Value="2" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
+                            <Style.Triggers>
 
 
-                </ui:GraphVisualization.Resources>
+                            </Style.Triggers>
 
-            </ui:GraphVisualization>
+                        </Style>
+
+                        <Style TargetType="{x:Type ui:EdgeVisualization}">
+                            <Style.Triggers>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="StrokeThickness" Value="2" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:GraphVisualization.Resources>
+                </ui:GraphVisualization>
+
             <!--<Border BorderBrush="Green" BorderThickness="3" x:Name="_border">
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="GotFocus">
