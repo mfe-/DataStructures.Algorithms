@@ -11,6 +11,8 @@ Die Edge Controls verlieren sofort den Focus nach dem Aufruf von this.Focus() [1
 
 Todos:
 Edges an richtige position setzen und dann Grid und TextBox verwenden.
+Edge von panel ableiten
+2x DP U und V machen die vom typ VertexVisualzion sind. positionen sollen von diesen dps geholt werden
 
 Threads:
 http://social.msdn.microsoft.com/Forums/vstudio/en-US/955593ed-cdae-438e-8c1a-d63d851aa197/make-invisible-area-clickable-in-custom-control

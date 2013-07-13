@@ -707,7 +707,16 @@ namespace Get.UI
         {
             get
             {
-                return this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true)).First();
+                IEnumerable<FrameworkElement> FElementList = this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true));
+                if (FElementList != null && FElementList.Count()!=0)
+                {
+                    return FElementList.First();
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
         }
 

@@ -21,10 +21,6 @@ namespace Get.UI
 {
     public class EdgeVisualization : Control
     {
-        protected string Input = String.Empty;
-        protected Timer InputDelay;
-        protected int Ticks = 0;
-
         static EdgeVisualization()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
@@ -34,27 +30,7 @@ namespace Get.UI
         public EdgeVisualization()
             : base()
         {
-            InputDelay = new Timer();
-            // Set the Interval to 500 milliseconds
-            InputDelay.Interval = 500;
-            InputDelay.Enabled = true;
-            InputDelay.Elapsed += new ElapsedEventHandler(InputDelay_Elapsed);
 
-        }
-
-        protected virtual void InputDelay_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Ticks += 500;
-            int value = 0;
-            if (Ticks >= 1000)
-            {
-                if (Int32.TryParse(this.Input, out value))
-                {
-                    this.Edge.Weighted = value;
-                }
-                Input = String.Empty;
-                InputDelay.Stop();
-            }
 
         }
         protected override Size MeasureOverride(Size constraint)
@@ -74,30 +50,46 @@ namespace Get.UI
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
-            if (this.IsFocused.Equals(true))
+            if (e.Key.Equals(Key.Back))
             {
-                InputDelay.Start();
-
-                bool shiftPressed = false;
-                string input = String.Empty;
-
-                if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
+                if (Edge.Weighted.ToString().Length != 1)
                 {
-                    shiftPressed = true;
+                    String temp = Edge.Weighted.ToString();
+                    temp = temp.Remove(temp.Length - 1);
+                    int result = 0;
+                    if (Int32.TryParse(temp, out result))
+                    {
+                        Edge.Weighted = result;
+                    }
                 }
                 else
                 {
-                    if (shiftPressed == false && e.Key >= Key.D0 && e.Key <= Key.D9)
-                    {
-                        // Number keys pressed so need to so special processing
-                        // also check if shift pressed
-                        input += e.Key.ToString()[1].ToString();
-                        Debug.WriteLine(input);
-                    }
-
+                    Edge.Weighted = 0;
                 }
+                
             }
+            else
+            {
+                if (e.Key >= Key.D0 && e.Key <= Key.D9)
+                {
+                    // Number keys pressed so need to so special processing
+                    // also check if shift pressed
+                    String temp = Edge.Weighted.ToString();
+                    temp += e.Key.ToString()[1].ToString();
+
+                    int result = 0;
+                    if (Int32.TryParse(temp, out result))
+                    {
+                        Edge.Weighted = result;
+
+                    }
+                }
+
+            }
+            //Rerender Weighted - OnRender()
+            this.InvalidateVisual();
             base.OnPreviewKeyDown(e);
+
         }
 
         /// <summary>

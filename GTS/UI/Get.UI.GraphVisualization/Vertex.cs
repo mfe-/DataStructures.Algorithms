@@ -64,9 +64,12 @@ namespace Get.UI
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            _adornerLayer = AdornerLayer.GetAdornerLayer(this);
-            _adornerItem = new AdornerItem(this);
-            _adornerItem.MouseDown += new MouseButtonEventHandler(AdornerItem_MouseDown);
+            if (_adornerLayer == null)
+            {
+                _adornerLayer = AdornerLayer.GetAdornerLayer(this);
+                _adornerItem = new AdornerItem(this);
+                _adornerItem.MouseDown += new MouseButtonEventHandler(AdornerItem_MouseDown);
+            }
             if (this.Template != null)
             {
                 //Border = this.Template.FindName("PART_Border", this) as Border;
