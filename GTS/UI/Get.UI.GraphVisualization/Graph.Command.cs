@@ -15,6 +15,7 @@ using System.Xml;
 using System.Runtime.Serialization;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Collections.Specialized;
 
 namespace Get.UI
 {
@@ -105,23 +106,43 @@ namespace Get.UI
 
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            if (FocusedFrameworkElement!=null && FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
             {
                 VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
 
-                List<EdgeVisualization> elist = EdgeVisualizations.Where(a => a.Edge.U.Equals(vv.Vertex)).ToList<EdgeVisualization>();
                 //case Vertex is connected
-                if (elist.Count < 0)
+                if (vv.Vertex.Edges.Count.Equals(0))
                 {
-
-                }
-                else
-                {
-                    //case vertex isnt connected
                     this.Graph.Vertices.Remove(vv.Vertex);
                 }
 
+            }
+            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(EdgeVisualization)))
+            {
+                EdgeVisualization ev = FocusedFrameworkElement as EdgeVisualization;
 
+                Edge edge = ev.Edge;
+
+                Vertex u = edge.U;
+                Vertex v = edge.V;
+
+                u.removeEdge(v, this.Graph.Directed);
+
+                //the vertex is unconnected so move it to the unconnected vertices list
+                if (u.Edges.Count.Equals(0))
+                {
+                    this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    this.Graph.Vertices.Add(u);
+                    this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    u = null;
+                }
+                if (v.Edges.Count.Equals(0))
+                {
+                    this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    this.Graph.Vertices.Add(v);
+                    this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    v = null;
+                }
             }
         }
 
