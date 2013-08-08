@@ -23,7 +23,7 @@ namespace Get.UI
     {
         #region Save Command
 
-        public GraphVisualization()
+        public GraphVisualization() : base()
         {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
@@ -35,7 +35,7 @@ namespace Get.UI
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.SetDirectedRoutedCommand,SetDirected_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.KruskalRoutedCommand,Kruskal_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphVisualization.ClearGraphCommand, ClearGraph_Executed));
-
+            
         }
         private void ClearGraph_Executed(object sender, ExecutedRoutedEventArgs e)
         {

@@ -75,6 +75,7 @@ namespace Get.UI
             BackgroundProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(Brushes.Transparent));
             //enables commands in contextmenue if no item got is focused
             FocusableProperty.OverrideMetadata(typeof(GraphVisualization), new FrameworkPropertyMetadata(true));
+
         }
 
         #region Drag and Drop
@@ -201,9 +202,6 @@ namespace Get.UI
         }
 
         #endregion Drag and Drop
-
-        protected FrameworkElement SelectedItem { get; set; }
-
 
         /// <summary>
         /// Measures the size of the current Canvas for the layout.
@@ -459,8 +457,6 @@ namespace Get.UI
 
             edv = addEdge(edv, vv, EdgeVisualization.PositionVProperty);
 
-
-
             //add to canvas
             if (pAddtoCanvas)
             {
@@ -678,6 +674,9 @@ namespace Get.UI
             add { AddHandler(MouseDoubleClickEvent, value); }
             remove { RemoveHandler(MouseDoubleClickEvent, value); }
         }
+
+        protected FrameworkElement SelectedItem { get; set; }
+
         /// <summary>
         /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
         /// http://msdn.microsoft.com/en-us/library/ms668604.aspx?queryresult=true

@@ -45,8 +45,11 @@ namespace Get.UI
             base.OnMouseLeftButtonDown(e);
             this.Focus();
         }
-
-
+        /// <summary>
+        /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
+        /// When the control is focused you can enter a number to change the weight of the edge
+        /// </summary>
+        /// <param name="e">Event Data</param>
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
@@ -86,8 +89,6 @@ namespace Get.UI
                 }
 
             }
-            //Rerender Weighted - OnRender()
-            this.InvalidateVisual();
             base.OnPreviewKeyDown(e);
 
         }
@@ -126,8 +127,15 @@ namespace Get.UI
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
                 EdgeVisualization edgeVisualization = pDependencyObject as EdgeVisualization;
 
+                edge.PropertyChanged +=( sender, ePropertyChangedEventArgs)=>{
+                    
+                    //Rerender Weighted - OnRender()
+                    edgeVisualization.InvalidateVisual();
+                };
+
             }
         }
+
 
         public static readonly DependencyProperty StrokeThicknessProperty;
 
