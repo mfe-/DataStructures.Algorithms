@@ -193,7 +193,7 @@ namespace Get.UI
                     //first find the vertex where we started 
                     Vertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
                     //add to model edge 
-                    v.addEdge(vv.Vertex);
+                    v.addEdge(vv.Vertex,ev.Edge.Weighted,true);
                 }
 
                 this.Children.Remove(SelectedItem);
@@ -301,7 +301,7 @@ namespace Get.UI
                     Edge edge = item as Edge;
 
                     //check if vertex is kept in Graph.Vertices and will be moved into the depper graph - if yes its duplicated so remove from graph.vertices
-                    if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
+                    if (this.Graph.Vertices.First().Equals(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.V);
@@ -464,6 +464,19 @@ namespace Get.UI
                 //bug? position of edge missing?
                 Canvas.SetZIndex(edv, -1);
             }
+            //check if this is the second edge (a->b ,  a<-b) and bind the weight to the frist edge
+            if (Graph.Directed == false)
+            {
+                var edge = EdgeVisualizations.Where(b => b.Edge.U == e.V && b.Edge.V == e.U);
+                if (edge.Count().Equals(0))
+                {
+                    return edv;
+                }
+                else
+                {
+                    CreateWeightBinding(edge.First(), edv.Edge);
+                }
+            }
 
             return edv;
         }
@@ -544,7 +557,9 @@ namespace Get.UI
                 pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
             }
         }
-        //not tested yet
+
+        #endregion
+
         protected virtual void CreateDirectedBinding(EdgeVisualization pSetBindingSource, Graph pGraphSource)
         {
             if (pSetBindingSource.GetBindingExpression(EdgeVisualization.DirectedProperty) == null)
@@ -558,7 +573,22 @@ namespace Get.UI
                 pSetBindingSource.SetBinding(EdgeVisualization.DirectedProperty, bindingDirected);
             }
         }
-        #endregion
+
+        protected virtual void CreateWeightBinding(EdgeVisualization pSetBindingSource, Edge pEdge)
+        {
+            if (pSetBindingSource.GetBindingExpression(EdgeVisualization.EdgeProperty) == null)
+            {
+                Binding bindingDirected = new Binding("Weight");
+                bindingDirected.Source = pEdge;
+                bindingDirected.Mode = BindingMode.TwoWay;
+                bindingDirected.NotifyOnSourceUpdated = true;
+                bindingDirected.NotifyOnTargetUpdated = true;
+                bindingDirected.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
+                pSetBindingSource.SetBinding(EdgeVisualization.EdgeProperty, bindingDirected);
+            }
+        }
+
 
         protected virtual void removeEdge(Edge pEdge)
         {
