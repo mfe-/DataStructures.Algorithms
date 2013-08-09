@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.TimeKeeping", "UI\Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Common.Mathematics", "Common\Get.Common.Mathematics\Get.Common.Mathematics.csproj", "{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}"
 EndProject
+<<<<<<< .mine
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkAddressChangedNotification", "NetworkAddressChangedNotification\NetworkAddressChangedNotification.csproj", "{9B49AAE7-741B-49BA-87F7-A893A67FED10}"
+EndProject
+=======
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{990A78A8-168F-4DF6-A9C1-EBF90A95B2C3}"
 	ProjectSection(SolutionItems) = preProject
 		GTS.vsmdi = GTS.vsmdi
@@ -34,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Model.Graph.Test", "Model\Get.Model.Graph.Test\Get.Model.Graph.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
+>>>>>>> .r162
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -141,6 +146,18 @@ Global
 		{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}.Release|x86.ActiveCfg = Release|Any CPU
+<<<<<<< .mine
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Debug|x86.ActiveCfg = Debug|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Debug|x86.Build.0 = Debug|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Release|Any CPU.ActiveCfg = Release|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Release|x86.ActiveCfg = Release|x86
+		{9B49AAE7-741B-49BA-87F7-A893A67FED10}.Release|x86.Build.0 = Release|x86
+=======
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -151,6 +168,7 @@ Global
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|x86.ActiveCfg = Release|Any CPU
+>>>>>>> .r162
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
