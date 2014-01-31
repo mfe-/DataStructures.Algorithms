@@ -21,7 +21,7 @@ using System.Threading;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Diagnostics;
-using Get.Common.Mathematics;
+using Get.Mathematics;
 
 namespace Get.Demo
 {
