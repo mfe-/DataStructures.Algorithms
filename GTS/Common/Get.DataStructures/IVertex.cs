@@ -11,11 +11,11 @@ namespace Get.DataStructure
         W Weight { get; set; }
 
         IEnumerable<IEdge<W,T>> Edges { get; set; }
-        
-        //IEdge addEdge(Vertex pu);
-        //IEdge addEdge(Vertex pu, int pweighted);
-        //void addEdge(Vertex pu, int pweighted, bool undirected);
-        //void removeEdge(Vertex pu);
-        //void removeEdge(Vertex pu, bool directed);
+
+        int Size { get { return Edges.Count(); } }
+
+        IEdge<W, T> AddEdge(IVertex<W, T> pu, W pweighted, Boolean undirected);
+
+        void RemoveEdge(IVertex<W, T> pu, bool directed);
     }
 }
