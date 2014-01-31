@@ -36,16 +36,16 @@ namespace Get.UI.Controls
             InitializeComponent();
         }
 
-        [BindableAttribute(true)]
-        public ObjectCore ItemsSource
-        {
-            get { return (ObjectCore)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
-        }
+        //[BindableAttribute(true)]
+        //public ObjectCore ItemsSource
+        //{
+        //    get { return (ObjectCore)GetValue(ItemsSourceProperty); }
+        //    set { SetValue(ItemsSourceProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(ObjectCore), typeof(ObjectControl), new UIPropertyMetadata(null));
+        //// Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ItemsSourceProperty =
+        //    DependencyProperty.Register("ItemsSource", typeof(ObjectCore), typeof(ObjectControl), new UIPropertyMetadata(null));
 
 
     }
