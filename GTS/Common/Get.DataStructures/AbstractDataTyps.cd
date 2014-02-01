@@ -11,15 +11,31 @@
   <Class Name="Get.DataStructure.LinkedList&lt;T&gt;" BaseTypeListCollapsed="true">
     <Position X="5.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ACAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LinkedList.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Interface Name="Get.DataStructure.IEdge&lt;W, T&gt;">
-    <Position X="4.75" Y="3" Width="1.5" />
+  <Class Name="Get.DataStructure.Vertex&lt;W&gt;">
+    <Position X="5.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEgAAAAAAAgAAACAAAAAAAACAAAAAgAABAAAAAAgA=</HashCode>
+      <FileName>Vertex.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Get.DataStructure.Edge&lt;W&gt;">
+    <Position X="8" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAAIAgABIAAAASAAA=</HashCode>
+      <FileName>Edge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Get.DataStructure.IEdge&lt;W&gt;">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAASAAA=</HashCode>
       <FileName>IEdge.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -42,6 +58,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ILNode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.DataStructure.IVertex&lt;W&gt;">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEgAAAAAAAgAAACAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IVertex.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
