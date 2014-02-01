@@ -68,7 +68,8 @@ namespace Get.Algorithms.DataStrucre.Test
             //
             // TODO: Add test logic here
             //
-               Edge<int,object> ed = new Edge<int,object>();
+
+
             
         }
     }
