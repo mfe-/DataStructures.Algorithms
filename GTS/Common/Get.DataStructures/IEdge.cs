@@ -5,20 +5,16 @@ using System.Text;
 
 namespace Get.DataStructure
 {
-    public interface IEdge<W>
+    public interface IEdge<W,T,D> 
         where W : IComparable<W>
+        where T : IVertex<W,D>
     {
         /// <summary>
         /// Weight of vertex
         /// </summary>
         W Weight { get; set; }
-        /// <summary>
-        /// Get or sets the vertex of the edge
-        /// </summary>
-        IVertex<W> U { get; set; }
-        /// <summary>
-        /// Get or sets the vertex of the edge
-        /// </summary>
-        IVertex<W> V { get; set; }
+
+        IVertex<W, D> U { get; set; }
+        IVertex<W, D> V { get; set; }
     }
 }
