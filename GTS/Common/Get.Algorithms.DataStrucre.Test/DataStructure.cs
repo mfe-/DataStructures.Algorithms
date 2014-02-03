@@ -15,10 +15,18 @@ namespace Get.Algorithms.DataStrucre.Test
     {
         public DataStructure()
         {
-            //
-            // TODO: Add constructor logic here
-            //
-         
+            Node<int> n1 = new Node<int>();
+
+            Vertex<int, Object> v1 = new Vertex<int, object>();
+
+            Vertex<int, Object> v2 = new Vertex<int, Object>();
+
+            Edge<int, Object> e1 = new Edge<int, Object>(null, null);
+            e1.U = v1;
+            e1.Value = new Object();
+
+
+            v1.AddEdge(v2, 2, true);
 
         }
 

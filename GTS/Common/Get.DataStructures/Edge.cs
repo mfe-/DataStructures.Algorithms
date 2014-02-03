@@ -6,12 +6,13 @@ using System.Diagnostics;
 
 namespace Get.DataStructure
 {
-    [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
-    public class Edge<W> : IEdge<W> where W : IComparable<W>
+    [DebuggerDisplay("Edge = {Weight},U={U}, V = {V}")]
+    public class Edge<W, D> : IEdge<W, IVertex<W, D>, D>
+        where W : IComparable<W>
     {
         #region Members
-        protected IVertex<W> u;
-        protected IVertex<W> v;
+        protected IVertex<W, D> u;
+        protected IVertex<W, D> v;
         protected W weight;
         #endregion
 
@@ -20,7 +21,7 @@ namespace Get.DataStructure
         /// </summary>
         /// <param name="pu">Vertex of the Edge</param>
         /// <param name="pv">Vertex of the Edge</param>
-        public Edge(IVertex<W> pu, IVertex<W> pv)
+        public Edge(IVertex<W, D> pu, IVertex<W, D> pv)
         {
             u = pu;
             v = pv;
@@ -31,7 +32,7 @@ namespace Get.DataStructure
         /// <param name="pu">Vertex of the Edge</param>
         /// <param name="pv">Vertex of the Edge</param>
         /// <param name="pweighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex<W> pu, IVertex<W> pv, W pweight)
+        public Edge(IVertex<W, D> pu, IVertex<W, D> pv, W pweight)
         {
             this.u = pu;
             this.v = pv;
@@ -39,17 +40,19 @@ namespace Get.DataStructure
         }
 
         /// <summary>
-        /// Get or sets the Vertex of the Edge
+        /// Get or sets the vertex U of the Edge
         /// </summary>
-        public virtual IVertex<W> U { get { return u; } set { u = value; } }
+        public virtual IVertex<W, D> U { get { return u; } set { u = value; } }
         /// <summary>
-        /// Get or sets the vertex of the edge
+        /// Get or sets the vertex V of the edge
         /// </summary>
-        public virtual IVertex<W> V { get { return v; } set { v = value; } }
+        public virtual IVertex<W, D> V { get { return v; } set { v = value; } }
         /// <summary>
         /// Gets or sets the weight of the edge
         /// </summary>
         public virtual W Weight { get { return weight; } set { weight = value; } }
+
+        public virtual D Value { get; set; }
         /// <summary>
         /// Determines whether two object instances are equal.
         /// </summary>
@@ -57,7 +60,7 @@ namespace Get.DataStructure
         /// <returns>True if the objects are considered equal; otherwise, false.</returns>
         public sealed override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(IEdge<W>))) return false;
+            if (!obj.GetType().Equals(typeof(IEdge<W, IVertex<W, D>, D>))) return false;
 
             //true if objA is the same instance as objB or if both are null; otherwise, false.
             if (Object.ReferenceEquals(this, obj)) return true;
@@ -65,7 +68,7 @@ namespace Get.DataStructure
             //Check whether any of the compared objects is null.
             if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(obj, null)) return false;
 
-            IEdge<W> edge = obj as IEdge<W>;
+            IEdge<W, IVertex<W, D>, D> edge = obj as IEdge<W, IVertex<W, D>, D>;
 
             return Equals(edge, false);
         }
@@ -79,7 +82,7 @@ namespace Get.DataStructure
         /// <returns>A hash code for the current Object.</returns>
         public sealed override int GetHashCode()
         {
-            return Math.Abs(U.GetHashCode()) + Math.Abs(V.GetHashCode());
+            return Math.Abs(this.U.GetHashCode()) + Math.Abs(this.V.GetHashCode());
         }
 
     }

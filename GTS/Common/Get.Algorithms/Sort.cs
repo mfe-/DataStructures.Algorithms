@@ -8,24 +8,24 @@ namespace Get.Algorithms
 {
     public static class Sort
     {
-        public static IEnumerable<T> Selection_Sort<T>(this IEnumerable<T> A) where T : IComparable<T>
-        {
-            for (int j = 0; j < A.Count(); j++)
-            {
-                int minpos = j;
-                for (int i = j + 1; j < A.Count(); i++)
-                {
-                    if (A.ToArray()[i].CompareTo(A.ToArray()[minpos]) == -1) // a<b equals to a.compare(b)==-1
-                        minpos = i;
-                }
-                if (minpos > j)
-                {
-                    //vertauschen
-                }
-            }
+        //public static IEnumerable<T> Selection_Sort<T>(this IEnumerable<T> A) where T : IComparable<T>
+        //{
+        //    for (int j = 0; j < A.Count(); j++)
+        //    {
+        //        int minpos = j;
+        //        for (int i = j + 1; j < A.Count(); i++)
+        //        {
+        //            if (A.ToArray()[i].CompareTo(A.ToArray()[minpos]) == -1) // a<b equals to a.compare(b)==-1
+        //                minpos = i;
+        //        }
+        //        if (minpos > j)
+        //        {
+        //            //vertauschen
+        //        }
+        //    }
 
-            return A;
-        }
+        //    return A;
+        //}
         private static IEnumerable<T> Quick_Sort<T>(this IList<T> A, int l, int r) where T : IComparable<T>
         {
             if (l < r)
@@ -85,6 +85,75 @@ namespace Get.Algorithms
             }
             return min;
         }
+
+        ////http://xbfish.com/2011/11/03/insertion-sort-in-c/
+        //public static int[] Insertion_Sort(int[] A)
+        //{
+        //    for (int j = 1; j < A.Length; j++)
+        //    {
+        //        int key = A[j];
+        //        int i = j - 1;
+        //        while (i >= 0 && A[i] > key)
+        //        {
+
+        //            A[i + 1] = A[i];
+        //            i--;
+        //        }
+        //        A[i + 1] = key;
+
+        //    }
+
+        //    return A;
+        //}
+        //public static void MergeSort(int l, int r)
+        //{
+        //    if (l < r)
+        //    {
+        //        int m = (l + r) / 2;
+        //        MergeSort(l, m);
+        //        MergeSort(m + 1, r);
+
+        //        Merge(l, m, r);
+        //    }
+        //}
+
+        //public static void Merge(int l, int m, int r)
+        //{
+        //    int[] temp = new int[data.Length];
+
+        //    int i = l, h = l, j = m + 1;
+
+        //    while (h <= m && j <= r)
+        //    {
+        //        if (data[h] <= data[j])
+        //        {
+        //            temp[i] = data[h];
+        //            h++;
+        //        }
+        //        else
+        //        {
+        //            temp[i] = data[j];
+        //            j++;
+        //        }
+
+        //        i++;
+        //    }
+
+        //    if (h > m)
+        //        for (int k = j; k <= r; k++)
+        //            temp[i++] = data[k];
+        //    else
+        //        for (int k = h; k <= m; k++)
+        //            temp[i++] = data[k];
+
+        //    for (int k = l; k <= r; k++)
+        //    {
+        //        data[k] = temp[k];
+        //        System.Diagnostics.Debug.Write(" " + data[k]);
+
+        //    } System.Diagnostics.Debug.WriteLine(" m " + m + "\n");
+        //}
+
         public static void Print<T>(this IEnumerable<T> A)
         {
             if (Debugger.IsAttached)

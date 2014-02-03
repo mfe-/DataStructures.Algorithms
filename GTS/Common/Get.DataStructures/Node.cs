@@ -7,25 +7,27 @@ namespace Get.DataStructure
 {
     public class Node<T> : INode<T>
     {
+        public Node()
+            : base()
+        {
+        }
         public Node(T Data)
         {
-            this.Data = Data;
+            this.Value = Data;
         }
         public Node(T Data, INode<T> Left)
         {
-            this.Data = Data;
+            this.Value = Data;
             this.Left = Left;
         }
 
         public Node(T Data, INode<T> Left, INode<T> Right)
         {
-            this.Data = Data;
+            this.Value = Data;
             this.Left = Left;
             this.Right = Right;
         }
-
-
-        public T Data
+        public T Value
         {
             get;
             set;
