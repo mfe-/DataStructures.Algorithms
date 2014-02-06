@@ -6,8 +6,9 @@ using Get.DataStructure;
 
 namespace Get.DataStructure
 {
-    public interface ILNode<T> : INode<T>
+    public interface ITreeNode<T, D> : INode<T, D>
+        where T : INode<T,D>
     {
-        INode<T> Parent { get; set; }
+        T Parent { get; set; }
     }
 }

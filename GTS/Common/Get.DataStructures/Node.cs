@@ -5,47 +5,41 @@ using System.Text;
 
 namespace Get.DataStructure
 {
-    public class Node<T> : INode<T>
+    public class Node<D> : INode<Node<D>, D>
     {
         public Node()
             : base()
         {
         }
-        public Node(T Data)
+        public Node(D Data)
         {
             this.Value = Data;
         }
-        public Node(T Data, INode<T> Left)
+        public Node(D Data, Node<D> Left)
         {
             this.Value = Data;
             this.Left = Left;
         }
 
-        public Node(T Data, INode<T> Left, INode<T> Right)
+        public Node(D Data, Node<D> Left, Node<D> Right)
         {
             this.Value = Data;
             this.Left = Left;
             this.Right = Right;
         }
-        public T Value
+        public D Value
         {
             get;
             set;
         }
 
-        public INode<T> Parent
+        public Node<D> Left
         {
             get;
             set;
         }
 
-        public INode<T> Left
-        {
-            get;
-            set;
-        }
-
-        public INode<T> Right
+        public Node<D> Right
         {
             get;
             set;

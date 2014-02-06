@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Get.DataStructure
 {
-    public interface IEdge<W,T,D> 
+    public interface IEdge<W, T, D> : IData<D>
         where W : IComparable<W>
-        where T : IVertex<W,D>
+        where T : IVertex<W, D>
     {
         /// <summary>
         /// Weight of vertex
         /// </summary>
         W Weight { get; set; }
 
-        IVertex<W, D> U { get; set; }
-        IVertex<W, D> V { get; set; }
+        T U { get; set; }
+        T V { get; set; }
     }
 }
