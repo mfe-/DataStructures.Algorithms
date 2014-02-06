@@ -8,7 +8,7 @@ namespace Get.Algorithms
 {
     public static class Search
     {
-        public static IEnumerable<INode<T>> InOrder<T>(this INode<T> p, IList<INode<T>> list)
+        public static IEnumerable<Node<T>> InOrder<T>(this Node<T> p, IList<Node<T>> list)
         {
             if (p != null)
             {
@@ -18,9 +18,9 @@ namespace Get.Algorithms
             }
             return list;
         }
-        public static IEnumerable<INode<T>> InOrder<T>(this INode<T> p)
+        public static IEnumerable<Node<T>> InOrder<T>(this Node<T> p)
         {
-            return InOrder(p, new List<INode<T>>());
+            return InOrder(p, new List<Node<T>>());
         }
     }
 }

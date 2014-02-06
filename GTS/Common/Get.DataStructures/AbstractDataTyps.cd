@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Get.DataStructure.Node&lt;T&gt;" BaseTypeListCollapsed="true">
-    <Position X="13.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAACACgAAAAAAA=</HashCode>
-      <FileName>Node.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="Get.DataStructure.LinkedList&lt;T&gt;" BaseTypeListCollapsed="true">
     <Position X="5.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -32,6 +24,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Get.DataStructure.Node&lt;D&gt;" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACgAAAAAAA=</HashCode>
+      <FileName>Node.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.44" />
+  </Class>
   <Interface Name="Get.DataStructure.IEdge&lt;W, T, D&gt;">
     <Position X="6" Y="3" Width="1.5" />
     <TypeIdentifier>
@@ -46,7 +46,7 @@
       <FileName>INode.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Get.DataStructure.ILNode&lt;T&gt;">
+  <Interface Name="Get.DataStructure.ITreeNode&lt;T, D&gt;">
     <Position X="0.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -67,7 +67,7 @@
       <FileName>INode.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Get.DataStructure.INode&lt;T&gt;" Collapsed="true">
+  <Interface Name="Get.DataStructure.INode&lt;T, D&gt;" Collapsed="true">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>

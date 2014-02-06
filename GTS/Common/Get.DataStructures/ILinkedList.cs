@@ -6,8 +6,9 @@ using Get.DataStructure;
 
 namespace Get.DataStructure
 {
-    public interface ILinkedList<T>
+    public interface ILinkedList<T,D>
+        where T : INode<T,D>
     {
-        INode<T> Root { get; set; }
+        T Root { get; set; }
     }
 }

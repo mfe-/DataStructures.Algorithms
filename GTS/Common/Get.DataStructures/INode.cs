@@ -10,12 +10,14 @@ namespace Get.DataStructure
         T Value { get; set; }
     }
     public interface ISNode<T>
+        where T : ISNode<T>
     {
-        INode<T> Right { get; set; }
+        T Right { get; set; }
     }
-    public interface INode<T> : IData<T>, ISNode<T>
+    public interface INode<T,D> : IData<D>, ISNode<T>
+        where T : INode<T,D>
     {
         
-        INode<T> Left { get; set; }
+        T Left { get; set; }
     }
 }

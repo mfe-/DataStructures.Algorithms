@@ -16,6 +16,9 @@ namespace Get.Algorithms.DataStrucre.Test
         public DataStructure()
         {
             Node<int> n1 = new Node<int>();
+            Node<int> n2 = new Node<int>();
+            n1.Left = n2;
+            n1.Left.Right = n1;
 
             Vertex<int, Object> v1 = new Vertex<int, object>();
 
