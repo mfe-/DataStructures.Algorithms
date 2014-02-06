@@ -16,15 +16,19 @@ namespace Get.DataStructure
         protected W weight;
         #endregion
 
+        public Edge()
+        {
+        }
         /// <summary>
         /// Initializes a new instance of the Edge class.
         /// </summary>
         /// <param name="pu">Vertex of the Edge</param>
         /// <param name="pv">Vertex of the Edge</param>
         public Edge(IVertex<W, D> pu, IVertex<W, D> pv)
+            : this()
         {
-            u = pu;
-            v = pv;
+            this.u = pu;
+            this.v = pv;
         }
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -33,9 +37,8 @@ namespace Get.DataStructure
         /// <param name="pv">Vertex of the Edge</param>
         /// <param name="pweighted">Sets the Weighted of the Edge</param>
         public Edge(IVertex<W, D> pu, IVertex<W, D> pv, W pweight)
+            : this(pu, pv)
         {
-            this.u = pu;
-            this.v = pv;
             weight = pweight;
         }
 
