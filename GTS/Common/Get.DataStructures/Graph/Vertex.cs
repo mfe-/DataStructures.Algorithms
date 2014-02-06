@@ -12,7 +12,7 @@ namespace Get.DataStructure
     {
 
         #region Members
-        protected IEnumerable<IEdge<W, IVertex<W,D>,D>> _Edges;
+        protected IList<IEdge<W, IVertex<W,D>,D>> _Edges;
         protected Guid _Guid;
         protected W weight;
         #endregion
@@ -40,7 +40,7 @@ namespace Get.DataStructure
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
-        public IEnumerable<IEdge<W, IVertex<W, D>, D>> Edges { get { return _Edges; } set { _Edges = value; } }
+        public virtual IList<IEdge<W, IVertex<W, D>, D>> Edges { get { return _Edges; } set { _Edges = value; } }
 
         /// <summary>
         /// Amount of neighbours

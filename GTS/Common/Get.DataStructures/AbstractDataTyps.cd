@@ -12,7 +12,7 @@
     <Position X="8" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEgAAAAAAAgAAAiAAAAAAAACAAAIAgAABgAAAAAgA=</HashCode>
-      <FileName>Vertex.cs</FileName>
+      <FileName>Graph\Vertex.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -20,7 +20,7 @@
     <Position X="10.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAAIAgABIgAAASAAA=</HashCode>
-      <FileName>Edge.cs</FileName>
+      <FileName>Graph\Edge.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -36,7 +36,7 @@
     <Position X="6" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAASAAA=</HashCode>
-      <FileName>IEdge.cs</FileName>
+      <FileName>Graph\IEdge.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Get.DataStructure.IData&lt;T&gt;">
@@ -47,21 +47,21 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Get.DataStructure.ITreeNode&lt;T, D&gt;">
-    <Position X="0.75" Y="5.25" Width="1.5" />
+    <Position X="0.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ILNode.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Get.DataStructure.IVertex&lt;W, D&gt;">
-    <Position X="5.25" Y="5.5" Width="1.5" />
+    <Position X="4.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEgAAAAAAAgAAACAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IVertex.cs</FileName>
+      <FileName>Graph\IVertex.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Get.DataStructure.ISNode&lt;T&gt;">
-    <Position X="2.5" Y="2.5" Width="2.25" />
+    <Position X="2.5" Y="2.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>INode.cs</FileName>

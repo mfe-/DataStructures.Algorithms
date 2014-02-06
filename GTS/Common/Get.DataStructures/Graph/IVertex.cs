@@ -22,7 +22,7 @@ namespace Get.DataStructure
         /// <summary>
         /// Outbound edges from vertex
         /// </summary>
-        IEnumerable<IEdge<W,IVertex<W,D>,D>> Edges { get; set; }
+        IList<IEdge<W, IVertex<W, D>, D>> Edges { get; set; }
 
         /// <summary>
         /// Amount of edges
