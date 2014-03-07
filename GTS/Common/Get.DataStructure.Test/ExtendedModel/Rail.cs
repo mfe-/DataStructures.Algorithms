@@ -9,10 +9,8 @@ namespace RailNetwork
     {
         public Rail()
         {
-            RailEdge e = new RailEdge();
-            
+            RailEdge e = new RailEdge(); 
         }
-        
     }
     
 }
