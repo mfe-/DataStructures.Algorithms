@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{639925E2-1FD6-4E3F-A76B-5F37D93F2698}</ProjectGuid>
+    <ProjectGuid>{FA37CC20-24DF-41C6-9D44-7FCD32BC088C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.Algorithms.DataStrucre.Test</RootNamespace>
-    <AssemblyName>Get.Algorithms.DataStrucre.Test</AssemblyName>
+    <RootNamespace>Get.Algorithms.Graph.Test</RootNamespace>
+    <AssemblyName>Get.Algorithms.Graph.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,14 +45,13 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sort.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Get.Algorithms\Get.Algorithms.csproj">
-      <Project>{A6417910-4673-4CE0-A3B6-43E10DB0151E}</Project>
-      <Name>Get.Algorithms</Name>
+    <ProjectReference Include="..\Get.Algorithms.Graph\Get.Algorithms.Graph.csproj">
+      <Project>{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}</Project>
+      <Name>Get.Algorithms.Graph</Name>
     </ProjectReference>
     <ProjectReference Include="..\Get.DataStructures\Get.DataStructure.csproj">
       <Project>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</Project>

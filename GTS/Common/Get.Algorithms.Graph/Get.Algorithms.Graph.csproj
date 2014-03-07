@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A6417910-4673-4CE0-A3B6-43E10DB0151E}</ProjectGuid>
+    <ProjectGuid>{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.Algorithms</RootNamespace>
-    <AssemblyName>Get.Algorithms</AssemblyName>
+    <RootNamespace>Get.Algorithms.Graph</RootNamespace>
+    <AssemblyName>Get.Algorithms.Graph</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,8 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Search.cs" />
-    <Compile Include="Sort.cs" />
+    <Compile Include="Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

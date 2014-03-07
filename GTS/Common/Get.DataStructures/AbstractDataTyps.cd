@@ -32,7 +32,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.44" />
   </Class>
-  <Interface Name="Get.DataStructure.IEdge&lt;W, T, D&gt;">
+  <Interface Name="Get.DataStructure.IEdge&lt;W, D&gt;">
     <Position X="6" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAASAAA=</HashCode>

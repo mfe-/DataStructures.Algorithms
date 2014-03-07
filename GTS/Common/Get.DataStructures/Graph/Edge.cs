@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace Get.DataStructure
 {
     [DebuggerDisplay("Edge = {Weight},U={U}, V = {V}")]
-    public class Edge<W, D> : IEdge<W, IVertex<W, D>, D>
+    public class Edge<W, D> : IEdge<W, D>
         where W : IComparable<W>
     {
         #region Members
@@ -63,7 +63,7 @@ namespace Get.DataStructure
         /// <returns>True if the objects are considered equal; otherwise, false.</returns>
         public sealed override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(IEdge<W, IVertex<W, D>, D>))) return false;
+            if (!obj.GetType().Equals(typeof(IEdge<W, D>))) return false;
 
             //true if objA is the same instance as objB or if both are null; otherwise, false.
             if (Object.ReferenceEquals(this, obj)) return true;
@@ -71,7 +71,7 @@ namespace Get.DataStructure
             //Check whether any of the compared objects is null.
             if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(obj, null)) return false;
 
-            IEdge<W, IVertex<W, D>, D> edge = obj as IEdge<W, IVertex<W, D>, D>;
+            IEdge<W, D> edge = obj as IEdge<W, D>;
 
             return Equals(edge, false);
         }
