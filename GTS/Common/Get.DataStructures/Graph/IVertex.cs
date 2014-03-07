@@ -11,7 +11,7 @@ namespace Get.DataStructure
     /// </summary>
     /// <typeparam name="W">A comparable type which is used for the weight of the vertex</typeparam>
     /// <typeparam name="D">The type of the data which the vertex contained</typeparam>
-    public interface IVertex<W,D> : IData<D>
+    public interface IVertex< W, D> : IData<D>
         where W : IComparable<W>  
     {
         /// <summary>
@@ -22,7 +22,7 @@ namespace Get.DataStructure
         /// <summary>
         /// Outbound edges from vertex
         /// </summary>
-        IList<IEdge<W, IVertex<W, D>, D>> Edges { get; set; }
+        IEnumerable<IEdge<W, D>> Edges { get; set; }
 
         /// <summary>
         /// Amount of edges
@@ -38,7 +38,7 @@ namespace Get.DataStructure
         /// <typeparamref name="Undirected">If <paramref name="Undirected"/>  is set to true, two edges will be created. The first edge will connect the current instance with the overgiven vertex <paramref name="U"/>. 
         /// The second edge will be created from vertex <paramref name="U"/> to the current instance.</typeparamref>
         /// <returns>The created edge</returns>
-        IEdge<W, IVertex<W, D>, D> AddEdge(IVertex<W, D> U, W Weight, Boolean Undirected);
+        IEdge<W, D> AddEdge(IVertex<W, D> U, W Weight, Boolean Undirected);
 
         /// <summary>
         /// Determines whether a directed or undirected edge should be deleted.

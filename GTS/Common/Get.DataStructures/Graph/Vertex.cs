@@ -7,12 +7,12 @@ using System.Diagnostics;
 namespace Get.DataStructure
 {
     [DebuggerDisplay("Vertex = {Weight},Size={Size}, GUID = {_Guid}")]
-    public class Vertex<W,D> : IVertex<W,D>
+    public class Vertex<W, D> : IVertex<W, D>
         where W : IComparable<W>
     {
 
         #region Members
-        protected IList<IEdge<W, IVertex<W,D>,D>> _Edges;
+        protected IEnumerable<IEdge<W,D>> _Edges;
         protected Guid _Guid;
         protected W weight;
         #endregion
@@ -20,7 +20,7 @@ namespace Get.DataStructure
         public Vertex()
         {
             this._Guid = Guid.NewGuid();
-            this._Edges = new List<IEdge<W, IVertex<W, D>, D>>();
+            this._Edges = new List<IEdge<W, D>>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Get.DataStructure
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
-        public virtual IList<IEdge<W, IVertex<W, D>, D>> Edges { get { return _Edges; } set { _Edges = value; } }
+        public virtual IEnumerable<IEdge<W, D>> Edges { get { return _Edges; } set { _Edges = value; } }
 
         /// <summary>
         /// Amount of neighbours
@@ -55,10 +55,10 @@ namespace Get.DataStructure
 
         public virtual D Value { get; set; }
 
-        public virtual IEdge<W, IVertex<W,D>,D> AddEdge(IVertex<W,D> U, W Weight, bool Undirected)
+        public virtual IEdge<W,D> AddEdge(IVertex<W,D> U, W Weight, bool Undirected)
         {
-            IEdge<W, IVertex<W, D>, D> e1 = new Edge<W, D>(this,U,weight);
-            _Edges.ToList<IEdge<W, IVertex<W, D>, D>>().Add(e1);
+            IEdge<W, D> e1 = new Edge<W, D>(this,U,weight);
+            _Edges.ToList<IEdge<W, D>>().Add(e1);
             if (Undirected == true)
             {
                 U.AddEdge(this, Weight, false);

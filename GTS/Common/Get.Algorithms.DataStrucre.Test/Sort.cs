@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Get.Algorithms.DataStrucre.Test
+namespace Get.Algorithms.Test
 {
     [TestClass]
     public class Sort
