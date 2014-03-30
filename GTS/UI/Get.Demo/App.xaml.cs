@@ -6,6 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.Diagnostics;
 using System.Windows.Threading;
+using System.Reflection;
+using System.Resources;
+using System.IO;
+using System.Collections;
 
 namespace Get.Demo
 {
@@ -14,7 +18,7 @@ namespace Get.Demo
     /// </summary>
     public partial class App : Application
     {
-           /// <summary>
+        /// <summary>
         /// Tritt auf, wenn die Run-Methode des Application-Objekts aufgerufen wird.
         /// http://msdn.microsoft.com/de-de/library/system.windows.application.startup.aspx
         /// </summary>
@@ -31,8 +35,27 @@ namespace Get.Demo
                 PresentationTraceSources.DataBindingSource.Switch.Level =
                     SourceLevels.Warning | SourceLevels.Error;
             }
+            
+            this.LoadXaml(System.Environment.CurrentDirectory + Path.DirectorySeparatorChar + "Get.Common.dll");
+
         }
-         /// <summary>
+        public void LoadXaml(String Assemblypath)
+        {
+            var assembly = Assembly.LoadFile(Assemblypath);
+            var stream = assembly.GetManifestResourceStream(assembly.GetName().Name + ".g.resources");
+            var resourceReader = new ResourceReader(stream);
+
+            foreach (DictionaryEntry resource in resourceReader)
+            {
+                if (new FileInfo(resource.Key.ToString()).Extension.Equals(".baml"))
+                {
+                    Uri uri = new Uri("/" + assembly.GetName().Name + ";component/" + resource.Key.ToString().Replace(".baml", ".xaml"), UriKind.Relative);
+                    ResourceDictionary skin = Application.LoadComponent(uri) as ResourceDictionary;
+                    this.Resources.MergedDictionaries.Add(skin);
+                }
+            }
+        }
+        /// <summary>
         /// Tritt auf, wenn durch eine Anwendung eine Ausnahme ausgelöst wird, die jedoch nicht behandelt wird.
         /// Schreibt die Exception in eine error.log Datei, welche sich im Roaming Verzeichnis /Get/FileSync.GUI befindet
         /// </summary>

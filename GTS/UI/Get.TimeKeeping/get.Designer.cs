@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -320,6 +321,7 @@ namespace Get.UI.TimeKeeping
         private ObjectSet<vTscStundenListe> _vTscStundenListe;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -443,11 +445,11 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -478,6 +480,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -589,6 +592,7 @@ namespace Get.UI.TimeKeeping
         partial void OnBankleitzahlChanged();
 
         #endregion
+
     
     }
     
@@ -628,6 +632,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -850,6 +855,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -968,6 +974,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -994,6 +1001,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1192,6 +1200,7 @@ namespace Get.UI.TimeKeeping
         partial void OngooglemaplinkChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1234,6 +1243,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1262,6 +1272,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1484,6 +1495,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1642,6 +1654,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1672,6 +1685,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1822,6 +1836,7 @@ namespace Get.UI.TimeKeeping
         partial void OnopenChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1968,6 +1983,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2000,6 +2016,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2174,6 +2191,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
     }
     
@@ -2203,6 +2221,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2287,6 +2306,7 @@ namespace Get.UI.TimeKeeping
         partial void OnidcontactChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2367,6 +2387,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2403,6 +2424,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2577,6 +2599,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2619,6 +2642,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2651,6 +2675,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2873,6 +2898,7 @@ namespace Get.UI.TimeKeeping
         partial void OndoneChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2915,6 +2941,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2943,6 +2970,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3123,6 +3151,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
     }
     
@@ -3158,6 +3187,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3491,6 +3521,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
     }
     
@@ -3524,6 +3555,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3662,6 +3694,7 @@ namespace Get.UI.TimeKeeping
         partial void Onproject_assistent_idChanged();
 
         #endregion
+
     
     }
     
@@ -3699,6 +3732,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3891,6 +3925,7 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
     }
     
@@ -3926,6 +3961,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4115,6 +4151,7 @@ namespace Get.UI.TimeKeeping
         partial void OnpriorityChanged();
 
         #endregion
+
     
     }
     
@@ -4150,6 +4187,7 @@ namespace Get.UI.TimeKeeping
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4483,9 +4521,11 @@ namespace Get.UI.TimeKeeping
         partial void OncommentChanged();
 
         #endregion
+
     
     }
 
     #endregion
+
     
 }
