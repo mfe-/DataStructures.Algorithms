@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Algorithms.Graph.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.DataStructure.Test", "Common\Get.DataStructure.Test\Get.DataStructure.Test.csproj", "{A6D3358A-271C-48CB-8BC2-A994B1B82B20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.ThirdParty.Theme.WPF", "UI\Get.UI.ThirdParty.Theme.WPF\Get.UI.ThirdParty.Theme.WPF.csproj", "{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -223,6 +225,16 @@ Global
 		{A6D3358A-271C-48CB-8BC2-A994B1B82B20}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A6D3358A-271C-48CB-8BC2-A994B1B82B20}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A6D3358A-271C-48CB-8BC2-A994B1B82B20}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,5 +256,6 @@ Global
 		{F6441FDB-9D04-462D-8F62-DE84FC516654} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{4E17F47F-8DB8-41ED-BB04-A26D6793D224} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{1922A09F-44A7-43F4-8C1F-81BE208096F9} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
+		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 	EndGlobalSection
 EndGlobal

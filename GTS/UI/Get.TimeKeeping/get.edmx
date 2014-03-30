@@ -1110,8 +1110,8 @@
         <EntityTypeShape EntityType="getModel.g_bank" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.g_billing" Width="1.5" PointX="16.25" PointY="9.25" Height="3.3263964843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.g_billing_address" Width="1.5" PointX="3" PointY="8.875" Height="2.7494921874999996" IsExpanded="true" />
-        <EntityTypeShape EntityType="getModel.g_contacts" Width="1.5" PointX="11.375" PointY="8.75" Height="4.0956022135416665" IsExpanded="true" />
-        <EntityTypeShape EntityType="getModel.g_project" Width="1.5" PointX="13.875" PointY="10.75" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="getModel.g_contacts" Width="1.5" PointX="6.625" PointY="10.75" Height="4.0956022135416665" IsExpanded="true" />
+        <EntityTypeShape EntityType="getModel.g_project" Width="1.5" PointX="17" PointY="13.5" Height="3.1340950520833317" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.g_project_timesheet" Width="1.5" PointX="2.75" PointY="0.75" Height="2.3648893229166665" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.g_projectassistent" Width="1.5" PointX="9.875" PointY="14.5" Height="1.9802864583333317" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.g_projectlogins" Width="1.5" PointX="14.25" PointY="14.75" Height="2.5571907552083317" IsExpanded="true" />
@@ -1123,51 +1123,45 @@
         <EntityTypeShape EntityType="getModel.vTasks" Width="1.5" PointX="6.75" PointY="0.75" Height="2.3648893229166674" IsExpanded="true" />
         <EntityTypeShape EntityType="getModel.vTscStundenListe" Width="1.5" PointX="7.75" PointY="4.75" Height="3.5186979166666674" IsExpanded="true" />
         <AssociationConnector Association="getModel.g_billing_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="15.375" PointY="11.6631982421875" />
-          <ConnectorPoint PointX="16.25" PointY="11.6631982421875" />
+          <ConnectorPoint PointX="17.375" PointY="13.5" />
+          <ConnectorPoint PointX="17.375" PointY="12.576396484375" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_billing_ibfk_2" ManuallyRouted="false">
-          <ConnectorPoint PointX="12.875" PointY="9.96875" />
-          <ConnectorPoint PointX="16.25" PointY="9.96875" />
+          <ConnectorPoint PointX="8.125" PointY="11.6631982421875" />
+          <ConnectorPoint PointX="16.25" PointY="11.6631982421875" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_billing_ibfk_3" ManuallyRouted="false">
-          <ConnectorPoint PointX="12.875" PointY="10.390625" />
-          <ConnectorPoint PointX="16.25" PointY="10.390625" />
+          <ConnectorPoint PointX="8.125" PointY="11.144099121093749" />
+          <ConnectorPoint PointX="16.25" PointY="11.144099121093749" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_billing_address_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="11.375" PointY="9.78125" />
-          <ConnectorPoint PointX="4.5" PointY="9.78125" />
+          <ConnectorPoint PointX="6.625" PointY="11.18724609375" />
+          <ConnectorPoint PointX="4.5" PointY="11.18724609375" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_project_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="12.875" PointY="11.797801106770834" />
-          <ConnectorPoint PointX="13.875" PointY="11.797801106770834" />
+          <ConnectorPoint PointX="8.125" PointY="13.96875" />
+          <ConnectorPoint PointX="17" PointY="13.96875" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_project_ibfk_2" ManuallyRouted="false">
-          <ConnectorPoint PointX="12.875" PointY="11.211400553385417" />
-          <ConnectorPoint PointX="13.875" PointY="11.211400553385417" />
+          <ConnectorPoint PointX="8.125" PointY="14.265625" />
+          <ConnectorPoint PointX="17" PointY="14.265625" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_projectassistent_ibfk_2" ManuallyRouted="false">
-          <ConnectorPoint PointX="11.95312375" PointY="12.845602213541667" />
-          <ConnectorPoint PointX="11.95312375" PointY="15.490143229166666" />
-          <ConnectorPoint PointX="11.375" PointY="15.490143229166666" />
+          <ConnectorPoint PointX="8.125" PointY="14.672801106770834" />
+          <ConnectorPoint PointX="9.875" PointY="14.672801106770834" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_todo_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="12.5312525" PointY="12.845602213541667" />
-          <ConnectorPoint PointX="12.5312525" PointY="18.7807421875" />
-          <ConnectorPoint PointX="4.5" PointY="18.7807421875" />
+          <ConnectorPoint PointX="7.375" PointY="14.845602213541667" />
+          <ConnectorPoint PointX="7.375" PointY="17.720896809895834" />
+          <ConnectorPoint PointX="4.5" PointY="17.720896809895834" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_projectassistent_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="13.875" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="12.614585833333335" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="12.447919166666667" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="12.036457083333334" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="11.869790416666666" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="10.59375" PointY="13.3960986328125" />
-          <ConnectorPoint PointX="10.59375" PointY="14.5" />
+          <ConnectorPoint PointX="17" PointY="14.59375" />
+          <ConnectorPoint PointX="11.375" PointY="14.59375" />
         </AssociationConnector>
         <AssociationConnector Association="getModel.g_projectlogins_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="14.8125" PointY="13.884095052083332" />
-          <ConnectorPoint PointX="14.8125" PointY="14.75" />
+          <ConnectorPoint PointX="17" PointY="15.692047526041666" />
+          <ConnectorPoint PointX="15.75" PointY="15.692047526041666" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

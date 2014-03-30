@@ -8,7 +8,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Get.DataStructure.Vertex&lt;W, D&gt;">
+  <Class Name="Get.DataStructure.Vertex&lt;W, T, D&gt;">
     <Position X="8" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEgAAAAAAAgAAAiAAAAAAAACAAAIAgAABgAAAAAgA=</HashCode>
@@ -16,7 +16,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Get.DataStructure.Edge&lt;W, D&gt;">
+  <Class Name="Get.DataStructure.Edge&lt;W, T, D&gt;">
     <Position X="10.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAAIAgABIgAAASAAA=</HashCode>
@@ -32,7 +32,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.44" />
   </Class>
-  <Interface Name="Get.DataStructure.IEdge&lt;W, D&gt;">
+  <Interface Name="Get.DataStructure.IEdge&lt;W, T&gt;">
     <Position X="6" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAASAAA=</HashCode>
