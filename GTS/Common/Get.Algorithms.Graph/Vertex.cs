@@ -6,7 +6,7 @@ using Get.DataStructure;
 
 namespace Get.Algorithms.Graph
 {
-    public static class VertexAlgorithms
+    public static partial class VertexAlgorithms
     {
         public static IEnumerable<IVertex<W, D>> Depth_First_Traversal<W, D>(this IVertex<W, D> s, IEnumerable<IVertex<W, D>> visited)
             where W : IComparable<W>
