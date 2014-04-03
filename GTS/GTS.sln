@@ -48,6 +48,32 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.DataStructure.Test", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.ThirdParty.Theme.WPF", "UI\Get.UI.ThirdParty.Theme.WPF\Get.UI.ThirdParty.Theme.WPF.csproj", "{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{6277A582-8F1E-4F73-ACD1-66216093BEB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{21F51C12-A495-487C-8A14-894419995AE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prism", "Prism", "{8E14CDD8-32F1-45CC-B76B-6C3D9EED6F58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{BE13D67E-D856-40D9-9E69-6CDB9AD768F5}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.pdb = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.pdb
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.XML = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.Interactivity.XML
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.pdb = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.pdb
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.XML = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.MefExtensions.XML
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.pdb = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.pdb
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.pdb = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.pdb
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.xml = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.UnityExtensions.xml
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.XML = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Prism.XML
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.ServiceLocation.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.ServiceLocation.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.ServiceLocation.XML = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.ServiceLocation.XML
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Unity.dll = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Unity.dll
+		Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Unity.xml = Bin\ThirdParty\Prism\Desktop\Microsoft.Practices.Unity.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -257,5 +283,8 @@ Global
 		{4E17F47F-8DB8-41ED-BB04-A26D6793D224} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{1922A09F-44A7-43F4-8C1F-81BE208096F9} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{6DC4C66C-E6AE-4E1E-8629-69ECC13C4868} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
+		{21F51C12-A495-487C-8A14-894419995AE2} = {6277A582-8F1E-4F73-ACD1-66216093BEB9}
+		{8E14CDD8-32F1-45CC-B76B-6C3D9EED6F58} = {21F51C12-A495-487C-8A14-894419995AE2}
+		{BE13D67E-D856-40D9-9E69-6CDB9AD768F5} = {8E14CDD8-32F1-45CC-B76B-6C3D9EED6F58}
 	EndGlobalSection
 EndGlobal

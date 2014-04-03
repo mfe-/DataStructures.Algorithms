@@ -86,7 +86,7 @@
     <Compile Include="View\Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XmlReader.cs" />
+    <Compile Include="Bootstraper.cs" />
     <Page Include="View\Window1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
