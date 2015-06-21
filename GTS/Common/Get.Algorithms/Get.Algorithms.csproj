@@ -45,8 +45,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Get.DataStructures\Get.the.Solution.DataStructure.csproj">
-      <Project>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</Project>
+    <ProjectReference Include="..\Get.the.Solution.DataStructures\Get.the.Solution.DataStructure.csproj">
+      <Project>{2bd0faaa-8033-42cd-a00d-58d89cabdfc0}</Project>
       <Name>Get.the.Solution.DataStructure</Name>
     </ProjectReference>
   </ItemGroup>

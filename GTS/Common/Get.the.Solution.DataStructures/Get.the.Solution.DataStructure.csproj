@@ -3,17 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A6D3358A-271C-48CB-8BC2-A994B1B82B20}</ProjectGuid>
+    <ProjectGuid>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.DataStructure.Test</RootNamespace>
-    <AssemblyName>Get.DataStructure.Test</AssemblyName>
+    <RootNamespace>Get.the.Solution.DataStructure</RootNamespace>
+    <AssemblyName>Get.the.Solution.DataStructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,27 +31,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
-      <Visible>False</Visible>
-    </CodeAnalysisDependentAssemblyPaths>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ExtendedModel\Connection.cs" />
-    <Compile Include="ExtendedModel\ConnectionVertex.cs" />
-    <Compile Include="DataStructure.cs" />
+    <Compile Include="DoubleLinkedList.cs" />
+    <Compile Include="Graph\Edge.cs" />
+    <Compile Include="Graph\IEdge.cs" />
+    <Compile Include="ILinkedList.cs" />
+    <Compile Include="ILNode.cs" />
+    <Compile Include="INode.cs" />
+    <Compile Include="Graph\IVertex.cs" />
+    <Compile Include="LinkedList.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="Polymorphismus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExtendedModel\Rail.cs" />
-    <Compile Include="ExtendedModel\RailEdge.cs" />
-    <Compile Include="Varianz.cs" />
+    <Compile Include="Graph\Vertex.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="AbstractDataTyps.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Get.DataStructure.Vertex&lt;W, T, D&gt;">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEgAAAAAAAgAAAiAAAAAAAACAAAIAgAABgAAAAAgA=</HashCode>
+      <FileName>Graph\Vertex.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Get.DataStructure.Edge&lt;W, T, D&gt;">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAACAAAIAgABIgAAASAAA=</HashCode>
+      <FileName>Graph\Edge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Get.DataStructure.Node&lt;D&gt;" BaseTypeListCollapsed="true">
+    <Position X="13.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACgAAAAAAA=</HashCode>
+      <FileName>Node.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.44" />
+  </Class>
+  <Class Name="Get.the.Solution.DataStructure.SingleNode&lt;T&gt;" Collapsed="true">
+    <Position X="6.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Get.the.Solution.DataStructure.Node&lt;T&gt;" Collapsed="true">
+    <Position X="6.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAiAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Get.the.Solution.DataStructure.LinkedList&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LinkedList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Get.DataStructure.IEdge&lt;W, T&gt;">
+    <Position X="6" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAASAAA=</HashCode>
+      <FileName>Graph\IEdge.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.IData&lt;D&gt;">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.DataStructure.ITreeNode&lt;T, D&gt;">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ILNode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.DataStructure.ISNode&lt;T&gt;">
+    <Position X="2.5" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.DataStructure.INode&lt;T, D&gt;" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.ISNode&lt;D, T&gt;" Collapsed="true">
+    <Position X="0.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.INode&lt;D, T&gt;" Collapsed="true">
+    <Position X="0.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>INode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.ICovariant&lt;T&gt;" Collapsed="true">
+    <Position X="2" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Polymorphismus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.IContravariant&lt;T&gt;" Collapsed="true">
+    <Position X="4.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Polymorphismus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.IInvariant&lt;T&gt;" Collapsed="true">
+    <Position X="3.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Polymorphismus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Get.the.Solution.DataStructure.IVertex&lt;W, D&gt;">
+    <Position X="4.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEgAAAAAAAgAAACAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graph\IVertex.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
