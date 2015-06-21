@@ -54,9 +54,9 @@
     <Compile Include="Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Get.DataStructures\Get.DataStructure.csproj">
+    <ProjectReference Include="..\Get.DataStructures\Get.the.Solution.DataStructure.csproj">
       <Project>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</Project>
-      <Name>Get.DataStructure</Name>
+      <Name>Get.the.Solution.DataStructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
