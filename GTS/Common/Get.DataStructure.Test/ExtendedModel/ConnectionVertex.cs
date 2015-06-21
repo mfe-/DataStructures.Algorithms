@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using Get.DataStructure;
+using Get.the.Solution.DataStructure;
 
 namespace RailNetwork
 {

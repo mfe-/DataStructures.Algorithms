@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Get.DataStructure;
 
-namespace Get.DataStructure
+namespace Get.the.Solution.DataStructure
 {
-    public interface ILinkedList<T,D>
-        where T : INode<T,D>
+    public interface ILinkedList<T>
+        where T : Node<T>
     {
         T Root { get; set; }
     }

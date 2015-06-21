@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace Get.DataStructure
+namespace Get.the.Solution.DataStructure
 {
     /// <summary>
     /// Vertex which is connected by edges 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Get.DataStructure;
+using Get.the.Solution.DataStructure;
 
 namespace Get.Algorithms.Graph
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Get.DataStructure;
 
-namespace Get.Algorithms.DataStrucre.Test
+namespace Get.the.Solution.DataStructure.Test
 {
     /// <summary>
     /// Summary description for DataStructure
@@ -17,8 +17,8 @@ namespace Get.Algorithms.DataStrucre.Test
         {
             Node<int> n1 = new Node<int>();
             Node<int> n2 = new Node<int>();
-            n1.Left = n2;
-            n1.Left.Right = n1;
+            n1.SetLeft(n2);
+            n1.GetLeft().SetRight(n1);
 
             Vertex<int, Object> v1 = new Vertex<int, object>();
 
