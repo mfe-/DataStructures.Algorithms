@@ -3,17 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{639925E2-1FD6-4E3F-A76B-5F37D93F2698}</ProjectGuid>
+    <ProjectGuid>{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.Algorithms.Test</RootNamespace>
-    <AssemblyName>Get.Algorithms.Test</AssemblyName>
+    <RootNamespace>Get.the.Solution.Algorithms.Graph</RootNamespace>
+    <AssemblyName>Get.the.Solution.Algorithms.Graph</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,32 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
-      <Visible>False</Visible>
-    </CodeAnalysisDependentAssemblyPaths>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Vertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sort.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Get.Algorithms\Get.Algorithms.csproj">
-      <Project>{A6417910-4673-4CE0-A3B6-43E10DB0151E}</Project>
-      <Name>Get.Algorithms</Name>
+    <ProjectReference Include="..\Get.the.Solution.DataStructures\Get.the.Solution.DataStructure.csproj">
+      <Project>{2bd0faaa-8033-42cd-a00d-58d89cabdfc0}</Project>
+      <Name>Get.the.Solution.DataStructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Get.DataStructures\Get.DataStructure.csproj">
-      <Project>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</Project>
-      <Name>Get.DataStructure</Name>
+    <ProjectReference Include="..\Get.the.Solution.Mathematics\Get.the.Solution.Mathematics.csproj">
+      <Project>{5c7b77e1-5da8-421f-b54b-dc7f809bad1b}</Project>
+      <Name>Get.the.Solution.Mathematics</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
