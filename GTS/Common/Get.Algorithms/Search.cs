@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Get.DataStructure;
+using Get.the.Solution.DataStructure;
 
 namespace Get.Algorithms
 {
@@ -12,9 +13,9 @@ namespace Get.Algorithms
         {
             if (p != null)
             {
-                InOrder<T>(p.Left, list);
+                InOrder<T>(p.GetLeft(), list);
                 list.Add(p);
-                InOrder<T>(p.Right, list);
+                InOrder<T>(p.GetRight(), list);
             }
             return list;
         }

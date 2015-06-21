@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace Get.DataStructure
+namespace Get.the.Solution.DataStructure
 {
     [DebuggerDisplay("Vertex = {Weight},Size={Size}, GUID = {_Guid}")]
     public class Vertex<W, D> : IVertex<W, D>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace Get.DataStructure
+namespace Get.the.Solution.DataStructure
 {
     [DebuggerDisplay("Edge = {Weight},U={U}, V = {V}")]
     public class Edge<W, D> : IEdge<W, D>
