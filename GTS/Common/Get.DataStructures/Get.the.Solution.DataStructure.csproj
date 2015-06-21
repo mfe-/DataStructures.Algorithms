@@ -8,8 +8,8 @@
     <ProjectGuid>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.DataStructure</RootNamespace>
-    <AssemblyName>Get.DataStructure</AssemblyName>
+    <RootNamespace>Get.the.Solution.DataStructure</RootNamespace>
+    <AssemblyName>Get.the.Solution.DataStructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
