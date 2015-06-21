@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Linq;
-using Get.Mathematics;
+using Get.the.Solution.Mathematics;
 using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;

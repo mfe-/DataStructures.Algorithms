@@ -51,9 +51,9 @@
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Get.Mathematics\Get.Mathematics.csproj">
-      <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
-      <Name>Get.Mathematics</Name>
+    <ProjectReference Include="..\..\Common\Get.the.Solution.Mathematics\Get.the.Solution.Mathematics.csproj">
+      <Project>{5c7b77e1-5da8-421f-b54b-dc7f809bad1b}</Project>
+      <Name>Get.the.Solution.Mathematics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

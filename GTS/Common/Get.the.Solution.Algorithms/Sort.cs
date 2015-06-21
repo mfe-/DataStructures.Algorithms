@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace Get.Algorithms
+namespace Get.the.Solution.Algorithms
 {
     public static class Sort
     {

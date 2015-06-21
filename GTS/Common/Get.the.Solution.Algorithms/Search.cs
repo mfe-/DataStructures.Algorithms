@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Get.the.Solution.DataStructure;
 
-namespace Get.the.Solution.DataStructure
+namespace Get.the.Solution.Algorithms
 {
     public static class Search
     {

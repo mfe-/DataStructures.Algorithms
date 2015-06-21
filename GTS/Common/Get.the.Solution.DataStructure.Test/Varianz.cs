@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace Get.DataStructure.Test
+namespace Get.the.Solution.DataStructure.Test
 {
     public class Varianz
     {
