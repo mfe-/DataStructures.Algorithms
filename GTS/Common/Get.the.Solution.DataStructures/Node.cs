@@ -1,48 +1,46 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿using System;
+using Get.the.Solution.DataStructure;
 
-//namespace Get.the.Solution.DataStructure
-//{
-//    public class Node<D> : INode<Node<D>, D>
-//    {
-//        public Node()
-//            : base()
-//        {
-//        }
-//        public Node(D Data)
-//        {
-//            this.Value = Data;
-//        }
-//        public Node(D Data, Node<D> Left)
-//        {
-//            this.Value = Data;
-//            this.Left = Left;
-//        }
+namespace Get.the.Solution.DataStructure
+{
+    public class Node<T> : SingleNode<T>, INode<T, Node<T>>
+    {
+        public Node()
+            : base()
+        {
 
-//        public Node(D Data, Node<D> Left, Node<D> Right)
-//        {
-//            this.Value = Data;
-//            this.Left = Left;
-//            this.Right = Right;
-//        }
-//        public D Value
-//        {
-//            get;
-//            set;
-//        }
+        }
+        public Node(T data)
+            : base(data)
+        {
 
-//        public Node<D> Left
-//        {
-//            get;
-//            set;
-//        }
+        }
+        public Node(T data, Node<T> left, Node<T> right)
+            : base(data, left)
+        {
+            this.SetRight(right);
+        }
+        public virtual Node<T> GetLeft()
+        {
+            return this.Left;
+        }
 
-//        public Node<D> Right
-//        {
-//            get;
-//            set;
-//        }
-//    }
-//}
+        public virtual void SetLeft(Node<T> t)
+        {
+            this.Left = t;
+        }
+
+        public new Node<T> GetRight()
+        {
+            return this.Right;
+        }
+
+        public void SetRight(Node<T> t)
+        {
+            this.Right = t;
+        }
+
+        private Node<T> Left;
+        private Node<T> Right;
+    }
+}
