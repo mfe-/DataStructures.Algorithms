@@ -46,7 +46,6 @@
     <Compile Include="Interfaces\IContravariant.cs" />
     <Compile Include="Interfaces\ICovariant.cs" />
     <Compile Include="Interfaces\IInvariant.cs" />
-    <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Graph\IVertex.cs" />
     <Compile Include="Interfaces\IData.cs" />
     <Compile Include="Interfaces\ISingleNode.cs" />
