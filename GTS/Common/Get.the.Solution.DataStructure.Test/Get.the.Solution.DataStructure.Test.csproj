@@ -45,12 +45,15 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtendedModel\Connection.cs" />
-    <Compile Include="ExtendedModel\ConnectionVertex.cs" />
+    <Compile Include="ExtendedModel\Graph\Connection.cs" />
+    <Compile Include="ExtendedModel\Graph\ConnectionVertex.cs" />
     <Compile Include="DataStructure.cs" />
+    <Compile Include="ExtendedModel\Node\ISingleNodeExtended.cs" />
+    <Compile Include="ExtendedModel\Node\SingleNodeExtendedISingleNode.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExtendedModel\Rail.cs" />
-    <Compile Include="ExtendedModel\RailEdge.cs" />
+    <Compile Include="ExtendedModel\Graph\Rail.cs" />
+    <Compile Include="ExtendedModel\Graph\RailEdge.cs" />
     <Compile Include="Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +62,7 @@
       <Name>Get.the.Solution.DataStructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
