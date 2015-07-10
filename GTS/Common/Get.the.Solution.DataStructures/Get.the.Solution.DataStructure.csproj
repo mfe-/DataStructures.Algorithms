@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IInvariant.cs" />
     <Compile Include="Graph\IVertex.cs" />
     <Compile Include="Interfaces\IData.cs" />
+    <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\ISingleNode.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="Node.cs" />
