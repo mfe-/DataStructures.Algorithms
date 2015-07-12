@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Graph z:Id="1" z:Type="Get.Model.Graph.Graph" z:Assembly="Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xmlns="http://schemas.get.com/Graph/" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <EndVertex i:nil="true" xmlns:a="http://schemas.get.com/Graph/Vertex" />
+    <StartVertex z:Id="2" xmlns:a="http://schemas.get.com/Graph/Vertex">
+      <a:Weighted>1</a:Weighted>
+      <a:Edges z:Id="3" xmlns:b="http://schemas.get.com/Graph/Edges">
+        <b:items z:Id="4" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+          <b:_items z:Id="5" z:Size="4">
+            <b:Edge z:Id="6">
+              <b:Weighted>2</b:Weighted>
+              <b:U z:Ref="2" i:nil="true" />
+              <b:V z:Id="7">
+                <a:Weighted>2</a:Weighted>
+                <a:Edges z:Id="8">
+                  <b:items z:Id="9" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                    <b:_items z:Id="10" z:Size="4">
+                      <b:Edge z:Id="11">
+                        <b:Weighted>4</b:Weighted>
+                        <b:U z:Ref="7" i:nil="true" />
+                        <b:V z:Id="12">
+                          <a:Weighted>3</a:Weighted>
+                          <a:Edges z:Id="13">
+                            <b:items z:Id="14" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                              <b:_items z:Id="15" z:Size="4">
+                                <b:Edge z:Id="16">
+                                  <b:Weighted>4</b:Weighted>
+                                  <b:U z:Ref="12" i:nil="true" />
+                                  <b:V z:Id="17">
+                                    <a:Weighted>5</a:Weighted>
+                                    <a:Edges z:Id="18">
+                                      <b:items z:Id="19" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                        <b:_items z:Id="20" z:Size="4">
+                                          <b:Edge z:Id="21">
+                                            <b:Weighted>2</b:Weighted>
+                                            <b:U z:Ref="17" i:nil="true" />
+                                            <b:V z:Id="22">
+                                              <a:Weighted>7</a:Weighted>
+                                              <a:Edges z:Id="23">
+                                                <b:items z:Id="24" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                                  <b:_items z:Id="25" z:Size="4">
+                                                    <b:Edge z:Id="26">
+                                                      <b:Weighted>5</b:Weighted>
+                                                      <b:U z:Ref="22" i:nil="true" />
+                                                      <b:V z:Id="27">
+                                                        <a:Weighted>6</a:Weighted>
+                                                        <a:Edges z:Id="28">
+                                                          <b:items z:Id="29" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                                            <b:_items z:Id="30" z:Size="4">
+                                                              <b:Edge z:Id="31">
+                                                                <b:Weighted>2</b:Weighted>
+                                                                <b:U z:Ref="27" i:nil="true" />
+                                                                <b:V z:Ref="17" i:nil="true" />
+                                                              </b:Edge>
+                                                              <b:Edge i:nil="true" />
+                                                              <b:Edge i:nil="true" />
+                                                              <b:Edge i:nil="true" />
+                                                            </b:_items>
+                                                            <b:_size>1</b:_size>
+                                                            <b:_version>1</b:_version>
+                                                          </b:items>
+                                                          <b:_monitor z:Id="32" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                                                            <c:_busyCount>0</c:_busyCount>
+                                                          </b:_monitor>
+                                                        </a:Edges>
+                                                        <a:Guid>705d6658-06f0-4795-bc2e-09c70ccd410f</a:Guid>
+                                                      </b:V>
+                                                    </b:Edge>
+                                                    <b:Edge i:nil="true" />
+                                                    <b:Edge i:nil="true" />
+                                                    <b:Edge i:nil="true" />
+                                                  </b:_items>
+                                                  <b:_size>1</b:_size>
+                                                  <b:_version>1</b:_version>
+                                                </b:items>
+                                                <b:_monitor z:Id="33" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                                                  <c:_busyCount>0</c:_busyCount>
+                                                </b:_monitor>
+                                              </a:Edges>
+                                              <a:Guid>f0344307-3325-4b04-a17c-034a39567ab8</a:Guid>
+                                            </b:V>
+                                          </b:Edge>
+                                          <b:Edge z:Id="34">
+                                            <b:Weighted>2</b:Weighted>
+                                            <b:U z:Ref="17" i:nil="true" />
+                                            <b:V z:Ref="27" i:nil="true" />
+                                          </b:Edge>
+                                          <b:Edge i:nil="true" />
+                                          <b:Edge i:nil="true" />
+                                        </b:_items>
+                                        <b:_size>2</b:_size>
+                                        <b:_version>2</b:_version>
+                                      </b:items>
+                                      <b:_monitor z:Id="35" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                                        <c:_busyCount>0</c:_busyCount>
+                                      </b:_monitor>
+                                    </a:Edges>
+                                    <a:Guid>6cabb772-1f0b-444f-bf52-606175956de6</a:Guid>
+                                  </b:V>
+                                </b:Edge>
+                                <b:Edge z:Id="36">
+                                  <b:Weighted>1</b:Weighted>
+                                  <b:U z:Ref="12" i:nil="true" />
+                                  <b:V z:Id="37">
+                                    <a:Weighted>4</a:Weighted>
+                                    <a:Edges z:Id="38">
+                                      <b:items z:Id="39" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                        <b:_items z:Id="40" z:Size="4">
+                                          <b:Edge z:Id="41">
+                                            <b:Weighted>3</b:Weighted>
+                                            <b:U z:Ref="37" i:nil="true" />
+                                            <b:V z:Ref="27" i:nil="true" />
+                                          </b:Edge>
+                                          <b:Edge i:nil="true" />
+                                          <b:Edge i:nil="true" />
+                                          <b:Edge i:nil="true" />
+                                        </b:_items>
+                                        <b:_size>1</b:_size>
+                                        <b:_version>1</b:_version>
+                                      </b:items>
+                                      <b:_monitor z:Id="42" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                                        <c:_busyCount>0</c:_busyCount>
+                                      </b:_monitor>
+                                    </a:Edges>
+                                    <a:Guid>39b6a0b5-16f6-4131-bf59-4896ef9374bb</a:Guid>
+                                  </b:V>
+                                </b:Edge>
+                                <b:Edge z:Id="43">
+                                  <b:Weighted>1</b:Weighted>
+                                  <b:U z:Ref="12" i:nil="true" />
+                                  <b:V z:Ref="27" i:nil="true" />
+                                </b:Edge>
+                                <b:Edge i:nil="true" />
+                              </b:_items>
+                              <b:_size>3</b:_size>
+                              <b:_version>3</b:_version>
+                            </b:items>
+                            <b:_monitor z:Id="44" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                              <c:_busyCount>0</c:_busyCount>
+                            </b:_monitor>
+                          </a:Edges>
+                          <a:Guid>24d7d1c6-3b28-46b8-b5e5-7c9a953190f8</a:Guid>
+                        </b:V>
+                      </b:Edge>
+                      <b:Edge z:Id="45">
+                        <b:Weighted>6</b:Weighted>
+                        <b:U z:Ref="7" i:nil="true" />
+                        <b:V z:Ref="17" i:nil="true" />
+                      </b:Edge>
+                      <b:Edge i:nil="true" />
+                      <b:Edge i:nil="true" />
+                    </b:_items>
+                    <b:_size>2</b:_size>
+                    <b:_version>2</b:_version>
+                  </b:items>
+                  <b:_monitor z:Id="46" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+                    <c:_busyCount>0</c:_busyCount>
+                  </b:_monitor>
+                </a:Edges>
+                <a:Guid>a8ce7f5c-3359-4f5e-b5b9-2ee67a08f2c8</a:Guid>
+              </b:V>
+            </b:Edge>
+            <b:Edge z:Id="47">
+              <b:Weighted>3</b:Weighted>
+              <b:U z:Ref="2" i:nil="true" />
+              <b:V z:Ref="37" i:nil="true" />
+            </b:Edge>
+            <b:Edge z:Id="48">
+              <b:Weighted>5</b:Weighted>
+              <b:U z:Ref="2" i:nil="true" />
+              <b:V z:Ref="12" i:nil="true" />
+            </b:Edge>
+            <b:Edge i:nil="true" />
+          </b:_items>
+          <b:_size>3</b:_size>
+          <b:_version>3</b:_version>
+        </b:items>
+        <b:_monitor z:Id="49" xmlns:c="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+          <c:_busyCount>0</c:_busyCount>
+        </b:_monitor>
+      </a:Edges>
+      <a:Guid>6b842de5-e715-4b59-a1ee-f9cffeb2a194</a:Guid>
+    </StartVertex>
+    <Vertices z:Id="50" xmlns:a="http://schemas.get.com/Graph/Vertex">
+      <a:items z:Id="51" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Vertex, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+        <a:_items z:Id="52" z:Size="4">
+          <a:Vertex z:Ref="2" i:nil="true" />
+          <a:Vertex i:nil="true" />
+          <a:Vertex i:nil="true" />
+          <a:Vertex i:nil="true" />
+        </a:_items>
+        <a:_size>1</a:_size>
+        <a:_version>1</a:_version>
+      </a:items>
+      <a:_monitor z:Id="53" xmlns:b="http://schemas.datacontract.org/2004/07/System.Collections.ObjectModel">
+        <b:_busyCount>0</b:_busyCount>
+      </a:_monitor>
+    </Vertices>
+  </Graph>
+  <FrameworkElements>
+    <Get.UI.VertexVisualization>
+      <ID>56632826</ID>
+      <VertexID>1972463144</VertexID>
+      <Position>217;326</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>23545059</ID>
+      <VertexID>-1248382774</VertexID>
+      <Position>336;202</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>12857250</ID>
+      <VertexID>1677694854</VertexID>
+      <Position>338;314</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>26025497</ID>
+      <VertexID>329315291</VertexID>
+      <Position>462;205</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>180973</ID>
+      <VertexID>-1072625477</VertexID>
+      <Position>574;323</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>47072339</ID>
+      <VertexID>2142052802</VertexID>
+      <Position>478;448</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+    <Get.UI.VertexVisualization>
+      <ID>43514100</ID>
+      <VertexID>1732305215</VertexID>
+      <Position>350;448</Position>
+      <Width>40</Width>
+      <Height>40</Height>
+      <ZIndex>1</ZIndex>
+    </Get.UI.VertexVisualization>
+  </FrameworkElements>
+</Root>
