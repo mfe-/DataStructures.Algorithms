@@ -50,12 +50,14 @@
     <Compile Include="Interfaces\IData.cs" />
     <Compile Include="Interfaces\INode.cs" />
     <Compile Include="Interfaces\ISingleNode.cs" />
+    <Compile Include="Interfaces\ITreeNode.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Polymorphismus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Graph\Vertex.cs" />
     <Compile Include="SingleNode.cs" />
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AbstractDataTyps.cd" />

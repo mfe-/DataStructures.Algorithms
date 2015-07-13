@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.Algorithms.Test
 {
@@ -10,7 +11,7 @@ namespace Get.the.Solution.Algorithms.Test
     public class Sort
     {
         [TestMethod]
-        public void Quick_Sort()
+        public void Quick_SortTest()
         {
             var a = new int[] { 4, 1, 2, 3, 7, 8, 6, 5 }.Quick_Sort();
             var b = new int[] { 10, 11, 1, 0, 101, 111, 01, 00 }.Quick_Sort();
@@ -19,5 +20,11 @@ namespace Get.the.Solution.Algorithms.Test
             CollectionAssert.AreEqual(new int[] { 0, 0, 1, 1, 10,11, 101, 111 }.ToList(), b.ToList());
 
         }
+        [TestMethod]
+        public void InInOrderTest()
+        {
+            Node<int> roto = new Node<int>();
+        }
+
     }
 }

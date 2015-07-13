@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Get.the.Solution.DataStructure;
+
 
 namespace Get.the.Solution.Algorithms
 {
+    using Get.the.Solution.DataStructure;
     public static class Search
     {
-        public static IEnumerable<Node<T>> InOrder<T>(this Node<T> p, IList<Node<T>> list)
+        public static IEnumerable<INode<T>> InOrder<T>(this INode<T> p, IList<INode<T>> list)
         {
             if (p != null)
             {
-                InOrder<T>(p.GetLeft(), list);
+                InOrder(p.Left, list);
                 list.Add(p);
-                InOrder<T>(p.GetRight(), list);
+                InOrder(p.Right, list);
             }
             return list;
         }
-        public static IEnumerable<Node<T>> InOrder<T>(this Node<T> p)
+        public static IEnumerable<INode<T>> InOrder<T>(this INode<T> p)
         {
-            return InOrder(p, new List<Node<T>>());
+            return InOrder(p, new List<INode<T>>());
         }
+
     }
 }

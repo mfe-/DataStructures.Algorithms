@@ -1,39 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace Get.the.Solution.DataStructure
 {
-    public class SingleNode<T> : ISingleNode<T, SingleNode<T>>
+    [DebuggerDisplay("Data={Value},Right={Right}")]
+    public class SingleNode<T> :ISingleNode<T>
     {
         public SingleNode()
         {
-
         }
         public SingleNode(T data)
         {
             this.Value = data;
         }
-        public SingleNode(T data, SingleNode<T> node)
+        public SingleNode(T data, ISingleNode<T> right)
             : this(data)
         {
-            this.SetRight(node);
+            this.Right = right;
         }
         public virtual T Value
         {
             get;
             set;
         }
-        private SingleNode<T> Right;
-        public virtual SingleNode<T> GetRight()
+        protected ISingleNode<T> right;
+        public virtual ISingleNode<T> Right
         {
-            return this.Right;
-        }
-
-        public virtual void SetRight(SingleNode<T> t)
-        {
-            this.Right = t;
+            get
+            {
+                return right;
+            }
+            set
+            {
+                right = value;
+            }
         }
     }
 }

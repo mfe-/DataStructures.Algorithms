@@ -6,14 +6,17 @@ using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.DataStructure
 {
-    //covariant for properties are not supported 
-    //http://stackoverflow.com/questions/4348760/c-sharp-covariant-return-types-utilizing-generics
-
-    public interface INode<D, T> : ISingleNode<D, T>
-        where T : INode<D, T>
+    /// <summary>
+    /// INode interface
+    /// </summary>
+    /// <typeparam name="D"></typeparam>
+    public interface INode<D> : ISingleNode<D>
     {
-        T GetLeft();
-        void SetLeft(T t);
+        /// <summary>
+        /// Get or set the left node
+        /// </summary>
+        INode<D> Left { get; set; }
+        new INode<D> Right { get; set; }
     }
 
 
