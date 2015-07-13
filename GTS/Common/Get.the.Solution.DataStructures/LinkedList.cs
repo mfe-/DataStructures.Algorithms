@@ -7,6 +7,7 @@ namespace Get.the.Solution.DataStructure
 {
     public class LinkedList<T> : IEnumerable<T>
     {
+
         public IEnumerator<T> GetEnumerator()
         {
             throw new NotImplementedException();

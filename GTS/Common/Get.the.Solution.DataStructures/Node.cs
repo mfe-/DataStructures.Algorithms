@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.DataStructure
 {
-    public class Node<T> : SingleNode<T>, INode<T, Node<T>>
+    [DebuggerDisplay("Data={Value},Right={Right},Left={Left}")]
+    public class Node<T> : SingleNode<T>, INode<T>
     {
         public Node()
             : base()
@@ -15,32 +17,28 @@ namespace Get.the.Solution.DataStructure
         {
 
         }
-        public Node(T data, Node<T> left, Node<T> right)
-            : base(data, left)
+        public Node(T data, INode<T> left, ISingleNode<T> right)
+            : base(data, right)
         {
-            this.SetRight(right);
-        }
-        public virtual Node<T> GetLeft()
-        {
-            return this.Left;
+            this.Left = left;
         }
 
-        public virtual void SetLeft(Node<T> t)
+        public INode<T> Left
         {
-            this.Left = t;
+            get;
+            set;
         }
-
-        public new Node<T> GetRight()
+        /// <summary>
+        /// 
+        /// <remarks>
+        /// The base interface can not be assigned because the Right property was redefined with the keyword new.
+        /// http://stackoverflow.com/questions/729527/is-it-possible-to-assign-a-base-class-object-to-a-derived-class-reference-with-a
+        /// </remarks>
+        /// </summary>
+        public new INode<T> Right
         {
-            return this.Right;
+            get;
+            set;
         }
-
-        public void SetRight(Node<T> t)
-        {
-            this.Right = t;
-        }
-
-        private Node<T> Left;
-        private Node<T> Right;
     }
 }

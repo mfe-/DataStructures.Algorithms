@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Get.the.Solution.DataStructure.Test.ExtendedModel
 {
-    public interface ISingleNodeExtendedISingleNode<D> : ISingleNode<D>
+    public interface INodeExtended<T> : ISingleNodeExtendedISingleNode<T>, INode<T>
     {
-        int Amount {  get; set; }
+        
     }
 }
