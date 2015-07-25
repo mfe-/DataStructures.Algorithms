@@ -12,6 +12,17 @@ namespace Get.the.Solution.DataStructure.Test
     public class Node
     {
         [TestMethod]
+        public void TestDataICovariant()
+        {
+            SingleNode<Foo> node1 = new SingleNode<Foo>();
+            SingleNode<Foo> node2 = new SingleNode<Foo>() {  Value = new FooBar()};
+
+            node1.Right = node2;
+
+            Assert.AreEqual("FooBar", node2.Value.ToString());
+
+        }
+        [TestMethod]
         public void TestNodeSetLeft()
         {
             Node<int> node1 = new Node<int>() { Value = 1 };

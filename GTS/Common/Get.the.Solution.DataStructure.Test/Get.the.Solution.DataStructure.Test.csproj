@@ -45,6 +45,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtendedModel\Foo.cs" />
+    <Compile Include="ExtendedModel\FooBar.cs" />
     <Compile Include="ExtendedModel\Graph\Connection.cs" />
     <Compile Include="ExtendedModel\Graph\ConnectionVertex.cs" />
     <Compile Include="ExtendedModel\Node\INodeExtended.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtendedModel\Graph\Rail.cs" />
     <Compile Include="ExtendedModel\Graph\RailEdge.cs" />
+    <Compile Include="LinkedList.cs" />
     <Compile Include="Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
