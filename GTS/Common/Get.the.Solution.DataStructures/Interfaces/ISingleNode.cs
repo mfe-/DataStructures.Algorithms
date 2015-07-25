@@ -10,7 +10,7 @@ namespace Get.the.Solution.DataStructure
     /// </summary>
     /// <typeparam name="D"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public interface ISingleNode<D> : IData<D>
+    public interface ISingleNode<D> : IData<D>, IEnumerable<D>
     {
         /// <summary>
         /// Get or sets the right node
