@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Get.the.Solution.DataStructure
 {
-    public class DoubleLinkedList<T>
+    public class DoubleLinkedList<T> : LinkedList<T> 
     {
 
     }
