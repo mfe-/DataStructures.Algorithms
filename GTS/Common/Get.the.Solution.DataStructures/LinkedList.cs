@@ -57,7 +57,7 @@ namespace Get.the.Solution.DataStructure
         /// Adds an item to the ICollection<T>.
         /// </summary>
         /// <param name="item"></param>
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             this.Count = ++this.Count;
             if (first == null)
