@@ -7,24 +7,77 @@ using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.Algorithms.Test
 {
+
     [TestClass]
     public class Sort
     {
-        [TestMethod]
-        public void Quick_SortTest()
+        public IList<int> RandomList<T>() where T : IComparable<T>
         {
-            var a = new int[] { 4, 1, 2, 3, 7, 8, 6, 5 }.Quick_Sort();
-            var b = new int[] { 10, 11, 1, 0, 101, 111, 01, 00 }.Quick_Sort();
-
-            CollectionAssert.AreEqual(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }.ToList(), a.ToList());
-            CollectionAssert.AreEqual(new int[] { 0, 0, 1, 1, 10,11, 101, 111 }.ToList(), b.ToList());
-
+            Random rand = new Random();
+            List<int> result = new List<int>();
+            HashSet<int> check = new HashSet<int>();
+            for (Int32 i = 0; i < 300; i++)
+            {
+                int curValue = rand.Next(1, 100000);
+                while (check.Contains(curValue))
+                {
+                    curValue = rand.Next(1, 100000);
+                }
+                result.Add(curValue);
+                check.Add(curValue);
+            }
+            return result;
         }
         [TestMethod]
-        public void InInOrderTest()
+        public void TestInsertion_Sort()
         {
-            Node<int> roto = new Node<int>();
+            var expected = new int[] { 1, 2, 3, 4, 5, 6 };
+            var result = new int[] { 5, 2, 4, 6, 1, 3 }.Insertion_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+        }
+        [TestMethod]
+        public void TestSelection_Sort()
+        {
+            var expected = new int[] { 1, 2, 3, 4, 5, 6 };
+            var result = new int[] { 5, 2, 4, 6, 1, 3 }.Selection_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 0, 2, 2, 5, 12, 34, 59, 87 };
+            result = new int[] { 59, 5, 12, 34, 87, 0, 2, 2 }.Selection_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+        }
+        [TestMethod]
+        public void TestQuick_Sort()
+        {
+            var expected = new int[] { 1, 1, 1, 11, 110, 111, 111 };
+            var result = new int[] { 111, 11, 1, 1, 110, 111, 1 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+        }
+        [TestMethod]
+        public void TestSub_Sort()
+        {
+            var expected = new int[] { 1, 1, 5, 5, 9 };
+            var result = new int[] { 1, 9, 5, 5, 1 }.Sub_Sort();
+
+            CollectionAssert.AreEqual(expected, result.ToArray());
         }
 
+        [TestMethod]
+        public void TestTranspose_Sort()
+        {
+            var expected = new int[] { 1, 1, 5, 5, 9 };
+            var result = new int[] { 1, 9, 5, 5, 1 }.Transpose_Sort();
+
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = this.RandomList<int>().ToArray();
+            result = expected.Transpose_Sort();
+
+            expected.ToList().Sort();
+
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+
+        }
     }
 }
