@@ -38,6 +38,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -58,7 +59,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtendedModel\Graph\Rail.cs" />
     <Compile Include="ExtendedModel\Graph\RailEdge.cs" />
-    <Compile Include="LinkedList.cs" />
+    <Compile Include="LinkedListTest.cs" />
+    <Compile Include="TreeTest.cs" />
     <Compile Include="Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +73,26 @@
       <Name>Get.the.Solution.DataStructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="instanzen\0000">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instanzen\0001">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instanzen\0002">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instanzen\0007">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instanzen\0013">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instanzen\0014">
+      <CustomToolNamespace>Get.the.Solution.DataStructure.Test.instanzen</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

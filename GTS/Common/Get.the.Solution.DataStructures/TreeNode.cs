@@ -8,25 +8,49 @@ namespace Get.the.Solution.DataStructure
 {
     public class TreeNode<T> : Node<T>, ITreeNode<T>
     {
-        public TreeNode(T value) : base(value)
+        public TreeNode(T value)
+            : base(value)
         {
-
+            this.Parent = null;
+        }
+        public TreeNode(T data, INode<T> left, INode<T> right)
+            : base(data)
+        {
+            this.Left = (ITreeNode<T>)left;
+            this.Right = (ITreeNode<T>)right;
         }
         public ITreeNode<T> Parent
         {
             get;
             set;
         }
-
-        public new ITreeNode<T> Left
+        private ITreeNode<T> left;
+        public virtual new ITreeNode<T> Left
         {
-            get;
-            set;
+            get
+            {
+                return left;
+            }
+            set
+            {
+                left = value;
+                //because the base type is hide we assign it manual
+                base.Left = value;
+            }
         }
-        public new ITreeNode<T> Right
+        private ITreeNode<T> right;
+        public virtual new ITreeNode<T> Right
         {
-            get;
-            set;
+            get
+            {
+                return right;
+            }
+            set
+            {
+                right = value;
+                //because the base type is hide we assign it manual
+                base.Right = value;
+            }
         }
     }
 }

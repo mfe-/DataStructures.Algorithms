@@ -9,6 +9,17 @@ namespace Get.the.Solution.Algorithms
     using Get.the.Solution.DataStructure;
     public static class Search
     {
+        //PreOrder - Erstes Element entspricht der Wurzel
+        //InOrder - Wurzel in der Mitte - gibt die Elemente aufsteigend aus
+        //PostOrder - 
+
+        //LevelOrder - Entspricht Breitensuche Elemente Zeile für Zeile von Links nach Rechts ausgeben
+
+        //todo implement none recurisv function of in/pre/postorder - careful with yield http://stackoverflow.com/questions/2055927/ienumerable-and-recursion-using-yield-return/30300257#30300257
+        //but you should be careful to avoid yield return in recursive functions because it's a disaster for memory usage.
+        //See http://stackoverflow.com/a/3970171/284795 it scales explosively with depth (a similar function was using 10% of memory in my app).
+        //Alternatively you could use a stack and a while loop to eliminate recursive calls http://codereview.stackexchange.com/a/5661/754
+        #region InOrder
         public static IEnumerable<INode<T>> InOrder<T>(this INode<T> p)
         {
             return InOrder(p, new List<INode<T>>());
@@ -23,6 +34,7 @@ namespace Get.the.Solution.Algorithms
             }
             return list;
         }
+        #endregion
 
         public static IEnumerable<INode<T>> PreOrder<T>(this INode<T> p)
         {

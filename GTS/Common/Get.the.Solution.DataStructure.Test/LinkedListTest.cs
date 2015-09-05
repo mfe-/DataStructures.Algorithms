@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Get.the.Solution.DataStructure.Test
 {
     [TestClass]
-    public class LinkedList
+    public class LinkedListTest
     {
         [TestMethod]
         public void TestRemove()

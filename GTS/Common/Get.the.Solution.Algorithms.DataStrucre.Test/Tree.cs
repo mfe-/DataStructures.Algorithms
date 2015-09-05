@@ -33,6 +33,32 @@ namespace Get.the.Solution.Algorithms.Test
             nodes = root.InOrder();
 
             nodes.Print();
+
+
+            //T1 test - nach algodat skriptum
+
+            root = new TreeNode<int>(5);
+            
+            root.Left = new TreeNode<int>(3);
+            root.Left.Left = new TreeNode<int>(2);
+            root.Left.Right = new TreeNode<int>(5);
+            test(root.Left);
+            root.Right = new TreeNode<int>(7);
+            root.Right.Right = new TreeNode<int>(8);
+
+            IEnumerable<int> expected = new List<int>()
+            {
+                2,3,5,5,7,8
+            };
+
+            IEnumerable<int> result = root.InOrder().Select(a=>a.Value);
+
+            CollectionAssert.AreEqual(expected.ToList(), result.ToList());
+
+        }
+        public INode<int> test(INode<int> test)
+        {
+            return test;
         }
         [TestMethod]
         public void TestPreOrder()
