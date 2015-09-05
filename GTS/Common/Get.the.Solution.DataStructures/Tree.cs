@@ -32,7 +32,7 @@ namespace Get.the.Solution.DataStructure
             }
         }
 
-        public int Size
+        public int Length
         {
             get;
             protected set;
@@ -73,17 +73,17 @@ namespace Get.the.Solution.DataStructure
         {
             get
             {
-                return height(this.Root);
+                return GetHeight(this.Root);
             }
         }
 
-        protected virtual int height(ITreeNode<T> node)
+        protected virtual int GetHeight(ITreeNode<T> node)
         {
             if (node == null)
             {
                 return -1;
             }
-            return 1 + (Math.Max(height(node.Left), height(node.Right)));
+            return 1 + (Math.Max(GetHeight(node.Left), GetHeight(node.Right)));
         }
 
         public void Add(T val)
@@ -130,10 +130,7 @@ namespace Get.the.Solution.DataStructure
                 }
             }
             //increase size of tree;
-            Size = Size + 1;
-
-            //TODO Save amount of subtree in node
-
+            Length = Length + 1;
         }
 
         public void Remove(T val)
@@ -155,7 +152,7 @@ namespace Get.the.Solution.DataStructure
             {
                 //q hat 2 NAcfolger -> wird durch successor ersetzt, dieser wird entfernt
                 r = Successor(q);
-                //umhÃ¤ngen der daten von r nach q
+                //umhängen der daten von r nach q
                 q.Value = r.Value;
             }
             //lasse p auf kind von r verweisen (p=null, falls r keine kinder hat)
@@ -172,7 +169,7 @@ namespace Get.the.Solution.DataStructure
                 p.Parent = r.Parent;
                 //erzeuge einen verweis von p auf seinen neuen vorgÃ¤nger ( den vorgÃ¤nger von r)
             }
-            //hÃ¤nge p anstelle von r in den Baum ein
+            //hänge p anstelle von r in den Baum ein
             if (r.Parent == null)
             {
                 //r war Wurzel: neue wurzel ist p
@@ -180,7 +177,7 @@ namespace Get.the.Solution.DataStructure
             }
             else
             {
-                //hÃ¤nge p an der richtigen seite des vorgÃ¤ngerknotens von r ein
+                //hänge p an der richtigen seite des vorgÃ¤ngerknotens von r ein
                 if (r == r.Parent.Left)
                 {
                     r.Parent.Left = p; //p sei linker nachfolger
@@ -192,8 +189,18 @@ namespace Get.the.Solution.DataStructure
             }
             r = null;
 
-            Size = Size - 1;
+            Length = Length - 1;
             //TODO Save amount of subtree in node
+        }
+        protected IList<ITreeNode<T>> InOrder<T>(ITreeNode<T> p, IList<ITreeNode<T>> list)
+        {
+            if (p != null)
+            {
+                InOrder<T>(p.Left, list);
+                list.Add(p);
+                InOrder<T>(p.Right, list);
+            }
+            return list;
         }
         public virtual ITreeNode<T> Successor(ITreeNode<T> p)
         {
@@ -213,7 +220,7 @@ namespace Get.the.Solution.DataStructure
                 return q;
             }
         }
-        public ITreeNode<T> Minimum(ITreeNode<T> p)
+        public virtual ITreeNode<T> Minimum(ITreeNode<T> p)
         {
             if (p == null)
             {
@@ -225,26 +232,61 @@ namespace Get.the.Solution.DataStructure
             }
             return p;
         }
-        public T valueAtPosition(int k)
+        protected class Counter
         {
-            ///ich habs ehrlich gesagt nicht genau gewusst. man sucht sich als erstes den wert und wenn man weiß wieviele kinder man hat (für den aktuellen knoten)
-            ///dann weiß man auch an welcher position man sich in der inorder befindet und hätte so das element zurück geben können. 
-            ///zumindest hab ich seine erklärung so verstanden. hatte den simon strassl
-
-
-            return default(T);
+            private int value;
+            public Counter(int initialValue) { value = initialValue; }
+            public bool decrement() { value--; return value == 0; }
+            public bool expired() { return value <= 0; }
+        }
+        public virtual T FindIndex(int k)
+        {
+            //TODO Optimize
+            //http://stackoverflow.com/questions/30013591/binary-tree-find-position-in-inorder-traversal
+            //INode<T> treenode = InOrder(this.Root, new Counter(k));
+            return InOrder(this.Root,new List<ITreeNode<T>>()).ElementAt(k).Value;
         }
         /// <summary>
-        ///     Liefert die Position des Wertes val in der InorderReihenfolge aller Werte
-        ///  im Baum zuruck. Wiederum gilt f Â¨ ur diese Aufgabe, dass das Â¨ erste
+        ///  Liefert die Position des Wertes val in der InorderReihenfolge aller Werte
+        ///  im Baum zuruck. Wiederum gilt für diese Aufgabe, dass das Â¨ erste
         ///  Element an Position 0 steht. Falls das Element nicht im Baum vorhanden
         ///  ist, dann soll jene Position zuruckgeliefert werden an der es eingef Â¨
         ///  ugt werden w Â¨ urde
         /// </summary>
         /// <param name="value"></param>
-        public int position(T value)
+        public virtual int IndexOf(T value)
         {
-            return 0;
+            ///man sucht sich als erstes den wert und wenn man weiß wieviele kinder man hat (für den aktuellen knoten)
+            ///dann weiß man auch an welcher position man sich in der inorder befindet und hätte so das element zurück geben können. 
+            ///zumindest hab ich seine erklärung so verstanden. hatte den simon strassl
+            //return GetNodePrivate(value, this.Root);
+
+            //TODO Optimize
+            var list = InOrder(this.Root, new List<ITreeNode<T>>());
+
+            int l = 0;
+            int h = list.Count - 1;
+            //binary search skriptum
+            while (l <= h)
+            {
+                int m = (l + h) / 2;
+                //5.CompareTo(6) = -1      First int is smaller.
+                //6.CompareTo(5) =  1      First int is larger.
+                //5.CompareTo(5) =  0      Ints are equal.
+                if (value.CompareTo(list.ElementAt(m).Value)==1)
+                {
+                    l = m + 1;
+                }
+                else if (value.CompareTo(list.ElementAt(m).Value)==-1)
+                {
+                    h = m - 1;
+                }
+                else
+                {
+                    return m;
+                }
+            }
+            return l;
         }
 
 

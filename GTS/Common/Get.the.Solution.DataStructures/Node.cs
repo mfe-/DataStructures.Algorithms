@@ -23,7 +23,7 @@ namespace Get.the.Solution.DataStructure
             this.Left = left;
         }
 
-        public INode<T> Left
+        public virtual INode<T> Left
         {
             get;
             set;
@@ -35,10 +35,19 @@ namespace Get.the.Solution.DataStructure
         /// http://stackoverflow.com/questions/729527/is-it-possible-to-assign-a-base-class-object-to-a-derived-class-reference-with-a
         /// </remarks>
         /// </summary>
-        public new INode<T> Right
+        protected INode<T> right;
+        public virtual new INode<T> Right
         {
-            get;
-            set;
+            get
+            {
+                return right;
+            }
+            set
+            {
+                right = value;
+                //because the base type is hide we assign it manual
+                base.Right = value;
+            }
         }
     }
 }
