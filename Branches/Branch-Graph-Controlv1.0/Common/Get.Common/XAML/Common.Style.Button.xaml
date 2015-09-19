@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type Button}" x:Key="OpacityButton" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Opacity" Value="100"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+    </Style>
+
+</ResourceDictionary>
