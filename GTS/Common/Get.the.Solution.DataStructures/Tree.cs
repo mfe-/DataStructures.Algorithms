@@ -232,13 +232,7 @@ namespace Get.the.Solution.DataStructure
             }
             return p;
         }
-        protected class Counter
-        {
-            private int value;
-            public Counter(int initialValue) { value = initialValue; }
-            public bool decrement() { value--; return value == 0; }
-            public bool expired() { return value <= 0; }
-        }
+
         public virtual T FindIndex(int k)
         {
             //TODO Optimize

@@ -14,6 +14,20 @@ namespace Get.the.Solution.Algorithms
         //PostOrder - 
 
         //LevelOrder - Entspricht Breitensuche Elemente Zeile für Zeile von Links nach Rechts ausgeben
+        public static IEnumerable<INode<T>> LevelOrder<T>(this INode<T> node)
+        {
+            //queueinit();
+            //put(root);
+            //while (queueempty() == false)
+            //{
+            //    foo = get();
+            //    visit(foo);
+            //    put(foo.leftchild);
+            //    put(foo.rightchild);
+            //}
+            return null;
+        }
+
 
         //todo implement none recurisv function of in/pre/postorder - careful with yield http://stackoverflow.com/questions/2055927/ienumerable-and-recursion-using-yield-return/30300257#30300257
         //but you should be careful to avoid yield return in recursive functions because it's a disaster for memory usage.
