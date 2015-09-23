@@ -34,6 +34,14 @@ namespace Get.the.Solution.Algorithms.Test
             var expected = new int[] { 1, 2, 3, 4, 5, 6 };
             var result = new int[] { 5, 2, 4, 6, 1, 3 }.Insertion_Sort();
             CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 2, 5, 6, 9, 11, 12 };
+            result = new int[] { 6, 9, 12, 2, 11, 5 }.Insertion_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 0, 0, 1, 2, 5, 6, 7 };
+            result = new int[] { 6, 1, 2, 0, 0, 5, 7 }.Insertion_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
         }
         [TestMethod]
         public void TestSelection_Sort()
@@ -45,12 +53,31 @@ namespace Get.the.Solution.Algorithms.Test
             expected = new int[] { 0, 2, 2, 5, 12, 34, 59, 87 };
             result = new int[] { 59, 5, 12, 34, 87, 0, 2, 2 }.Selection_Sort();
             CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 2, 5, 6, 9, 11, 12 };
+            result = new int[] { 6, 9, 12, 2, 11, 5 }.Selection_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 0, 0, 1, 2, 5, 6, 7 };
+            result = new int[] { 6, 1, 2, 0, 0, 5, 7 }.Selection_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
         }
         [TestMethod]
         public void TestQuick_Sort()
         {
             var expected = new int[] { 1, 1, 1, 11, 110, 111, 111 };
             var result = new int[] { 111, 11, 1, 1, 110, 111, 1 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+        }
+        [TestMethod]
+        public void TestMerge_Srot()
+        {
+            var expected = new int[] { 1, 2, 2, 3, 4, 5, 6, 6 };
+            var result = new int[] { 5, 2, 4, 6, 1, 3, 2, 6 }.MergeSort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 7, 11, 14, 26, 33, 45, 65, 81 };
+            result = new int[] { 1, 14, 81, 45, 65, 33, 11, 26, 7 }.MergeSort();
             CollectionAssert.AreEqual(expected, result.ToArray());
         }
         [TestMethod]

@@ -70,13 +70,15 @@ namespace Get.the.Solution.Algorithms
             return A;
         }
         /// <summary>
-        /// Basically looksup for the proper element and moves to the left. All left elements behind the current element are sorted.  
-        /// Less data moving
-        /// A lot key comparision
+        /// Sorts a list ascending using insertion sort
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="A"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Basically looksup for the proper element and moves to the left. All left elements behind the current element are sorted.  
+        /// Use selection sort when moving data is cheap and comparison between keys is cheap.
+        /// </remarks>
+        /// <typeparam name="T">Compareable type</typeparam>
+        /// <param name="A">Collection to sort</param>
+        /// <returns>Sorted list</returns>
         public static IEnumerable<T> Selection_Sort<T>(this IList<T> A) where T : IComparable<T>
         {
             for (int j = 0; j < A.Count(); j++)
@@ -104,10 +106,13 @@ namespace Get.the.Solution.Algorithms
             return A;
         }
         /// <summary>
-        /// Basically compares all keys behind the current position and move to the correct place
+        /// Sorts a list ascending using insertion sort
         /// Less key comparision
         /// A lot data moving
         /// </summary>
+        /// <remarks>
+        /// Basically compares all keys behind the current position and move to the correct place
+        /// </remarks>
         /// <typeparam name="T"></typeparam>
         /// <param name="A"></param>
         /// <returns></returns>
@@ -128,14 +133,87 @@ namespace Get.the.Solution.Algorithms
                 }
 
                 A[i + 1] = key;
-                Print(A);
+
+                if (Debugger.IsAttached)
+                    Print(A);
             }
             return A;
         }
+        /// <summary>
+        /// Sorts a list ascending using merge sort
+        /// </summary>
+        /// <remarks>
+        /// The merge sort divides the left part (l to m) of the collection and merges them.
+        /// After that the right part (m+1 to r) of the collection will be devided and merged. 
+        /// </remarks>
+        /// <typeparam name="T">Compareable data</typeparam>
+        /// <param name="data">data collection to sort</param>
+        /// <returns>The sorted liset</returns>
+        public static IEnumerable<T> MergeSort<T>(this T[] data) where T : IComparable
+        {
+            return MergeSort(data, 0, data.Length - 1);
+        }
+        private static IEnumerable<T> MergeSort<T>(this T[] data, int l, int r) where T : IComparable
+        {
+            if (l < r)
+            {
+                int m = (l + r) / 2;
+                MergeSort(data, l, m);
+                MergeSort(data, m + 1, r);
+
+                Merge(data, l, m, r);
+            }
+            return data;
+        }
+        private static IEnumerable<T> Merge<T>(this T[] data, int l, int m, int r) where T : IComparable
+        {
+            T[] temp = new T[data.Length];
+
+            int i = l, h = l, j = m + 1;
+
+            while (h <= m && j <= r)
+            {
+                //5.CompareTo(6) = -1      First int is smaller.
+                //6.CompareTo(5) =  1      First int is larger.
+                //5.CompareTo(5) =  0      Ints are equal.
+                if (data[h].CompareTo(data[j]) == -1 || data[h].CompareTo(data[j]) == 0)
+                {
+                    temp[i] = data[h];
+                    h++;
+                }
+                else
+                {
+                    temp[i] = data[j];
+                    j++;
+                }
+
+                i++;
+            }
+
+            if (h > m)
+                for (int k = j; k <= r; k++)
+                    temp[i++] = data[k];
+            else
+                for (int k = h; k <= m; k++)
+                    temp[i++] = data[k];
+
+            for (int k = l; k <= r; k++)
+            {
+                data[k] = temp[k];
+                if (Debugger.IsAttached)
+                    System.Diagnostics.Debug.Write(" " + data[k]);
+
+            }
+            if (Debugger.IsAttached) System.Diagnostics.Debug.Write(" m " + m + System.Environment.NewLine);
+            return data;
+        }
+
         private static IEnumerable<T> Quick_Sort<T>(this IList<T> A, int l, int r) where T : IComparable<T>
         {
             if (l < r)
             {
+                if (Debugger.IsAttached)
+                    A.Print();
                 T x = A[r];
                 //partition
                 int i = l;
@@ -161,14 +239,16 @@ namespace Get.the.Solution.Algorithms
                         tmp = A[i];
                         A[i] = A[j];
                         A[j] = tmp;
-                        A.Print();
+                        if (Debugger.IsAttached)
+                            A.Print();
                     }
                 }
                 while (i < j);
                 tmp = A[i];
                 A[i] = A[r];
                 A[r] = tmp;
-                A.Print();
+                if (Debugger.IsAttached)
+                    A.Print();
 
                 int p = i;
 
