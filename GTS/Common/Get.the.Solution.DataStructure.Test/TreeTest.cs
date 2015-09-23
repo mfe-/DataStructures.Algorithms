@@ -141,9 +141,6 @@ namespace Get.the.Solution.DataStructure.Test
             System.Diagnostics.Debug.WriteLine("");
             System.Diagnostics.Debug.WriteLine(msg.ToString());
 
-
-
-
         }
         /// <summary>
         /// Compares the input of a given tree with a tree set build from the original data source

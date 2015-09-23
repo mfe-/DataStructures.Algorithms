@@ -38,7 +38,7 @@ namespace Get.the.Solution.DataStructure
         /// <typeparamref name="Undirected">If <paramref name="Undirected"/>  is set to true, two edges will be created. The first edge will connect the current instance with the overgiven vertex <paramref name="U"/>. 
         /// The second edge will be created from vertex <paramref name="U"/> to the current instance.</typeparamref>
         /// <returns>The created edge</returns>
-        IEdge<W, D> AddEdge(IVertex<W, D> U, W Weight, Boolean Undirected);
+        IEdge<W, D> AddEdge(IVertex<W, D> U, W Weight, Boolean Undirected=true);
 
         /// <summary>
         /// Determines whether a directed or undirected edge should be deleted.
@@ -47,6 +47,6 @@ namespace Get.the.Solution.DataStructure
         /// <param name="Undirected">Determines whether an undirected or directed connection should be delted.</param>
         /// <typeparamref name="Undirected">If <paramref name="Undirected"/>  is set to true, two edges will be deleted. The first edge which is outgoing from vertex <paramref name="U"/> will be deleted. 
         /// The second edge from the current instance which connects the vertex <paramref name="U"/> will be deleted .</typeparamref>
-        void RemoveEdge(IVertex<W, D> U, Boolean Undirected);
+        void RemoveEdge(IVertex<W, D> U, Boolean Undirected=true);
     }
 }
