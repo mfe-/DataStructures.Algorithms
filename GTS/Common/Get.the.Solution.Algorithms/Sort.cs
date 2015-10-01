@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.Algorithms
 {
@@ -75,6 +76,7 @@ namespace Get.the.Solution.Algorithms
         /// <remarks>
         /// Basically looksup for the proper element and moves to the left. All left elements behind the current element are sorted.  
         /// Use selection sort when moving data is cheap and comparison between keys is cheap.
+        /// Stable: No
         /// </remarks>
         /// <typeparam name="T">Compareable type</typeparam>
         /// <param name="A">Collection to sort</param>
@@ -112,6 +114,7 @@ namespace Get.the.Solution.Algorithms
         /// </summary>
         /// <remarks>
         /// Basically compares all keys behind the current position and move to the correct place
+        /// Stable: Yes
         /// </remarks>
         /// <typeparam name="T"></typeparam>
         /// <param name="A"></param>
@@ -145,6 +148,8 @@ namespace Get.the.Solution.Algorithms
         /// <remarks>
         /// The merge sort divides the left part (l to m) of the collection and merges them.
         /// After that the right part (m+1 to r) of the collection will be devided and merged. 
+        /// Requires additional theta(n) space.
+        /// Stable: Yes
         /// </remarks>
         /// <typeparam name="T">Compareable data</typeparam>
         /// <param name="data">data collection to sort</param>
@@ -207,13 +212,25 @@ namespace Get.the.Solution.Algorithms
             if (Debugger.IsAttached) System.Diagnostics.Debug.Write(" m " + m + System.Environment.NewLine);
             return data;
         }
-
+        /// <summary>
+        /// Sorts a list ascending using quick sort
+        /// </summary>
+        /// <remarks>
+        /// best practice is to use quicksort for sorting random collections
+        /// By default the A[r] element will be used as pivot element 
+        /// Stable: No
+        /// </remarks>
+        /// <typeparam name="T">Compareable data</typeparam>
+        /// <param name="A"></param>
+        /// <param name="l"></param>
+        /// <param name="r"></param>
+        /// <returns>Sorted list</returns>
         private static IEnumerable<T> Quick_Sort<T>(this IList<T> A, int l, int r) where T : IComparable<T>
         {
             if (l < r)
             {
-                if (Debugger.IsAttached)
-                    A.Print();
+                //if (Debugger.IsAttached)
+                //  A.Print();
                 T x = A[r];
                 //partition
                 int i = l;
@@ -261,6 +278,111 @@ namespace Get.the.Solution.Algorithms
         {
             return Quick_Sort<T>(A.ToList(), 0, A.Count() - 1);
         }
+
+        #region todo
+        public static IEnumerable<T> HeapSort<T>(this IEnumerable<T> A) where T : IComparable<T>
+        {
+            CreateHeap(A, A.Count());
+            for (int i = A.Count(); i > 2; i--)
+            {
+                Seep(A, 1, i - 1);
+            }
+            return A;
+
+        }
+        private static IEnumerable<T> Seep<T>(this IEnumerable<T> A, int i, int m) where T : IComparable<T>
+        {
+            int b = 2 * i;
+            while (b <= m)
+            {
+                throw new NotImplementedException();
+            }
+            return A;
+        }
+        /// <summary>
+        /// Create heap
+        /// </summary>
+        /// <typeparam name="T">Compareable data</typeparam>
+        /// <param name="data">data collection to sort</param>
+        /// <param name="n">maximum index n</param>
+        /// <returns>The sorted liset</returns>
+        public static IEnumerable<T> CreateHeap<T>(this IEnumerable<T> A, int n) where T : IComparable<T>
+        {
+            int m = (n) / 2;
+            for (int i = m; i < 1; i--)
+            {
+                Seep(A, i, n);
+            }
+            return A;
+        }
+    
+        /// <summary>
+        /// Creates a tree regarding the input parameter
+        /// </summary>
+        /// <remarks>
+        /// Source http://www.informatik-forum.at/showthread.php?42232-3-1&p=319240&viewfull=1#post319240
+        /// </remarks>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Inorder"></param>
+        /// <param name="Preorder"></param>
+        /// <returns></returns>
+        public static ITreeNode<T> CreateTree<T>(IEnumerable<ITreeNode<T>> Inorder, IEnumerable<ITreeNode<T>> Preorder) where T : ITreeNode<T>
+        {
+
+            // wenn sich noch Elemente in den beiden Arrays befinden
+            // weitermachen
+            if (Inorder.Count() != 0)
+            {
+
+                // neuen (Wurzel-)Knoten root schaffen
+                ITreeNode<T> root = new TreeNode<T>(default(T));
+                // In der Preorder-Durchmusterung kommt die
+                // Wurzel immer als erstes
+                root.Value = Preorder.First().Value;
+
+                // Wurzel in der Inorder-Durchmusterung(wo sie in der "Mitte" steht finden)
+                int i = 0;
+                while (!Preorder.ToArray()[0].Value.Equals(Inorder.ToArray()[i].Value))
+                    i++;
+
+                // Wurzel von linkem Teilbaum(dazu den linken Baum sowohl
+                // Inorder- als auch in Preorder-Durchmusterung übergeben) finden
+                // und als linkes Kind an aktuelle Wurzel anhängen
+
+                //Inorder[0...(i-1)]
+                ITreeNode<T>[] inorder = new ITreeNode<T>[i - 1];
+                Array.Copy(Inorder.ToArray(), 0, inorder, 0, i - 1);
+                //Preorder[1...i]
+                ITreeNode<T>[] preorder = new ITreeNode<T>[1 - i];
+                Array.Copy(Inorder.ToArray(), 1, inorder, 0, 1 - i);
+                root.Left = CreateTree(inorder, preorder);
+
+                //[i+1...Inorder.length]
+                inorder = new ITreeNode<T>[Inorder.Count()];
+                Array.Copy(Inorder.ToArray(), i + 1, inorder, i + 1, Inorder.Count());
+                //[i+1...Preorder.legth()]
+                preorder = new ITreeNode<T>[Inorder.Count()];
+                Array.Copy(Inorder.ToArray(), 1, inorder, i + 1, Inorder.Count());
+                root.Left = CreateTree(inorder, preorder);
+
+                // Wurzel vom rechten Teilbaum finden und als rechtes Kind 
+                // an aktuelle Wurzel hängen
+                root.Right = CreateTree(inorder, preorder);
+
+                return root;
+                // sonst
+            }
+            else
+            {
+
+                // keine Werte mehr in den Arrays -> NULL zurückgeben
+                // (also kein Kind mehr vorhanden)
+                return null;
+
+            }
+        }
+        #endregion
+        
 
         public static T Min<T>(params T[] values) where T : IComparable<T>
         {
