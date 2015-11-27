@@ -14,6 +14,10 @@ namespace Get.the.Solution.DataStructure
         {
             this.getNodeHandler = new getNodeDelegate(this.GetNodePrivate);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getNode">a delegate which implements the function GetNode(T value, ITreeNode<T> root)</param>
         public Tree(getNodeDelegate getNode)
         {
             this.getNodeHandler = getNode;
@@ -31,7 +35,7 @@ namespace Get.the.Solution.DataStructure
                 return Root == null;
             }
         }
-
+        //oder Node.AmountNode
         public int Length
         {
             get;
@@ -131,6 +135,8 @@ namespace Get.the.Solution.DataStructure
             }
             //increase size of tree;
             Length = Length + 1;
+            //node.n = 1 + 
+            //node.AmountofNode = size(node.Lef) + size(node.right)+1; (size.node) gibt node.amountnode zurück
         }
 
         public void Remove(T val)
@@ -282,7 +288,10 @@ namespace Get.the.Solution.DataStructure
             }
             return l;
         }
-
+        private class Node<T> : Get.the.Solution.DataStructure.Node<T>
+        {
+            public int AmountNodes { get; set; }
+        }
 
 
     }
