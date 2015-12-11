@@ -68,6 +68,35 @@ namespace Get.the.Solution.Algorithms.Test
             var expected = new int[] { 1, 1, 1, 11, 110, 111, 111 };
             var result = new int[] { 111, 11, 1, 1, 110, 111, 1 }.Quick_Sort();
             CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 00, 0, 01, 1, 10, 11, 101, 111 };
+            result = new int[] { 10, 11, 1, 0, 101, 111, 01, 00 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 3, 4, 5, 6, 7, 8, 9 };
+            result = new int[] { 1, 6, 9, 8, 3, 4, 7, 5 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 2, 2, 3, 4, 8, 12, 27 };
+            result = new int[] { 8, 3, 12, 27, 4, 2, 2, 1 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 2, 3, 4, 5, 6 };
+            result = new int[] { 5, 2, 4, 6, 1, 3 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 11, 18, 20, 26, 29, 30, 40, 48, 78, 90, 93, 114 };
+            result = new int[] { 40, 18, 93, 114, 90, 11, 26, 29, 48, 30, 20, 78 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 3, 4, 5, 6, 7, 8, 9 };
+            result = new int[] { 6, 1, 5, 4, 3, 7, 8, 9 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected, result.ToArray());
+
+            expected = new int[] { 1, 3, 4, 5, 6, 7, 8, 9 };
+            result = new int[] { 1, 3, 4, 5, 6, 7, 8, 9 }.Quick_Sort();
+            CollectionAssert.AreEqual(expected,result.ToArray());
+
         }
         [TestMethod]
         public void TestMerge_Srot()

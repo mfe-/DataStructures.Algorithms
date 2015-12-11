@@ -89,8 +89,19 @@ namespace Get.the.Solution.Algorithms.Test
             IEnumerable<INode<int>> nodes = root.PostOrder();
             nodes.Print();
 
-            root = new TreeNode<int>(30);
+            root = new TreeNode<int>(55);
+            root.Left = new TreeNode<int>(40);
+            root.Left.Left = new TreeNode<int>(33);
+            root.Left.Right = new TreeNode<int>(50);
 
+            root.Right = new TreeNode<int>(65);
+            root.Right.Left = new TreeNode<int>(60);
+            root.Right.Right = new TreeNode<int>(70);
+
+            nodes = root.InOrder();
+
+            //new tree
+            root = new TreeNode<int>(30);
             root.Left = new TreeNode<int>(10);
             root.Right = new TreeNode<int>(40);
 
@@ -101,6 +112,23 @@ namespace Get.the.Solution.Algorithms.Test
             root.Right.Right = new TreeNode<int>(80);
 
             nodes = root.PostOrder();
+
+            //new tree
+            root = new TreeNode<int>(6);
+            root.Left = new TreeNode<int>(4);
+            root.Right = new TreeNode<int>(5);
+
+            root.Left.Left = new TreeNode<int>(8);
+            root.Left.Left.Left = new TreeNode<int>(1);
+
+            root.Left.Right = new TreeNode<int>(7);
+            root.Left.Right.Left = new TreeNode<int>(2);
+            root.Left.Right.Left.Right = new TreeNode<int>(3);
+
+            root.Right.Right = new TreeNode<int>(9);
+
+            nodes = root.PreOrder();
+
         }
         [TestMethod]
         public void TestCreatePostOrderList()
