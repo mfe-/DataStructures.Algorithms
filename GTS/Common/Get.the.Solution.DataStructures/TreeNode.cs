@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.DataStructure
 {
+    [DebuggerDisplay("Data={Value},Right={TreeNode.Right},Left={TreeNode.Left}")]
     public class TreeNode<T> : Node<T>, ITreeNode<T>
     {
         public TreeNode(T value)

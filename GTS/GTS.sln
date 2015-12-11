@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{EE7EBEEC-B602-4450-A890-B49BB4F993CD}"
 EndProject
@@ -75,6 +75,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.the.Solution.DataStructure", "Common\Get.the.Solution.DataStructures\Get.the.Solution.DataStructure.csproj", "{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.the.Solution.Mathematics", "Common\Get.the.Solution.Mathematics\Get.the.Solution.Mathematics.csproj", "{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{02681F40-ED31-4761-815D-88A61D3210D4}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
