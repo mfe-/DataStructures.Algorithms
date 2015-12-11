@@ -5,24 +5,49 @@ using System.Text;
 
 namespace Get.the.Solution.DataStructure
 {
-    public class Tree<T> where T : IComparable
+    public class Tree<T> : ITree<T> where T : IComparable
     {
-        public delegate ITreeNode<T> getNodeDelegate(T value, ITreeNode<T> root);
-        protected getNodeDelegate getNodeHandler;
+        /// <summary>
+        /// Represents the method that will handle the get node functionality.
+        /// </summary>
+        /// <param name="value">The value which we are looking for.</param>
+        /// <param name="root">The root node of the tree to start the traversing.</param>
+        /// <returns>The node which contains the overgiven value.</returns>
+        public delegate ITreeNode<T> GetNodeDelegate(T value, ITreeNode<T> root);
 
+
+        protected GetNodeDelegate getNodeHandler;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tree{T}"/> class.
+        /// </summary>
         public Tree()
         {
-            this.getNodeHandler = new getNodeDelegate(this.GetNodePrivate);
+            this.getNodeHandler = new GetNodeDelegate(this.GetNodePrivate);
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the  <see cref="Tree{T}"/> class.
         /// </summary>
-        /// <param name="getNode">a delegate which implements the function GetNode(T value, ITreeNode<T> root)</param>
-        public Tree(getNodeDelegate getNode)
+        /// <param name="getNode">
+        /// The delegate which implements the function GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate</see> 
+        /// documentation for more details.
+        /// </param>
+        public Tree(GetNodeDelegate getNode)
         {
             this.getNodeHandler = getNode;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the  <see cref="Tree{T}"/> class.
+        /// </summary>
+        /// <param name="getNode"></param>
+        public Tree(Func<T, ITreeNode<T>, ITreeNode<T>> getNode)
+        {
+            this.getNodeHandler = new GetNodeDelegate(getNode);
+        }
+        /// <summary>
+        /// Get or sets the tree root node.
+        /// </summary>
         public ITreeNode<T> Root
         {
             get;
@@ -156,7 +181,7 @@ namespace Get.the.Solution.DataStructure
             }
             else
             {
-                //q hat 2 NAcfolger -> wird durch successor ersetzt, dieser wird entfernt
+                //q hat 2 Nacfolger -> wird durch successor ersetzt, dieser wird entfernt
                 r = Successor(q);
                 //umhängen der daten von r nach q
                 q.Value = r.Value;
@@ -244,7 +269,7 @@ namespace Get.the.Solution.DataStructure
             //TODO Optimize
             //http://stackoverflow.com/questions/30013591/binary-tree-find-position-in-inorder-traversal
             //INode<T> treenode = InOrder(this.Root, new Counter(k));
-            return InOrder(this.Root,new List<ITreeNode<T>>()).ElementAt(k).Value;
+            return InOrder(this.Root, new List<ITreeNode<T>>()).ElementAt(k).Value;
         }
         /// <summary>
         ///  Liefert die Position des Wertes val in der InorderReihenfolge aller Werte
@@ -273,11 +298,11 @@ namespace Get.the.Solution.DataStructure
                 //5.CompareTo(6) = -1      First int is smaller.
                 //6.CompareTo(5) =  1      First int is larger.
                 //5.CompareTo(5) =  0      Ints are equal.
-                if (value.CompareTo(list.ElementAt(m).Value)==1)
+                if (value.CompareTo(list.ElementAt(m).Value) == 1)
                 {
                     l = m + 1;
                 }
-                else if (value.CompareTo(list.ElementAt(m).Value)==-1)
+                else if (value.CompareTo(list.ElementAt(m).Value) == -1)
                 {
                     h = m - 1;
                 }
@@ -288,9 +313,16 @@ namespace Get.the.Solution.DataStructure
             }
             return l;
         }
+        /// <summary>
+        /// Tree node type which extends the classic node to the property childrens
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         private class Node<T> : Get.the.Solution.DataStructure.Node<T>
         {
-            public int AmountNodes { get; set; }
+            /// <summary>
+            /// Returns the amount of childrens of the node
+            /// </summary>
+            public int Childrens { get; set; }
         }
 
 

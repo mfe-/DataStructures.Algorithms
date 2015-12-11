@@ -40,11 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IContravariant.cs" />
+    <Compile Include="Interfaces\ITree.cs" />
     <Compile Include="SingleListIEnumerator.cs" />
     <Compile Include="DoubleLinkedList.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\IEdge.cs" />
-    <Compile Include="Interfaces\IContravariant.cs" />
     <Compile Include="Interfaces\ICovariant.cs" />
     <Compile Include="Interfaces\IInvariant.cs" />
     <Compile Include="Graph\IVertex.cs" />

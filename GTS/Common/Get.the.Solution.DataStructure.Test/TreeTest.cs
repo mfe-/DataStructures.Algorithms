@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Registration;
 
 namespace Get.the.Solution.DataStructure.Test
 {
@@ -20,6 +23,57 @@ namespace Get.the.Solution.DataStructure.Test
         // Use TestInitialize to run code before running each test 
         [TestInitialize()]
         public void InitialTest()
+        {
+            //http://blogs.msdn.com/b/hammett/archive/2011/03/08/mef-s-convention-model.aspx
+            RegistrationBuilder registrationBuilder = new RegistrationBuilder();
+            //export all classes which implement ITree
+            registrationBuilder.ForTypesMatching(t => t.GetInterface(typeof(ITree<>).Name) != null).ExportInterfaces();
+
+            var catalog = new AggregateCatalog(
+                new AssemblyCatalog(Assembly.GetExecutingAssembly()),
+                new AssemblyCatalog(typeof(ITree<>).Assembly, registrationBuilder)
+                );
+
+            //Create the current composition container to create the parts
+            var container = new CompositionContainer(catalog);
+
+            //container.ComposeExportedValue<ITree<int>>(new Tree<int>());
+
+            //bind import/ exports
+            container.ComposeParts(this);
+        }
+
+        /// <summary>
+        /// Instance used to compare the tested tree
+        /// </summary>
+        //[Import("TreeTest")]
+        protected ITree<int> ComparisonTreeTestInstance;
+        /// <summary>
+        /// This instances must pass the test
+        /// </summary>
+        [ImportMany(typeof(ITree<>))]
+        protected IEnumerable<ITree<int>> TreeInstances;
+
+
+        internal static IEnumerable<String> GetInputFile(string filename)
+        {
+            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+
+            string path = "Get.the.Solution.DataStructure.Test.instanzen";
+
+            using (TextReader reader = new StreamReader(thisAssembly.GetManifestResourceStream(path + "." + filename)))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
+            }
+        }
+        public IEnumerable<String> TreeTestValues { get; set; }
+
+        [TestMethod]
+        public void TestTree()
         {
             Tree<int> t = new Tree<int>();
 
@@ -66,27 +120,7 @@ namespace Get.the.Solution.DataStructure.Test
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
-        }
-        internal static IEnumerable<String> GetInputFile(string filename)
-        {
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
 
-            string path = "Get.the.Solution.DataStructure.Test.instanzen";
-
-            using (TextReader reader = new StreamReader(thisAssembly.GetManifestResourceStream(path + "." + filename)))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    yield return line;
-                }
-            }
-        }
-        public IEnumerable<String> TreeTestValues { get; set; }
-
-        [TestMethod]
-        public void TestTree()
-        {
             TreeSet input = new TreeSet();
 
             IEnumerable<String> values = GetInputFile("0002");
@@ -148,7 +182,7 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree"></param>
         /// <param name="input"></param>
         [TestMethod]
-        private static void TestContent(Tree<int> tree, TreeSet input)
+        private static void TestContent(ITree<int> tree, TreeSet input)
         {
             if (tree.Empty != input.isEmpty())
             {
@@ -217,7 +251,7 @@ namespace Get.the.Solution.DataStructure.Test
         {
             TestContent(tree, input);
             int[] testarr = input.InOrder(input.Root, new List<TreeSet.Node>()).Select(a => a.Key).ToArray();
-            int counter = input.size();
+            int counter = input.size(); //Length
             for (int i = 0; i < counter; i += factor)
             {
                 if (tree.IndexOf(testarr[i]) != i)
@@ -245,7 +279,7 @@ namespace Get.the.Solution.DataStructure.Test
             int last = input.InOrder(input.Root, new List<TreeSet.Node>()).Last().Key;
             for (int i = first; i <= last; i++)
             {
-                input.insert(i);
+                input.insert(i); //insert
                 tree.Add(i);
             }
             TestContent(tree, input);
@@ -260,14 +294,14 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
         [TestMethod]
-        private static void TestDelete(Tree<int> tree, TreeSet input)
+        private static void TestDelete(ITree<int> tree, TreeSet input)
         {
             TestContent(tree, input);
             int first = input.InOrder(input.Root, new List<TreeSet.Node>()).First().Key;
             int last = input.InOrder(input.Root, new List<TreeSet.Node>()).Last().Key;
             for (int i = first; i <= last; i += factor)
             {
-                input.delete(i);
+                input.delete(i); //delete
                 tree.Remove(i);
             }
             TestContent(tree, input);
