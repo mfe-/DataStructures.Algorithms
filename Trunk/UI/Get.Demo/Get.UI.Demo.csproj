@@ -86,7 +86,6 @@
     <Compile Include="View\Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XmlReader.cs" />
     <Page Include="View\Window1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -136,21 +135,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Get.Common\Get.Common.csproj">
-      <Project>{7C9CA4F1-FC0B-41B6-BE61-E595ABCC8AF8}</Project>
-      <Name>Get.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Get.Mathematics\Get.Mathematics.csproj">
+    <ProjectReference Include="..\..\Common\Get.the.Solution.Mathematics\Get.the.Solution.Mathematics.csproj">
       <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
       <Name>Get.Mathematics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Model\Get.Model.Graph\Get.Model.Graph.csproj">
-      <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Model.Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Get.UI.GraphVisualization\Get.UI.GraphVisualization.csproj">
-      <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
-      <Name>Get.UI.GraphVisualization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

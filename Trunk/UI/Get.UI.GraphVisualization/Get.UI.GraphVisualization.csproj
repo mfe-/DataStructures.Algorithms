@@ -89,12 +89,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Model\Get.Model.Graph\Get.Model.Graph.csproj">
-      <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Model.Graph</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
