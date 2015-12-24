@@ -2,11 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Get.Demo"
-    xmlns:Cinch="clr-namespace:Get.Common.Cinch;assembly=Get.Common"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:ui="clr-namespace:Get.UI;assembly=Get.UI"
     xmlns:Base="http://schemas.get.com/winfx/2009/xaml/Base"
-    xmlns:mgraph="clr-namespace:Get.Model.Graph;assembly=Get.Model.Graph"
     xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
     Title="Window1" WindowStartupLocation="CenterScreen">
     <!--<Window.DataContext>
@@ -36,7 +33,7 @@
 
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
 
-                <ui:GraphVisualization x:Name="_GraphVisualization"
+              <!--  <ui:GraphVisualization x:Name="_GraphVisualization"
                 Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
                 Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
                 Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertexRoutedCommand}">
@@ -70,7 +67,7 @@
                     </ui:GraphVisualization.Resources>
                 </ui:GraphVisualization>
 
-            <!--<Border BorderBrush="Green" BorderThickness="3" x:Name="_border">
+            <Border BorderBrush="Green" BorderThickness="3" x:Name="_border">
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="GotFocus">
                         <BeginStoryboard>

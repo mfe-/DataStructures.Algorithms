@@ -50,10 +50,6 @@
     <Compile Include="Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Model\Get.Model.Graph\Get.Model.Graph.csproj">
-      <Project>{71cedb71-d97c-4f85-99f8-b587b799bcdd}</Project>
-      <Name>Get.Model.Graph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Get.the.Solution.Algorithms.Graph\Get.the.Solution.Algorithms.Graph.csproj">
       <Project>{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}</Project>
       <Name>Get.the.Solution.Algorithms.Graph</Name>
