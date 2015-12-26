@@ -4,13 +4,13 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
-namespace Get.the.Solution.DataStructure
+namespace Get.the.Solution.DataStructure.Test
 {
     /// <summary>
     /// Tested Tree Struct from Algorithm and Data Structs 
     /// Author: Claudia
     /// </summary>
-    [Export("TreeTest")]
+    [Export("TreeTest",typeof(ITree<int>))]
     public class TreeTestStruct : ITree<int>
     {
         public TreeTestStruct leftnode = null;
@@ -29,6 +29,16 @@ namespace Get.the.Solution.DataStructure
         }
 
         public bool Empty { get { return isEmpty(); } }
+
+        public void Clear()
+        {
+            //if (items.IsReadOnly)
+            //{
+            //ThrowHelper.ThrowNotSupportedException(ExceptionResource.NotSupported_ReadOnlyCollection);
+            //}
+
+            this.leftnode = null;
+        }
 
         public int size()
         {
@@ -91,7 +101,28 @@ namespace Get.the.Solution.DataStructure
 
             return anz;
         }
+        public void CopyTo(int[] array, int index)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
 
+            if (index < 0 || index > array.Length)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            if (array.Length - index < Length)
+            {
+                throw new ArgumentException("InsufficientSpace");
+            }
+
+            if (index != 0)
+                throw new NotImplementedException();
+
+            array = Inorder(this, 0, 0);
+        }
         private bool insert_rek(int val)
         {
             bool is_ok = false;

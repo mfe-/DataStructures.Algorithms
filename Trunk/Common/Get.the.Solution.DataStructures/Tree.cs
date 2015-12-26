@@ -5,6 +5,10 @@ using System.Text;
 
 namespace Get.the.Solution.DataStructure
 {
+    /// <summary>
+    /// Represents a base tree class. Implemented binary tree concept.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Tree<T> : ITree<T> where T : IComparable
     {
         /// <summary>
@@ -15,7 +19,9 @@ namespace Get.the.Solution.DataStructure
         /// <returns>The node which contains the overgiven value.</returns>
         public delegate ITreeNode<T> GetNodeDelegate(T value, ITreeNode<T> root);
 
-
+        /// <summary>
+        /// Points to the getNodeHandler
+        /// </summary>
         protected GetNodeDelegate getNodeHandler;
 
         /// <summary>
@@ -40,7 +46,9 @@ namespace Get.the.Solution.DataStructure
         /// <summary>
         /// Initializes a new instance of the  <see cref="Tree{T}"/> class.
         /// </summary>
-        /// <param name="getNode"></param>
+        /// <param name="getNode">
+        /// A function which implements the GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate</see> 
+        /// documentation for more details.</param>
         public Tree(Func<T, ITreeNode<T>, ITreeNode<T>> getNode)
         {
             this.getNodeHandler = new GetNodeDelegate(getNode);
@@ -53,6 +61,9 @@ namespace Get.the.Solution.DataStructure
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the value that indicates whether the tree is empty or not
+        /// </summary>
         public virtual bool Empty
         {
             get
@@ -61,11 +72,19 @@ namespace Get.the.Solution.DataStructure
             }
         }
         //oder Node.AmountNode
+        /// <summary>
+        /// Gets the amount of nodes of the tree
+        /// </summary>
         public int Length
         {
             get;
             protected set;
         }
+        /// <summary>
+        /// Gets the node with the correspondening value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public virtual ITreeNode<T> GetNode(T value)
         {
             return this.GetNodePrivate(value, this.Root);
@@ -94,10 +113,18 @@ namespace Get.the.Solution.DataStructure
 
             return null;
         }
+        /// <summary>
+        /// Gets a value that indicates whether the overgiven value exists in the tree
+        /// </summary>
+        /// <param name="val"><The value to seek in the tree/param>
+        /// <returns></returns>
         public bool Exists(T val)
         {
             return this.GetNode(val) != null;
         }
+        /// <summary>
+        /// Gets the height of the tree
+        /// </summary>
         public int Height
         {
             get
@@ -105,7 +132,11 @@ namespace Get.the.Solution.DataStructure
                 return GetHeight(this.Root);
             }
         }
-
+        /// <summary>
+        /// Gets the height of the tree starting from the overgiven node
+        /// </summary>
+        /// <param name="node">The node</param>
+        /// <returns>The height from the node</returns>
         protected virtual int GetHeight(ITreeNode<T> node)
         {
             if (node == null)
@@ -114,7 +145,29 @@ namespace Get.the.Solution.DataStructure
             }
             return 1 + (Math.Max(GetHeight(node.Left), GetHeight(node.Right)));
         }
+        /// <summary>
+        /// Reset the tree
+        /// </summary>
+        public void Clear()
+        {
+            //if (items.IsReadOnly)
+            //{
+                //ThrowHelper.ThrowNotSupportedException(ExceptionResource.NotSupported_ReadOnlyCollection);
+            //}
 
+            ClearItems();
+        }
+        /// <summary>
+        /// Clear the nodes of the tree
+        /// </summary>
+        protected virtual void ClearItems()
+        {
+            this.Root = null;
+        }
+        /// <summary>
+        /// Add a new value to the tree
+        /// </summary>
+        /// <param name="val">The value to add</param>
         public void Add(T val)
         {
             ITreeNode<T> q = new TreeNode<T>(val);
@@ -163,7 +216,10 @@ namespace Get.the.Solution.DataStructure
             //node.n = 1 + 
             //node.AmountofNode = size(node.Lef) + size(node.right)+1; (size.node) gibt node.amountnode zurück
         }
-
+        /// <summary>
+        /// The value to remove
+        /// </summary>
+        /// <param name="val"></param>
         public void Remove(T val)
         {
             if (Empty)
@@ -223,6 +279,16 @@ namespace Get.the.Solution.DataStructure
             Length = Length - 1;
             //TODO Save amount of subtree in node
         }
+        /// <summary>
+        /// Returns all nodes of the tree ascending.
+        /// </summary>
+        /// <remarks>
+        /// Recursiv implemention. By default you would call the method with the root node of the tree and pass an empty initalized collection.
+        /// </remarks>
+        /// <typeparam name="T">The value type of the nodes</typeparam>
+        /// <param name="p">The starting node.</param>
+        /// <param name="list">The current created list</param>
+        /// <returns>A list of all nodes from the starting node.</returns>
         protected IList<ITreeNode<T>> InOrder<T>(ITreeNode<T> p, IList<ITreeNode<T>> list)
         {
             if (p != null)
@@ -233,6 +299,11 @@ namespace Get.the.Solution.DataStructure
             }
             return list;
         }
+        /// <summary>
+        /// Returns the successor from the overgiven node
+        /// </summary>
+        /// <param name="p">The node from which we should get the successor</param>
+        /// <returns>The successor of the overgiven node</returns>
         public virtual ITreeNode<T> Successor(ITreeNode<T> p)
         {
             ITreeNode<T> q = null;
@@ -251,6 +322,11 @@ namespace Get.the.Solution.DataStructure
                 return q;
             }
         }
+        /// <summary>
+        /// Returns the child node with the minimum value
+        /// </summary>
+        /// <param name="p">the node from which we should seek the node with the minimum value</param>
+        /// <returns>The node with the minimum value</returns>
         public virtual ITreeNode<T> Minimum(ITreeNode<T> p)
         {
             if (p == null)
@@ -263,7 +339,38 @@ namespace Get.the.Solution.DataStructure
             }
             return p;
         }
+        /// <summary>
+        /// Copies the entire Collection<T> to a compatible one-dimensional Array, starting at the specified index of the target array.
+        /// </summary>
+        /// <param name="array">
+        /// The one-dimensional Array that is the destination of the elements copied from Collection<T>. The Array must have zero-based indexing.
+        /// </param>
+        /// <param name="index">
+        /// The zero-based index in array at which copying begins.
+        /// </param>
+        public void CopyTo(T[] array, int index)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("array");
+            }
 
+            if (index < 0 || index > array.Length)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            if (array.Length - index < Length)
+            {
+                throw new ArgumentException("InsufficientSpace");
+            }
+
+            IList<ITreeNode<T>> arr = InOrder(this.Root, new List<ITreeNode<T>>());
+            for (int i = 0; i < arr.Count;i++ )
+            {
+                array[index++] = arr[i].Value;
+            }
+        }
         public virtual T FindIndex(int k)
         {
             //TODO Optimize
