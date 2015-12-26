@@ -15,6 +15,7 @@ namespace Get.the.Solution.DataStructure.Test
     [TestClass]
     public class TreeTest
     {
+        private CompositionContainer _Container = null;
         /// <summary>
         /// Factor used during tests
         /// </summary>
@@ -25,34 +26,35 @@ namespace Get.the.Solution.DataStructure.Test
         public void InitialTest()
         {
             //http://blogs.msdn.com/b/hammett/archive/2011/03/08/mef-s-convention-model.aspx
-            RegistrationBuilder registrationBuilder = new RegistrationBuilder();
-            //export all classes which implement ITree
-            registrationBuilder.ForTypesMatching(t => t.GetInterface(typeof(ITree<>).Name) != null).ExportInterfaces();
 
-            var catalog = new AggregateCatalog(
-                new AssemblyCatalog(Assembly.GetExecutingAssembly()),
-                new AssemblyCatalog(typeof(ITree<>).Assembly, registrationBuilder)
-                );
+            if (_Container == null)
+            {
+                var catalog = new AggregateCatalog(
+                    new AssemblyCatalog(Assembly.GetExecutingAssembly()),
+                    new AssemblyCatalog(typeof(ITree<>).Assembly)
+                    );
 
-            //Create the current composition container to create the parts
-            var container = new CompositionContainer(catalog);
+                //Create the current composition container to create the parts
+                _Container = new CompositionContainer(catalog);
 
-            //container.ComposeExportedValue<ITree<int>>(new Tree<int>());
+                //bind import/ exports
+                _Container.ComposeParts(this);
 
-            //bind import/ exports
-            container.ComposeParts(this);
+                
+            }
+            TreeInstances.Remove(ComparisonTreeTestInstance);
         }
 
         /// <summary>
         /// Instance used to compare the tested tree
         /// </summary>
-        //[Import("TreeTest")]
+        [Import("TreeTest")]
         protected ITree<int> ComparisonTreeTestInstance;
         /// <summary>
         /// This instances must pass the test
         /// </summary>
         [ImportMany(typeof(ITree<>))]
-        protected IEnumerable<ITree<int>> TreeInstances;
+        protected List<ITree<int>> TreeInstances;
 
 
         internal static IEnumerable<String> GetInputFile(string filename)
@@ -75,106 +77,110 @@ namespace Get.the.Solution.DataStructure.Test
         [TestMethod]
         public void TestTree()
         {
-            Tree<int> t = new Tree<int>();
-
-            int[] arr = new int[] { 30, 20, 45, 10, 25, 38, 50, 5, 13, 22, 29, 12, 14 };
-
-
-            if (!t.Empty || t.Length != 0 || t.Height != -1)
+            foreach (var t in TreeInstances)
             {
-                new AssertFailedException("Error when testing empty tree!");
+                t.Clear();
+
+                int[] arr = new int[] { 30, 20, 45, 10, 25, 38, 50, 5, 13, 22, 29, 12, 14 };
+
+
+                if (!t.Empty || t.Length != 0 || t.Height != -1)
+                {
+                    new AssertFailedException("Error when testing empty tree!");
+                }
+                foreach (int i in arr)
+                {
+                    t.Add(i);
+                }
+                if (t.Empty)
+                {
+                    new AssertFailedException("Check the implementation of isEmpty()!");
+                }
+                if (t.Length != arr.Length)
+                {
+                    new AssertFailedException("Check the implementation of size()!");
+                }
+                if (!t.Exists(20) || t.Exists(23))
+                {
+                    new AssertFailedException("Check the implementation of exists()!");
+                }
+                if (t.FindIndex(3) != 13 || t.FindIndex(0) != 5)
+                {
+                    new AssertFailedException("Check the implementation of valueAtPosition()!");
+                }
+                if (t.IndexOf(10) != 1 || t.IndexOf(29) != 8 || t.IndexOf(31) != 10)
+                {
+                    new AssertFailedException("Check the implementation of position()!");
+                }
+                if (t.Height != 4)
+                {
+                    new AssertFailedException("Check the implementation of height()!");
+                }
+                try
+                {
+                    t.FindIndex(1000);
+                }
+                catch (ArgumentException e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
+                //comparison tree instance
+                ITree<int> input = ComparisonTreeTestInstance;
+
+                IEnumerable<String> values = GetInputFile("0001");
+                //tree instance to test
+                ITree<int> tree = t;
+                tree.Clear();
+
+
+                int val;
+                foreach (String s in values)
+                {
+                    val = Int32.Parse(s);
+                    //tree data strucutre to test
+                    tree.Add(val);
+                    input.Add(val);
+                }
+                if (values.Count() == 0)
+                {
+                    throw new ArgumentException("file contains no values");
+                }
+
+                InitialTest();
+
+                System.Diagnostics.Debug.WriteLine("After initial test: tree size = " + tree.Length + " tree height = " + tree.Height);
+
+                long startTime = DateTime.Now.Ticks;
+                TestInsert(tree, input);
+                long estimatedTime = DateTime.Now.Ticks - startTime;
+                DebugInformation(estimatedTime, "Insertion test took ", "After insertion test:", tree);
+
+                startTime = DateTime.Now.Ticks;
+                TestDelete(tree, input);
+                estimatedTime = DateTime.Now.Ticks - startTime;
+                DebugInformation(estimatedTime, "Deletion test took ", "After deletion test:", tree);
+
+                startTime = DateTime.Now.Ticks;
+                TestPositions(tree, input);
+                estimatedTime = DateTime.Now.Ticks - startTime;
+                DebugInformation(estimatedTime, "Testing positions took ", "After testing positions:", tree);
+
+                startTime = DateTime.Now.Ticks;
+                //testValues(tree, input); - Method not implemented by our tree data strucutre
+                estimatedTime = DateTime.Now.Ticks - startTime;
+                DebugInformation(estimatedTime, "Testing value lists took ", "After creating value lists:", tree);
+
+                startTime = DateTime.Now.Ticks;
+                //tree.simpleBalance(); - Method not implemented by our tree data strucutre
+                //testBalance(tree, input); - Method not implemented by our tree data strucutre
+                estimatedTime = DateTime.Now.Ticks - startTime;
+                DebugInformation(estimatedTime, "Testing tree balance took ", "After balancing:", tree);
+
+                StringBuilder msg = new StringBuilder("");
+                msg.Append("OK");
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine(msg.ToString());
             }
-            foreach (int i in arr)
-            {
-                t.Add(i);
-            }
-            if (t.Empty)
-            {
-                new AssertFailedException("Check the implementation of isEmpty()!");
-            }
-            if (t.Length != arr.Length)
-            {
-                new AssertFailedException("Check the implementation of size()!");
-            }
-            if (!t.Exists(20) || t.Exists(23))
-            {
-                new AssertFailedException("Check the implementation of exists()!");
-            }
-            if (t.FindIndex(3) != 13 || t.FindIndex(0) != 5)
-            {
-                new AssertFailedException("Check the implementation of valueAtPosition()!");
-            }
-            if (t.IndexOf(10) != 1 || t.IndexOf(29) != 8 || t.IndexOf(31) != 10)
-            {
-                new AssertFailedException("Check the implementation of position()!");
-            }
-            if (t.Height != 4)
-            {
-                new AssertFailedException("Check the implementation of height()!");
-            }
-            try
-            {
-                t.FindIndex(1000);
-            }
-            catch (ArgumentException e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-            }
-
-            TreeSet input = new TreeSet();
-
-            IEnumerable<String> values = GetInputFile("0002");
-            Tree<int> tree = new Tree<int>();
-
-
-            int val;
-            foreach (String s in values)
-            {
-                val = Int32.Parse(s);
-                //tree data strucutre to test
-                tree.Add(val);
-                input.insert(val);
-            }
-            if (values.Count() == 0)
-            {
-                throw new ArgumentException("file contains no values");
-            }
-
-            InitialTest();
-
-            System.Diagnostics.Debug.WriteLine("After initial test: tree size = " + tree.Length + " tree height = " + tree.Height);
-
-            long startTime = DateTime.Now.Ticks;
-            TestInsert(tree, input);
-            long estimatedTime = DateTime.Now.Ticks - startTime;
-            DebugInformation(estimatedTime, "Insertion test took ", "After insertion test:", tree);
-
-            startTime = DateTime.Now.Ticks;
-            TestDelete(tree, input);
-            estimatedTime = DateTime.Now.Ticks - startTime;
-            DebugInformation(estimatedTime, "Deletion test took ", "After deletion test:", tree);
-
-            startTime = DateTime.Now.Ticks;
-            TestPositions(tree, input);
-            estimatedTime = DateTime.Now.Ticks - startTime;
-            DebugInformation(estimatedTime, "Testing positions took ", "After testing positions:", tree);
-
-            startTime = DateTime.Now.Ticks;
-            //testValues(tree, input); - Method not implemented by our tree data strucutre
-            estimatedTime = DateTime.Now.Ticks - startTime;
-            DebugInformation(estimatedTime, "Testing value lists took ", "After creating value lists:", tree);
-
-            startTime = DateTime.Now.Ticks;
-            //tree.simpleBalance(); - Method not implemented by our tree data strucutre
-            //testBalance(tree, input); - Method not implemented by our tree data strucutre
-            estimatedTime = DateTime.Now.Ticks - startTime;
-            DebugInformation(estimatedTime, "Testing tree balance took ", "After balancing:", tree);
-
-            StringBuilder msg = new StringBuilder("");
-            msg.Append("OK");
-            System.Diagnostics.Debug.WriteLine("");
-            System.Diagnostics.Debug.WriteLine(msg.ToString());
-
         }
         /// <summary>
         /// Compares the input of a given tree with a tree set build from the original data source
@@ -182,20 +188,20 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree"></param>
         /// <param name="input"></param>
         [TestMethod]
-        private static void TestContent(ITree<int> tree, TreeSet input)
+        private static void TestContent(ITree<int> tree, ITree<int> input)
         {
-            if (tree.Empty != input.isEmpty())
+            if (tree.Empty != input.Empty)
             {
                 new AssertFailedException("Failure when calling isEmpty()!");
             }
-            if (tree.Length != input.size())
+            if (tree.Length != input.Length)
             {
-                new AssertFailedException("Incorrect size - " + " tree: " + tree.Length + " tree set: " + input.size());
+                new AssertFailedException("Incorrect size - " + " tree: " + tree.Length + " tree set: " + input.Length);
             }
             int counter = 0;
-            for (int i = 0; i < input.size(); i++)
+            for (int i = 0; i < input.Length; i++)
             {
-                int val = input.position(i);
+                int val = input.FindIndex(i);
                 if (tree.Exists(val) == false)
                 {
                     new AssertFailedException("Element " + i + " is missing!");
@@ -213,12 +219,15 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
         [TestMethod]
-        private static void TestValues(Tree<int> tree, TreeSet input)
+        private static void TestValues(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
-            int[] testarr = input.InOrder(input.Root, new List<TreeSet.Node>()).Select(a => a.Key).ToArray();
+            //int[] testarr = input.InOrder(input.Root, new List<TreeSet.Node>()).Select(a => a.Key).ToArray();
+            int[] testarr = new int[input.Length]; 
+            input.CopyTo(testarr,0);
+            
             int mark1, mark2, run;
-            int size = input.size();
+            int size = input.Length;
             int counter = size / factor;
             for (int i = 0; i < counter; i = (i + 1) * 2)
             {
@@ -247,11 +256,12 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree"></param>
         /// <param name="input"></param>
         [TestMethod]
-        private static void TestPositions(Tree<int> tree, TreeSet input)
+        private static void TestPositions(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
-            int[] testarr = input.InOrder(input.Root, new List<TreeSet.Node>()).Select(a => a.Key).ToArray();
-            int counter = input.size(); //Length
+            int[] testarr = new int[input.Length];
+            input.CopyTo(testarr, 0);
+            int counter = input.Length; //Length
             for (int i = 0; i < counter; i += factor)
             {
                 if (tree.IndexOf(testarr[i]) != i)
@@ -272,14 +282,17 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
         [TestMethod]
-        private static void TestInsert(Tree<int> tree, TreeSet input)
+        private static void TestInsert(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
-            int first = input.InOrder(input.Root, new List<TreeSet.Node>()).First().Key;
-            int last = input.InOrder(input.Root, new List<TreeSet.Node>()).Last().Key;
+            int[] arr = new int[input.Length];
+            input.CopyTo(arr, 0);
+
+            int first = arr.First();
+            int last = arr.Last();
             for (int i = first; i <= last; i++)
             {
-                input.insert(i); //insert
+                input.Add(i); //insert
                 tree.Add(i);
             }
             TestContent(tree, input);
@@ -294,20 +307,24 @@ namespace Get.the.Solution.DataStructure.Test
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
         [TestMethod]
-        private static void TestDelete(ITree<int> tree, TreeSet input)
+        private static void TestDelete(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
-            int first = input.InOrder(input.Root, new List<TreeSet.Node>()).First().Key;
-            int last = input.InOrder(input.Root, new List<TreeSet.Node>()).Last().Key;
+            int[] arr = new int[input.Length];
+            input.CopyTo(arr, 0);
+
+            int first = arr.First();
+            int last = arr.Last();
+
             for (int i = first; i <= last; i += factor)
             {
-                input.delete(i); //delete
+                input.Remove(i); //delete
                 tree.Remove(i);
             }
             TestContent(tree, input);
         }
 
-        private static void DebugInformation(long estimatedTime, String first, String second, Tree<int> tree)
+        private static void DebugInformation(long estimatedTime, String first, String second, ITree<int> tree)
         {
             System.Diagnostics.Debug.WriteLine(first + estimatedTime * 1.0 / 1000000000 + " seconds");
             System.Diagnostics.Debug.WriteLine(second + " tree size = " + tree.Length + ", tree height = " + tree.Height);

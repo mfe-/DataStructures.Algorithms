@@ -4,7 +4,11 @@ using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.DataStructure
 {
-    [DebuggerDisplay("Data={Value},Right={Right},Left={Left}")]
+    /// <summary>
+    /// Reprsents a node
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    [DebuggerDisplay("Data={Value},INode.Right={Right},INode.Left={Left}")]
     public class Node<T> : SingleNode<T>, INode<T>
     {
         public Node()
@@ -45,7 +49,7 @@ namespace Get.the.Solution.DataStructure
             set
             {
                 right = value;
-                //because the base type is hide we assign it manual
+                //because the base type is hidden we assign it manual
                 base.Right = value;
             }
         }

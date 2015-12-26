@@ -16,6 +16,9 @@ namespace Get.the.Solution.DataStructure
         /// Get or set the left node
         /// </summary>
         INode<D> Left { get; set; }
+        /// <summary>
+        /// Get or sets the right node
+        /// </summary>
         new INode<D> Right { get; set; }
     }
 

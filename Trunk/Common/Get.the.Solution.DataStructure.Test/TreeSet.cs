@@ -12,7 +12,7 @@ namespace Get.the.Solution.DataStructure.Test
     /// <remarks>
     /// The use of array to implement the tree strucutre is not recommended and should be solved in an other way.
     /// </remarks>
-    public class TreeSet
+    public class TreeSet : ITree<int>
     {
         /**
      * save our root node
@@ -407,6 +407,56 @@ namespace Get.the.Solution.DataStructure.Test
         public int AmountSubTree;
 
 
+    }
+
+    public bool Empty
+    {
+        get { return isEmpty(); }
+    }
+
+    public int Length
+    {
+        get { return size(); }
+    }
+
+    public int Height
+    {
+        get { return height(); }
+    }
+
+    public int FindIndex(int k)
+    {
+        return position(k);
+    }
+
+    public int IndexOf(int t)
+    {
+        return valueAtPosition(t);
+    }
+
+    public void Add(int t)
+    {
+        insert(t);
+    }
+
+    public void Remove(int val)
+    {
+        delete(val);
+    }
+
+    public bool Exists(int val)
+    {
+        return exists(val);
+    }
+
+    public void Clear()
+    {
+        this.Root = null;
+    }
+
+    public void CopyTo(int[] array, int index)
+    {
+        array = InOrder(this.Root, new List<Node>()).Select(a=>a.Key).ToArray<int>();
     }
     }
 }
