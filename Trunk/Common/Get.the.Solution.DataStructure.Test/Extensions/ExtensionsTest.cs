@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Get.the.Solution.DataStructure.Test.Extensions
 {
-    public static class Extensions
+    /// <summary>
+    /// Dummy text extensions
+    /// </summary>
+    public static class ExtensionsTest
     {
         public static INode<D> Travers<D>(this INode<D> node) 
         {

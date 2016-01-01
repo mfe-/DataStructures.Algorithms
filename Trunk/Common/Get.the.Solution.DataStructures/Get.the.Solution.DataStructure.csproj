@@ -56,7 +56,6 @@
     <Compile Include="Interfaces\ITreeNode.cs" />
     <Compile Include="LinkedList.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="Polymorphismus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Graph\Vertex.cs" />
     <Compile Include="SingleNode.cs" />

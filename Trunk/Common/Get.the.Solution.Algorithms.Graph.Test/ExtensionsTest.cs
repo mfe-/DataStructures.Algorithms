@@ -6,7 +6,7 @@ using Get.the.Solution.Algorithms;
 namespace Get.the.Solution.Algorithms.Graph.Test
 {
     [TestClass]
-    public class Extensions
+    public class ExtensionsTest
     {
 
         [TestMethod]
