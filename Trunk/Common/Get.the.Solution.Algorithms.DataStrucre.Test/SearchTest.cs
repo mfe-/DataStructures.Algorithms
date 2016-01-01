@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Get.the.Solution.Algorithms.Test
 {
     [TestClass]
-    public class Search : BaseTest
+    public class SearchTest : BaseTest
     {
 
         [TestMethod]

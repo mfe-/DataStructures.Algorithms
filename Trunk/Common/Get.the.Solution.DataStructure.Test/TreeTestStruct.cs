@@ -497,7 +497,7 @@ namespace Get.the.Solution.DataStructure.Test
             {
                 myorder = Inorder(this, k, 0)[0];
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 throw new ArgumentException("Value must be valid > 0 and < nodesize");
             }

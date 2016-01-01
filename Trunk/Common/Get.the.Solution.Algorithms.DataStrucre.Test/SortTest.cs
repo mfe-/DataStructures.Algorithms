@@ -9,7 +9,7 @@ namespace Get.the.Solution.Algorithms.Test
 {
 
     [TestClass]
-    public class Sort
+    public class SortTest
     {
         public IList<int> RandomList<T>() where T : IComparable<T>
         {

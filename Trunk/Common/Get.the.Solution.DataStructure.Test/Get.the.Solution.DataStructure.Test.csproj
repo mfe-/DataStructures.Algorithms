@@ -61,7 +61,7 @@
     <Compile Include="ExtendedModel\Node\ISingleNodeExtended.cs" />
     <Compile Include="ExtendedModel\Node\NodeExtended.cs" />
     <Compile Include="ExtendedModel\Node\SingleNodeExtendedISingleNode.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\ExtensionsTest.cs" />
     <Compile Include="NodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtendedModel\Graph\Rail.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="LinkedListTest.cs" />
     <Compile Include="TreeTest.cs" />
     <Compile Include="TreeSet.cs" />
-    <Compile Include="Varianz.cs" />
+    <Compile Include="ExtendedModel\Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Get.the.Solution.Algorithms\Get.the.Solution.Algorithms.csproj">

@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Get.the.Solution.Algorithms.Test
 {
     [TestClass]
-    public class Tree : BaseTest
+    public class TreeTest : BaseTest
     {
         [TestMethod]
         public void TestInOrder()
