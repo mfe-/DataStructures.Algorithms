@@ -99,6 +99,10 @@ namespace Get.the.Solution.Mathematics
 
             return true;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         public override string ToString()
         {
             //return base.ToString();

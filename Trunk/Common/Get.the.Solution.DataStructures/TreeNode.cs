@@ -18,8 +18,8 @@ namespace Get.the.Solution.DataStructure
         public TreeNode(T data, INode<T> left, INode<T> right)
             : base(data)
         {
-            this.Left = (ITreeNode<T>)left;
-            this.Right = (ITreeNode<T>)right;
+            Left = (ITreeNode<T>)left;
+            Right = (ITreeNode<T>)right;
         }
         public ITreeNode<T> Parent
         {
@@ -40,7 +40,7 @@ namespace Get.the.Solution.DataStructure
                 base.Left = value;
             }
         }
-        private ITreeNode<T> right;
+        private new ITreeNode<T> right;
         public virtual new ITreeNode<T> Right
         {
             get

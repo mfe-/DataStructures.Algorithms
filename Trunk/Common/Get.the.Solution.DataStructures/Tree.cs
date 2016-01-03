@@ -89,9 +89,9 @@ namespace Get.the.Solution.DataStructure
         {
             return this.GetNodePrivate(value, this.Root);
         }
-        protected virtual ITreeNode<T> GetNodePrivate<T>(T value, ITreeNode<T> root) where T : IComparable
+        protected virtual ITreeNode<t> GetNodePrivate<t>(t value, ITreeNode<t> root) where t : IComparable
         {
-            ITreeNode<T> p = root;
+            ITreeNode<t> p = root;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
@@ -285,17 +285,17 @@ namespace Get.the.Solution.DataStructure
         /// <remarks>
         /// Recursiv implemention. By default you would call the method with the root node of the tree and pass an empty initalized collection.
         /// </remarks>
-        /// <typeparam name="T">The value type of the nodes</typeparam>
+        /// <typeparam name="t">The value type of the nodes</typeparam>
         /// <param name="p">The starting node.</param>
         /// <param name="list">The current created list</param>
         /// <returns>A list of all nodes from the starting node.</returns>
-        protected IList<ITreeNode<T>> InOrder<T>(ITreeNode<T> p, IList<ITreeNode<T>> list)
+        protected IList<ITreeNode<t>> InOrder<t>(ITreeNode<t> p, IList<ITreeNode<t>> list) where t : IComparable
         {
             if (p != null)
             {
-                InOrder<T>(p.Left, list);
+                InOrder<t>(p.Left, list);
                 list.Add(p);
-                InOrder<T>(p.Right, list);
+                InOrder<t>(p.Right, list);
             }
             return list;
         }
@@ -424,7 +424,7 @@ namespace Get.the.Solution.DataStructure
         /// Tree node type which extends the classic node to the property childrens
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        private class Node<T> : Get.the.Solution.DataStructure.Node<T>
+        private class Node : Get.the.Solution.DataStructure.Node<T>
         {
             /// <summary>
             /// Returns the amount of childrens of the node

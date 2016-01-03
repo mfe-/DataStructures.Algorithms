@@ -243,7 +243,7 @@ namespace Get.the.Solution.DataStructure.Test
             int[] testarr = new int[input.Length]; 
             input.CopyTo(testarr,0);
             
-            int mark1, mark2, run;
+            int mark1, mark2 /*, run*/;
             int size = input.Length;
             int counter = size / factor;
             for (int i = 0; i < counter; i = (i + 1) * 2)
@@ -257,7 +257,7 @@ namespace Get.the.Solution.DataStructure.Test
                 //}
                 mark1 = i;
                 mark2 = size - 1 - i;
-                run = 0;
+                //run = 0;
                 //for (int e : tree.values(testarr[mark2], testarr[mark1])) {
                 //    if (e != testarr[run <= mark1 ? run++ : mark2++]) {
                 //        new AssertFailedException(("Failure when calling method values()!");
