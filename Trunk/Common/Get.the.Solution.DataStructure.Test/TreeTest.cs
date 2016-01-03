@@ -9,9 +9,13 @@ using System.Text;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Registration;
+using System.Diagnostics;
 
 namespace Get.the.Solution.DataStructure.Test
 {
+    /// <summary>
+    /// Provides test methods for tree implementations
+    /// </summary>
     [TestClass]
     public class TreeTest
     {
@@ -21,7 +25,10 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         private static int factor = 10;
 
-        // Use TestInitialize to run code before running each test 
+        /// <summary>
+        /// Searches for classes which implements ITree in the
+        /// Get.the.Solution.DataStructure.Test and Get.the.Solution.DataStructure project
+        /// </summary>
         [TestInitialize()]
         public void InitialTest()
         {
@@ -40,9 +47,9 @@ namespace Get.the.Solution.DataStructure.Test
                 //bind import/ exports
                 _Container.ComposeParts(this);
 
-                
+                TreeInstances.Remove(ComparisonTreeTestInstance);
             }
-            TreeInstances.Remove(ComparisonTreeTestInstance);
+            
         }
 
         /// <summary>
@@ -56,7 +63,14 @@ namespace Get.the.Solution.DataStructure.Test
         [ImportMany(typeof(ITree<>))]
         protected List<ITree<int>> TreeInstances;
 
-
+        /// <summary>
+        /// Reads the overgiven filename and creates for every line a list element
+        /// </summary>
+        /// <remarks>
+        /// The file have to be located in the project folder instanzen 
+        /// </remarks>
+        /// <param name="filename">The name of the file</param>
+        /// <returns>The created list</returns>
         internal static IEnumerable<String> GetInputFile(string filename)
         {
             Assembly thisAssembly = Assembly.GetExecutingAssembly();
@@ -72,11 +86,16 @@ namespace Get.the.Solution.DataStructure.Test
                 }
             }
         }
-        public IEnumerable<String> TreeTestValues { get; set; }
 
+        /// <summary>
+        /// Tests all tree classes which implements ITree. 
+        /// The following test methods will be called <see cref="TestContent"/>, <see cref="TestValues"/>,
+        /// <see cref="TestPositions"/>, <see cref="TestInsert"/> and <see cref="TestDelete"/>
+        /// </summary>
         [TestMethod]
         public void TestTree()
         {
+            String testinstanz = "0001";
             foreach (var t in TreeInstances)
             {
                 t.Clear();
@@ -127,7 +146,7 @@ namespace Get.the.Solution.DataStructure.Test
                 //comparison tree instance
                 ITree<int> input = ComparisonTreeTestInstance;
 
-                IEnumerable<String> values = GetInputFile("0001");
+                IEnumerable<String> values = GetInputFile(testinstanz);
                 //tree instance to test
                 ITree<int> tree = t;
                 tree.Clear();
@@ -187,7 +206,6 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         /// <param name="tree"></param>
         /// <param name="input"></param>
-        [TestMethod]
         private static void TestContent(ITree<int> tree, ITree<int> input)
         {
             if (tree.Empty != input.Empty)
@@ -218,7 +236,6 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
-        [TestMethod]
         private static void TestValues(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
@@ -255,7 +272,6 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         /// <param name="tree"></param>
         /// <param name="input"></param>
-        [TestMethod]
         private static void TestPositions(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
@@ -281,7 +297,6 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
-        [TestMethod]
         private static void TestInsert(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
@@ -306,7 +321,6 @@ namespace Get.the.Solution.DataStructure.Test
         /// </summary>
         /// <param name="tree">tree  tree build from original data source</param>
         /// <param name="input">input tree set build from original data source</param>
-        [TestMethod]
         private static void TestDelete(ITree<int> tree, ITree<int> input)
         {
             TestContent(tree, input);
@@ -323,7 +337,72 @@ namespace Get.the.Solution.DataStructure.Test
             }
             TestContent(tree, input);
         }
+        /// <summary>
+        /// Performs a run time test for all tree instances
+        /// </summary>
+        [TestMethod]
+        public void RunTimeTest()
+        {
+            //get test values from file
+            IList<int> values = new List<int>(200812);
+            IEnumerable<String> rawvalues = GetInputFile("0002");
+            IEnumerable<String> rawvalues1 = GetInputFile("0007");
 
+            int val;
+            foreach (String s in rawvalues)
+            {
+                val = Int32.Parse(s);
+                values.Add(val);
+            }
+            foreach (String s in rawvalues1)
+            {
+                val = Int32.Parse(s);
+                values.Add(val);
+            }
+            values = values.Distinct().ToList();
+
+            TreeInstances.Add(ComparisonTreeTestInstance);
+
+            foreach (var t in TreeInstances)
+            {
+                t.Clear();
+                //add
+                DateTime start = DateTime.Now;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with {1} element(s) to add starting", t.GetType(), values.Count));
+                foreach (int i in values)
+                {
+                    t.Add(i);
+                }
+                TimeSpan end = DateTime.Now - start;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with {1} element(s) to add took {2}.", t.GetType(), values.Count, end));
+                Assert.AreEqual(t.Length, values.Count);
+                Assert.IsTrue(end.TotalSeconds < 1.5);
+
+                //IndexOf
+                start = DateTime.Now;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with 1 element(s) to IndexOf starting", t.GetType(), values.Count));
+                foreach (int i in values)
+                {
+                    t.IndexOf(i);
+                    Assert.IsTrue((DateTime.Now - start).TotalSeconds < 0.4);
+                    //comment break; when executing test on localmachine, workaround for appveyor
+                    break;
+                }
+                end = DateTime.Now - start;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with 1 element(s) to IndexOf took {2}.", t.GetType(), values.Count, end));
+
+                //remove
+                start = DateTime.Now;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with {1} element(s) to remove starting", t.GetType(), values.Count));
+                foreach (int i in values)
+                {
+                    t.Remove(i);
+                }
+                end = DateTime.Now - start;
+                System.Diagnostics.Debug.WriteLine(String.Format("Test for {0} with {1} element(s) to remove took {2}.", t.GetType(), values.Count, end));
+                Assert.IsTrue(end.TotalSeconds < 5.0);
+            }
+        }
         private static void DebugInformation(long estimatedTime, String first, String second, ITree<int> tree)
         {
             System.Diagnostics.Debug.WriteLine(first + estimatedTime * 1.0 / 1000000000 + " seconds");

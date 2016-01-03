@@ -68,7 +68,6 @@
     <Compile Include="ExtendedModel\Graph\RailEdge.cs" />
     <Compile Include="LinkedListTest.cs" />
     <Compile Include="TreeTest.cs" />
-    <Compile Include="TreeSet.cs" />
     <Compile Include="ExtendedModel\Varianz.cs" />
   </ItemGroup>
   <ItemGroup>
