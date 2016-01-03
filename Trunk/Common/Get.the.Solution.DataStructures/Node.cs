@@ -39,7 +39,7 @@ namespace Get.the.Solution.DataStructure
         /// http://stackoverflow.com/questions/729527/is-it-possible-to-assign-a-base-class-object-to-a-derived-class-reference-with-a
         /// </remarks>
         /// </summary>
-        protected INode<T> right;
+        protected new INode<T> right;
         public virtual new INode<T> Right
         {
             get
