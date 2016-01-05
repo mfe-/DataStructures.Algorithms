@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 
 namespace Get.the.Solution.DataStructure
 {
@@ -10,7 +6,6 @@ namespace Get.the.Solution.DataStructure
     /// Represents a tree
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [InheritedExport]
     public interface ITree<T> where T : IComparable
     {
         bool Empty {get;}
