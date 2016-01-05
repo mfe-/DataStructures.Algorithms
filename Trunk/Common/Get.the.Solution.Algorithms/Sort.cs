@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Diagnostics;
-using Get.the.Solution.DataStructure;
 
 namespace Get.the.Solution.Algorithms
 {
+    using Get.the.Solution.DataStructure;
+
     public static class Sort
     {
         /// <summary>
@@ -206,10 +206,10 @@ namespace Get.the.Solution.Algorithms
             {
                 data[k] = temp[k];
                 if (Debugger.IsAttached)
-                    System.Diagnostics.Debug.Write(" " + data[k]);
+                    System.Diagnostics.Debug.WriteLine(" " + data[k]);
 
             }
-            if (Debugger.IsAttached) System.Diagnostics.Debug.Write(" m " + m + System.Environment.NewLine);
+            if (Debugger.IsAttached) System.Diagnostics.Debug.WriteLine(" m " + m + System.Environment.NewLine);
             return data;
         }
         /// <summary>
@@ -315,7 +315,7 @@ namespace Get.the.Solution.Algorithms
             }
             return A;
         }
-    
+
         /// <summary>
         /// Creates a tree regarding the input parameter
         /// </summary>
@@ -382,7 +382,7 @@ namespace Get.the.Solution.Algorithms
             }
         }
         #endregion
-        
+
 
         public static T Min<T>(params T[] values) where T : IComparable<T>
         {
@@ -396,24 +396,11 @@ namespace Get.the.Solution.Algorithms
         }
         public static void Print<T>(this IEnumerable<T> A)
         {
-            if (Debugger.IsAttached)
-            {
-                Debug.WriteLine("");
-            }
-            else
-            {
-                System.Console.WriteLine("");
-            }
+            Debug.WriteLine("");
+
             foreach (T v in A)
             {
-                if (Debugger.IsAttached)
-                {
-                    Debug.Write(v + ", ");
-                }
-                else
-                {
-                    System.Console.Write(v + ", ");
-                }
+                Debug.WriteLine(v + ", "); 
             }
 
         }
