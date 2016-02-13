@@ -57,6 +57,10 @@
       <Project>{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}</Project>
       <Name>Get.the.Solution.Algorithms.Graph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Get.the.Solution.Algorithms\Get.the.Solution.Algorithms.csproj">
+      <Project>{a6417910-4673-4ce0-a3b6-43e10db0151e}</Project>
+      <Name>Get.the.Solution.Algorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Get.the.Solution.DataStructures\Get.the.Solution.DataStructure.csproj">
       <Project>{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}</Project>
       <Name>Get.the.Solution.DataStructure</Name>
