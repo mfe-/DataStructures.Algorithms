@@ -342,7 +342,7 @@ namespace Get.the.Solution.DataStructure.Test
         /// Performs a run time test for all tree instances
         /// </summary>
         [TestMethod]
-        public void RunTimeTest()
+        public void TestRunTimeTree()
         {
             //get test values from file
             IList<int> values = new List<int>(200812);
