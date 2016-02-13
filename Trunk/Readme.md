@@ -33,8 +33,8 @@ One of the benefits of the old implemention are that the kruskal algorithm creat
 
 ![alt tag](http://i.imgur.com/6KQueHc.gif)
 
-Create a random graph.
+When modifying a graph during runtime, the graph visualization control updates the ui. 
 
 ![alt tag](http://i.imgur.com/M1YcpDV.gif)
 
-The aforementioned features will be implemented into the new framework as well.
+The aforementioned features (graph visualization control) will be implemented into the new framework as well.

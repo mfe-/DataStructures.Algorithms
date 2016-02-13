@@ -9,8 +9,8 @@ namespace Get.the.Solution.DataStructure
     /// 
     /// </summary>
     /// <typeparam name="D">The Type of the Data which should be used in the DataStructure</typeparam>
-    public interface IData<D> : ICovariant<D>
+    public interface IData<out D> : ICovariant<D>
     {
-        D Value { get; set; }
+        D Value { get; }
     }
 }

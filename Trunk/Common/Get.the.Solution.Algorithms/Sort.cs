@@ -83,7 +83,7 @@ namespace Get.the.Solution.Algorithms
         /// <returns>Sorted list</returns>
         public static IEnumerable<T> Selection_Sort<T>(this IList<T> A) where T : IComparable<T>
         {
-            for (int j = 0; j < A.Count(); j++)
+            for (int j = 0; j < A.Count; j++)
             {
                 //determine position of minimum key
                 int minpos = j;
@@ -241,7 +241,7 @@ namespace Get.the.Solution.Algorithms
                     //5.CompareTo(6) = -1      First int is smaller.
                     //6.CompareTo(5) =  1      First int is larger.
                     //5.CompareTo(5) =  0      Ints are equal.
-                    while ((A[i].CompareTo(x) == -1 || A.ToArray()[i].CompareTo(x) == 0) && i < r)
+                    while ((A[i].CompareTo(x) == -1 || A[i].CompareTo(x) == 0) && i < r)
                     {
                         i = i + 1;
                     }
@@ -274,9 +274,9 @@ namespace Get.the.Solution.Algorithms
             }
             return A;
         }
-        public static IEnumerable<T> Quick_Sort<T>(this IEnumerable<T> A) where T : IComparable<T>
+        public static IEnumerable<T> Quick_Sort<T>(this IList<T> A) where T : IComparable<T>
         {
-            return Quick_Sort<T>(A.ToList(), 0, A.Count() - 1);
+            return Quick_Sort<T>(A, 0, A.Count - 1);
         }
 
         #region todo
@@ -338,7 +338,7 @@ namespace Get.the.Solution.Algorithms
                 ITreeNode<T> root = new TreeNode<T>(default(T));
                 // In der Preorder-Durchmusterung kommt die
                 // Wurzel immer als erstes
-                root.Value = Preorder.First().Value;
+                root = new TreeNode<T>(Preorder.First().Value, root.Parent, root.Left, root.Right);
 
                 // Wurzel in der Inorder-Durchmusterung(wo sie in der "Mitte" steht finden)
                 int i = 0;
