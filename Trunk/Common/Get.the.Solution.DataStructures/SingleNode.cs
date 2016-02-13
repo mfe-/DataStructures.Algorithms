@@ -9,22 +9,22 @@ namespace Get.the.Solution.DataStructure
     [DebuggerDisplay("Data={Value},Right={Right}")]
     public class SingleNode<T> : ISingleNode<T>
     {
-        public SingleNode()
-        {
-        }
+        protected readonly T _Value;
+
         public SingleNode(T data)
         {
-            this.Value = data;
+            _Value = data;
         }
+
         public SingleNode(T data, ISingleNode<T> right)
             : this(data)
         {
             this.Right = right;
         }
+
         public virtual T Value
         {
-            get;
-            set;
+            get { return _Value; }
         }
         protected ISingleNode<T> right;
         public virtual ISingleNode<T> Right

@@ -49,7 +49,8 @@ namespace Get.the.Solution.DataStructure.Test
 
                 TreeInstances.Remove(ComparisonTreeTestInstance);
             }
-            
+
+            if (TreeInstances.Count == 0) TreeInstances.Add(new Tree<int>());
         }
 
         /// <summary>

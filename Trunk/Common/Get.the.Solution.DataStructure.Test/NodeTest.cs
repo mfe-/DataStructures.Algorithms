@@ -14,8 +14,8 @@ namespace Get.the.Solution.DataStructure.Test
         [TestMethod]
         public void TestDataICovariant()
         {
-            SingleNode<Foo> node1 = new SingleNode<Foo>();
-            SingleNode<Foo> node2 = new SingleNode<Foo>() {  Value = new FooBar()};
+            SingleNode<Foo> node1 = new SingleNode<Foo>(null);
+            SingleNode<Foo> node2 = new SingleNode<Foo>(new FooBar());
 
             node1.Right = node2;
 
@@ -25,15 +25,15 @@ namespace Get.the.Solution.DataStructure.Test
         [TestMethod]
         public void TestNodeSetLeft()
         {
-            Node<int> node1 = new Node<int>() { Value = 1 };
-            Node<int> node2 = new Node<int>() { Value = 2 };
+            Node<int> node1 = new Node<int>(1);
+            Node<int> node2 = new Node<int>(2);
             //test get Left node for extended class 1->2
             node1.Left = node2;
             var testResult6 = node1.Left;
             Assert.AreEqual(node2, testResult6);
 
             //assign node extended 1->2->3
-            NodeExtended<int> nodeExtended = new NodeExtended<int>() { Value = 3 };
+            NodeExtended<int> nodeExtended = new NodeExtended<int>(3);
             node2.Left = nodeExtended;
             var testResult7 = node2.Left;
             Assert.AreEqual(nodeExtended, testResult7);
@@ -80,8 +80,8 @@ namespace Get.the.Solution.DataStructure.Test
         [TestMethod]
         public void TestNodeSetRight()
         {
-            Node<int> node1 = new Node<int>() { Value = 1 };
-            Node<int> node2 = new Node<int>() { Value = 2 };
+            Node<int> node1 = new Node<int>(1);
+            Node<int> node2 = new Node<int>(2);
 
             //test get Left node
             node1.Left = (node2);
@@ -98,7 +98,7 @@ namespace Get.the.Solution.DataStructure.Test
             Assert.AreEqual(node1, testResult2);
 
             //assign singlenode to singleNodeExtended 3->1->4
-            SingleNodeExtended<int> node3Extended = new SingleNodeExtended<int>() { Value = 4 };
+            SingleNodeExtended<int> node3Extended = new SingleNodeExtended<int>(4);
             singlenode.Right.Right = node3Extended;
             var testResult3 = singlenode.Right.Right;
             Assert.AreEqual(node3Extended, testResult3);
@@ -152,7 +152,7 @@ namespace Get.the.Solution.DataStructure.Test
             Assert.AreEqual(node2, testResult6);
 
             //assign node extended 1->2->3
-            NodeExtended<int> nodeExtended = new NodeExtended<int>() { Value = 3 };
+            NodeExtended<int> nodeExtended = new NodeExtended<int>(3);
             node2.Right = nodeExtended;
             var testResult7 = node2.Right;
             Assert.AreEqual(nodeExtended, testResult7);
@@ -192,6 +192,18 @@ namespace Get.the.Solution.DataStructure.Test
 
             CollectionAssert.AreEqual(typeList, expectedTypeValues);
             CollectionAssert.AreEqual(valueResult, expectedValueValues);
+
+        }
+        [TestMethod]
+        public void TestInOutData()
+        {
+            Foo foo = new Foo();
+
+            FooBar bar = new FooBar();
+
+            ISingleNode<Foo> s1 = new SingleNode<Foo>(foo);
+            ISingleNode<Foo> s2 = new SingleNode<Foo>(bar);
+
 
         }
 

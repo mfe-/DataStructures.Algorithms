@@ -11,11 +11,6 @@ namespace Get.the.Solution.DataStructure
     [DebuggerDisplay("Data={Value},INode.Right={Right},INode.Left={Left}")]
     public class Node<T> : SingleNode<T>, INode<T>
     {
-        public Node()
-            : base()
-        {
-
-        }
         public Node(T data)
             : base(data)
         {

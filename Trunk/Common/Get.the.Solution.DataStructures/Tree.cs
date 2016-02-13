@@ -240,7 +240,7 @@ namespace Get.the.Solution.DataStructure
                 //q hat 2 Nacfolger -> wird durch successor ersetzt, dieser wird entfernt
                 r = Successor(q);
                 //umhängen der daten von r nach q
-                q.Value = r.Value;
+                q = new TreeNode<T>(r.Value, q.Parent, q.Left, q.Right);
             }
             //lasse p auf kind von r verweisen (p=null, falls r keine kinder hat)
             if (r.Left != null)
@@ -426,6 +426,7 @@ namespace Get.the.Solution.DataStructure
         /// <typeparam name="T"></typeparam>
         private class Node : Get.the.Solution.DataStructure.Node<T>
         {
+            public Node(T data) : base(data) { }
             /// <summary>
             /// Returns the amount of childrens of the node
             /// </summary>

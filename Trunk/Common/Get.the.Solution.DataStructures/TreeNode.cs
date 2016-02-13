@@ -16,10 +16,15 @@ namespace Get.the.Solution.DataStructure
             this.Parent = null;
         }
         public TreeNode(T data, INode<T> left, INode<T> right)
-            : base(data)
+            : this(data)
         {
             Left = (ITreeNode<T>)left;
             Right = (ITreeNode<T>)right;
+        }
+        public TreeNode(T data, ITreeNode<T> parent, INode<T> left, INode<T> right)
+            : this(data, left, right)
+        {
+            Parent = parent;
         }
         public ITreeNode<T> Parent
         {
