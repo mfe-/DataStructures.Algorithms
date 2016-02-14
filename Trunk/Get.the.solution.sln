@@ -32,12 +32,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.the.Solution.UI.Shell", "UI\Get.the.Solution.UI.Shell\Get.the.Solution.UI.Shell.csproj", "{C6B19423-A4DE-4B36-93BE-83833EBC60EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.the.Solution.UI.Common", "UI\Get.the.Solution.UI.Common\Get.the.Solution.UI.Common.csproj", "{27AD7881-53F3-4336-9B62-94D450D1BCB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.the.Solution.UI.Visualization", "UI\Get.the.Solution.UI.Visualization\Get.the.Solution.UI.Visualization.csproj", "{E7E63E0E-8460-4B7B-A0E5-7F51CDC9B674}"
 EndProject
+=======
+>>>>>>> origin/master
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
