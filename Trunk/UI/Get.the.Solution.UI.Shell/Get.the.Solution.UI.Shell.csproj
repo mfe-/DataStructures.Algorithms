@@ -129,6 +129,20 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Get.the.Solution.DataStructures\Get.the.Solution.DataStructure.csproj">
+      <Project>{2bd0faaa-8033-42cd-a00d-58d89cabdfc0}</Project>
+      <Name>Get.the.Solution.DataStructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Get.the.Solution.UI.Common\Get.the.Solution.UI.Common.csproj">
+      <Project>{27ad7881-53f3-4336-9b62-94d450d1bcb6}</Project>
+      <Name>Get.the.Solution.UI.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Get.the.Solution.UI.Visualization\Get.the.Solution.UI.Visualization.csproj">
+      <Project>{e7e63e0e-8460-4b7b-a0e5-7f51cdc9b674}</Project>
+      <Name>Get.the.Solution.UI.Visualization</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
