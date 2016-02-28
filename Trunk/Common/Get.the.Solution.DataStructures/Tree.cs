@@ -35,8 +35,8 @@ namespace Get.the.Solution.DataStructure
         /// Initializes a new instance of the  <see cref="Tree{T}"/> class.
         /// </summary>
         /// <param name="getNode">
-        /// The delegate which implements the function GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate</see> 
-        /// documentation for more details.
+        /// The delegate which implements the function GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate
+        /// documentation</see>  for more details.
         /// </param>
         public Tree(GetNodeDelegate getNode)
         {
@@ -47,8 +47,8 @@ namespace Get.the.Solution.DataStructure
         /// Initializes a new instance of the  <see cref="Tree{T}"/> class.
         /// </summary>
         /// <param name="getNode">
-        /// A function which implements the GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate</see> 
-        /// documentation for more details.</param>
+        /// A function which implements the GetNode(T value, ITreeNode<T> root). See the corresponding<see cref="Tree.GetNodeDelegate">delegate
+        /// documentation</see> for more details.</param>
         public Tree(Func<T, ITreeNode<T>, ITreeNode<T>> getNode)
         {
             this.getNodeHandler = new GetNodeDelegate(getNode);
@@ -171,7 +171,7 @@ namespace Get.the.Solution.DataStructure
         public void Add(T val)
         {
             ITreeNode<T> q = new TreeNode<T>(val);
-            ITreeNode<T> r = null; //r wird vorgÃ¤nger von q
+            ITreeNode<T> r = null; //r wird vorgänger von q
             ITreeNode<T> p = this.Root;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
@@ -237,10 +237,12 @@ namespace Get.the.Solution.DataStructure
             }
             else
             {
-                //q hat 2 Nacfolger -> wird durch successor ersetzt, dieser wird entfernt
+                //q hat 2 Nachfolger -> wird durch successor ersetzt, dieser wird entfernt
                 r = Successor(q);
-                //umhängen der daten von r nach q
+                //umhängen der daten von r nach q (q.Value = r.Value;)
                 q = new TreeNode<T>(r.Value, q.Parent, q.Left, q.Right);
+                if (q == null)
+                { }
             }
             //lasse p auf kind von r verweisen (p=null, falls r keine kinder hat)
             if (r.Left != null)

@@ -14,12 +14,43 @@ namespace Get.the.Solution.DataStructure.Test
         [TestMethod]
         public void TestDataICovariant()
         {
-            SingleNode<Foo> node1 = new SingleNode<Foo>(null);
-            SingleNode<Foo> node2 = new SingleNode<Foo>(new FooBar());
+            //this shold compile
+            //ISingleNode<FooBar> node1 = new SingleNode<FooBar>(new FooBar());
+            //ISingleNode<Foo> node2 = new SingleNode<Foo>(new Foo());
+   
+            //new SingleNode<FooBar>(new FooBar()).Right = new SingleNode<Foo>(null);
+            //node1.Right = node2;
 
-            node1.Right = node2;
+            //Assert.AreEqual("FooBar", node2.Value.ToString());
 
-            Assert.AreEqual("FooBar", node2.Value.ToString());
+
+            List<Foo> bla = new List<Foo>();
+            bla.Add(new FooBar());
+
+            //http://stackoverflow.com/questions/10956993/out-t-vs-t-in-generics
+            //The classic example is IEnumerable<out T>.Since IEnumerable <out T > is covariant, you're allowed to do the following:
+            IEnumerable<string> strings = new List<string>();
+            IEnumerable<object> objects = strings;
+
+            List<object> ieobject = new List<object>();
+            ieobject.Add("");
+            ieobject.Add(2);
+
+            DataStructure.LinkedList<object> list = new DataStructure.LinkedList<object>();
+            list.Add("");
+            list.Add(2);
+
+            DataStructure.LinkedList<Foo> listfoo = new DataStructure.LinkedList<Foo>();
+            list.Add(new FooBar());
+            list.Add(new Foo());
+
+            //this should compile
+            //ISingleNode<FooBar> n1 = new SingleNode<FooBar>(null);
+            //ISingleNode<Foo> n2 = node1;
+
+
+
+
 
         }
         [TestMethod]
