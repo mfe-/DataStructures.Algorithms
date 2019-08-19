@@ -57,7 +57,7 @@
     <Compile Include="Graph.Extensions.Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Get.Model.Graph\Get.Model.Graph.csproj">
+    <ProjectReference Include="..\Algorithms.Graph\Get.Model.Graph.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
       <Name>Get.Model.Graph</Name>
     </ProjectReference>
