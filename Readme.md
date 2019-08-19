@@ -3,7 +3,7 @@ A collection of basic algorithms and data structures (algodat)
 
 [<img src="https://ci.appveyor.com/api/projects/status/github/mfe-/Get.the.solution?branch=master&svg=true">](https://ci.appveyor.com/project/mfe-/get-the-solution)
 
-##Introduction
+## Introduction
 When taking a begginers class at the technical university of vienna, i started to 
 implement and adopt some stuff from the algorithms and data structures course.
 I thought it would be fun to put my recently gained knowledge into practice.
@@ -14,7 +14,7 @@ When using them I ran into several issues like limited extensibility, missing fe
 
 So I started to create my own algorithms and data structures "framework".
 
-##Goal
+## Goal
 With the old version (not published on github) of the framework I mainly focused on visually representing the graph data structure with wpf.
 So I neglected some oop aspects.
 With this repository I want to restart the project and focus on:
@@ -23,7 +23,7 @@ With this repository I want to restart the project and focus on:
 * Universal Windows Platform - Use portable classes
 * Stability - Code should be stable enough to be run on productive systems
 
-##Graph visualization control
+## Graph visualization control
 
 When creating the graph with the ui (graph visualization control) the proper model will be created in the background. 
 ![alt tag](http://i.imgur.com/4WS122c.gif)
