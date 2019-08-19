@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <Version>0.2.0</Version>
+    <Authors></Authors>
+    <Company />
+    <Description>mathematics related stuff</Description>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageTags></PackageTags>
+    <Copyright></Copyright>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <AssemblyVersion>0.12.0.0</AssemblyVersion>
+    <FileVersion>0.12.0.0</FileVersion>
+    <ProductName>Get.Model.Graph</ProductName>
+    <AssemblyName>Get.Model.Graph</AssemblyName>
+    <RootNamespace>Get.Graph</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
+  </ItemGroup>
+</Project>
