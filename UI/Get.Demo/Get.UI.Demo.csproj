@@ -144,7 +144,7 @@
       <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
       <Name>Get.Common.Mathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Algorithms.Graph\Get.Model.Graph.csproj">
+    <ProjectReference Include="..\..\DataStructures\Get.Model.Graph.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
       <Name>Get.Model.Graph</Name>
     </ProjectReference>
