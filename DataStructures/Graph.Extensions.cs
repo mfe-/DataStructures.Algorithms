@@ -13,20 +13,6 @@ namespace DataStructures
     /// </summary>
     public static class GraphExtensions
     {
-        public static void Save(this Graph g, String pfilename)
-        {
-            throw new NotImplementedException("NetDataContractSerializer was replaced by DataContractSerializer " +
-                "because this type is not available in .NET Standard create proper de/serializer for DataContractSerializer");
-
-            //http://msdn.microsoft.com/de-de/magazine/cc163569%28en-us%29.aspx
-            using (FileStream fs = new FileStream(pfilename, FileMode.Create))
-            using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(fs))
-            {
-                DataContractSerializer serializer = new DataContractSerializer(g.GetType());  // no type specified
-                serializer.WriteObject(writer, g);
-
-            }
-        }
         /// <summary>
         /// Serialize the Graph into a XElement
         /// </summary>
@@ -34,15 +20,13 @@ namespace DataStructures
         /// <returns>Serialized Graph</returns>
         public static XElement Save(this Graph g)
         {
-            throw new NotImplementedException("NetDataContractSerializer was replaced by DataContractSerializer " +
-                "because this type is not available in .NET Standard create proper de/serializer for DataContractSerializer");
             using (MemoryStream ms = new MemoryStream())
             {
                 using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
                 {
                     var dataContractSerializerSettings = new DataContractSerializerSettings();
                     dataContractSerializerSettings.PreserveObjectReferences = true;
-                    DataContractSerializer serializer = new DataContractSerializer(g.GetType(),dataContractSerializerSettings);
+                    DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                     serializer.WriteObject(writer, g);
                     writer.Flush();
                     ms.Position = 0;
@@ -66,7 +50,9 @@ namespace DataStructures
                 XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = maxDepth };
                 using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, xmlDictionaryReaderQuotas))
                 {
-                    DataContractSerializer serializer = new DataContractSerializer(g.GetType());
+                    var dataContractSerializerSettings = new DataContractSerializerSettings();
+                    dataContractSerializerSettings.PreserveObjectReferences = true;
+                    DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                     Graph a = (Graph)serializer.ReadObject(reader, true);
                     foreach (var v in a.Vertices)
                     {
@@ -75,13 +61,16 @@ namespace DataStructures
                 }
             }
         }
-        public static void Load(this Graph g, XElement e)
+        public static Graph Load(this XElement e)
         {
+            Graph g = new Graph();
             //load graph
             MemoryStream memoryStream = new MemoryStream();
             e.Save(memoryStream);
             memoryStream.Position = 0;
-            DataContractSerializer ndcs = new DataContractSerializer(g.GetType());
+            var dataContractSerializerSettings = new DataContractSerializerSettings();
+            dataContractSerializerSettings.PreserveObjectReferences = true;
+            DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
             Graph u = ndcs.ReadObject(memoryStream) as Graph;
 
             g.Start = u.Start;
@@ -90,7 +79,7 @@ namespace DataStructures
 
             foreach (Vertex v in u.Vertices)
                 g.Vertices.Add(v);
-
+            return g;
         }
 
         public static IEnumerable<Vertex> Sort(this IEnumerable<Vertex> l)
@@ -158,9 +147,9 @@ namespace DataStructures
             List<Edge> l = new List<Edge>();
             //TODO
             //Stack<Vertex> stack = new Stack<Vertex>();
-            
+
             //Vertex current = start;
-            
+
             //for (int i = 1; i <= current.Edges.Count; i++)
             //{
             //    Vertex v = current.Edges[i-1].V;
@@ -173,7 +162,7 @@ namespace DataStructures
             //        i = 1;
             //        stack.Push(v);
             //        current = stack.Pop();
-                    
+
             //    }
             //    else
             //    {
@@ -248,8 +237,8 @@ namespace DataStructures
                 Vertex u = vertices.Where(a => a.Equals(e.U)).First<Vertex>();
                 Vertex v = vertices.Where(a => a.Equals(e.V)).First<Vertex>();
                 //add 2x edges to create a undirected graph
-                u.addEdge(v, e.Weighted);
-                v.addEdge(u, e.Weighted);
+                u.AddEdge(v, e.Weighted);
+                v.AddEdge(u, e.Weighted);
                 //check if circle
 
                 var o = DepthFirstSearch(u, u);
@@ -302,7 +291,7 @@ namespace DataStructures
                     //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
                     if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
                         || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit edge ausgehend vom start), (schauen ob dazwischen noch andere edges sind)
-                        edges.Find(delegate(Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
+                        edges.Find(delegate (Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
                     {
                         edges.Add(e);
                         return edges;

@@ -56,14 +56,14 @@ namespace DataStructures
             }
         }
 
-        #region addEdge
+
         /// <summary>
         /// Adds an directed edge to overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
-        public virtual Edge addEdge(Vertex pu)
+        public virtual Edge AddEdge(Vertex pu)
         {
-            addEdge(pu, 0, false);
+            AddEdge(pu, 0, false);
             return _Edges.Last();
         }
         /// <summary>
@@ -72,14 +72,14 @@ namespace DataStructures
         /// <param name="pu">Vertex to connect</param>
         /// <param name="pweighted">Weighted of the Edge</param>
         /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public virtual void addEdge(Vertex pu, int pweighted, bool undirected)
+        public virtual void AddEdge(Vertex pu, int pweighted, bool undirected)
         {
 
             Edge e1 = new Edge(this, pu, pweighted);
             _Edges.Add(e1);
             if (undirected == true)
             {
-                pu.addEdge(this, pweighted);
+                pu.AddEdge(this, pweighted);
             }
 
         }
@@ -89,19 +89,17 @@ namespace DataStructures
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
         /// <param name="pweighted">Weighted of the added vertex</param>
-        public virtual Edge addEdge(Vertex pu, int pweighted)
+        public virtual Edge AddEdge(Vertex pu, int pweighted)
         {
-            addEdge(pu, pweighted, false);
+            AddEdge(pu, pweighted, false);
             return _Edges.Last();
         }
-        #endregion
 
-        #region removeEdge
-        public virtual void removeEdge(Vertex pu)
+        public virtual void RemoveEdge(Vertex pu)
         {
-            removeEdge(pu, true);
+            RemoveEdge(pu, true);
         }
-        public virtual void removeEdge(Vertex pu,bool directed)
+        public virtual void RemoveEdge(Vertex pu,bool directed)
         {
             Edge edge = this.Edges.Where(a => a.U.Equals(this) && a.V.Equals(pu)).FirstOrDefault<Edge>();
 
@@ -115,7 +113,6 @@ namespace DataStructures
 
 
         }
-        #endregion 
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -168,11 +165,10 @@ namespace DataStructures
     {
         int Weighted { get; set; }
         ObservableCollection<Edge> Edges { get; set; }
-        Edge addEdge(Vertex pu);
-        Edge addEdge(Vertex pu, int pweighted);
-        void addEdge(Vertex pu, int pweighted, bool undirected);
-        void removeEdge(Vertex pu);
-        void removeEdge(Vertex pu,bool directed);
-
+        Edge AddEdge(Vertex pu);
+        Edge AddEdge(Vertex pu, int pweighted);
+        void AddEdge(Vertex pu, int pweighted, bool undirected);
+        void RemoveEdge(Vertex pu);
+        void RemoveEdge(Vertex pu,bool directed);
     }
 }

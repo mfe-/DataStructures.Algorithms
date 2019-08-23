@@ -40,49 +40,49 @@ namespace DataStructures.Demo
 
             Queue<Action> que = new Queue<Action>();
 
-            que.Enqueue(() => va.addEdge(vb, 2, graph.Directed));
-            que.Enqueue(() => va.addEdge(vd, 3, graph.Directed));
-            que.Enqueue(() => va.addEdge(vc, 5, graph.Directed));
+            que.Enqueue(() => va.AddEdge(vb, 2, graph.Directed));
+            que.Enqueue(() => va.AddEdge(vd, 3, graph.Directed));
+            que.Enqueue(() => va.AddEdge(vc, 5, graph.Directed));
 
-            que.Enqueue(() => vb.addEdge(vc, 4, graph.Directed));
-            que.Enqueue(() => vb.addEdge(ve, 6, graph.Directed));
+            que.Enqueue(() => vb.AddEdge(vc, 4, graph.Directed));
+            que.Enqueue(() => vb.AddEdge(ve, 6, graph.Directed));
 
-            que.Enqueue(() => vc.addEdge(ve, 4, graph.Directed));
-            que.Enqueue(() => vc.addEdge(vd, 1, graph.Directed));
-            que.Enqueue(() => vc.addEdge(vf, 1, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(ve, 4, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vd, 1, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vf, 1, graph.Directed));
 
-            que.Enqueue(() => vd.addEdge(vf, 3, graph.Directed));
+            que.Enqueue(() => vd.AddEdge(vf, 3, graph.Directed));
 
-            que.Enqueue(() => vf.addEdge(ve, 2, graph.Directed));
+            que.Enqueue(() => vf.AddEdge(ve, 2, graph.Directed));
 
-            que.Enqueue(() => ve.addEdge(vg, 2, graph.Directed));
-            que.Enqueue(() => ve.addEdge(vf, 2, graph.Directed));
+            que.Enqueue(() => ve.AddEdge(vg, 2, graph.Directed));
+            que.Enqueue(() => ve.AddEdge(vf, 2, graph.Directed));
 
-            que.Enqueue(() => vg.addEdge(vf, 5, graph.Directed));
+            que.Enqueue(() => vg.AddEdge(vf, 5, graph.Directed));
 
-            que.Enqueue(() => vc.addEdge(vb,3, graph.Directed));
-            que.Enqueue(() => vc.addEdge(vd,2, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vb,3, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vd,2, graph.Directed));
 
-            que.Enqueue(() => vd.addEdge(ve,2, graph.Directed));
+            que.Enqueue(() => vd.AddEdge(ve,2, graph.Directed));
 
-            que.Enqueue(() => vg.addEdge(vh,6, graph.Directed));
-            que.Enqueue(() => vh.addEdge(vi,10, graph.Directed));
-            que.Enqueue(() => vi.addEdge(vj,1, graph.Directed));
-            que.Enqueue(() => vj.addEdge(vf,2, graph.Directed));
+            que.Enqueue(() => vg.AddEdge(vh,6, graph.Directed));
+            que.Enqueue(() => vh.AddEdge(vi,10, graph.Directed));
+            que.Enqueue(() => vi.AddEdge(vj,1, graph.Directed));
+            que.Enqueue(() => vj.AddEdge(vf,2, graph.Directed));
 
-            que.Enqueue(() => vh.addEdge(vd,5, graph.Directed));
-            que.Enqueue(() => vi.addEdge(ve,7, graph.Directed));
+            que.Enqueue(() => vh.AddEdge(vd,5, graph.Directed));
+            que.Enqueue(() => vi.AddEdge(ve,7, graph.Directed));
 
-            que.Enqueue(() => vg.addEdge(vl,1, graph.Directed));
-            que.Enqueue(() => vl.addEdge(vk,8, graph.Directed));
+            que.Enqueue(() => vg.AddEdge(vl,1, graph.Directed));
+            que.Enqueue(() => vl.AddEdge(vk,8, graph.Directed));
 
-            que.Enqueue(() => va.removeEdge(vb, graph.Directed));
+            que.Enqueue(() => va.RemoveEdge(vb, graph.Directed));
 
             que.Enqueue(() => vh.Weighted=20);
 
             que.Enqueue(() => vc.Weighted = 11);
 
-            graph.addVertex(va);
+            graph.AddVertex(va);
             graph.Start = va;
 
             _GraphVisualization.Graph = graph;

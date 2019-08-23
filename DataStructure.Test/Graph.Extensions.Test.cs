@@ -25,26 +25,26 @@ namespace DataStructures.Test
         {
             Graph g = new Graph();
 
-            g.addVertex(v1);
+            g.AddVertex(v1);
 
-            v1.addEdge(v2, 2);
-            v1.addEdge(v3, 5);
-            v1.addEdge(v4, 3);
+            v1.AddEdge(v2, 2);
+            v1.AddEdge(v3, 5);
+            v1.AddEdge(v4, 3);
 
-            v2.addEdge(v3, 4);
-            v2.addEdge(v5, 6);
+            v2.AddEdge(v3, 4);
+            v2.AddEdge(v5, 6);
 
-            v3.addEdge(v5, 4);
-            v3.addEdge(v6, 1);
-            v3.addEdge(v4, 1);
+            v3.AddEdge(v5, 4);
+            v3.AddEdge(v6, 1);
+            v3.AddEdge(v4, 1);
 
-            v4.addEdge(v6, 3);
+            v4.AddEdge(v6, 3);
 
-            v5.addEdge(v6, 2);
+            v5.AddEdge(v6, 2);
 
-            v6.addEdge(v7, 5);
+            v6.AddEdge(v7, 5);
 
-            v7.addEdge(v5, 2);
+            v7.AddEdge(v5, 2);
 
             this.g = g;
         }
@@ -98,8 +98,8 @@ namespace DataStructures.Test
             Vertex b = new Vertex(2);
 
             //2 undirected connected Vertices
-            a.addEdge(b);
-            b.addEdge(a);
+            a.AddEdge(b);
+            b.AddEdge(a);
 
             var resultva = b.DepthFirstSearch(b);
             Assert.AreNotEqual(resultva.First().U, resultva.Last().V);
@@ -107,11 +107,11 @@ namespace DataStructures.Test
             //3 undirected connected vertices with circle
             Vertex c = new Vertex(3);
             //connect a with c
-            a.addEdge(c);
-            c.addEdge(a);
+            a.AddEdge(c);
+            c.AddEdge(a);
             //connect b with c
-            b.addEdge(c);
-            c.addEdge(b);
+            b.AddEdge(c);
+            c.AddEdge(b);
             var resultvc = c.DepthFirstSearch(c);
             Assert.AreEqual(resultvc.Last().V, c);
 
@@ -130,10 +130,10 @@ namespace DataStructures.Test
             c = new Vertex(3);
 
             //create undirected pah
-            a.addEdge(b);
-            b.addEdge(a);
-            b.addEdge(c);
-            c.addEdge(b);
+            a.AddEdge(b);
+            b.AddEdge(a);
+            b.AddEdge(c);
+            c.AddEdge(b);
             var resultp = a.DepthFirstSearch(a);
             Assert.AreNotEqual(resultp.First(), resultp.Last());
 
@@ -142,11 +142,11 @@ namespace DataStructures.Test
             b = new Vertex(6);
             c = new Vertex(4);
 
-            a.addEdge(b);
-            b.addEdge(a);
+            a.AddEdge(b);
+            b.AddEdge(a);
 
-            b.addEdge(c);
-            c.addEdge(b);
+            b.AddEdge(c);
+            c.AddEdge(b);
 
             var result34 = a.DepthFirstSearch(a);
             Assert.AreNotEqual(result34.First(), result34.Last());
@@ -160,13 +160,13 @@ namespace DataStructures.Test
             v6 = new Vertex(6);
             v7 = new Vertex(7);
 
-            v3.addEdge(v6, 0, true);
-            v3.addEdge(v4, 0, true);
-            v1.addEdge(v2, 0, true);
-            v5.addEdge(v6, 0, true);
-            v5.addEdge(v7, 0, true);
-            v1.addEdge(v4, 0, true);
-            v4.addEdge(v6, 0, true);
+            v3.AddEdge(v6, 0, true);
+            v3.AddEdge(v4, 0, true);
+            v1.AddEdge(v2, 0, true);
+            v5.AddEdge(v6, 0, true);
+            v5.AddEdge(v7, 0, true);
+            v1.AddEdge(v4, 0, true);
+            v4.AddEdge(v6, 0, true);
 
             var circule634 = v6.DepthFirstSearch(v6);
             Assert.AreEqual(circule634.Last().V, v6);

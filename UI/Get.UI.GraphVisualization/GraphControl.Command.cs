@@ -91,7 +91,7 @@ namespace DataStructures.UI
 
                 newVertex.Weighted = vv.Vertex.Weighted;
 
-                this.Graph.addVertex(newVertex);
+                this.Graph.AddVertex(newVertex);
 
             }
         }
@@ -120,7 +120,7 @@ namespace DataStructures.UI
                 Vertex u = edge.U;
                 Vertex v = edge.V;
 
-                u.removeEdge(v, this.Graph.Directed);
+                u.RemoveEdge(v, this.Graph.Directed);
 
                 //the vertex is unconnected so move it to the unconnected vertices list
                 if (u.Edges.Count.Equals(0))
@@ -154,19 +154,7 @@ namespace DataStructures.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement Xgraph;// = this.Graph.Save();
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
-                {
-                    NetDataContractSerializer serializer = new NetDataContractSerializer();
-                    serializer.WriteObject(writer, Graph);
-                    writer.Flush();
-                    ms.Position = 0;
-                    Xgraph = XElement.Load(ms);
-                }
-            }
+            XElement Xgraph = this.Graph.Save();
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
@@ -177,7 +165,7 @@ namespace DataStructures.UI
                     new XElement("VertexID", item.Vertex.GetHashCode()),
                     //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
                     //use instead point.ToString(CultureInfo.InvariantCulture)
-                    new XElement("Position", this.getPosition(item)),
+                    new XElement("Position", this.GetPosition(item)),
                     new XElement(WidthProperty.Name, item.Width),
                     new XElement(HeightProperty.Name, item.Height),
                     new XElement("ZIndex", Canvas.GetZIndex((UIElement)item)))
@@ -208,17 +196,9 @@ namespace DataStructures.UI
                     if (!root.Elements().Any(a => a.Name.LocalName.Equals("FrameworkElements"))) return;
 
                     //load graph
-                    MemoryStream memoryStream = new MemoryStream();
+                    XElement XGraph = root.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph"));
 
-                    XElement XGraph = root.Elements().Where(a => a.Name.LocalName.Equals("Graph")).FirstOrDefault<XElement>();
-                    XGraph.Save(memoryStream);
-                    memoryStream.Position = 0;
-
-                    NetDataContractSerializer ndcs = new NetDataContractSerializer();
-                    Graph g = ndcs.ReadObject(memoryStream) as Graph;
-
-                    this.Graph = g;
-
+                    this.Graph = XGraph.Load();
                     //set positions of items
                     var framework = root.Elements("FrameworkElements").First().Elements(typeof(VertexControl).FullName).ToList();
                     foreach (var y in framework)
@@ -232,7 +212,7 @@ namespace DataStructures.UI
 
                             string position = itemXML.Element("Position").Value;
                             position = position.Replace(';', ',');
-                            setPosition(vv, Point.Parse(position));
+                            SetPosition(vv, Point.Parse(position));
                             Canvas.SetZIndex(vv, Int32.Parse(itemXML.Element("ZIndex").Value));
                         }
                     }
@@ -240,9 +220,9 @@ namespace DataStructures.UI
                     //setFocus position of edges
                     Children.OfType<EdgeControl>().ToList().ForEach(i =>
                     {
-                        VertexControl u = getItem(i.Edge.U);
-                        Point pu = getPosition(u);
-                        Point pv = getPosition(getItem(i.Edge.V));
+                        VertexControl u = GetItem(i.Edge.U);
+                        Point pu = GetPosition(u);
+                        Point pv = GetPosition(GetItem(i.Edge.V));
 
                         i.PositionU = new Point(pu.X - u.Width / 2, pu.Y - u.Height / 2);
                         i.PositionV = new Point(pv.X - u.Width / 2, pv.Y - u.Height / 2);
@@ -286,7 +266,7 @@ namespace DataStructures.UI
                 Point p = (Mouse.GetPosition(sender as IInputElement));
                 Vertex v = new Vertex();
 
-                gv.Graph.addVertex(new Vertex());
+                gv.Graph.AddVertex(new Vertex());
 
             }
         }

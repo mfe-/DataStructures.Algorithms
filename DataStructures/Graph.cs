@@ -1,10 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Linq;
 using System;
-using System.Collections.Specialized;
-using System.Collections.Generic;
 
 
 namespace DataStructures
@@ -37,7 +34,7 @@ namespace DataStructures
                 return _Vertices;
             }
         }
-        public void addVertex(Vertex pVertice)
+        public void AddVertex(Vertex pVertice)
         {
             _Vertices.Add(pVertice);
 

@@ -25,26 +25,26 @@ namespace DataStructures.Test
         {
             Graph g = new Graph();
 
-            g.addVertex(v1);
+            g.AddVertex(v1);
 
-            v1.addEdge(v2, 2);
-            v1.addEdge(v3, 5);
-            v1.addEdge(v4, 3);
+            v1.AddEdge(v2, 2);
+            v1.AddEdge(v3, 5);
+            v1.AddEdge(v4, 3);
 
-            v2.addEdge(v3, 4);
-            v2.addEdge(v5, 6);
+            v2.AddEdge(v3, 4);
+            v2.AddEdge(v5, 6);
 
-            v3.addEdge(v5, 4);
-            v3.addEdge(v6, 1);
-            v3.addEdge(v4, 1);
+            v3.AddEdge(v5, 4);
+            v3.AddEdge(v6, 1);
+            v3.AddEdge(v4, 1);
 
-            v4.addEdge(v6, 3);
+            v4.AddEdge(v6, 3);
 
-            v5.addEdge(v6, 2);
+            v5.AddEdge(v6, 2);
 
-            v6.addEdge(v7, 5);
+            v6.AddEdge(v7, 5);
 
-            v7.addEdge(v5, 2);
+            v7.AddEdge(v5, 2);
 
             this.g = g;
         }
