@@ -8,8 +8,8 @@
     <ProjectGuid>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.UI</RootNamespace>
-    <AssemblyName>Get.UI</AssemblyName>
+    <RootNamespace>DataStructures.UI</RootNamespace>
+    <AssemblyName>DataStructures.UI</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -55,15 +55,15 @@
   <ItemGroup>
     <Compile Include="AdornerItem.cs" />
     <Compile Include="Arrow.cs" />
-    <Compile Include="Graph.Command.cs" />
+    <Compile Include="GraphControl.Command.cs" />
     <Compile Include="Converter.cs" />
-    <Compile Include="Edge.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="EdgeControl.cs" />
+    <Compile Include="VertexControl.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Graph.cs">
+    <Compile Include="GraphControl.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -92,9 +92,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataStructures\Get.Model.Graph.csproj">
+    <ProjectReference Include="..\..\DataStructures\DataStructures.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Model.Graph</Name>
+      <Name>DataStructures</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

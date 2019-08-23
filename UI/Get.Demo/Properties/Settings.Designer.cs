@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Get.Demo.Properties {
+namespace DataStructures.Demo.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C4B0BDA3-F5AE-40F9-8D10-061014F79E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.Demo", "UI\Get.Demo\Get.UI.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Demo", "UI\Get.Demo\DataStructures.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.UI.GraphVisualization", "UI\Get.UI.GraphVisualization\Get.UI.GraphVisualization.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.UI", "UI\Get.UI.GraphVisualization\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Get.Model.Graph", "DataStructures\Get.Model.Graph.csproj", "{71CEDB71-D97C-4F85-99F8-B587B799BCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStructures\DataStructures.csproj", "{71CEDB71-D97C-4F85-99F8-B587B799BCDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Get.Common.Mathematics", "Mathematics\Get.Common.Mathematics.csproj", "{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathematics", "Mathematics\Mathematics.csproj", "{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Get.Model.Graph.Test", "DataStructure.Test\Get.Model.Graph.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

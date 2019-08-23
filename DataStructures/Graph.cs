@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 
 
-namespace Get.Model.Graph
+namespace DataStructures
 {
     [DataContract(Namespace = "http://schemas.get.com/Graph/")]
     public class Graph : INotifyPropertyChanged

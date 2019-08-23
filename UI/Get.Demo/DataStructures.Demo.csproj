@@ -8,8 +8,8 @@
     <ProjectGuid>{F6441FDB-9D04-462D-8F62-DE84FC516654}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Get.Demo</RootNamespace>
-    <AssemblyName>Get.Demo</AssemblyName>
+    <RootNamespace>DataStructures.Demo</RootNamespace>
+    <AssemblyName>DataStructures.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -140,17 +140,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Mathematics\Get.Common.Mathematics.csproj">
+    <ProjectReference Include="..\..\Mathematics\Mathematics.csproj">
       <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
-      <Name>Get.Common.Mathematics</Name>
+      <Name>Mathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DataStructures\Get.Model.Graph.csproj">
+    <ProjectReference Include="..\..\DataStructures\DataStructures.csproj">
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
-      <Name>Get.Model.Graph</Name>
+      <Name>DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Get.UI.GraphVisualization\Get.UI.GraphVisualization.csproj">
+    <ProjectReference Include="..\Get.UI.GraphVisualization\DataStructures.UI.csproj">
       <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
-      <Name>Get.UI.GraphVisualization</Name>
+      <Name>DataStructures.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

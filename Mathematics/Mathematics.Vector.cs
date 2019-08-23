@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Get.Common.Mathematics
+namespace Mathematics
 {
     //public static partial class Mathematics
     //{

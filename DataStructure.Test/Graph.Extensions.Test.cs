@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
-namespace Get.Model.Graph.Test
+namespace DataStructures.Test
 {
     [TestClass]
     public class GraphExensionsTest

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
-namespace Get.UI
+namespace DataStructures.UI
 {
     public static class Converters
     {

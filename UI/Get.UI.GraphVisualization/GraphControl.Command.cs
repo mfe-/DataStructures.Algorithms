@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using System.Windows.Markup;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Get.Model.Graph;
 using System.Windows;
 using Microsoft.Win32;
-using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
@@ -17,29 +12,29 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Collections.Specialized;
 
-namespace Get.UI
+namespace DataStructures.UI
 {
-    public partial class GraphVisualization : Canvas
+    public partial class GraphControl : Canvas
     {
         #region Save Command
 
-        public GraphVisualization() : base()
+        public GraphControl() : base()
         {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, Load_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, Copy_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, Paste_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.AddVertexRoutedCommand, AddVertex_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphControl.AddVertexRoutedCommand, AddVertex_Executed));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.SetDirectedRoutedCommand, SetDirected_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.KruskalRoutedCommand, Kruskal_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphVisualization.ClearGraphCommand, ClearGraph_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphControl.SetDirectedRoutedCommand, SetDirected_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphControl.KruskalRoutedCommand, Kruskal_Executed));
+            this.CommandBindings.Add(new CommandBinding(GraphControl.ClearGraphCommand, ClearGraph_Executed));
 
         }
         private void ClearGraph_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
             {
                 this.Graph = null;
                 this.Graph = new Graph();
@@ -48,7 +43,7 @@ namespace Get.UI
         }
         private void Kruskal_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
             {
                 Graph kruskal = this.Graph.Kruskal_DepthFirstSearch();
                 this.Graph = null;
@@ -59,12 +54,12 @@ namespace Get.UI
 
         private void Print_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
             {
                 PrintDialog printDialog = new PrintDialog();
                 if (printDialog.ShowDialog() == true)
                 {
-                    printDialog.PrintVisual(sender as GraphVisualization, "GraphVisualization");
+                    printDialog.PrintVisual(sender as GraphControl, "GraphVisualization");
                 }
             }
 
@@ -88,9 +83,9 @@ namespace Get.UI
         }
         private void Paste_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexControl)))
             {
-                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
+                VertexControl vv = FocusedFrameworkElement as VertexControl;
 
                 Vertex newVertex = new Vertex();
 
@@ -105,9 +100,9 @@ namespace Get.UI
 
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(VertexVisualization)))
+            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(VertexControl)))
             {
-                VertexVisualization vv = FocusedFrameworkElement as VertexVisualization;
+                VertexControl vv = FocusedFrameworkElement as VertexControl;
 
                 //case Vertex is connected
                 if (vv.Vertex.Edges.Count.Equals(0))
@@ -116,9 +111,9 @@ namespace Get.UI
                 }
 
             }
-            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(EdgeVisualization)))
+            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(EdgeControl)))
             {
-                EdgeVisualization ev = FocusedFrameworkElement as EdgeVisualization;
+                EdgeControl ev = FocusedFrameworkElement as EdgeControl;
 
                 Edge edge = ev.Edge;
 
@@ -175,7 +170,7 @@ namespace Get.UI
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
-                from item in this.Children.OfType<VertexVisualization>()
+                from item in this.Children.OfType<VertexControl>()
                     //let Contentxaml = XamlWriter.Save(item.Conte)
                 select new XElement(item.GetType().ToString(),
                     new XElement("ID", item.GetHashCode()),
@@ -225,11 +220,11 @@ namespace Get.UI
                     this.Graph = g;
 
                     //set positions of items
-                    var framework = root.Elements("FrameworkElements").First().Elements(typeof(VertexVisualization).FullName).ToList();
+                    var framework = root.Elements("FrameworkElements").First().Elements(typeof(VertexControl).FullName).ToList();
                     foreach (var y in framework)
                     {
                         XElement itemXML = y;
-                        VertexVisualization vv = Children.OfType<VertexVisualization>().Where(a => a.Vertex.GetHashCode().ToString().Equals(itemXML.Element("VertexID").Value)).FirstOrDefault<VertexVisualization>();
+                        VertexControl vv = Children.OfType<VertexControl>().Where(a => a.Vertex.GetHashCode().ToString().Equals(itemXML.Element("VertexID").Value)).FirstOrDefault<VertexControl>();
                         //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
                         //use instead point.ToString(CultureInfo.InvariantCulture)
                         if (vv != null)
@@ -243,9 +238,9 @@ namespace Get.UI
                     }
 
                     //setFocus position of edges
-                    Children.OfType<EdgeVisualization>().ToList().ForEach(i =>
+                    Children.OfType<EdgeControl>().ToList().ForEach(i =>
                     {
-                        VertexVisualization u = getItem(i.Edge.U);
+                        VertexControl u = getItem(i.Edge.U);
                         Point pu = getPosition(u);
                         Point pv = getPosition(getItem(i.Edge.V));
 
@@ -264,7 +259,7 @@ namespace Get.UI
 
         protected void SetDirected_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
             {
                 if (e.Parameter != null && e.Parameter.GetType().Equals(typeof(bool)))
                 {
@@ -283,9 +278,9 @@ namespace Get.UI
         /// <param name="e">An ExecutedRoutedEventArgs that contains the event data. </param>
         protected void AddVertex_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphVisualization)))
+            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
             {
-                GraphVisualization gv = sender as GraphVisualization;
+                GraphControl gv = sender as GraphControl;
 
                 //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
                 Point p = (Mouse.GetPosition(sender as IInputElement));

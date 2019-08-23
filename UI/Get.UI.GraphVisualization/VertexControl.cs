@@ -17,7 +17,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
-namespace Get.UI
+namespace DataStructures.UI
 {
     /// <summary>
     /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
@@ -52,12 +52,12 @@ namespace Get.UI
     /// </summary>
     [ContentProperty("Vertex")]
     [TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
-    public class VertexVisualization : Control, INotifyPropertyChanged
+    public class VertexControl : Control, INotifyPropertyChanged
     {
         AdornerLayer _adornerLayer;
         AdornerItem _adornerItem;
 
-        public VertexVisualization()
+        public VertexControl()
         {
 
         }
@@ -111,28 +111,28 @@ namespace Get.UI
             _adornerLayer.Remove(_adornerItem);
         }
         
-        static VertexVisualization()
+        static VertexControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(typeof(VertexVisualization)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
 
-            WidthProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata((double)40));
-            HeightProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata((double)40));
+            WidthProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
+            HeightProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
 
-            BorderThicknessProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(new Thickness(1)));
+            BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(new Thickness(1)));
 
-            BorderBrushProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.Black));
-            BackgroundProperty.OverrideMetadata(typeof(VertexVisualization), new FrameworkPropertyMetadata(Brushes.White));
+            BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.Black));
+            BackgroundProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.White));
         }
 
-        public Get.Model.Graph.Vertex Vertex
+        public DataStructures.Vertex Vertex
         {
-            get { return (Get.Model.Graph.Vertex)GetValue(VertexProperty); }
+            get { return (DataStructures.Vertex)GetValue(VertexProperty); }
             set { SetValue(VertexProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VertexProperty =
-            DependencyProperty.Register("Vertex", typeof(Get.Model.Graph.Vertex), typeof(VertexVisualization), new UIPropertyMetadata());
+            DependencyProperty.Register("Vertex", typeof(DataStructures.Vertex), typeof(VertexControl), new UIPropertyMetadata());
 
         private Point _Position;
         public virtual Point Position

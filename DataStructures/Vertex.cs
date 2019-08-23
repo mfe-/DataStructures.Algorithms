@@ -4,9 +4,8 @@ using System.Runtime.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Collections.Generic;
 
-namespace Get.Model.Graph
+namespace DataStructures
 {
     [DebuggerDisplay("Vertex = {Weighted},Size={Size}, GUID = {_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]

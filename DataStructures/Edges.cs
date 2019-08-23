@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Collections;
 using System;
 
-namespace Get.Model.Graph
+namespace DataStructures
 {
     [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]

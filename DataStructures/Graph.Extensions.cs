@@ -5,9 +5,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Linq;
-using System.Collections;
 
-namespace Get.Model.Graph
+namespace DataStructures
 {
     /// <summary>
     /// Provides a set of static methods for working with graph objects.

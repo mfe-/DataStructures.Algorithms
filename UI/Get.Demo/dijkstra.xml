@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
-  <Graph z:Id="1" z:Type="Get.Model.Graph.Graph" z:Assembly="Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xmlns="http://schemas.get.com/Graph/" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+  <Graph z:Id="1" z:Type="DataStructures.Graph" z:Assembly="DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" xmlns="http://schemas.get.com/Graph/" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
     <EndVertex i:nil="true" xmlns:a="http://schemas.get.com/Graph/Vertex" />
     <StartVertex z:Id="2" xmlns:a="http://schemas.get.com/Graph/Vertex">
       <a:Weighted>1</a:Weighted>
       <a:Edges z:Id="3" xmlns:b="http://schemas.get.com/Graph/Edges">
-        <b:items z:Id="4" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+        <b:items z:Id="4" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
           <b:_items z:Id="5" z:Size="4">
             <b:Edge z:Id="6">
               <b:Weighted>2</b:Weighted>
@@ -13,7 +13,7 @@
               <b:V z:Id="7">
                 <a:Weighted>2</a:Weighted>
                 <a:Edges z:Id="8">
-                  <b:items z:Id="9" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                  <b:items z:Id="9" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                     <b:_items z:Id="10" z:Size="4">
                       <b:Edge z:Id="11">
                         <b:Weighted>4</b:Weighted>
@@ -21,7 +21,7 @@
                         <b:V z:Id="12">
                           <a:Weighted>3</a:Weighted>
                           <a:Edges z:Id="13">
-                            <b:items z:Id="14" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                            <b:items z:Id="14" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                               <b:_items z:Id="15" z:Size="4">
                                 <b:Edge z:Id="16">
                                   <b:Weighted>4</b:Weighted>
@@ -29,7 +29,7 @@
                                   <b:V z:Id="17">
                                     <a:Weighted>5</a:Weighted>
                                     <a:Edges z:Id="18">
-                                      <b:items z:Id="19" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                      <b:items z:Id="19" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                                         <b:_items z:Id="20" z:Size="4">
                                           <b:Edge z:Id="21">
                                             <b:Weighted>2</b:Weighted>
@@ -37,7 +37,7 @@
                                             <b:V z:Id="22">
                                               <a:Weighted>7</a:Weighted>
                                               <a:Edges z:Id="23">
-                                                <b:items z:Id="24" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                                <b:items z:Id="24" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                                                   <b:_items z:Id="25" z:Size="4">
                                                     <b:Edge z:Id="26">
                                                       <b:Weighted>5</b:Weighted>
@@ -45,7 +45,7 @@
                                                       <b:V z:Id="27">
                                                         <a:Weighted>6</a:Weighted>
                                                         <a:Edges z:Id="28">
-                                                          <b:items z:Id="29" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                                          <b:items z:Id="29" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                                                             <b:_items z:Id="30" z:Size="4">
                                                               <b:Edge z:Id="31">
                                                                 <b:Weighted>2</b:Weighted>
@@ -104,7 +104,7 @@
                                   <b:V z:Id="37">
                                     <a:Weighted>4</a:Weighted>
                                     <a:Edges z:Id="38">
-                                      <b:items z:Id="39" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Edge, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+                                      <b:items z:Id="39" z:Type="System.Collections.Generic.List`1[[DataStructures.Edge, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
                                         <b:_items z:Id="40" z:Size="4">
                                           <b:Edge z:Id="41">
                                             <b:Weighted>3</b:Weighted>
@@ -182,7 +182,7 @@
       <a:Guid>6b842de5-e715-4b59-a1ee-f9cffeb2a194</a:Guid>
     </StartVertex>
     <Vertices z:Id="50" xmlns:a="http://schemas.get.com/Graph/Vertex">
-      <a:items z:Id="51" z:Type="System.Collections.Generic.List`1[[Get.Model.Graph.Vertex, Get.Model.Graph, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
+      <a:items z:Id="51" z:Type="System.Collections.Generic.List`1[[DataStructures.Vertex, DataStructures, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" z:Assembly="0">
         <a:_items z:Id="52" z:Size="4">
           <a:Vertex z:Ref="2" i:nil="true" />
           <a:Vertex i:nil="true" />
@@ -198,61 +198,61 @@
     </Vertices>
   </Graph>
   <FrameworkElements>
-    <Get.UI.VertexVisualization>
+    <DataStructures.UI.VertexControl>
       <ID>56632826</ID>
       <VertexID>1972463144</VertexID>
       <Position>217;326</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>23545059</ID>
       <VertexID>-1248382774</VertexID>
       <Position>336;202</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>12857250</ID>
       <VertexID>1677694854</VertexID>
       <Position>338;314</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>26025497</ID>
       <VertexID>329315291</VertexID>
       <Position>462;205</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>180973</ID>
       <VertexID>-1072625477</VertexID>
       <Position>574;323</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>47072339</ID>
       <VertexID>2142052802</VertexID>
       <Position>478;448</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
-    <Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
       <ID>43514100</ID>
       <VertexID>1732305215</VertexID>
       <Position>350;448</Position>
       <Width>40</Width>
       <Height>40</Height>
       <ZIndex>1</ZIndex>
-    </Get.UI.VertexVisualization>
+    </DataStructures.UI.VertexControl>
   </FrameworkElements>
 </Root>

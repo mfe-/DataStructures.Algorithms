@@ -13,8 +13,8 @@
     <AssemblyVersion>0.12.0.0</AssemblyVersion>
     <FileVersion>0.12.0.0</FileVersion>
     <ProductName>Get.Model.Graph</ProductName>
-    <AssemblyName>Get.Model.Graph</AssemblyName>
-    <RootNamespace>Get.Graph</RootNamespace>
+    <AssemblyName>DataStructures</AssemblyName>
+    <RootNamespace>DataStructures</RootNamespace>
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>

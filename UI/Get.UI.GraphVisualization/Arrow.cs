@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Shapes;
 using System.Windows;
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace Get.UI
+namespace DataStructures.UI
 {
     /// <summary>
     /// WPF Arrow and Custom Shapes

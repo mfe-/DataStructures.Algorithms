@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace Get.UI
+namespace DataStructures.UI
 {
     public class AdornerItem : Adorner
     {

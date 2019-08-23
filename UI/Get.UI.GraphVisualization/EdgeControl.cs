@@ -1,33 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Get.UI;
-using System.Diagnostics;
 using System.Windows;
-using Get.Model.Graph;
 using System.Windows.Media;
 using System.Windows.Markup;
-using System.Windows.Shapes;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Input;
-using System.Timers;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
-namespace Get.UI
+namespace DataStructures.UI
 {
-    public class EdgeVisualization : Control
+    public class EdgeControl : Control
     {
-        static EdgeVisualization()
+        static EdgeControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeVisualization), new FrameworkPropertyMetadata(typeof(EdgeVisualization)));
-            StrokeThicknessProperty = System.Windows.Shapes.Line.StrokeThicknessProperty.AddOwner(typeof(EdgeVisualization), new PropertyMetadata((double)1));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeControl), new FrameworkPropertyMetadata(typeof(EdgeControl)));
+            StrokeThicknessProperty = System.Windows.Shapes.Line.StrokeThicknessProperty.AddOwner(typeof(EdgeControl), new PropertyMetadata((double)1));
         }
 
-        public EdgeVisualization()
+        public EdgeControl()
             : base()
         {
 
@@ -104,28 +96,28 @@ namespace Get.UI
             Point p = new Point((PositionV.X + PositionU.X) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
 
             drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
-                System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
+                CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
                 this.FontSize, this.Foreground), p);
 
         }
-        public Get.Model.Graph.Edge Edge
+        public DataStructures.Edge Edge
         {
-            get { return (Get.Model.Graph.Edge)GetValue(EdgeProperty); }
+            get { return (DataStructures.Edge)GetValue(EdgeProperty); }
             set { SetValue(EdgeProperty, value); }
         }
 
 
         // Using a DependencyProperty as the backing store for Edge.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EdgeProperty =
-            DependencyProperty.Register("Edge", typeof(Get.Model.Graph.Edge), typeof(EdgeVisualization), new UIPropertyMetadata(null, OnEdgeChanged));
+            DependencyProperty.Register("Edge", typeof(DataStructures.Edge), typeof(EdgeControl), new UIPropertyMetadata(null, OnEdgeChanged));
 
         private static void OnEdgeChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if ((e.NewValue != null && e.NewValue.GetType().Equals(typeof(Edge))) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeVisualization))))
+            if ((e.NewValue != null && e.NewValue.GetType().Equals(typeof(Edge))) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
             {
                 Edge edge = e.NewValue as Edge;
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
-                EdgeVisualization edgeVisualization = pDependencyObject as EdgeVisualization;
+                EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
 
                 edge.PropertyChanged +=( sender, ePropertyChangedEventArgs)=>{
                     
@@ -159,7 +151,7 @@ namespace Get.UI
 
         // Using a DependencyProperty as the backing store for PositionU.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionUProperty =
-            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(new Point()));
+            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeControl), new UIPropertyMetadata(new Point()));
 
 
 
@@ -174,7 +166,7 @@ namespace Get.UI
 
         // Using a DependencyProperty as the backing store for PositionV.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionVProperty =
-            DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeVisualization), new UIPropertyMetadata(null));
+            DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeControl), new UIPropertyMetadata(null));
 
 
 
@@ -186,7 +178,7 @@ namespace Get.UI
 
         // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DirectedProperty =
-            DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeVisualization), new UIPropertyMetadata(false));
+            DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeControl), new UIPropertyMetadata(false));
 
 
         public static ShiftConverter ShiftConverter = new ShiftConverter();

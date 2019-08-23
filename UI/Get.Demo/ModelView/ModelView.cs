@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using Get.Common;
-using Get.Model.Graph;
 
-namespace Get.Demo
+namespace DataStructures.Demo
 {
     public class GraphModelView : INotifyPropertyChanged
     {

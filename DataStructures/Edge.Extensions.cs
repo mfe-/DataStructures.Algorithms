@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Get.Model.Graph;
+﻿using System.Collections.Generic;
 
-namespace Get.Model.Graph
+
+namespace DataStructures
 {
     /// <summary>
     /// Provides a set of static methods for working with Edge objects.

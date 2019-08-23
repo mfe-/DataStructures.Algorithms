@@ -1,29 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Get.Model.Graph;
-using Get.UI;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Threading;
-using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Diagnostics;
-using Get.Common.Mathematics;
 
-namespace Get.Demo
+namespace DataStructures.Demo
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
