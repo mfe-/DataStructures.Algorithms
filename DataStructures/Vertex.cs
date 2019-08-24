@@ -8,16 +8,14 @@ using System.Linq;
 namespace DataStructures
 {
     [DebuggerDisplay("Vertex = {Weighted},Size={Size}, GUID = {_Guid}")]
+    [KnownType(typeof(Edge))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex : IVertex, INotifyPropertyChanged
     {
-        #region Members
-        protected ObservableCollection<Edge> _Edges = new ObservableCollection<Edge>();
+        protected ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         protected Guid _Guid;
-
-        protected int weighted;
-        #endregion
+        protected int _weighted;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.
@@ -31,19 +29,19 @@ namespace DataStructures
         public Vertex(int pweighted)
             : this()
         {
-            weighted = pweighted;
+            _weighted = pweighted;
         }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         [DataMember(Name = "Weighted", Order = 1, IsRequired = true)]
-        public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
+        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged("Weighted"); } }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
         [DataMember(Name = "Edges", Order = 2, IsRequired = true)]
-        public ObservableCollection<Edge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged("Edges"); } }
+        public ObservableCollection<IEdge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged("Edges"); } }
 
         /// <summary>
         /// Amount of neighbours
@@ -61,7 +59,7 @@ namespace DataStructures
         /// Adds an directed edge to overgiven vertex
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
-        public virtual Edge AddEdge(Vertex pu)
+        public virtual IEdge AddEdge(IVertex pu)
         {
             AddEdge(pu, 0, false);
             return _Edges.Last();
@@ -72,7 +70,7 @@ namespace DataStructures
         /// <param name="pu">Vertex to connect</param>
         /// <param name="pweighted">Weighted of the Edge</param>
         /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public virtual void AddEdge(Vertex pu, int pweighted, bool undirected)
+        public virtual void AddEdge(IVertex pu, int pweighted, bool undirected)
         {
 
             Edge e1 = new Edge(this, pu, pweighted);
@@ -89,23 +87,23 @@ namespace DataStructures
         /// </summary>
         /// <param name="pu">The vertex which should be added to the instance</param>
         /// <param name="pweighted">Weighted of the added vertex</param>
-        public virtual Edge AddEdge(Vertex pu, int pweighted)
+        public virtual IEdge AddEdge(IVertex pu, int pweighted)
         {
             AddEdge(pu, pweighted, false);
             return _Edges.Last();
         }
 
-        public virtual void RemoveEdge(Vertex pu)
+        public virtual void RemoveEdge(IVertex pu)
         {
             RemoveEdge(pu, true);
         }
-        public virtual void RemoveEdge(Vertex pu,bool directed)
+        public virtual void RemoveEdge(IVertex pu, bool directed)
         {
-            Edge edge = this.Edges.Where(a => a.U.Equals(this) && a.V.Equals(pu)).FirstOrDefault<Edge>();
+            IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(pu));
 
             if (directed.Equals(false))
             {
-                Edge edged = edge.V.Edges.Where(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted)).FirstOrDefault<Edge>();
+                IEdge edged = edge.V.Edges.FirstOrDefault(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted));
 
                 edge.V.Edges.Remove(edged);
             }
@@ -164,11 +162,12 @@ namespace DataStructures
     public interface IVertex
     {
         int Weighted { get; set; }
-        ObservableCollection<Edge> Edges { get; set; }
-        Edge AddEdge(Vertex pu);
-        Edge AddEdge(Vertex pu, int pweighted);
-        void AddEdge(Vertex pu, int pweighted, bool undirected);
-        void RemoveEdge(Vertex pu);
-        void RemoveEdge(Vertex pu,bool directed);
+        ObservableCollection<IEdge> Edges { get; set; }
+        IEdge AddEdge(IVertex pu);
+        IEdge AddEdge(IVertex pu, int pweighted);
+        void AddEdge(IVertex pu, int pweighted, bool undirected);
+        void RemoveEdge(IVertex pu);
+        void RemoveEdge(IVertex pu, bool directed);
+        int Size { get; }
     }
 }

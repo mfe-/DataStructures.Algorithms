@@ -124,15 +124,15 @@ namespace DataStructures.UI
             BackgroundProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.White));
         }
 
-        public DataStructures.Vertex Vertex
+        public DataStructures.IVertex Vertex
         {
-            get { return (DataStructures.Vertex)GetValue(VertexProperty); }
+            get { return (DataStructures.IVertex)GetValue(VertexProperty); }
             set { SetValue(VertexProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VertexProperty =
-            DependencyProperty.Register("Vertex", typeof(DataStructures.Vertex), typeof(VertexControl), new UIPropertyMetadata());
+            DependencyProperty.Register("Vertex", typeof(DataStructures.IVertex), typeof(VertexControl), new UIPropertyMetadata());
 
         private Point _Position;
         public virtual Point Position

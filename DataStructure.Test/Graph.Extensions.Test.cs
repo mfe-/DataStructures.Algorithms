@@ -199,9 +199,9 @@ namespace DataStructures.Test
         {
             List<IVertex> result = g.Start.Deph_First_Search().ToList();
 
-            List<Vertex> result2 = g.Depth_First_Traversal().ToList();
+            List<IVertex> result2 = g.Depth_First_Traversal().ToList();
 
-            foreach (Vertex v in result2)
+            foreach (IVertex v in result2)
             {
                 Assert.IsTrue(result.Contains(v));
             }

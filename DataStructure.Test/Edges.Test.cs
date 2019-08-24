@@ -51,11 +51,11 @@ namespace DataStructures.Test
         public void GetHashCodeTest()
         {
             //hascode of transported edges must be the same
-            Edge e1 = g.Vertices.First().Edges.First();
+            IEdge e1 = g.Vertices.First().Edges.First();
             //create a transported edge
             e1.V.AddEdge(e1.U, e1.Weighted);
 
-            Edge e2 = e1.V.Edges.Last();
+            IEdge e2 = e1.V.Edges.Last();
 
             //transported edge needs same hascode
             Assert.AreEqual(e1.GetHashCode(), e2.GetHashCode());
@@ -72,8 +72,8 @@ namespace DataStructures.Test
             v1.AddEdge(v2);
             v2.AddEdge(v1);
 
-            Edge e1 = v1.Edges.First();
-            Edge e2 = v2.Edges.First();
+            IEdge e1 = v1.Edges.First();
+            IEdge e2 = v2.Edges.First();
 
             //e1=e1
             Assert.IsTrue(e1.Equals(v1.Edges.First()));

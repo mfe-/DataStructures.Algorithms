@@ -14,9 +14,9 @@ namespace DataStructures
         /// Store unconnected vertices
         /// </summary>
         [DataMember(Name = "Vertices")]
-        protected ObservableCollection<Vertex> _Vertices = new ObservableCollection<Vertex>();
+        protected ObservableCollection<IVertex> _Vertices = new ObservableCollection<IVertex>();
 
-        protected Vertex _Start = null;
+        protected IVertex _Start = null;
 
         public Graph()       {  }
 
@@ -27,14 +27,14 @@ namespace DataStructures
         /// <summary>
         /// Saves unconnected vertices. If you connect an unconnected vertex you have to remove it from the list!
         /// </summary>
-        public ObservableCollection<Vertex> Vertices
+        public ObservableCollection<IVertex> Vertices
         {
             get
             {
                 return _Vertices;
             }
         }
-        public void AddVertex(Vertex pVertice)
+        public void AddVertex(IVertex pVertice)
         {
             _Vertices.Add(pVertice);
 
@@ -47,7 +47,7 @@ namespace DataStructures
         /// Gets or sets the start vertex of the graph
         /// </summary>
         [DataMember(Name = "StartVertex")]
-        public Vertex Start
+        public IVertex Start
         {
             get
             {

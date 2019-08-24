@@ -6,8 +6,6 @@ using System.Windows.Input;
 using System.Windows;
 using Microsoft.Win32;
 using System.IO;
-using System.Xml;
-using System.Runtime.Serialization;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Collections.Specialized;
@@ -115,10 +113,10 @@ namespace DataStructures.UI
             {
                 EdgeControl ev = FocusedFrameworkElement as EdgeControl;
 
-                Edge edge = ev.Edge;
+                IEdge edge = ev.Edge;
 
-                Vertex u = edge.U;
-                Vertex v = edge.V;
+                IVertex u = edge.U;
+                IVertex v = edge.V;
 
                 u.RemoveEdge(v, this.Graph.Directed);
 
@@ -233,7 +231,8 @@ namespace DataStructures.UI
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.Write(ex);
+                ClearGraph_Executed(this, null);
             }
         }
 

@@ -299,7 +299,7 @@ namespace DataStructures.Demo
 
         }
         ManualResetEvent mre = new ManualResetEvent(false);
-        public void GetAllV(Vertex v, Vertex firstVertex)
+        public void GetAllV(IVertex v, IVertex firstVertex)
         {
             if (v == firstVertex) return;
             if (firstVertex == null) firstVertex = v;
@@ -325,7 +325,7 @@ namespace DataStructures.Demo
 
         }
         //http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-90
-        public void dft(Vertex v, List<Vertex> visited)
+        public void dft(IVertex v, List<IVertex> visited)
         {
             //visist x
             visited.Add(v);
@@ -337,7 +337,7 @@ namespace DataStructures.Demo
               }));
             mre.WaitOne(10 * 120);
             //FOR each y such that (x,y) is an edge DO 
-            foreach (Edge e in v.Edges)
+            foreach (IEdge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()

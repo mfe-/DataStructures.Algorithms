@@ -8,7 +8,7 @@ namespace DataStructures
     /// </summary>
     public static class EdgeExtensions
     {
-        public class EdgeComparer : IEqualityComparer<Edge>
+        public class EdgeComparer : IEqualityComparer<IEdge>
         {
             #region IEqualityComparer
             /// <summary>
@@ -18,7 +18,7 @@ namespace DataStructures
             /// <param name="x">edge x</param>
             /// <param name="y">edge y</param>
             /// <returns></returns>
-            public bool Equals(Edge e1, Edge e2)
+            public bool Equals(IEdge e1, IEdge e2)
             {
                 //edge are equal
                 if (e1.Equals(e2) && e2.Equals(e1)) return true;
@@ -31,7 +31,7 @@ namespace DataStructures
                 return false;
             }
 
-            public int GetHashCode(Edge obj)
+            public int GetHashCode(IEdge obj)
             {
                 return obj.GetHashCode();
             }
@@ -43,7 +43,7 @@ namespace DataStructures
         /// <param name="edge">The edge to compare to this instance.</param>
         /// <param name="permute">If the parameter is true transported edges will be handled as equal</param>
         /// <returns>True if the instance and the overgiven edge are euqa; otherwiese, false.</returns>
-        public static bool Equals(this Edge e, Edge edge, bool permute)
+        public static bool Equals(this IEdge e, IEdge edge, bool permute)
         {
             if (permute)
             {

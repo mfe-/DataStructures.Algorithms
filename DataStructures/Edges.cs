@@ -6,15 +6,14 @@ using System;
 namespace DataStructures
 {
     [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
+    [KnownType(typeof(Vertex))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge : IEdge, INotifyPropertyChanged
     {
-        #region Members
-        protected Vertex u;
-        protected Vertex v;
+        protected IVertex u;
+        protected IVertex v;
 
-        protected int weighted;
-        #endregion
+        protected int _weighted;
 
         /// <summary>
         /// Initializes a new instance of the Edge class for using the IEqualityComparer on Distinct
@@ -26,7 +25,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="pu">Vertex of the Edge</param>
         /// <param name="pv">Vertex of the Edge</param>
-        public Edge(Vertex pu, Vertex pv)
+        public Edge(IVertex pu, IVertex pv)
         {
             u = pu;
             v = pv;
@@ -37,28 +36,28 @@ namespace DataStructures
         /// <param name="pu">Vertex of the Edge</param>
         /// <param name="pv">Vertex of the Edge</param>
         /// <param name="pweighted">Sets the Weighted of the Edge</param>
-        public Edge(Vertex pu, Vertex pv, int pweighted)
+        public Edge(IVertex pu, IVertex pv, int pweighted)
         {
             u = pu;
             v = pv;
-            weighted = pweighted;
+            _weighted = pweighted;
         }
 
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "U", Order = 2, IsRequired = true)]
-        public Vertex U { get { return u; } set { u = value; NotifyPropertyChanged("U"); } }
+        public IVertex U { get { return u; } set { u = value; NotifyPropertyChanged("U"); } }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "V", Order = 3, IsRequired = true)]
-        public Vertex V { get { return v; } set { v = value; NotifyPropertyChanged("V"); } }
+        public IVertex V { get { return v; } set { v = value; NotifyPropertyChanged("V"); } }
         /// <summary>
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
-        public int Weighted { get { return weighted; } set { weighted = value; NotifyPropertyChanged("Weighted"); } }
+        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged("Weighted"); } }
         
         /// <summary>
         /// Returns a string that represents the current object.
@@ -116,8 +115,8 @@ namespace DataStructures
     }
     public interface IEdge
     {
-        Vertex U { get; set; }
-        Vertex V { get; set; }
+        IVertex U { get; set; }
+        IVertex V { get; set; }
         int Weighted { get; set; }
     }
 }

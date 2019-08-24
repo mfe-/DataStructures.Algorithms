@@ -69,6 +69,7 @@ namespace DataStructures
             e.Save(memoryStream);
             memoryStream.Position = 0;
             var dataContractSerializerSettings = new DataContractSerializerSettings();
+            dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex), typeof(Edge) };
             dataContractSerializerSettings.PreserveObjectReferences = true;
             DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
             Graph u = ndcs.ReadObject(memoryStream) as Graph;
@@ -77,40 +78,40 @@ namespace DataStructures
 
             g.Directed = u.Directed;
 
-            foreach (Vertex v in u.Vertices)
+            foreach (IVertex v in u.Vertices)
                 g.Vertices.Add(v);
             return g;
         }
 
-        public static IEnumerable<Vertex> Sort(this IEnumerable<Vertex> l)
+        public static IEnumerable<IVertex> Sort(this IEnumerable<IVertex> l)
         {
             return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
         }
-        public static IEnumerable<Vertex> ToVertexList(this IEnumerable<Edge> l)
+        public static IEnumerable<IVertex> ToVertexList(this IEnumerable<IEdge> l)
         {
-            return l.SelectMany(a => new List<Vertex>() { a.U, a.V }).Distinct();
+            return l.SelectMany(a => new List<IVertex>() { a.U, a.V }).Distinct();
         }
         /// <summary>
         /// Returns all vertices from the graph
         /// http://www.brpreiss.com/books/opus4/html/page551.html
         /// http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-90
         /// </summary>
-        /// <param name="s">Root vertex of graph</param>
+        /// <param name="s">Root IVertex of graph</param>
         /// <returns>All reachable vertices</returns>
-        public static IEnumerable<Vertex> Depth_First_Traversal(this Graph s)
+        public static IEnumerable<IVertex> Depth_First_Traversal(this Graph s)
         {
-            List<Vertex> l = new List<Vertex>();
-            foreach (Vertex v in s.Vertices)
-                l.AddRange(Depth_First_Traversal(v, new List<Vertex>()));
+            List<IVertex> l = new List<IVertex>();
+            foreach (IVertex v in s.Vertices)
+                l.AddRange(Depth_First_Traversal(v, new List<IVertex>()));
             return l;
         }
-        private static List<Vertex> Depth_First_Traversal(this Vertex s, List<Vertex> visited)
+        private static List<IVertex> Depth_First_Traversal(this IVertex s, List<IVertex> visited)
         {
             //visist x
             visited.Add(s);
 
-            //FOR each y such that (x,y) is an edge DO 
-            foreach (Edge e in s.Edges)
+            //FOR each y such that (x,y) is an IEdge DO 
+            foreach (IEdge e in s.Edges)
             {
                 if (!visited.Contains(e.V))
                 {
@@ -142,22 +143,22 @@ namespace DataStructures
 
             return visited;
         }
-        public static List<Edge> Breadth_First_Search(this Vertex start, Vertex target)
+        public static List<IEdge> Breadth_First_Search(this IVertex start, IVertex target)
         {
-            List<Edge> l = new List<Edge>();
+            List<IEdge> l = new List<IEdge>();
             //TODO
-            //Stack<Vertex> stack = new Stack<Vertex>();
+            //Stack<IVertex> stack = new Stack<IVertex>();
 
-            //Vertex current = start;
+            //IVertex current = start;
 
-            //for (int i = 1; i <= current.Edges.Count; i++)
+            //for (int i = 1; i <= current.IEdges.Count; i++)
             //{
-            //    Vertex v = current.Edges[i-1].V;
+            //    IVertex v = current.IEdges[i-1].V;
             //    if (v.Equals(target))
             //    {
             //        return l;
             //    }
-            //    else if (i.Equals(current.Edges.Count) && !v.Equals(target))
+            //    else if (i.Equals(current.IEdges.Count) && !v.Equals(target))
             //    {
             //        i = 1;
             //        stack.Push(v);
@@ -187,19 +188,19 @@ namespace DataStructures
         public static int[][] AdjacencyList(this Graph g)
         {
             var vertices = Depth_First_Traversal(g).Sort().Distinct().ToArray();
-            var edges = vertices.SelectMany(a => a.Edges).Distinct<Edge>();
+            var IEdges = vertices.SelectMany(a => a.Edges).Distinct<IEdge>();
             //create matrix
-            int c = vertices.Count<Vertex>();
+            int c = vertices.Count<IVertex>();
             int[][] m = new int[c][];
             for (int o = 0; o < c; o++)
             {
                 int[] row = new int[c];
                 for (int y = 0; y < c; y++)
                 {
-                    Vertex i = vertices[o];
-                    Vertex j = vertices[y];
+                    IVertex i = vertices[o];
+                    IVertex j = vertices[y];
 
-                    row[y] = edges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
+                    row[y] = IEdges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
                 }
 
                 m[o] = row;
@@ -218,11 +219,11 @@ namespace DataStructures
             //create g'
             Graph g_ = g;
 
-            List<Vertex> vertices = new List<Vertex>();
-            //order edges by pyramiding weighted
-            Edge[] edges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
-            //remove edges 
-            foreach (Vertex z in g_.Depth_First_Traversal())
+            List<IVertex> vertices = new List<IVertex>();
+            //order IEdges by pyramiding weighted
+            IEdge[] IEdges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
+            //remove IEdges 
+            foreach (IVertex z in g_.Depth_First_Traversal())
             {
                 vertices.Add(z);
 
@@ -230,13 +231,13 @@ namespace DataStructures
             }
 
             int weight = 0;
-            for (int i = 0; i < edges.Length; i++)
+            for (int i = 0; i < IEdges.Length; i++)
             {
-                Edge e = edges[i];
+                IEdge e = IEdges[i];
                 weight = weight + e.Weighted;
-                Vertex u = vertices.Where(a => a.Equals(e.U)).First<Vertex>();
-                Vertex v = vertices.Where(a => a.Equals(e.V)).First<Vertex>();
-                //add 2x edges to create a undirected graph
+                IVertex u = vertices.Where(a => a.Equals(e.U)).First<IVertex>();
+                IVertex v = vertices.Where(a => a.Equals(e.V)).First<IVertex>();
+                //add 2x IEdges to create a undirected graph
                 u.AddEdge(v, e.Weighted);
                 v.AddEdge(u, e.Weighted);
                 //check if circle
@@ -254,11 +255,11 @@ namespace DataStructures
             return g_;
         }
 
-        public static Edge Dijkstra(this Graph g, Vertex start)
+        public static IEdge Dijkstra(this Graph g, IVertex start)
         {
             //tabel
             int min = start.Edges.First().Weighted;
-            foreach (Edge e in start.Edges)
+            foreach (IEdge e in start.Edges)
             {
                 if (min > e.Weighted)
                 {
@@ -268,82 +269,82 @@ namespace DataStructures
             return null;
         }
         /// <summary>
-        /// Searches beginning from the start vertex to the goal vertex a path
+        /// Searches beginning from the start IVertex to the goal IVertex a path
         /// http://en.wikipedia.org/wiki/Depth-first_search
         /// </summary>
-        /// <param name="g">Graph which is vertex containing</param>
+        /// <param name="g">Graph which is IVertex containing</param>
         /// <param name="start">Where the look up should beginn</param>
-        /// <param name="goal">Which vertex should be found</param>
-        /// <returns>Returns a list of containing all edges which are required to get the path beginning from the start to the goal vertex</returns>
-        public static IEnumerable<Edge> DepthFirstSearch(this Vertex start, Vertex goal)
+        /// <param name="goal">Which IVertex should be found</param>
+        /// <returns>Returns a list of containing all IEdges which are required to get the path beginning from the start to the goal IVertex</returns>
+        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal)
         {
-            return DepthFirstSearch(start, new List<Edge>(), goal);
+            return DepthFirstSearch(start, new List<IEdge>(), goal);
         }
-        private static IEnumerable<Edge> DepthFirstSearch(Vertex current, List<Edge> edges, Vertex goal)
+        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> IEdges, IVertex goal)
         {
-            //mark edge
-            foreach (Edge e in current.Edges)
+            //mark IEdge
+            foreach (IEdge e in current.Edges)
             {
 
                 //check if we found the goal
                 if (e.V.Equals(goal))
                 {
                     //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
-                    if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
-                        || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit edge ausgehend vom start), (schauen ob dazwischen noch andere edges sind)
-                        edges.Find(delegate (Edge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
+                    if (!IEdges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
+                        || (IEdges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit IEdge ausgehend vom start), (schauen ob dazwischen noch andere IEdges sind)
+                        IEdges.Find(delegate (IEdge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
                     {
-                        edges.Add(e);
-                        return edges;
+                        IEdges.Add(e);
+                        return IEdges;
                     }
                 }
-                //do not add already visited vertex
-                if (!edges.ToVertexList().Contains(e.V))
+                //do not add already visited IVertex
+                if (!IEdges.ToVertexList().Contains(e.V))
                 {
-                    if ((!edges.Count.Equals(0) && (e.V != edges.First().U)) || edges.Count.Equals(0))
+                    if ((!IEdges.Count.Equals(0) && (e.V != IEdges.First().U)) || IEdges.Count.Equals(0))
                     {
-                        edges.Add(e);
-                        DepthFirstSearch(e.V, edges, goal);
+                        IEdges.Add(e);
+                        DepthFirstSearch(e.V, IEdges, goal);
                     }
                 }
-                if (edges.Last().V.Equals(goal)) return edges;
+                if (IEdges.Last().V.Equals(goal)) return IEdges;
             }
 
 
-            return edges;
+            return IEdges;
         }
 
         /// <summary>
-        /// Determinds if the overgivven vertex is adjacent to the current vertex
+        /// Determinds if the overgivven IVertex is adjacent to the current IVertex
         /// </summary>
-        /// <param name="v">the vertex to check</param>
-        /// <returns>True if the overgiven vertex is adjacent</returns>
-        public static Boolean Adjacent(this Vertex v)
+        /// <param name="v">the IVertex to check</param>
+        /// <returns>True if the overgiven IVertex is adjacent</returns>
+        public static Boolean Adjacent(this IVertex v)
         {
             return v.Edges.Where(a => a.U.Equals(v) || a.V.Equals(v)).Count().Equals(0);
         }
         /// <summary>
-        /// Calculates the distance by summing the weighted of the edges.
+        /// Calculates the distance by summing the weighted of the IEdges.
         /// </summary>
-        /// <param name="edges"></param>
+        /// <param name="IEdges"></param>
         /// <returns></returns>
-        public static int Distance(this IEnumerable<Edge> edges)
+        public static int Distance(this IEnumerable<IEdge> IEdges)
         {
             int distance = 0;
-            foreach (Edge e in edges)
+            foreach (IEdge e in IEdges)
                 distance = +e.Weighted + distance;
             return distance;
         }
 
 
-        public static object Connected(this Graph g, Vertex a, Vertex b)
+        public static object Connected(this Graph g, IVertex a, IVertex b)
         {
             // Eine Folge von karten e1,e2,...ek e E(G) eines ungerichteten G heißt katenfolge , wenn es knoten v,v1,v2,...vk1 w eV(G) mit 
             //% gibt ,d.h. man kann die katen e1,2,...ek,ohne absetzen durchlafeun. k... anzahl der kanten
             //Tiefensuchen hier nehmen Katenfolge von a -> b zurück geben
             return null;
         }
-        //public static bool Connected(this Graph g, Vertex a, Vertex b)
+        //public static bool Connected(this Graph g, IVertex a, IVertex b)
         //{
         //    // Eine Folge von karten e1,e2,...ek e E(G) eines ungerichteten G heißt katenfolge , wenn es knoten v,v1,v2,...vk1 w eV(G) mit 
         //    //% gibt ,d.h. man kann die katen e1,2,...ek,ohne absetzen durchlafeun. k... anzahl der kanten

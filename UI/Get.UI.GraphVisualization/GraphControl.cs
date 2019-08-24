@@ -46,7 +46,6 @@ namespace DataStructures.UI
     [ContentProperty("Graph")]
     public partial class GraphControl : Canvas
     {
-        #region Members
         /// <summary>
         /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
         /// http://msdn.microsoft.com/en-us/library/system.random.aspx?queryresult=true
@@ -60,8 +59,6 @@ namespace DataStructures.UI
 
         public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphControl));
-
-        #endregion
 
         static GraphControl()
         {
@@ -185,7 +182,7 @@ namespace DataStructures.UI
                 if (vv != null)
                 {
                     //first find the vertex where we started 
-                    Vertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
+                    IVertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
                     //add to model edge 
                     v.AddEdge(vv.Vertex);
                 }
@@ -233,7 +230,7 @@ namespace DataStructures.UI
         /// Creates for each Vertex and Edge the proper control to display the Graph.
         /// </summary>
         /// <param name="vertices"></param>
-        protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices)
+        protected virtual void InitialiseGraph(ObservableCollection<IVertex> vertices)
         {
             InitialiseGraph(vertices, null);
         }
@@ -242,9 +239,9 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="vertices">List of Vertices</param>
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
-        protected virtual void InitialiseGraph(ObservableCollection<Vertex> vertices, EdgeControl e)
+        protected virtual void InitialiseGraph(ObservableCollection<IVertex> vertices, EdgeControl e)
         {
-            foreach (Vertex vertex in vertices)
+            foreach (IVertex vertex in vertices)
             {
                 vertex.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
 
@@ -277,7 +274,7 @@ namespace DataStructures.UI
                 {
                     EdgeControl edv = AddEdge(ed, visualvertex, EdgeControl.PositionUProperty);
 
-                    InitialiseGraph(new ObservableCollection<Vertex>() { ed.V }, edv);
+                    InitialiseGraph(new ObservableCollection<IVertex>() { ed.V }, edv);
                 }
             }
         }
@@ -339,7 +336,7 @@ namespace DataStructures.UI
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
-                    addVertex(item as Vertex, Mouse.GetPosition(this).Add(-25, -25));
+                    AddVertex(item as Vertex, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
             if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
@@ -391,9 +388,9 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">Vertex which should be added to the VertexVisualization</param>
         /// <returns>Returns the created VertexVisualization</returns>
-        protected virtual VertexControl addVertex(Vertex v)
+        protected virtual VertexControl addVertex(IVertex v)
         {
-            return addVertex(v, new Point(GetRandomNumber(0, this.ActualWidth - 10), GetRandomNumber(0, this.ActualHeight - 10)));
+            return AddVertex(v, new Point(GetRandomNumber(0, this.ActualWidth - 10), GetRandomNumber(0, this.ActualHeight - 10)));
         }
         /// <summary>
         /// Adds a Vertex to the _Canvas.
@@ -401,7 +398,7 @@ namespace DataStructures.UI
         /// <param name="v">Vertex which should be added to the VertexVisualization</param>
         /// <param name="point">Sets the position where the VertexVisualization should be placed on the _Canvas</param>
         /// <returns>Returns the created VertexVisualization</returns>
-        protected virtual VertexControl addVertex(Vertex v, Point point)
+        protected virtual VertexControl AddVertex(IVertex v, Point point)
         {
             VertexControl vertexcontrol = new VertexControl();
             vertexcontrol.Vertex = v;
@@ -594,7 +591,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">Vertex which should be looked up</param>
         /// <returns>Control which is using the Vertex</returns>
-        protected virtual VertexControl GetItem(Vertex v)
+        protected virtual VertexControl GetItem(IVertex v)
         {
             return VertexVisualizations.Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexControl>();
         }
@@ -603,7 +600,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">edge which should be looked up</param>
         /// <returns>Control which is using the edge</returns>
-        protected virtual EdgeControl GetItem(Edge e)
+        protected virtual EdgeControl GetItem(IEdge e)
         {
             return EdgeVisualizations.Where(a => a.Edge.Equals(e)).FirstOrDefault<EdgeControl>();
         }
@@ -611,7 +608,7 @@ namespace DataStructures.UI
         /// Calls the focus method on the VertexVisualization control
         /// </summary>
         /// <param name="v"></param>
-        public virtual void SetFocus(Vertex v)
+        public virtual void SetFocus(IVertex v)
         {
             if (GetItem(v) != null)
                 GetItem(v).Focus();
@@ -620,12 +617,12 @@ namespace DataStructures.UI
         /// Calls the focus method on the VertexVisualization control
         /// </summary>
         /// <param name="v"></param>
-        public virtual void SetFocus(Edge e)
+        public virtual void SetFocus(IEdge e)
         {
             if (GetItem(e) != null)
                 GetItem(e).Focus();
         }
-        public virtual void SetFocus(Edge e, AsyncCallback b)
+        public virtual void SetFocus(IEdge e, AsyncCallback b)
         {
             //todo delgeate zum mitgeben der ausgeführt werden soll wenn focus ausgeführt soll
         }
