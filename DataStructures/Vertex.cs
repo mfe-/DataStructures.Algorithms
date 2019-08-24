@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DataStructures
 {
-    [DebuggerDisplay("Vertex = {Weighted},Size={Size}, GUID = {_Guid}")]
+    [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
     [KnownType(typeof(Edge))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex : IVertex, INotifyPropertyChanged
@@ -56,40 +56,19 @@ namespace DataStructures
 
 
         /// <summary>
-        /// Adds an directed edge to overgiven vertex
-        /// </summary>
-        /// <param name="pu">The vertex which should be added to the instance</param>
-        public virtual IEdge AddEdge(IVertex pu)
-        {
-            AddEdge(pu, 0, false);
-            return _Edges.Last();
-        }
-        /// <summary>
-        /// Creates an un/directed edge to the overgiven Vertex
+        /// Creates a un/directed edge to the overgiven Vertex
         /// </summary>
         /// <param name="pu">Vertex to connect</param>
         /// <param name="pweighted">Weighted of the Edge</param>
-        /// <param name="undirected">True if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public virtual void AddEdge(IVertex pu, int pweighted, bool undirected)
+        /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
+        public virtual IEdge AddEdge(IVertex pu, int pweighted = 0, bool directed = true)
         {
-
             Edge e1 = new Edge(this, pu, pweighted);
             _Edges.Add(e1);
-            if (undirected == true)
+            if (directed == false)
             {
-                pu.AddEdge(this, pweighted);
+                pu.AddEdge(this, pweighted, true);
             }
-
-        }
-
-        /// <summary>
-        /// Adds a directed edge to the overgiven vertex
-        /// </summary>
-        /// <param name="pu">The vertex which should be added to the instance</param>
-        /// <param name="pweighted">Weighted of the added vertex</param>
-        public virtual IEdge AddEdge(IVertex pu, int pweighted)
-        {
-            AddEdge(pu, pweighted, false);
             return _Edges.Last();
         }
 
@@ -161,13 +140,23 @@ namespace DataStructures
     }
     public interface IVertex
     {
+        /// <summary>
+        /// Gets or sets the Weighted of the vertex
+        /// </summary>
         int Weighted { get; set; }
         ObservableCollection<IEdge> Edges { get; set; }
-        IEdge AddEdge(IVertex pu);
-        IEdge AddEdge(IVertex pu, int pweighted);
-        void AddEdge(IVertex pu, int pweighted, bool undirected);
+        /// <summary>
+        /// Creates a un/directed edge to the overgiven Vertex
+        /// </summary>
+        /// <param name="pu">Vertex to connect</param>
+        /// <param name="pweighted">Weighted of the Edge</param>
+        /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
+        IEdge AddEdge(IVertex pu, int pweighted = 0, bool directed = true);
         void RemoveEdge(IVertex pu);
         void RemoveEdge(IVertex pu, bool directed);
+        /// <summary>
+        /// Amount of neighbours
+        /// </summary>
         int Size { get; }
     }
 }

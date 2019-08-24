@@ -5,7 +5,7 @@ using System;
 
 namespace DataStructures
 {
-    [DebuggerDisplay("Edge = {Weighted},U={U}, V = {V}")]
+    [DebuggerDisplay("Edge={Weighted},U={U},V={V}")]
     [KnownType(typeof(Vertex))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge : IEdge, INotifyPropertyChanged

@@ -22,8 +22,6 @@ namespace DataStructures.UI
         public EdgeControl()
             : base()
         {
-
-
         }
         protected override Size MeasureOverride(Size constraint)
         {
@@ -61,11 +59,12 @@ namespace DataStructures.UI
                 {
                     Edge.Weighted = 0;
                 }
-                
+
             }
             else
             {
-                if (e.Key >= Key.D0 && e.Key <= Key.D9)
+                if (e.Key >= Key.D0 && e.Key <= Key.D9 
+                    || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
                 {
                     // Number keys pressed so need to so special processing
                     // also check if shift pressed
@@ -81,10 +80,15 @@ namespace DataStructures.UI
                 }
 
             }
+            //directed edges exists the other way around too. Set same weight
+            var revertedEdge = Edge.GetOppositeEdge();
+            if (revertedEdge != null)
+            {
+                revertedEdge.Weighted = Edge.Weighted;
+            }
             base.OnPreviewKeyDown(e);
 
         }
-
         /// <summary>
         /// Participates in rendering operations that are directed by the layout system. Adds the weighted as text in the middle of the edge
         /// </summary>
@@ -119,8 +123,9 @@ namespace DataStructures.UI
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
                 EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
 
-                edge.PropertyChanged +=( sender, ePropertyChangedEventArgs)=>{
-                    
+                edge.PropertyChanged += (sender, ePropertyChangedEventArgs) =>
+                {
+
                     //Rerender Weighted - OnRender()
                     edgeVisualization.InvalidateVisual();
                 };

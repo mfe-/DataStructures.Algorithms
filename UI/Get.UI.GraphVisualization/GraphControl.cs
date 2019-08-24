@@ -10,7 +10,6 @@ using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Xml.Linq;
 
 namespace DataStructures.UI
 {
@@ -184,7 +183,7 @@ namespace DataStructures.UI
                     //first find the vertex where we started 
                     IVertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
                     //add to model edge 
-                    v.AddEdge(vv.Vertex);
+                    v.AddEdge(vv.Vertex, 0, Graph.Directed);
                 }
 
                 this.Children.Remove(SelectedItem);
@@ -251,7 +250,7 @@ namespace DataStructures.UI
                 if (!vertexexists)
                 {
 
-                    visualvertex = addVertex(vertex);
+                    visualvertex = AddVertex(vertex);
                     Canvas.SetZIndex(visualvertex, 1);
                 }
                 else
@@ -312,12 +311,12 @@ namespace DataStructures.UI
                     //check if  both vertices u and v exists, otherwise create visualvertex
                     if (GetItem(edge.U) == null)
                     {
-                        uvisual = addVertex(edge.U);
+                        uvisual = AddVertex(edge.U);
                     }
 
                     if (GetItem(edge.V) == null)
                     {
-                        vvisual = addVertex(edge.V);
+                        vvisual = AddVertex(edge.V);
                     }
 
                     //added item already exists - nothing to do
@@ -329,10 +328,6 @@ namespace DataStructures.UI
                     {
                         AddEdge(edge);
                     }
-
-
-
-
                 }
                 if (item.GetType().Equals(typeof(Vertex)))
                 {
@@ -388,7 +383,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">Vertex which should be added to the VertexVisualization</param>
         /// <returns>Returns the created VertexVisualization</returns>
-        protected virtual VertexControl addVertex(IVertex v)
+        protected virtual VertexControl AddVertex(IVertex v)
         {
             return AddVertex(v, new Point(GetRandomNumber(0, this.ActualWidth - 10), GetRandomNumber(0, this.ActualHeight - 10)));
         }
@@ -698,7 +693,7 @@ namespace DataStructures.UI
             get
             {
                 IEnumerable<FrameworkElement> FElementList = this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true));
-                if (FElementList != null && FElementList.Count()!=0)
+                if (FElementList != null && FElementList.Count() != 0)
                 {
                     return FElementList.First();
                 }
@@ -706,7 +701,7 @@ namespace DataStructures.UI
                 {
                     return null;
                 }
-                
+
             }
         }
 

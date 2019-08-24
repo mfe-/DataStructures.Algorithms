@@ -82,7 +82,35 @@ namespace DataStructures
                 g.Vertices.Add(v);
             return g;
         }
+        public static bool IsDirected(this Graph g)
+        {
+            //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
+            //Schlichte ungerichtete Graphen haben daher eine symmetrische Adjazenzmatrix.
+            //es muss daher von i nach j eine kantegeben und von j nach i, das entspricht aij=aji
+            //also ist der graph genau dann ungerichtet wenn die matrix symmetrisch ist
+            //http://en.wikipedia.org/wiki/Transpose
+            //a transportieren also a^t = a symmetrisch
+            int[][] matrix = g.AdjacencyList();
+            int[][] matrixT = new int[matrix.Length][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrixT[i] = new int[matrix.Length];
+            }
 
+            //transportieren
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    matrixT[j][i] = matrix[i][j];
+
+            //check if result1 = matrixT1 --> symmetry --> v1->v2 & v1<-v2 = undirected
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (matrix[i][j] != matrixT[i][j]) return true;
+                }
+
+            return false;
+        }
         public static IEnumerable<IVertex> Sort(this IEnumerable<IVertex> l)
         {
             return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
@@ -90,6 +118,17 @@ namespace DataStructures
         public static IEnumerable<IVertex> ToVertexList(this IEnumerable<IEdge> l)
         {
             return l.SelectMany(a => new List<IVertex>() { a.U, a.V }).Distinct();
+        }
+        /// <summary>
+        /// The undirected graph contains for two vertices two edges. 
+        /// Pass one of the edge to get the opposite edge of it.
+        /// U->V V->U
+        /// </summary>
+        /// <param name="edge"></param>
+        /// <returns></returns>
+        public static IEdge GetOppositeEdge(this IEdge edge)
+        {
+            return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
         }
         /// <summary>
         /// Returns all vertices from the graph
@@ -211,10 +250,9 @@ namespace DataStructures
 
         public static Graph Kruskal_DepthFirstSearch(this Graph g)
         {
-            //work only with undircted graphs
+            //works only with undircted graphs
             if (g.Directed.Equals(true))
                 throw new DirectedException(false);
-
 
             //create g'
             Graph g_ = g;
@@ -280,38 +318,37 @@ namespace DataStructures
         {
             return DepthFirstSearch(start, new List<IEdge>(), goal);
         }
-        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> IEdges, IVertex goal)
+        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> edges, IVertex goal)
         {
-            //mark IEdge
+            //mark edges
             foreach (IEdge e in current.Edges)
             {
-
                 //check if we found the goal
                 if (e.V.Equals(goal))
                 {
                     //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
-                    if (!IEdges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
-                        || (IEdges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit IEdge ausgehend vom start), (schauen ob dazwischen noch andere IEdges sind)
-                        IEdges.Find(delegate (IEdge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
+                    if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
+                        || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit IEdge ausgehend vom start), (schauen ob dazwischen noch andere IEdges sind)
+                        edges.Find(delegate (IEdge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
                     {
-                        IEdges.Add(e);
-                        return IEdges;
+                        edges.Add(e);
+                        return edges;
                     }
                 }
                 //do not add already visited IVertex
-                if (!IEdges.ToVertexList().Contains(e.V))
+                if (!edges.ToVertexList().Contains(e.V))
                 {
-                    if ((!IEdges.Count.Equals(0) && (e.V != IEdges.First().U)) || IEdges.Count.Equals(0))
+                    if ((!edges.Count.Equals(0) && (e.V != edges.First().U)) || edges.Count.Equals(0))
                     {
-                        IEdges.Add(e);
-                        DepthFirstSearch(e.V, IEdges, goal);
+                        edges.Add(e);
+                        DepthFirstSearch(e.V, edges, goal);
                     }
                 }
-                if (IEdges.Last().V.Equals(goal)) return IEdges;
+                if (edges.Last().V.Equals(goal)) return edges;
             }
 
 
-            return IEdges;
+            return edges;
         }
 
         /// <summary>
