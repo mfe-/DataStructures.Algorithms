@@ -8,9 +8,8 @@ using System.Linq;
 namespace DataStructures
 {
     [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
-    [KnownType(typeof(Edge))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
-    public class Vertex : IVertex, INotifyPropertyChanged
+    public class Vertex<TData> : IVertex<TData>, INotifyPropertyChanged
     {
         protected ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
@@ -31,6 +30,8 @@ namespace DataStructures
         {
             _weighted = pweighted;
         }
+        [IgnoreDataMember]
+        public TData Value { get; set; }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
@@ -63,7 +64,7 @@ namespace DataStructures
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
         public virtual IEdge AddEdge(IVertex pu, int pweighted = 0, bool directed = true)
         {
-            Edge e1 = new Edge(this, pu, pweighted);
+            Edge<TData> e1 = new Edge<TData>(this, pu, pweighted);
             _Edges.Add(e1);
             if (directed == false)
             {
@@ -107,9 +108,9 @@ namespace DataStructures
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(Vertex))) return false;
+            if (!obj.GetType().Equals(typeof(Vertex<TData>))) return false;
 
-            return this._Guid.Equals((obj as Vertex)._Guid);
+            return this._Guid.Equals((obj as Vertex<TData>)._Guid);
         }
         /// <summary>
         /// Serves as a hash function for a particular type. 
@@ -158,5 +159,8 @@ namespace DataStructures
         /// Amount of neighbours
         /// </summary>
         int Size { get; }
+    }
+    public interface IVertex<out TData> : IVertex, IData<TData>
+    {
     }
 }

@@ -25,18 +25,18 @@ namespace DataStructures.Demo
         {
             Graph graph = new Graph(false);
 
-            Vertex va = new Vertex(1);
-            Vertex vb = new Vertex(2);
-            Vertex vc = new Vertex(3);
-            Vertex vd = new Vertex(4);
-            Vertex ve = new Vertex(5);
-            Vertex vf = new Vertex(6);
-            Vertex vg = new Vertex(7);
-            Vertex vh = new Vertex(8);
-            Vertex vi = new Vertex(9);
-            Vertex vj = new Vertex(10);
-            Vertex vk = new Vertex(11);
-            Vertex vl = new Vertex(12);
+            Vertex<object> va = new Vertex<object>(1);
+            Vertex<object> vb = new Vertex<object>(2);
+            Vertex<object> vc = new Vertex<object>(3);
+            Vertex<object> vd = new Vertex<object>(4);
+            Vertex<object> ve = new Vertex<object>(5);
+            Vertex<object> vf = new Vertex<object>(6);
+            Vertex<object> vg = new Vertex<object>(7);
+            Vertex<object> vh = new Vertex<object>(8);
+            Vertex<object> vi = new Vertex<object>(9);
+            Vertex<object> vj = new Vertex<object>(10);
+            Vertex<object> vk = new Vertex<object>(11);
+            Vertex<object> vl = new Vertex<object>(12);
 
             Queue<Action> que = new Queue<Action>();
 
@@ -147,18 +147,18 @@ namespace DataStructures.Demo
 
             Graph graph = new Graph();
 
-            Vertex va = new Vertex(1);
-            Vertex vb = new Vertex(2);
-            Vertex vc = new Vertex(3);
-            Vertex vd = new Vertex(4);
-            Vertex ve = new Vertex(5);
-            Vertex vf = new Vertex(6);
-            Vertex vg = new Vertex(7);
-            Vertex vh = new Vertex(8);
-            Vertex vi = new Vertex(9);
-            Vertex vj = new Vertex(10);
-            Vertex vk = new Vertex(11);
-            Vertex vl = new Vertex(12);
+            Vertex<object> va = new Vertex<object>(1);
+            Vertex<object> vb = new Vertex<object>(2);
+            Vertex<object> vc = new Vertex<object>(3);
+            Vertex<object> vd = new Vertex<object>(4);
+            Vertex<object> ve = new Vertex<object>(5);
+            Vertex<object> vf = new Vertex<object>(6);
+            Vertex<object> vg = new Vertex<object>(7);
+            Vertex<object> vh = new Vertex<object>(8);
+            Vertex<object> vi = new Vertex<object>(9);
+            Vertex<object> vj = new Vertex<object>(10);
+            Vertex<object> vk = new Vertex<object>(11);
+            Vertex<object> vl = new Vertex<object>(12);
 
             //va.addEdge(vb, 2);
             //va.addEdge(vd, 3);
@@ -311,7 +311,7 @@ namespace DataStructures.Demo
               }));
             mre.WaitOne(20 * 120);
 
-            foreach (Edge e in v.Edges)
+            foreach (IEdge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
                   delegate()

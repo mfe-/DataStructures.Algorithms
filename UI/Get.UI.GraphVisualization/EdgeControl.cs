@@ -16,7 +16,7 @@ namespace DataStructures.UI
         static EdgeControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeControl), new FrameworkPropertyMetadata(typeof(EdgeControl)));
-            StrokeThicknessProperty = System.Windows.Shapes.Line.StrokeThicknessProperty.AddOwner(typeof(EdgeControl), new PropertyMetadata((double)1));
+            StrokeThicknessProperty = System.Windows.Shapes.Shape.StrokeThicknessProperty.AddOwner(typeof(EdgeControl), new PropertyMetadata((double)1));
         }
 
         public EdgeControl()
@@ -104,22 +104,22 @@ namespace DataStructures.UI
                 this.FontSize, this.Foreground), p);
 
         }
-        public DataStructures.Edge Edge
+        public DataStructures.IEdge Edge
         {
-            get { return (DataStructures.Edge)GetValue(EdgeProperty); }
+            get { return (DataStructures.IEdge)GetValue(EdgeProperty); }
             set { SetValue(EdgeProperty, value); }
         }
 
 
         // Using a DependencyProperty as the backing store for Edge.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EdgeProperty =
-            DependencyProperty.Register("Edge", typeof(DataStructures.Edge), typeof(EdgeControl), new UIPropertyMetadata(null, OnEdgeChanged));
+            DependencyProperty.Register("Edge", typeof(DataStructures.IEdge), typeof(EdgeControl), new UIPropertyMetadata(null, OnEdgeChanged));
 
         private static void OnEdgeChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if ((e.NewValue != null && e.NewValue.GetType().Equals(typeof(Edge))) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
+            if ((e.NewValue != null && e.NewValue as IEdge != null) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
             {
-                Edge edge = e.NewValue as Edge;
+                IEdge edge = e.NewValue as IEdge;
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
                 EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
 

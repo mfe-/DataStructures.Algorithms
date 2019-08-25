@@ -44,7 +44,7 @@
 
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
 
-                <ui:GraphControl x:Name="_GraphVisualization">
+            <ui:GraphControl x:Name="_GraphVisualization">
                 <interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="MouseDoubleClick">
                         <interactivity:InvokeCommandAction 
@@ -54,34 +54,34 @@
                 </interactivity:Interaction.Triggers>
 
                 <ui:GraphControl.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="_Save" Command="Save" />
-                            <MenuItem Header="_Load" Command="Open" />
-                            <MenuItem Header="_Print" Command="Print" />
-                            <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphControl.KruskalRoutedCommand}" />
-                            <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
-                            <MenuItem Header="_Direct" Command="{x:Static ui:GraphControl.SetDirectedRoutedCommand}" />
-                        </ContextMenu>
-                    </ui:GraphControl.ContextMenu>
-                    <ui:GraphControl.Resources>
-                        <Style TargetType="{x:Type ui:VertexControl}">
+                    <ContextMenu>
+                        <MenuItem Header="_Save" Command="Save" />
+                        <MenuItem Header="_Load" Command="Open" />
+                        <MenuItem Header="_Print" Command="Print" />
+                        <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphControl.KruskalRoutedCommand}" />
+                        <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
+                        <MenuItem Header="_Direct" Command="{x:Static ui:GraphControl.SetDirectedRoutedCommand}" />
+                    </ContextMenu>
+                </ui:GraphControl.ContextMenu>
+                <ui:GraphControl.Resources>
+                    <Style TargetType="{x:Type ui:VertexControl}">
 
-                            <Style.Triggers>
+                        <Style.Triggers>
 
 
-                            </Style.Triggers>
+                        </Style.Triggers>
 
-                        </Style>
+                    </Style>
 
-                        <Style TargetType="{x:Type ui:EdgeControl}">
-                            <Style.Triggers>
-                                <Trigger Property="IsFocused" Value="True">
-                                    <Setter Property="StrokeThickness" Value="2" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ui:GraphControl.Resources>
-                </ui:GraphControl>
+                    <Style TargetType="{x:Type ui:EdgeControl}">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="StrokeThickness" Value="2" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:GraphControl.Resources>
+            </ui:GraphControl>
 
             <!--<Border BorderBrush="Green" BorderThickness="3" x:Name="_border">
                 <Border.Triggers>

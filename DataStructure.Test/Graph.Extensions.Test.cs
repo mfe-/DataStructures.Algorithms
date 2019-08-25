@@ -13,13 +13,13 @@ namespace DataStructures.Test
     {
 
         public Graph g;
-        IVertex v1 = new Vertex() { Weighted = 1 };
-        IVertex v2 = new Vertex() { Weighted = 2 };
-        IVertex v3 = new Vertex() { Weighted = 3 };
-        IVertex v4 = new Vertex() { Weighted = 4 };
-        IVertex v5 = new Vertex() { Weighted = 5 };
-        IVertex v6 = new Vertex() { Weighted = 6 };
-        IVertex v7 = new Vertex() { Weighted = 7 };
+        IVertex v1 = new Vertex<object>() { Weighted = 1 };
+        IVertex v2 = new Vertex<object>() { Weighted = 2 };
+        IVertex v3 = new Vertex<object>() { Weighted = 3 };
+        IVertex v4 = new Vertex<object>() { Weighted = 4 };
+        IVertex v5 = new Vertex<object>() { Weighted = 5 };
+        IVertex v6 = new Vertex<object>() { Weighted = 6 };
+        IVertex v7 = new Vertex<object>() { Weighted = 7 };
 
         [TestInitialize]
         public void Initialize()
@@ -133,8 +133,8 @@ namespace DataStructures.Test
             Assert.AreEqual(resultv6.Last().V, v5);
 
             //circule detection
-            Vertex a = new Vertex(1);
-            Vertex b = new Vertex(2);
+            Vertex<object> a = new Vertex<object>(1);
+            Vertex<object> b = new Vertex<object>(2);
 
             //2 undirected connected Vertices
             a.AddEdge(b);
@@ -144,7 +144,7 @@ namespace DataStructures.Test
             Assert.AreNotEqual(resultva.First().U, resultva.Last().V);
 
             //3 undirected connected vertices with circle
-            Vertex c = new Vertex(3);
+            Vertex<object> c = new Vertex<object>(3);
             //connect a with c
             a.AddEdge(c);
             c.AddEdge(a);
@@ -166,9 +166,9 @@ namespace DataStructures.Test
             Assert.AreEqual(resultv6.Last().V, v6);
 
             //circule detection in paths
-            a = new Vertex(1);
-            b = new Vertex(2);
-            c = new Vertex(3);
+            a = new Vertex<object>(1);
+            b = new Vertex<object>(2);
+            c = new Vertex<object>(3);
 
             //create undirected pah
             a.AddEdge(b);
@@ -179,9 +179,9 @@ namespace DataStructures.Test
             Assert.AreNotEqual(resultp.First(), resultp.Last());
 
             //example which occours in kruskal
-            a = new Vertex(3);
-            b = new Vertex(6);
-            c = new Vertex(4);
+            a = new Vertex<object>(3);
+            b = new Vertex<object>(6);
+            c = new Vertex<object>(4);
 
             a.AddEdge(b);
             b.AddEdge(a);
@@ -193,13 +193,13 @@ namespace DataStructures.Test
             Assert.AreNotEqual(result34.First(), result34.Last());
 
             //example which occours in kruskal
-            v1 = new Vertex(1);
-            v2 = new Vertex(2);
-            v3 = new Vertex(3);
-            v4 = new Vertex(4);
-            v5 = new Vertex(5);
-            v6 = new Vertex(6);
-            v7 = new Vertex(7);
+            v1 = new Vertex<object>(1);
+            v2 = new Vertex<object>(2);
+            v3 = new Vertex<object>(3);
+            v4 = new Vertex<object>(4);
+            v5 = new Vertex<object>(5);
+            v6 = new Vertex<object>(6);
+            v7 = new Vertex<object>(7);
 
             v3.AddEdge(v6, 0, false);
             v3.AddEdge(v4, 0, false);

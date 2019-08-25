@@ -12,13 +12,13 @@ namespace DataStructures.Test
     {
 
         public Graph g;
-        Vertex v1 = new Vertex() { Weighted = 1 };
-        Vertex v2 = new Vertex() { Weighted = 2 };
-        Vertex v3 = new Vertex() { Weighted = 3 };
-        Vertex v4 = new Vertex() { Weighted = 4 };
-        Vertex v5 = new Vertex() { Weighted = 5 };
-        Vertex v6 = new Vertex() { Weighted = 6 };
-        Vertex v7 = new Vertex() { Weighted = 7 };
+        Vertex<object> v1 = new Vertex<object>() { Weighted = 1 };
+        Vertex<object> v2 = new Vertex<object>() { Weighted = 2 };
+        Vertex<object> v3 = new Vertex<object>() { Weighted = 3 };
+        Vertex<object> v4 = new Vertex<object>() { Weighted = 4 };
+        Vertex<object> v5 = new Vertex<object>() { Weighted = 5 };
+        Vertex<object> v6 = new Vertex<object>() { Weighted = 6 };
+        Vertex<object> v7 = new Vertex<object>() { Weighted = 7 };
 
         [TestInitialize]
         public void Initialize()

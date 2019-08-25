@@ -102,7 +102,7 @@ namespace DataStructures.UI
                 EdgeControl ev = new EdgeControl();
                 Canvas.SetZIndex(ev, -1);
                 VertexControl vv = e.Source as VertexControl;
-                ev.Edge = new Edge(vv.Vertex, null);
+                ev.Edge = new Edge<object>(vv.Vertex, null);
 
                 ev.PositionU = GetPosition(vv);
                 ev.PositionV = e.GetPosition(this);
@@ -269,7 +269,7 @@ namespace DataStructures.UI
 
                 if (vertexexists) return;
                 //add edge from vertex1
-                foreach (Edge ed in vertex.Edges)
+                foreach (IEdge ed in vertex.Edges)
                 {
                     EdgeControl edv = AddEdge(ed, visualvertex, EdgeControl.PositionUProperty);
 
@@ -286,9 +286,9 @@ namespace DataStructures.UI
                 IList<object> items = e.NewItems.SyncRoot as IList<object>;
                 object item = items.First();
 
-                if (item.GetType().Equals(typeof(Edge)))
+                if (item is IEdge)
                 {
-                    Edge edge = item as Edge;
+                    IEdge edge = item as IEdge;
 
                     //check if vertex is kept in Graph.Vertices and will be moved into the depper graph - if yes its duplicated so remove from graph.vertices
                     if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
@@ -329,28 +329,27 @@ namespace DataStructures.UI
                         AddEdge(edge);
                     }
                 }
-                if (item.GetType().Equals(typeof(Vertex)))
+                if (item is IVertex)
                 {
-                    AddVertex(item as Vertex, Mouse.GetPosition(this).Add(-25, -25));
+                    AddVertex(item as IVertex, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
             if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
             {
                 IList<object> items = e.OldItems.SyncRoot as IList<object>;
                 object item = items.First();
-                if (item.GetType().Equals(typeof(Vertex)))
+                if (item is IVertex)
                 {
                     //catch Visualization item
-                    Vertex v = item as Vertex;
+                    IVertex v = item as IVertex;
                     VertexControl vv = VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
                     this.Children.Remove(vv);
                 }
 
-                if (item.GetType().Equals(typeof(Edge)))
+                if (item is IEdge)
                 {
-                    Edge edge = item as Edge;
+                    IEdge edge = item as IEdge;
                     RemoveEdge(edge);
-
                 }
             }
             Debug.WriteLine(this.Graph.Vertices.Count);
@@ -415,7 +414,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="e">The Edge which should be visualised</param>
         /// <returns>Returns the created EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(Edge e)
+        protected virtual EdgeControl AddEdge(IEdge e)
         {
             return AddEdge(e, true);
         }
@@ -425,7 +424,7 @@ namespace DataStructures.UI
         /// <param name="e">The Edge which should be visualised</param>
         /// <param name="pAddtoCanvas">Determineds whether the EdgeVisualization should be displayed.</param>
         /// <returns>Returns the created EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(Edge e, bool pAddtoCanvas)
+        protected virtual EdgeControl AddEdge(IEdge e, bool pAddtoCanvas)
         {
             //get vertex1
             VertexControl uv = VertexVisualizations.Where(z => z.Vertex.Equals(e.U)).First();
@@ -460,7 +459,7 @@ namespace DataStructures.UI
         /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
         /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
         /// <returns>Returns the created EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(Edge pEdge, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
+        protected virtual EdgeControl AddEdge(IEdge pEdge, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
         {
             EdgeControl edv = new EdgeControl() { Edge = pEdge };
             VertexControl uv = pVertexVisualization;
@@ -546,10 +545,10 @@ namespace DataStructures.UI
         }
         #endregion
 
-        protected virtual void RemoveEdge(Edge pEdge)
+        protected virtual void RemoveEdge(IEdge pEdge)
         {
-            Edge edge = pEdge;
-            if (!EdgeVisualizations.Where(a => a.Edge.Equals(edge)).Count().Equals(0))
+            IEdge edge = pEdge;
+            if (EdgeVisualizations.Any(a => a.Edge.Equals(edge)))
             {
                 EdgeControl ev = EdgeVisualizations.Where(a => a.Edge.Equals(edge)).First();
                 this.Children.Remove(ev);
@@ -558,9 +557,9 @@ namespace DataStructures.UI
             if (Graph.Directed.Equals(false))
             {
                 //graph is undirected so remove opposite edge, if exists
-                if (!EdgeVisualizations.Where(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).Count().Equals(0))
+                if (EdgeVisualizations.Any(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).Equals(0))
                 {
-                    RemoveEdge(EdgeVisualizations.Where(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).First().Edge);
+                    RemoveEdge(EdgeVisualizations.First(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).Edge);
                 }
             }
         }
@@ -588,7 +587,7 @@ namespace DataStructures.UI
         /// <returns>Control which is using the Vertex</returns>
         protected virtual VertexControl GetItem(IVertex v)
         {
-            return VertexVisualizations.Where(a => a.Vertex.Equals(v)).FirstOrDefault<VertexControl>();
+            return VertexVisualizations.FirstOrDefault(a => a.Vertex.Equals(v));
         }
         /// <summary>
         /// Searches for the overgiven edge and returns the EdgeVisualization control which is representing it
@@ -597,7 +596,7 @@ namespace DataStructures.UI
         /// <returns>Control which is using the edge</returns>
         protected virtual EdgeControl GetItem(IEdge e)
         {
-            return EdgeVisualizations.Where(a => a.Edge.Equals(e)).FirstOrDefault<EdgeControl>();
+            return EdgeVisualizations.FirstOrDefault(a => a.Edge.Equals(e));
         }
         /// <summary>
         /// Calls the focus method on the VertexVisualization control

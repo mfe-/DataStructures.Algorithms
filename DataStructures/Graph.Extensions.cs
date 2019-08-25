@@ -26,6 +26,7 @@ namespace DataStructures
                 {
                     var dataContractSerializerSettings = new DataContractSerializerSettings();
                     dataContractSerializerSettings.PreserveObjectReferences = true;
+                    dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex<object>),typeof(Edge<object>) };
                     DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                     serializer.WriteObject(writer, g);
                     writer.Flush();
@@ -69,7 +70,7 @@ namespace DataStructures
             e.Save(memoryStream);
             memoryStream.Position = 0;
             var dataContractSerializerSettings = new DataContractSerializerSettings();
-            dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex), typeof(Edge) };
+            dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
             dataContractSerializerSettings.PreserveObjectReferences = true;
             DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
             Graph u = ndcs.ReadObject(memoryStream) as Graph;

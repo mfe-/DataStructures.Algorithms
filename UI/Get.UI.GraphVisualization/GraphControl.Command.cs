@@ -85,7 +85,7 @@ namespace DataStructures.UI
             {
                 VertexControl vv = FocusedFrameworkElement as VertexControl;
 
-                Vertex newVertex = new Vertex();
+                Vertex<object> newVertex = new Vertex<object>();
 
                 newVertex.Weighted = vv.Vertex.Weighted;
 
@@ -263,9 +263,9 @@ namespace DataStructures.UI
 
                 //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
                 Point p = (Mouse.GetPosition(sender as IInputElement));
-                Vertex v = new Vertex();
+                Vertex<object> v = new Vertex<object>();
 
-                gv.Graph.AddVertex(new Vertex());
+                gv.Graph.AddVertex(new Vertex<object>());
 
             }
         }

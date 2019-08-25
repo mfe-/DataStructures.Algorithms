@@ -62,16 +62,5 @@ namespace DataStructures
                 return true;
             }
         }
-
-
-        //todo
-        public static IEnumerable<Edge> Remove(this IEnumerable<Edge> plist, Vertex pU, Vertex pV)
-        {
-            return plist;
-        }
-        public static IEnumerable<Edge> Remove(this IEnumerable<Edge> plist, Edge pEdge)
-        {
-            return plist;
-        }
     }
 }

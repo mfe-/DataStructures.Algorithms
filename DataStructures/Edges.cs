@@ -6,9 +6,8 @@ using System;
 namespace DataStructures
 {
     [DebuggerDisplay("Edge={Weighted},U={U},V={V}")]
-    [KnownType(typeof(Vertex))]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
-    public class Edge : IEdge, INotifyPropertyChanged
+    public class Edge<TData> : IEdge<TData>
     {
         protected IVertex u;
         protected IVertex v;
@@ -42,7 +41,8 @@ namespace DataStructures
             v = pv;
             _weighted = pweighted;
         }
-
+        [IgnoreDataMember]
+        public TData Value { get; set; }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
@@ -70,7 +70,7 @@ namespace DataStructures
 
         public override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(Edge))) return false;
+            if (!obj.GetType().Equals(typeof(Edge<TData>))) return false;
 
             //true if objA is the same instance as objB or if both are null; otherwise, false.
             if (Object.ReferenceEquals(this, obj)) return true;
@@ -78,7 +78,7 @@ namespace DataStructures
             //Check whether any of the compared objects is null.
             if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(obj, null)) return false;
 
-            Edge edge = obj as Edge;
+            Edge<TData> edge = obj as Edge<TData>;
 
             return Equals(edge, false);
         }
@@ -113,10 +113,14 @@ namespace DataStructures
         #endregion
 
     }
-    public interface IEdge
+    public interface IEdge : INotifyPropertyChanged
     {
         IVertex U { get; set; }
         IVertex V { get; set; }
         int Weighted { get; set; }
+    }
+    public interface IEdge<TData> : IEdge, IData<TData>
+    {
+
     }
 }

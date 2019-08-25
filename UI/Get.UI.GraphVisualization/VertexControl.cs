@@ -156,12 +156,7 @@ namespace DataStructures.UI
         protected void NotifyPropertyChanged(String propertyName)
         {
             this.VerifyPropertyName(propertyName);
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
