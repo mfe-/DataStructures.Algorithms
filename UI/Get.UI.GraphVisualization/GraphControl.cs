@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia;
+using Portable.Xaml.Markup;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 
 namespace DataStructures.UI
 {
@@ -51,145 +51,145 @@ namespace DataStructures.UI
         /// </summary>
         protected Random _Random = new Random(DateTime.Now.Millisecond);
 
-        public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
-        public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
-        public static RoutedCommand KruskalRoutedCommand = new RoutedCommand();
-        public static RoutedCommand ClearGraphCommand = new RoutedCommand();
+        //public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
+        //public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
+        //public static RoutedCommand KruskalRoutedCommand = new RoutedCommand();
+        //public static RoutedCommand ClearGraphCommand = new RoutedCommand();
 
-        public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
-        "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphControl));
+        //public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
+        //"MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphControl));
 
         static GraphControl()
         {
             //set the backgroundcolor 
-            BackgroundProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(Brushes.Transparent));
+            BackgroundProperty.OverrideMetadata(typeof(GraphControl), new StyledPropertyMetadata<IBrush>(Brushes.Transparent));
             //enables commands in contextmenue if no item got is focused
-            FocusableProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(true));
+            FocusableProperty.OverrideMetadata(typeof(GraphControl), new StyledPropertyMetadata<bool>(true));
 
         }
 
         #region Drag and Drop
-        /// <summary>
-        /// Called before the MouseLeftButtonDown event occurs.
-        /// Preprares the drag and drop of the Vertex item. Raises the MouseDoubleClickEvent if the click counts equal two.
-        /// </summary>
-        /// <param name="e">The data for the event.</param>
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
+        ///// <summary>
+        ///// Called before the MouseLeftButtonDown event occurs.
+        ///// Preprares the drag and drop of the Vertex item. Raises the MouseDoubleClickEvent if the click counts equal two.
+        ///// </summary>
+        ///// <param name="e">The data for the event.</param>
+        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonDown(e);
 
-            if (e.Source is GraphControl)
-            {
-                this.Focus();
-            }
+        //    if (e.Source is GraphControl)
+        //    {
+        //        this.Focus();
+        //    }
 
-            if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
-            {
-                RaiseMouseDoubleClickEvent();
-            }
+        //    if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
+        //    {
+        //        RaiseMouseDoubleClickEvent();
+        //    }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                this.SelectedItem = (FrameworkElement)e.Source;
-                this.SelectedItem.Focus();
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
-                SetPosition(SelectedItem, p);
-            }
+        //    if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+        //    {
+        //        this.SelectedItem = (FrameworkElement)e.Source;
+        //        this.SelectedItem.Focus();
+        //        Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
+        //        SetPosition(SelectedItem, p);
+        //    }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                //create a temporary edge
-                EdgeControl ev = new EdgeControl();
-                Canvas.SetZIndex(ev, -1);
-                VertexControl vv = e.Source as VertexControl;
-                ev.Edge = new Edge<object>(vv.Vertex, null);
+        //    if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+        //    {
+        //        //create a temporary edge
+        //        EdgeControl ev = new EdgeControl();
+        //        Canvas.SetZIndex(ev, -1);
+        //        VertexControl vv = e.Source as VertexControl;
+        //        ev.Edge = new Edge<object>(vv.Vertex, null);
 
-                ev.PositionU = GetPosition(vv);
-                ev.PositionV = e.GetPosition(this);
-                this.SelectedItem = ev;
-                this.Children.Add(ev);
-            }
-        }
+        //        ev.PositionU = GetPosition(vv);
+        //        ev.PositionV = e.GetPosition(this);
+        //        this.SelectedItem = ev;
+        //        this.Children.Add(ev);
+        //    }
+        //}
         /// <summary>
         /// Called before the MouseMove event occurs. Moves the Vertex item.
         /// </summary>
         /// <param name="e">The data for the event.</param>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
+        //protected override void OnMouseMove(MouseEventArgs e)
+        //{
+        //    base.OnMouseMove(e);
 
-            if (Debugger.IsAttached)
-            {
-                TextBlock textblock = Children.OfType<TextBlock>().FirstOrDefault<TextBlock>();
-                if (textblock == null)
-                {
-                    textblock = new TextBlock();
-                    textblock.Text = Mouse.GetPosition(this).ToString();
-                    SetLeft(textblock, 0);
-                    SetTop(textblock, 0);
-                    Children.Add(textblock);
-                }
-                else
-                {
-                    textblock.Text = Mouse.GetPosition(this).ToString();
-                }
+        //    if (Debugger.IsAttached)
+        //    {
+        //        TextBlock textblock = Children.OfType<TextBlock>().FirstOrDefault<TextBlock>();
+        //        if (textblock == null)
+        //        {
+        //            textblock = new TextBlock();
+        //            textblock.Text = Mouse.GetPosition(this).ToString();
+        //            SetLeft(textblock, 0);
+        //            SetTop(textblock, 0);
+        //            Children.Add(textblock);
+        //        }
+        //        else
+        //        {
+        //            textblock.Text = Mouse.GetPosition(this).ToString();
+        //        }
 
-            }
+        //    }
 
-            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                VertexControl v = SelectedItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
-                v.Position = p;
-                SetPosition(SelectedItem, p);
-            }
+        //    if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+        //    {
+        //        VertexControl v = SelectedItem as VertexControl;
+        //        Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
+        //        v.Position = p;
+        //        SetPosition(SelectedItem, p);
+        //    }
 
-            //move edge
-            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
-            {
-                EdgeControl ev = SelectedItem as EdgeControl;
-                Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
-                ev.PositionV = p;
-            }
+        //    //move edge
+        //    if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
+        //    {
+        //        EdgeControl ev = SelectedItem as EdgeControl;
+        //        Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
+        //        ev.PositionV = p;
+        //    }
 
-        }
-        /// <summary>
-        /// Called before the MouseLeftButtonUp event occurs. Exits the drag and drop operation of the vertex item.
-        /// </summary>
-        /// <param name="e">The data for the event.</param>
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                VertexControl v = SelectedItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
-                v.Position = p;
-                SetPosition(SelectedItem, p);
-                SelectedItem = null;
-            }
-            //add edge to graph or remove temporary edge
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
-            {
+        //}
+        ///// <summary>
+        ///// Called before the MouseLeftButtonUp event occurs. Exits the drag and drop operation of the vertex item.
+        ///// </summary>
+        ///// <param name="e">The data for the event.</param>
+        //protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonUp(e);
+        //    if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+        //    {
+        //        VertexControl v = SelectedItem as VertexControl;
+        //        Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
+        //        v.Position = p;
+        //        SetPosition(SelectedItem, p);
+        //        SelectedItem = null;
+        //    }
+        //    //add edge to graph or remove temporary edge
+        //    if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
+        //    {
 
-                HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
-                FrameworkElement u = result.VisualHit as FrameworkElement;
-                VertexControl vv = u.TemplatedParent as VertexControl;
+        //        HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+        //        FrameworkElement u = result.VisualHit as FrameworkElement;
+        //        VertexControl vv = u.TemplatedParent as VertexControl;
 
-                EdgeControl ev = SelectedItem as EdgeControl;
+        //        EdgeControl ev = SelectedItem as EdgeControl;
 
-                if (vv != null)
-                {
-                    //first find the vertex where we started 
-                    IVertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
-                    //add to model edge 
-                    v.AddEdge(vv.Vertex, 0, Graph.Directed);
-                }
+        //        if (vv != null)
+        //        {
+        //            //first find the vertex where we started 
+        //            IVertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
+        //            //add to model edge 
+        //            v.AddEdge(vv.Vertex, 0, Graph.Directed);
+        //        }
 
-                this.Children.Remove(SelectedItem);
-                SelectedItem = null;
-            }
-        }
+        //        this.Children.Remove(SelectedItem);
+        //        SelectedItem = null;
+        //    }
+        //}
 
         #endregion Drag and Drop
 
@@ -202,7 +202,7 @@ namespace DataStructures.UI
         protected override Size MeasureOverride(Size constraint)
         {
             Size size = new Size();
-            foreach (UIElement element in Children)
+            foreach (Control element in Children)
             {
                 double left = Canvas.GetLeft(element);
                 double top = Canvas.GetTop(element);
@@ -214,14 +214,12 @@ namespace DataStructures.UI
                 Size desiredSize = element.DesiredSize;
                 if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
                 {
-                    size.Width = Math.Max(size.Width, left + desiredSize.Width);
-                    size.Height = Math.Max(size.Height, top + desiredSize.Height);
+                    size = new Size(Math.Max(size.Width, left + desiredSize.Width), Math.Max(size.Height, top + desiredSize.Height));
                 }
             }
 
             // add some extra margin for scrollviewer
-            size.Width += 10;
-            size.Height += 10;
+            size = new Size(size.Width + 10, size.Height + 10);
             return size;
         }
 
@@ -251,7 +249,7 @@ namespace DataStructures.UI
                 {
 
                     visualvertex = AddVertex(vertex);
-                    Canvas.SetZIndex(visualvertex, 1);
+                    //Canvas.SetZIndex(visualvertex, 1);
                 }
                 else
                 {
@@ -264,7 +262,7 @@ namespace DataStructures.UI
 
                     this.Children.Add(edv);
                     //bug? position of edge missing?
-                    Canvas.SetZIndex(edv, -1);
+                    //Canvas.SetZIndex(edv, -1);
                 }
 
                 if (vertexexists) return;
@@ -331,7 +329,7 @@ namespace DataStructures.UI
                 }
                 if (item is IVertex)
                 {
-                    AddVertex(item as IVertex, Mouse.GetPosition(this).Add(-25, -25));
+                    //AddVertex(item as IVertex, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
             if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
@@ -354,25 +352,25 @@ namespace DataStructures.UI
             }
             Debug.WriteLine(this.Graph.Vertices.Count);
         }
-
-        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnGraphChanged(GraphControl pDependencyObject, Graph e)
         {
-            if (e.NewValue == null && pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphControl)))
+            if (e == null && pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphControl)))
             {
                 GraphControl graphVisualization = pDependencyObject as GraphControl;
                 graphVisualization.Children.Clear();
                 return;
             }
-            if (e.NewValue.GetType() != (typeof(Graph))) return;
             if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphControl)))
             {
                 GraphControl graphVisualization = pDependencyObject as GraphControl;
-                Graph graph = e.NewValue as Graph;
+                Graph graph = e as Graph;
 
                 graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
 
                 graphVisualization.InitialiseGraph(graph.Vertices);
             }
+            //set graph
+            pDependencyObject.Graph = e;
         }
 
         #region addVertex
@@ -384,7 +382,7 @@ namespace DataStructures.UI
         /// <returns>Returns the created VertexVisualization</returns>
         protected virtual VertexControl AddVertex(IVertex v)
         {
-            return AddVertex(v, new Point(GetRandomNumber(0, this.ActualWidth - 10), GetRandomNumber(0, this.ActualHeight - 10)));
+            return AddVertex(v, new Point(GetRandomNumber(0, this.Width - 10), GetRandomNumber(0, this.Height - 10)));
         }
         /// <summary>
         /// Adds a Vertex to the _Canvas.
@@ -447,7 +445,7 @@ namespace DataStructures.UI
             {
                 this.Children.Add(edv);
                 //bug? position of edge missing?
-                Canvas.SetZIndex(edv, -1);
+                //Canvas.SetZIndex(edv, -1); ZIndex
             }
 
             return edv;
@@ -459,7 +457,7 @@ namespace DataStructures.UI
         /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
         /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
         /// <returns>Returns the created EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(IEdge pEdge, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
+        protected virtual EdgeControl AddEdge(IEdge pEdge, VertexControl pVertexVisualization, DirectProperty<EdgeControl, Point> pDependencyProperty)
         {
             EdgeControl edv = new EdgeControl() { Edge = pEdge };
             VertexControl uv = pVertexVisualization;
@@ -486,7 +484,7 @@ namespace DataStructures.UI
         /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
         /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
         /// <returns>Returns the modified EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(EdgeControl pEdgeVisualization, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
+        protected virtual EdgeControl AddEdge(EdgeControl pEdgeVisualization, VertexControl pVertexVisualization, DirectProperty<EdgeControl, Point> pDependencyProperty)
         {
             EdgeControl edv = pEdgeVisualization;
             VertexControl uv = pVertexVisualization;
@@ -514,34 +512,36 @@ namespace DataStructures.UI
         /// <param name="pDependencyProperty">On which Position Property the binding should be set. Use EdgeVisualization.PositionUProperty or dgeVisualization.PositionVProperty))</param>
         /// <param name="Converter">Set a Converter if needed</param>
         /// <param name="ConverterParameter">Parameter for the Converter</param>
-        protected virtual void CreatePositionBinding(EdgeControl pSetBindingSource, VertexControl pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
+        protected virtual void CreatePositionBinding(EdgeControl pSetBindingSource, VertexControl pBindingSource, DirectProperty<EdgeControl, Point> pDependencyProperty, IValueConverter Converter, object ConverterParameter)
         {
-            if (pSetBindingSource.GetBindingExpression(pDependencyProperty) == null)
-            {
-                Binding bindingU = new Binding("Position");
-                bindingU.Source = pBindingSource;
-                bindingU.Mode = BindingMode.TwoWay;
-                bindingU.NotifyOnSourceUpdated = true;
-                bindingU.NotifyOnTargetUpdated = true;
-                bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                bindingU.Converter = Converters.PointAdderConverter;
-                bindingU.ConverterParameter = ConverterParameter;
-                pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
-            }
+            //http://www.avaloniaui.net/docs/binding/binding-from-code#setting-a-binding-in-an-object-initializer
+            //if (pSetBindingSource.GetBindingExpression(pDependencyProperty) == null)
+            //{
+            //    Binding bindingU = new Binding("Position");
+            //    bindingU.Source = pBindingSource;
+            //    bindingU.Mode = BindingMode.TwoWay;
+            //    bindingU.NotifyOnSourceUpdated = true;
+            //    bindingU.NotifyOnTargetUpdated = true;
+            //    bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //    bindingU.Converter = Converters.PointAdderConverter;
+            //    bindingU.ConverterParameter = ConverterParameter;
+            //    pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
+            //}
         }
         //not tested yet
         protected virtual void CreateDirectedBinding(EdgeControl pSetBindingSource, Graph pGraphSource)
         {
-            if (pSetBindingSource.GetBindingExpression(EdgeControl.DirectedProperty) == null)
-            {
-                Binding bindingDirected = new Binding("Directed");
-                bindingDirected.Source = pGraphSource;
-                bindingDirected.Mode = BindingMode.OneWay;
-                bindingDirected.NotifyOnSourceUpdated = true;
-                bindingDirected.NotifyOnTargetUpdated = false;
-                bindingDirected.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pSetBindingSource.SetBinding(EdgeControl.DirectedProperty, bindingDirected);
-            }
+            //http://www.avaloniaui.net/docs/binding/binding-from-code#setting-a-binding-in-an-object-initializer
+            //    if (pSetBindingSource.GetBindingExpression(EdgeControl.DirectedProperty) == null)
+            //    {
+            //        Binding bindingDirected = new Binding("Directed");
+            //        bindingDirected.Source = pGraphSource;
+            //        bindingDirected.Mode = BindingMode.OneWay;
+            //        bindingDirected.NotifyOnSourceUpdated = true;
+            //        bindingDirected.NotifyOnTargetUpdated = false;
+            //        bindingDirected.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            //        pSetBindingSource.SetBinding(EdgeControl.DirectedProperty, bindingDirected);
+            //    }
         }
         #endregion
 
@@ -569,13 +569,13 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="u">From which VertexVisualization the position should be returned</param>
         /// <returns>Position of the VertexVisualization control</returns>
-        protected virtual Point GetPosition(FrameworkElement u)
+        protected virtual Point GetPosition(Control u)
         {
-            double left = Canvas.GetLeft(u as UIElement);
-            double top = Canvas.GetTop(u as UIElement);
+            double left = Canvas.GetLeft(u as Control);
+            double top = Canvas.GetTop(u as Control);
             return new Point(left + (u.Width / 2), top + (u.Height / 2));
         }
-        protected virtual void SetPosition(FrameworkElement f, Point p)
+        protected virtual void SetPosition(Control f, Point p)
         {
             Canvas.SetLeft(f, p.X);
             Canvas.SetTop(f, p.Y);
@@ -632,35 +632,36 @@ namespace DataStructures.UI
             return _Random.NextDouble() * (maximum - minimum) + minimum;
         }
 
+        private Graph _Graph = null;
         public Graph Graph
         {
-            get { return (Graph)GetValue(GraphProperty); }
-            set { SetValue(GraphProperty, value); }
+            get { return _Graph; }
+            set { SetAndRaise(GraphProperty, ref _Graph, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Graph.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register("Graph", typeof(Graph), typeof(GraphControl), new UIPropertyMetadata(null, OnGraphChanged));
+        // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
+        public static readonly DirectProperty<GraphControl, Graph> GraphProperty =
+            AvaloniaProperty.RegisterDirect<GraphControl, Graph>(nameof(Graph), o => o.Graph, OnGraphChanged, defaultBindingMode: Avalonia.Data.BindingMode.Default);
 
-        /// <summary>
-        /// This method raises the MouseDoubleClick event
-        /// </summary>
-        private void RaiseMouseDoubleClickEvent()
-        {
-            RoutedEventArgs newEventArgs = new RoutedEventArgs(GraphControl.MouseDoubleClickEvent);
-            RaiseEvent(newEventArgs);
-        }
+        ///// <summary>
+        ///// This method raises the MouseDoubleClick event
+        ///// </summary>
+        //private void RaiseMouseDoubleClickEvent()
+        //{
+        //    RoutedEventArgs newEventArgs = new RoutedEventArgs(GraphControl.MouseDoubleClickEvent);
+        //    RaiseEvent(newEventArgs);
+        //}
 
-        /// <summary>
-        /// MouseDoubleClick CLR accessors for the event
-        /// </summary>
-        public event RoutedEventHandler MouseDoubleClick
-        {
-            add { AddHandler(MouseDoubleClickEvent, value); }
-            remove { RemoveHandler(MouseDoubleClickEvent, value); }
-        }
+        ///// <summary>
+        ///// MouseDoubleClick CLR accessors for the event
+        ///// </summary>
+        //public event RoutedEventHandler MouseDoubleClick
+        //{
+        //    add { AddHandler(MouseDoubleClickEvent, value); }
+        //    remove { RemoveHandler(MouseDoubleClickEvent, value); }
+        //}
 
-        protected FrameworkElement SelectedItem { get; set; }
+        protected Control SelectedItem { get; set; }
 
         /// <summary>
         /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
@@ -687,11 +688,11 @@ namespace DataStructures.UI
         /// <summary>
         /// Represents a dynamic data collection of Frameworkelements which got focused
         /// </summary>
-        public FrameworkElement FocusedFrameworkElement
+        public Control FocusedFrameworkElement
         {
             get
             {
-                IEnumerable<FrameworkElement> FElementList = this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true));
+                IEnumerable<Control> FElementList = this.Children.OfType<Control>().Where(f => f.IsFocused.Equals(true));
                 if (FElementList != null && FElementList.Count() != 0)
                 {
                     return FElementList.First();

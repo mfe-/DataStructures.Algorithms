@@ -1,4 +1,14 @@
-﻿Gut zu wissen:
+﻿
+1. https://github.com/AvaloniaUI/avalonia-dotnet-templates
+2. dotnet new avalonia.app -o DataStructures.UI.Demo  
+3. Remove old System.Windows namespace and add where possible the new Avalon. 
+4. Fix simple stuff like Size.Width+=10 doesn't work as its readonly with new Size(size.Width +10)
+5. replace FrameworkPropertyMetadata with StyledPropertyMetadata
+6. Rest auskommentieren
+
+
+
+Gut zu wissen:
 Die Edge Controls werden ohne Positionsangabe zum Graph Control hinzugefügt! Ledeglich die Line hat die richtigen Koordinaten, d.h. das Edge Control kann an einem völlig anderem Ort liegen
 obwohl die Line korrekt angezeigt wird.
 

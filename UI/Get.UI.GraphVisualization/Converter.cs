@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Windows.Data;
-using System.Windows.Markup;
-using System.Windows;
+using Avalonia.Data.Converters;
+using System.Drawing;
+using Avalonia.Metadata;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace DataStructures.UI

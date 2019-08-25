@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Markup;
-using System.Windows.Data;
 using System.Globalization;
-using System.Windows.Input;
+using System.Linq;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
+using Avalonia.Metadata;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace DataStructures.UI
@@ -15,8 +16,8 @@ namespace DataStructures.UI
     {
         static EdgeControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeControl), new FrameworkPropertyMetadata(typeof(EdgeControl)));
-            StrokeThicknessProperty = System.Windows.Shapes.Shape.StrokeThicknessProperty.AddOwner(typeof(EdgeControl), new PropertyMetadata((double)1));
+            //    DefaultStyleKeyProperty.OverrideMetadata(typeof(EdgeControl), new FrameworkPropertyMetadata(typeof(EdgeControl)));
+            //    StrokeThicknessProperty = System.Windows.Shapes.Shape.StrokeThicknessProperty.AddOwner(typeof(EdgeControl), new PropertyMetadata((double)1));
         }
 
         public EdgeControl()
@@ -30,172 +31,178 @@ namespace DataStructures.UI
             return base.MeasureOverride(new Size(constraint.Width + 5, constraint.Height + 10));
         }
 
-        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            this.Focus();
-        }
-        /// <summary>
-        /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
-        /// When the control is focused you can enter a number to change the weight of the edge
-        /// </summary>
-        /// <param name="e">Event Data</param>
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
-            if (e.Key.Equals(Key.Back))
-            {
-                if (Edge.Weighted.ToString().Length != 1)
-                {
-                    String temp = Edge.Weighted.ToString();
-                    temp = temp.Remove(temp.Length - 1);
-                    int result = 0;
-                    if (Int32.TryParse(temp, out result))
-                    {
-                        Edge.Weighted = result;
-                    }
-                }
-                else
-                {
-                    Edge.Weighted = 0;
-                }
+        //protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //    base.OnMouseLeftButtonDown(e);
+        //    this.Focus();
+        //}
+        ///// <summary>
+        ///// Occurs before the KeyDown event when a key is pressed while focus is on this control.
+        ///// When the control is focused you can enter a number to change the weight of the edge
+        ///// </summary>
+        ///// <param name="e">Event Data</param>
+        //protected override void OnPreviewKeyDown(KeyEventArgs e)
+        //{
+        //    //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
+        //    if (e.Key.Equals(Key.Back))
+        //    {
+        //        if (Edge.Weighted.ToString().Length != 1)
+        //        {
+        //            String temp = Edge.Weighted.ToString();
+        //            temp = temp.Remove(temp.Length - 1);
+        //            int result = 0;
+        //            if (Int32.TryParse(temp, out result))
+        //            {
+        //                Edge.Weighted = result;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Edge.Weighted = 0;
+        //        }
 
-            }
-            else
-            {
-                if (e.Key >= Key.D0 && e.Key <= Key.D9 
-                    || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
-                {
-                    // Number keys pressed so need to so special processing
-                    // also check if shift pressed
-                    String temp = Edge.Weighted.ToString();
-                    temp += e.Key.ToString()[1].ToString();
+        //    }
+        //    else
+        //    {
+        //        if (e.Key >= Key.D0 && e.Key <= Key.D9 
+        //            || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+        //        {
+        //            // Number keys pressed so need to so special processing
+        //            // also check if shift pressed
+        //            String temp = Edge.Weighted.ToString();
+        //            temp += e.Key.ToString()[1].ToString();
 
-                    int result = 0;
-                    if (Int32.TryParse(temp, out result))
-                    {
-                        Edge.Weighted = result;
+        //            int result = 0;
+        //            if (Int32.TryParse(temp, out result))
+        //            {
+        //                Edge.Weighted = result;
 
-                    }
-                }
+        //            }
+        //        }
 
-            }
-            //directed edges exists the other way around too. Set same weight
-            var revertedEdge = Edge.GetOppositeEdge();
-            if (revertedEdge != null)
-            {
-                revertedEdge.Weighted = Edge.Weighted;
-            }
-            base.OnPreviewKeyDown(e);
+        //    }
+        //    //directed edges exists the other way around too. Set same weight
+        //    var revertedEdge = Edge.GetOppositeEdge();
+        //    if (revertedEdge != null)
+        //    {
+        //        revertedEdge.Weighted = Edge.Weighted;
+        //    }
+        //    base.OnPreviewKeyDown(e);
 
-        }
+        //}
         /// <summary>
         /// Participates in rendering operations that are directed by the layout system. Adds the weighted as text in the middle of the edge
         /// </summary>
         /// <param name="drawingContext">The drawing instructions for a specific element. This context is provided to the layout system.</param>
-        protected override void OnRender(DrawingContext drawingContext)
+        //protected override void OnRender(DrawingContext drawingContext)
+        //{
+        //    base.OnRender(drawingContext);
+
+        //    Point p = new Point((PositionV.X + PositionU.X) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
+
+        //    drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
+        //        CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
+        //        this.FontSize, this.Foreground), p);
+
+        //}
+
+        private IEdge _Edge = null;
+        public IEdge Edge
         {
-            base.OnRender(drawingContext);
-
-            Point p = new Point((PositionV.X + PositionU.X) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
-
-            drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
-                CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
-                this.FontSize, this.Foreground), p);
-
+            get { return _Edge; }
+            set { SetAndRaise(EdgeProperty, ref _Edge, value); }
         }
-        public DataStructures.IEdge Edge
+
+        // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
+        public static readonly DirectProperty<EdgeControl, IEdge> EdgeProperty =
+            AvaloniaProperty.RegisterDirect<EdgeControl, IEdge>(nameof(Edge), o => o.Edge, OnEdgeChanged, defaultBindingMode: Avalonia.Data.BindingMode.Default);
+
+        private static void OnEdgeChanged(EdgeControl pDependencyObject, IEdge e)
         {
-            get { return (DataStructures.IEdge)GetValue(EdgeProperty); }
-            set { SetValue(EdgeProperty, value); }
-        }
-
-
-        // Using a DependencyProperty as the backing store for Edge.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EdgeProperty =
-            DependencyProperty.Register("Edge", typeof(DataStructures.IEdge), typeof(EdgeControl), new UIPropertyMetadata(null, OnEdgeChanged));
-
-        private static void OnEdgeChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if ((e.NewValue != null && e.NewValue as IEdge != null) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
+            if ((e != null) && (pDependencyObject != null))
             {
-                IEdge edge = e.NewValue as IEdge;
-                //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
-                EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
-
-                edge.PropertyChanged += (sender, ePropertyChangedEventArgs) =>
+                //register event only on a diffrent value
+                if(pDependencyObject.Edge != e)
                 {
+                    IEdge edge = e;
+                    //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
+                    EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
 
-                    //Rerender Weighted - OnRender()
-                    edgeVisualization.InvalidateVisual();
-                };
+                    edge.PropertyChanged += (sender, ePropertyChangedEventArgs) =>
+                    {
 
+                        //Rerender Weighted - OnRender()
+                        edgeVisualization.InvalidateVisual();
+                    };
+                }
             }
+            //set property
+            pDependencyObject.Edge = e;
         }
 
 
-        public static readonly DependencyProperty StrokeThicknessProperty;
+        //public static readonly DependencyProperty StrokeThicknessProperty;
 
-        /// <summary>
-        /// Gets or sets the width of the shape outline. 
-        /// </summary>
-        [TypeConverter(typeof(LengthConverter))]
-        public double StrokeThickness
-        {
-            get { return (double)GetValue(StrokeThicknessProperty); }
-            set { SetValue(StrokeThicknessProperty, value); }
-        }
+        ///// <summary>
+        ///// Gets or sets the width of the shape outline. 
+        ///// </summary>
+        //[TypeConverter(typeof(LengthConverter))]
+        //public double StrokeThickness
+        //{
+        //    get { return (double)GetValue(StrokeThicknessProperty); }
+        //    set { SetValue(StrokeThicknessProperty, value); }
+        //}
+
         /// <summary>
         /// Gets or sets the value of the position from the correspondending U Vertex control
         /// </summary>
+        private Point _PositionU = new Point();
         public Point PositionU
         {
-            get { return (Point)GetValue(PositionUProperty); }
-            set { SetValue(PositionUProperty, value); }
+            get { return _PositionV; }
+            set { SetAndRaise(PositionUProperty, ref _PositionU, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PositionU.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PositionUProperty =
-            DependencyProperty.Register("PositionU", typeof(Point), typeof(EdgeControl), new UIPropertyMetadata(new Point()));
-
-
+        // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
+        public static readonly DirectProperty<EdgeControl, Point> PositionUProperty =
+            AvaloniaProperty.RegisterDirect<EdgeControl, Point>(nameof(PositionU), o => o.PositionU, (o, v) => o.PositionU = v, defaultBindingMode: Avalonia.Data.BindingMode.Default);
 
         /// <summary>
         /// Gets or sets the value of the position from the correspondending V Vertex control
         /// </summary>
+        private Point _PositionV = new Point();
         public Point PositionV
         {
-            get { return (Point)GetValue(PositionVProperty); }
-            set { SetValue(PositionVProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PositionV.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PositionVProperty =
-            DependencyProperty.Register("PositionV", typeof(Point), typeof(EdgeControl), new UIPropertyMetadata(null));
-
-
-
-        public bool Directed
-        {
-            get { return (bool)GetValue(DirectedProperty); }
-            set { SetValue(DirectedProperty, value); }
+            get { return _PositionV; }
+            set { SetAndRaise(PositionVProperty, ref _PositionV, value); }
         }
 
         // Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DirectedProperty =
-            DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeControl), new UIPropertyMetadata(false));
+        public static readonly DirectProperty<EdgeControl, Point> PositionVProperty =
+            AvaloniaProperty.RegisterDirect<EdgeControl, Point>(nameof(PositionV), o => o.PositionV, (o, v) => o.PositionV = v, defaultBindingMode: Avalonia.Data.BindingMode.Default);
 
+
+        private bool _Directed = false;
+        public bool Directed
+        {
+            get { return _Directed; }
+            set { SetAndRaise(DirectedProperty, ref _Directed, value); }
+        }
+
+        //// Using a DependencyProperty as the backing store for Directed.  This enables animation, styling, binding, etc...
+        public static readonly DirectProperty<EdgeControl, bool> DirectedProperty =
+            AvaloniaProperty.RegisterDirect<EdgeControl, bool>(nameof(Directed), o => o.Directed, (o, v) => o.Directed = v, defaultBindingMode: Avalonia.Data.BindingMode.TwoWay);
 
         public static ShiftConverter ShiftConverter = new ShiftConverter();
 
     }
     public class ShiftConverter : IMultiValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values == null) return new Point[] { };
-            if (!values.GetType().Equals(typeof(System.Object[]))) return values;
-            if (!values.Length.Equals(2)) return new Point[] { };
+            if (!values.GetType().Equals(typeof(IList<object>))) return values;
+            if (!values.Count().Equals(2)) return new Point[] { };
             if (!values[0].GetType().Equals(typeof(Point))) return new Point[] { };
             if (!values[1].GetType().Equals(typeof(Point))) return new Point[] { };
 

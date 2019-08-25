@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Markup;
-using System.Windows.Media.Animation;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Avalonia;
+using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
+using Avalonia.Metadata;
+using Portable.Xaml.Markup;
 
-[assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
+[assembly: Avalonia.Metadata.XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace DataStructures.UI
 {
     /// <summary>
@@ -51,88 +47,99 @@ namespace DataStructures.UI
     ///
     /// </summary>
     [ContentProperty("Vertex")]
-    [TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
+    //[TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
     public class VertexControl : Control, INotifyPropertyChanged
     {
         AdornerLayer _adornerLayer;
-        AdornerItem _adornerItem;
+        //AdornerItem _adornerItem;
 
         public VertexControl()
         {
 
         }
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            if (_adornerLayer == null)
-            {
-                _adornerLayer = AdornerLayer.GetAdornerLayer(this);
-                _adornerItem = new AdornerItem(this);
-                _adornerItem.MouseDown += new MouseButtonEventHandler(AdornerItem_MouseDown);
-            }
-            if (this.Template != null)
-            {
-                //Border = this.Template.FindName("PART_Border", this) as Border;
-                //if (Parent != null)
-                //{
-                //    UIElement uIElement = Parent as UIElement;
-                //    uIElement.GotFocus += (sender, eargs) =>
-                //    {
-                //        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
-                //        Focus();
+        //public override void OnApplyTemplate()
+        //{
+        //    base.OnApplyTemplate();
+        //    if (_adornerLayer == null)
+        //    {
+        //        _adornerLayer = AdornerLayer.GetAdornerLayer(this);
+        //        _adornerItem = new AdornerItem(this);
+        //        _adornerItem.MouseDown += new MouseButtonEventHandler(AdornerItem_MouseDown);
+        //    }
+        //    if (this.Template != null)
+        //    {
+        //        //Border = this.Template.FindName("PART_Border", this) as Border;
+        //        //if (Parent != null)
+        //        //{
+        //        //    UIElement uIElement = Parent as UIElement;
+        //        //    uIElement.GotFocus += (sender, eargs) =>
+        //        //    {
+        //        //        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
+        //        //        Focus();
 
-                //    };
-                //}
+        //        //    };
+        //        //}
 
-            }
+        //    }
 
-        }
+        //}
 
-        protected void AdornerItem_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(e);
-        }
-        protected override void OnMouseEnter(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            if (_adornerLayer.GetAdorners(this)==null)
-                _adornerLayer.Add(_adornerItem);
-        }
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            if (!IsFocused.Equals(true))
-                _adornerLayer.Remove(_adornerItem);
-        }
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            base.OnLostFocus(e);
-            if(_adornerLayer!=null)
-            _adornerLayer.Remove(_adornerItem);
-        }
-        
+        //protected void AdornerItem_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    RaiseEvent(e);
+        //}
+        //protected override void OnMouseEnter(MouseEventArgs e)
+        //{
+        //    base.OnMouseMove(e);
+        //    if (_adornerLayer.GetAdorners(this) == null)
+        //        _adornerLayer.Add(_adornerItem);
+        //}
+        //protected override void OnMouseLeave(MouseEventArgs e)
+        //{
+        //    base.OnMouseLeave(e);
+        //    if (!IsFocused.Equals(true))
+        //        _adornerLayer.Remove(_adornerItem);
+        //}
+        //protected override void OnLostFocus(RoutedEventArgs e)
+        //{
+        //    base.OnLostFocus(e);
+        //    if (_adornerLayer != null)
+        //        _adornerLayer.Remove(_adornerItem);
+        //}
+
         static VertexControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
 
-            WidthProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
-            HeightProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
+            WidthProperty.OverrideMetadata(typeof(VertexControl), new StyledPropertyMetadata<double>(40));
+            HeightProperty.OverrideMetadata(typeof(VertexControl), new StyledPropertyMetadata<double>(40));
 
-            BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(new Thickness(1)));
 
-            BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.Black));
-            BackgroundProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.White));
+            //    BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new StyledPropertyMetadata<Thickness>(new Thickness(1)));
+
+            //    BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new StyledPropertyMetadata<IBrush>(Brushes.Black));
+            //    BackgroundProperty.OverrideMetadata(typeof(VertexControl), new StyledPropertyMetadata<IBrush>(Brushes.White));
         }
 
-        public DataStructures.IVertex Vertex
+        private IVertex _vertex = null;
+        public IVertex Vertex
         {
-            get { return (DataStructures.IVertex)GetValue(VertexProperty); }
-            set { SetValue(VertexProperty, value); }
+            get { return _vertex; }
+            set { SetAndRaise(VertexProperty, ref _vertex, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VertexProperty =
-            DependencyProperty.Register("Vertex", typeof(DataStructures.IVertex), typeof(VertexControl), new UIPropertyMetadata());
+        public static readonly DirectProperty<VertexControl, IVertex> VertexProperty =
+            AvaloniaProperty.RegisterDirect<VertexControl, IVertex>(nameof(Vertex),o => o.Vertex,(o, v) => o.Vertex = v);
+
+        //public DataStructures.IVertex Vertex
+        //{
+        //    get { return (DataStructures.IVertex)GetValue(VertexProperty); }
+        //    set { SetValue(VertexProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty VertexProperty =
+        //    DependencyProperty.Register("Vertex", typeof(DataStructures.IVertex), typeof(VertexControl), new UIPropertyMetadata());
 
         private Point _Position;
         public virtual Point Position
@@ -143,41 +150,27 @@ namespace DataStructures.UI
                 if (_Position != value)
                 {
                     _Position = value;
-                    NotifyPropertyChanged("Position");
+                    SetProperty(ref _Position, value, nameof(Position));
                 }
             }
         }
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Notify using String property name
-        /// </summary>
-        protected void NotifyPropertyChanged(String propertyName)
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            this.VerifyPropertyName(propertyName);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Warns the developer if this object does not have
-        /// a public property with the specified name. This 
-        /// method does not exist in a Release build.
-        /// </summary>
-        [Conditional("DEBUG")]
-        [DebuggerStepThrough]
-        public void VerifyPropertyName(string propertyName)
-        {
-            #if !SILVERLIGHT
-            // Verify that the property name matches a real,  
-            // public, instance property on this object.
-            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
+            if (Equals(storage, value))
             {
-                string msg = "Invalid property name: " + propertyName;
-
-
+                return false;
             }
-            #endif
+            storage = value;
+
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public static IntToStringConverter IntToStringConverter = new IntToStringConverter();
