@@ -41,7 +41,6 @@ namespace DataStructures
             v = pv;
             _weighted = pweighted;
         }
-        [IgnoreDataMember]
         public TData Value { get; set; }
         /// <summary>
         /// Get or sets the Vertex of the Edge

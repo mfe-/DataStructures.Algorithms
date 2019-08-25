@@ -160,7 +160,7 @@ namespace DataStructures
         /// </summary>
         int Size { get; }
     }
-    public interface IVertex<out TData> : IVertex, IData<TData>
+    public interface IVertex<TData> : IVertex, IData<TData>
     {
     }
 }
