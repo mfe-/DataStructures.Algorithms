@@ -10,41 +10,19 @@
     xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     Title="Window1" WindowStartupLocation="CenterScreen">
-    <!--<Window.DataContext>
-        <local:ModelView></local:ModelView>
-    </Window.DataContext>-->
+    <Window.DataContext>
+        <local:Window1ViewModel />
+    </Window.DataContext>
     <Window.Resources>
 
     </Window.Resources>
     <Window.Content>
-        <DockPanel>
-            <!--<GetControls:ObjectControl ItemsSource="{Binding ObjectCore}"></GetControls:ObjectControl>
-            <TextBox Text="{Binding Path=PropertieModifiers,UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Text="{Binding Path=text,UpdateSourceTrigger=PropertyChanged}"/>-->
-            <!--<Expander IsExpanded="True" Header="Symbols" Margin="0,1,0,0" >
-                <Expander.Content>
-                    <Base:Toolbox>
-                        <ItemsControl.Items>
-                            <ui:VertexVisualization />
-                            <ui:EdgeVisualization PositionU="0,40" PositionV="40,0" />
-                        </ItemsControl.Items>
-                    </Base:Toolbox>
-                </Expander.Content>
-            </Expander>
-                            
-                                Cinch:SingleEventCommand.CommandParameter="{Binding Path=.}"
-                Cinch:SingleEventCommand.RoutedEventName="MouseDoubleClick"
-                Cinch:SingleEventCommand.TheCommandToRun="{x:Static ui:GraphVisualization.AddVertexRoutedCommand}"
-            
-                            <Core:EventTriggerBehavior EventName="MouseDoubleClick">
-
-                </Core:EventTriggerBehavior>
-            
-            -->
-
+        <DockPanel x:Name="dockPanel">
+            <TextBlock Text="{Binding Path=.}" />
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
 
-            <ui:GraphControl x:Name="_GraphVisualization">
+            <ui:GraphControl x:Name="_GraphVisualization" 
+                             Graph="{Binding Graph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                 <interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="MouseDoubleClick">
                         <interactivity:InvokeCommandAction 
@@ -65,12 +43,29 @@
                 </ui:GraphControl.ContextMenu>
                 <ui:GraphControl.Resources>
                     <Style TargetType="{x:Type ui:VertexControl}">
-
-                        <Style.Triggers>
-
-
-                        </Style.Triggers>
-
+                        <Setter Property="Width" Value="60" />
+                        <Setter Property="Height" Value="60" />
+                        <!--<Setter Property="Background" Value="Green" />-->
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Background="Yellow" 
+                                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                        <interactivity:Interaction.Triggers>
+                                            <interactivity:EventTrigger EventName="MouseDoubleClick">
+                                                <interactivity:InvokeCommandAction 
+                                                    Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                                    CommandParameter="{Binding}" />
+                                            </interactivity:EventTrigger>
+                                        </interactivity:Interaction.Triggers>
+                                        <TextBlock Text="{Binding Path=Weighted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                        <Button Content="x" Focusable="False" 
+                                                Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
 
                     <Style TargetType="{x:Type ui:EdgeControl}">

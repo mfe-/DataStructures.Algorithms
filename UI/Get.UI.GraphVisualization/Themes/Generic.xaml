@@ -24,7 +24,6 @@
     -->
     <Style TargetType="{x:Type local:VertexControl}">
         <Style.Resources>
-
             <Storyboard x:Key="FocusColorAnimation">
                 <ColorAnimation Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)" To="Red" AutoReverse="True" Duration="00:00:02.000" />
             </Storyboard>
@@ -34,98 +33,43 @@
             <Storyboard x:Key="BorderThicknessAnimationUp">
                 <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="2,2,2,2" To="1,1,1,1" FillBehavior="HoldEnd" Duration="00:00:02.000" />
             </Storyboard>
-
-            <ControlTemplate x:Key="VertexVisualizationTextBlock" TargetType="{x:Type local:VertexControl}">
-                <Grid>
-                    <Border x:Name="PART_Border"  CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                        <Border.Resources>
-
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexControl}},UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                        <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" Value="True">-->
-                                        <!--<Setter Property="BorderBrush" Value="Green" /> will not work because BorderBrush is already set in <Border/> -->
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationDown}"/>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
-                                    <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationUp}"/>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>-->
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Resources>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock x:Name="PART_TextBlockWeighted" Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexControl}}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                </Grid>
-                <ControlTemplate.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                                <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
-                                    <SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1" />
-                                </DoubleAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="GotFocus">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="1,1,1,1" To="2,2,2,2" FillBehavior="Stop" Duration="00:00:02.000" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                    <EventTrigger RoutedEvent="LostFocus">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ThicknessAnimation Storyboard.TargetProperty="BorderThickness"  From="2,2,2,2" To="1,1,1,1" FillBehavior="HoldEnd" Duration="00:00:02.000" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-
             <ControlTemplate  x:Key="VertexVisualizationTextBox" TargetType="{x:Type local:VertexControl}">
-                <Grid>
-                    <Border x:Name="PART_Border"  CornerRadius="50" Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                        <Border.Resources>
-
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexControl}},UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                        <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" Value="True">-->
-                                        <!--<Setter Property="BorderBrush" Value="Green" /> will not work because BorderBrush is already set in <Border/> -->
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationDown}"/>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
-                                    <!--<DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexVisualization}},UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationUp}"/>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>-->
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Resources>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBox x:Name="PART_TextBoxWeighted"
+                <Border x:Name="PART_Border" 
+                        CornerRadius="50"
+                        Height="{TemplateBinding Height}" 
+                        Width="{TemplateBinding Width}"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+                    <Border.Resources>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsFocused,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexControl}},UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                     <DataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource BorderThicknessAnimationDown}"/>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Resources>
+                    <StackPanel Name="PART_InnerBorderStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="14">
+                        <!--
+                            into this stackpanel the itemtemplate will be placed
+                        -->
+                        <!--<TextBox x:Name="PART_TextBoxWeighted"
                                     Text="{Binding Mode=TwoWay,Path=Vertex.Weighted,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type local:VertexControl}}
-                                    ,Converter={x:Static local:VertexControl.IntToStringConverter}}" />
-                        </StackPanel>
-                    </Border>
-                </Grid>
+                                    ,Converter={x:Static local:VertexControl.IntToStringConverter}}" />-->
+                    </StackPanel>
+                </Border>
                 <ControlTemplate.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
                             <Storyboard>
+                                <!--dont use this animations! it sets the width/height hardcoded to 40
                                 <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
-                                <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.25" AutoReverse="False"/>-->
                                 <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
                                     <SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1" />
                                 </DoubleAnimationUsingKeyFrames>
@@ -148,18 +92,12 @@
                     </EventTrigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-
         </Style.Resources>
         <Style.Triggers>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="Template" Value="{StaticResource VertexVisualizationTextBox}" ></Setter>
-            </Trigger>
-            <Trigger Property="IsKeyboardFocusWithin" Value="False">
-                <Setter Property="Template" Value="{StaticResource VertexVisualizationTextBlock}" ></Setter>
-            </Trigger>
         </Style.Triggers>
         <Setter Property="Opacity" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template" Value="{StaticResource VertexVisualizationTextBox}" />
     </Style>
 
     <!--

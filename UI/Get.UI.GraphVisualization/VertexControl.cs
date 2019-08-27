@@ -51,11 +51,15 @@ namespace DataStructures.UI
     ///
     /// </summary>
     [ContentProperty("Vertex")]
-    [TemplatePartAttribute(Name = "PART_Border", Type = typeof(Border))]
+    [TemplatePart(Name = "PART_Border", Type = typeof(Border))]
+    [TemplatePart(Name = "PART_ValuePanel", Type = typeof(StackPanel))]
     public class VertexControl : Control, INotifyPropertyChanged
     {
-        AdornerLayer _adornerLayer;
-        AdornerItem _adornerItem;
+        protected AdornerLayer _adornerLayer;
+        protected AdornerItem _adornerItem;
+        protected StackPanel _innerBorderStackPanel;
+        protected FrameworkElement _ItemFrameworkElementTemplate;
+        protected Border _Border;
 
         public VertexControl()
         {
@@ -72,20 +76,24 @@ namespace DataStructures.UI
             }
             if (this.Template != null)
             {
-                //Border = this.Template.FindName("PART_Border", this) as Border;
-                //if (Parent != null)
-                //{
-                //    UIElement uIElement = Parent as UIElement;
-                //    uIElement.GotFocus += (sender, eargs) =>
-                //    {
-                //        //Set Focus to our control when DesignerItem is IsSelected so that the GotFocus Event will be raised
-                //        Focus();
+                _Border = this.Template.FindName("PART_Border", this) as Border;
+                if (_Border != null)
+                {
+                    if (_innerBorderStackPanel == null)
+                    {
+                        _innerBorderStackPanel = (_Border.Child as StackPanel);
+                    }
+                    if (_ItemFrameworkElementTemplate != null && _innerBorderStackPanel != null && !_innerBorderStackPanel.Children.Contains(_ItemFrameworkElementTemplate as UIElement))
+                    {
+                        _innerBorderStackPanel.Children.Add(_ItemFrameworkElementTemplate);
+                    }
+                }
 
-                //    };
-                //}
-
+                if (Vertex != null && ItemTemplate != null)
+                {
+                    BindItem(Vertex);
+                }
             }
-
         }
 
         protected void AdornerItem_MouseDown(object sender, MouseButtonEventArgs e)
@@ -95,7 +103,7 @@ namespace DataStructures.UI
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (_adornerLayer.GetAdorners(this)==null)
+            if (_adornerLayer.GetAdorners(this) == null)
                 _adornerLayer.Add(_adornerItem);
         }
         protected override void OnMouseLeave(MouseEventArgs e)
@@ -107,17 +115,17 @@ namespace DataStructures.UI
         protected override void OnLostFocus(RoutedEventArgs e)
         {
             base.OnLostFocus(e);
-            if(_adornerLayer!=null)
-            _adornerLayer.Remove(_adornerItem);
+            if (_adornerLayer != null)
+                _adornerLayer.Remove(_adornerItem);
         }
-        
+
         static VertexControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
 
             WidthProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
             HeightProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
-
+            
             BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(new Thickness(1)));
 
             BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.Black));
@@ -130,9 +138,74 @@ namespace DataStructures.UI
             set { SetValue(VertexProperty, value); }
         }
 
+        /// <summary>
+        /// The DateTemplate to use for <seealso cref="IVertex{TData}"/>
+        /// </summary>
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(VertexControl), new UIPropertyMetadata(null, OnItemTemplateChanged));
+
+        private static void OnItemTemplateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            VertexControl vertexControl = (dependencyObject as VertexControl);
+            if (vertexControl != null && e.NewValue != null && e.NewValue is DataTemplate && vertexControl.ItemTemplate != null)
+            {
+                vertexControl._ItemFrameworkElementTemplate = vertexControl.ItemTemplate.LoadContent() as FrameworkElement;
+
+                if (vertexControl.Vertex != null)
+                {
+                    vertexControl.BindItem(vertexControl.Vertex as IVertex<dynamic>);
+                }
+            }
+        }
+        protected virtual void BindItem(IVertex vertex)
+        {
+            if (vertex != null && _Border != null && _innerBorderStackPanel != null)
+            {
+                _innerBorderStackPanel.DataContext = vertex;
+            }
+        }
+
         // Using a DependencyProperty as the backing store for Vertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VertexProperty =
-            DependencyProperty.Register("Vertex", typeof(DataStructures.IVertex), typeof(VertexControl), new UIPropertyMetadata());
+            DependencyProperty.Register("Vertex", typeof(DataStructures.IVertex), typeof(VertexControl), new UIPropertyMetadata(null, OnVertexChanged));
+
+        private static void OnVertexChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            VertexControl vertexControl = (dependencyObject as VertexControl);
+            if (vertexControl != null && e.NewValue != null && e.NewValue is IVertex)
+            {
+                IVertex vertex = e.NewValue as IVertex;
+
+                //vertex.PropertyChanged += Vertex_PropertyChanged;
+                //check if IData.Value exists
+                if (vertexControl.ItemTemplate != null && e.NewValue.GetType().IsGenericType)
+                {
+                    IVertex<dynamic> vertexValue = e.NewValue as IVertex<dynamic>;
+                    vertexControl.BindItem(vertex);
+                }
+            }
+            //if (vertexControl != null && e.NewValue == null && e.OldValue != null)
+            //{
+            //    IVertex vertex = e.OldValue as IVertex;
+            //    vertex.PropertyChanged -= Vertex_PropertyChanged;
+            //}
+        }
+
+        //private static void Vertex_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    IVertex<dynamic> vertexValue = sender as IVertex<dynamic>;
+        //    if (vertexValue != null && vertexValue.GetType().IsGenericType)
+        //    {
+        //        //vertexControl.BindItem(vertexValue);
+        //    }
+        //}
 
         private Point _Position;
         public virtual Point Position
@@ -168,7 +241,7 @@ namespace DataStructures.UI
         [DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
-            #if !SILVERLIGHT
+#if !SILVERLIGHT
             // Verify that the property name matches a real,  
             // public, instance property on this object.
             if (TypeDescriptor.GetProperties(this)[propertyName] == null)
@@ -177,7 +250,7 @@ namespace DataStructures.UI
 
 
             }
-            #endif
+#endif
         }
 
         public static IntToStringConverter IntToStringConverter = new IntToStringConverter();

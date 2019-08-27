@@ -9,7 +9,7 @@ namespace DataStructures
 {
     [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
-    public class Vertex<TData> : IVertex<TData>, INotifyPropertyChanged
+    public class Vertex<TData> : IVertex<TData>
     {
         protected ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
@@ -30,7 +30,6 @@ namespace DataStructures
         {
             _weighted = pweighted;
         }
-        [IgnoreDataMember]
         public TData Value { get; set; }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
@@ -139,7 +138,10 @@ namespace DataStructures
         #endregion
 
     }
-    public interface IVertex
+    public interface IVertex<TData> : IVertex, IData<TData>
+    {
+    }
+    public interface IVertex : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets the Weighted of the vertex
@@ -159,8 +161,5 @@ namespace DataStructures
         /// Amount of neighbours
         /// </summary>
         int Size { get; }
-    }
-    public interface IVertex<TData> : IVertex, IData<TData>
-    {
     }
 }
