@@ -174,9 +174,16 @@ namespace DataStructures.UI
 
                 HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
                 FrameworkElement u = result.VisualHit as FrameworkElement;
-                VertexControl vv = u.TemplatedParent as VertexControl;
 
+                VertexControl vv = u.TemplatedParent as VertexControl;
                 EdgeControl ev = SelectedItem as EdgeControl;
+
+                //maybe we hit the ItemTemplate Control
+                if (vv == null && u.DataContext != null && u.DataContext is IVertex)
+                {
+                    IVertex vertex = u.DataContext as IVertex;
+                    vv = VertexVisualizations.FirstOrDefault(a => a.Vertex == vertex);
+                }
 
                 if (vv != null)
                 {
