@@ -3,8 +3,10 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,23 +20,7 @@ namespace DataStructures.Demo
     {
         public ModuleFunctionWindowViewModel()
         {
-            //ModuleFunction moduleFunction = new ModuleFunction();
-
-            //using (MemoryStream ms = new MemoryStream())
-            //{
-            //    using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
-            //    {
-            //        var dataContractSerializerSettings = new DataContractSerializerSettings();
-            //        dataContractSerializerSettings.PreserveObjectReferences = true;
-            //        dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
-            //        DataContractSerializer serializer = new DataContractSerializer(moduleFunction.GetType(), dataContractSerializerSettings);
-            //        serializer.WriteObject(writer, moduleFunction);
-            //        writer.Flush();
-            //        ms.Position = 0;
-            //        XElement xElement = XElement.Load(ms);
-            //    }
-            //}
-
+            MethodInfos = new ObservableCollection<MethodInfo>();
         }
         private ICommand _PickAssemblyCommand;
         public ICommand PickAssemblyCommand => _PickAssemblyCommand ?? (_PickAssemblyCommand = new DelegateCommand(OnPickAssemblyCommand));
@@ -42,38 +28,66 @@ namespace DataStructures.Demo
         public ICommand _SaveAssemblyCommand;
         public ICommand SaveAssemblyCommand => _SaveAssemblyCommand ?? (_SaveAssemblyCommand = new DelegateCommand(OnSaveAssemblyCommand));
 
+        private ObservableCollection<MethodInfo> _MethodInfos;
+        public ObservableCollection<MethodInfo> MethodInfos
+        {
+            get { return _MethodInfos; }
+            set { SetProperty(ref _MethodInfos, value, nameof(MethodInfos)); }
+        }
+        private IEnumerable<MethodInfo> _FilterMethodInfos;
+        public IEnumerable<MethodInfo> FilterMethodInfos
+        {
+            get { return _FilterMethodInfos; }
+            set { SetProperty(ref _FilterMethodInfos, value, nameof(FilterMethodInfos)); }
+        }
+        private MethodInfo _SelectedMethodInfos;
+        public MethodInfo SelectedMethodInfos
+        {
+            get { return _SelectedMethodInfos; }
+            set { SetProperty(ref _SelectedMethodInfos, value, nameof(SelectedMethodInfos)); }
+        }
+        private String _FilterMethodName;
+        public String FilterMethodName
+        {
+            get { return _FilterMethodName; }
+            set
+            {
+                SetProperty(ref _FilterMethodName, value, nameof(FilterMethodName));
+                FilterMethodInfos = MethodInfos.Where(a => a.Name.StartsWith(FilterMethodName));
+            }
+        }
+        public Assembly Assembly { get; set; }
         protected void OnPickAssemblyCommand()
         {
-            //assemblyladen
-            //Data.Value.
             if (ModuleFunction == null)
             {
                 ModuleFunction = new ModuleFunction();
-                //Test
-                ModuleFunction.Description = "Hallo Test";
-
             }
-            else
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            bool? result = openFileDialog.ShowDialog();
+            if (result.HasValue && result.Value)
             {
-                ModuleFunction.Run();
+                Assembly = Assembly.LoadFrom(openFileDialog.FileName);
+                List<MethodInfo> mList = new List<MethodInfo>();
+                foreach (var t in Assembly.GetTypes().ToList())
+                {
+                    var m = t.GetMethods();
+                    if (t != null ||
+                        t.Name != nameof(MethodInfo.Equals) || t.Name != nameof(MethodInfo.ToString))
+                    {
+                        mList.AddRange(m);
+                    }
+                }
+                MethodInfos = new ObservableCollection<MethodInfo>(mList);
+                FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
             }
         }
-         
+
         protected void OnSaveAssemblyCommand()
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-
-            saveFileDialog1.Title = "Save the assembly";
-            saveFileDialog1.FileName = ModuleFunction.Description;
-            saveFileDialog1.ShowDialog();
-
-            var savinMethod = ModuleFunction.methodToRun;
-            
-            if (saveFileDialog1.FileName != "")
-            {
-                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-                fs.Close();
-            }                                 
+            ModuleFunction.MethodTyp = SelectedMethodInfos.ToString();
+            ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
+            ModuleFunction.AssemblyFullName = Assembly.FullName;
         }
 
         //command mit speichern -> 

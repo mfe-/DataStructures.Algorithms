@@ -8,6 +8,9 @@ namespace DataStructures.Demo
 {
     public interface IModule
     {
+        string AssemblyFullName { get; set; }
+        string MethodTyp { get; set; }
+        string MethodDeclaringType { get; set; }
         object Run(params object[] p);
         bool Condition(object param);
         string Description { get; set; }
