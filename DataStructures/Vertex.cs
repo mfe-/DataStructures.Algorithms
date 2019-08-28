@@ -30,6 +30,7 @@ namespace DataStructures
         {
             _weighted = pweighted;
         }
+        [DataMember(Name = "Value", Order = 0, IsRequired = false)]
         public TData Value { get; set; }
         /// <summary>
         /// Gets or sets the Weighted of the vertex

@@ -91,9 +91,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FlowRunner.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="ModuleFunction.cs" />
     <Compile Include="ModuleFunctionWindowViewModel.cs" />
+    <Compile Include="ModuleResolver.cs" />
     <Compile Include="View\ModuleFunctionWindow.xaml.cs">
       <DependentUpon>ModuleFunctionWindow.xaml</DependentUpon>
     </Compile>
