@@ -35,7 +35,7 @@
             </Storyboard>
             <ControlTemplate  x:Key="VertexVisualizationTextBox" TargetType="{x:Type local:VertexControl}">
                 <Border x:Name="PART_Border" 
-                        CornerRadius="50"
+                        CornerRadius="0"
                         Height="{TemplateBinding Height}" 
                         Width="{TemplateBinding Width}"
                         Background="{TemplateBinding Background}"
@@ -54,7 +54,8 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Resources>
-                    <StackPanel Name="PART_InnerBorderStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="14">
+                    <StackPanel Name="PART_InnerBorderStackPanel"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <!--
                             into this stackpanel the itemtemplate will be placed
                         -->

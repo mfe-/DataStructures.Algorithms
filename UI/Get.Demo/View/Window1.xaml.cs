@@ -116,6 +116,7 @@ namespace DataStructures.Demo
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
                     types.Add(typeof(ModuleFunction));
                     types.Add(typeof(Vertex<ModuleFunction>));
+                    types.Add(typeof(Edge<ModuleFunction>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
                 });
 

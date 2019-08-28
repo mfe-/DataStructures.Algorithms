@@ -43,14 +43,15 @@
                 </ui:GraphControl.ContextMenu>
                 <ui:GraphControl.Resources>
                     <Style TargetType="{x:Type ui:VertexControl}">
-                        <Setter Property="Width" Value="60" />
-                        <Setter Property="Height" Value="60" />
-                        <!--<Setter Property="Background" Value="Green" />-->
+                        <Setter Property="Width" Value="100" />
+                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Background" Value="#fff299" />
                         <Setter Property="ItemTemplate">
                             <Setter.Value>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" Background="Yellow" 
-                                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                ToolTip="{Binding Path=Value.Description,UpdateSourceTrigger=PropertyChanged}">
                                         <interactivity:Interaction.Triggers>
                                             <interactivity:EventTrigger EventName="MouseDoubleClick">
                                                 <interactivity:InvokeCommandAction 
@@ -58,11 +59,16 @@
                                                     CommandParameter="{Binding}" />
                                             </interactivity:EventTrigger>
                                         </interactivity:Interaction.Triggers>
-                                 
-                                        <TextBlock Width="1" Text="asdfasdf" Focusable="True" />
-                                        <Button Content="x" Focusable="False" FocusManager.IsFocusScope="False"
+                                        <TextBlock Text="{Binding Path=Value.MethodNameTyp,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
+                                        <!--<Expander>
+                                            <ListBox ItemsSource="{Binding Path=Value.MethodParameters,UpdateSourceTrigger=PropertyChanged}"
+                                                     Width="80" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Visible"></ListBox>
+                                        </Expander>-->
+                                        <Button Content="Edit Stage" Focusable="False" FocusManager.IsFocusScope="False"
                                                 Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                                CommandParameter="{Binding}" FocusVisualStyle="{x:Null}"/>
+                                                CommandParameter="{Binding}" 
+                                                Margin="3"
+                                                FocusVisualStyle="{x:Null}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>

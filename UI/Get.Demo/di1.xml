@@ -5,22 +5,83 @@
     <StartVertex z:Id="2" i:type="a:VertexOfModuleFunction8_S6W8SDH" xmlns:a="http://schemas.get.com/Graph/Vertex">
       <a:Value z:Id="3" xmlns:b="http://schemas.get.com/Graph/ModuleFunction">
         <b:Description i:nil="true" />
+        <b:MethodTyp z:Id="4">Boolean CheckBarcode(System.String)</b:MethodTyp>
+        <b:AssemblyFullName z:Id="5">BarcodeChecker, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</b:AssemblyFullName>
+        <b:MethodDeclaringType z:Id="6">BarcodeChecker.BarcodeCheck</b:MethodDeclaringType>
+        <b:MethodParameters z:Id="7" xmlns:c="http://schemas.datacontract.org/2004/07/DataStructures.Demo">
+          <c:MethodParameter z:Id="8">
+            <c:Name z:Id="9">barcode</c:Name>
+            <c:ParameterType z:Id="10">System.String</c:ParameterType>
+            <c:ParameterValue z:Id="11" />
+          </c:MethodParameter>
+        </b:MethodParameters>
       </a:Value>
       <a:Weighted>0</a:Weighted>
-      <a:Edges z:Id="4" z:Size="0" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <a:Guid>45e7ddc8-af03-4763-8166-d68cf12b0860</a:Guid>
+      <a:Edges z:Id="12" z:Size="0" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <a:Guid>b63e038c-d06b-4b61-8719-73e8a671046d</a:Guid>
     </StartVertex>
-    <Vertices z:Id="5" z:Size="1" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
-      <a:anyType z:Ref="2" i:nil="true" />
+    <Vertices z:Id="13" z:Size="2" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:anyType z:Id="14" i:type="b:VertexOfModuleFunction8_S6W8SDH" xmlns:b="http://schemas.get.com/Graph/Vertex">
+        <b:Value z:Id="15" xmlns:c="http://schemas.get.com/Graph/ModuleFunction">
+          <c:Description i:nil="true" />
+          <c:MethodTyp z:Id="16">Void set_barcode(System.String)</c:MethodTyp>
+          <c:AssemblyFullName z:Ref="5" i:nil="true" />
+          <c:MethodDeclaringType z:Ref="6" i:nil="true" />
+          <c:MethodParameters z:Id="17" xmlns:d="http://schemas.datacontract.org/2004/07/DataStructures.Demo">
+            <d:MethodParameter z:Id="18">
+              <d:Name z:Id="19">value</d:Name>
+              <d:ParameterType z:Ref="10" i:nil="true" />
+              <d:ParameterValue z:Ref="11" i:nil="true" />
+            </d:MethodParameter>
+          </c:MethodParameters>
+        </b:Value>
+        <b:Weighted>0</b:Weighted>
+        <b:Edges z:Id="20" z:Size="1">
+          <a:anyType z:Id="21" i:type="c:EdgeOfModuleFunction8_S6W8SDH" xmlns:c="http://schemas.get.com/Graph/Edges">
+            <c:Weighted>0</c:Weighted>
+            <c:U z:Ref="14" i:nil="true" />
+            <c:V z:Ref="2" i:nil="true" />
+          </a:anyType>
+        </b:Edges>
+        <b:Guid>255a7812-9c94-4a7b-92f7-3763597083b0</b:Guid>
+      </a:anyType>
+      <a:anyType z:Id="22" i:type="b:VertexOfModuleFunction8_S6W8SDH" xmlns:b="http://schemas.get.com/Graph/Vertex">
+        <b:Value i:nil="true" xmlns:c="http://schemas.get.com/Graph/ModuleFunction" />
+        <b:Weighted>0</b:Weighted>
+        <b:Edges z:Id="23" z:Size="1">
+          <a:anyType z:Id="24" i:type="c:EdgeOfModuleFunction8_S6W8SDH" xmlns:c="http://schemas.get.com/Graph/Edges">
+            <c:Weighted>0</c:Weighted>
+            <c:U z:Ref="22" i:nil="true" />
+            <c:V z:Ref="2" i:nil="true" />
+          </a:anyType>
+        </b:Edges>
+        <b:Guid>641f31d0-02a1-4438-8e08-2aceb17621c5</b:Guid>
+      </a:anyType>
     </Vertices>
   </Graph>
   <FrameworkElements>
     <DataStructures.UI.VertexControl>
-      <ID>1984791</ID>
-      <VertexID>1021614795</VertexID>
-      <Position>269.576666666667,204</Position>
-      <Width>60</Width>
-      <Height>60</Height>
+      <ID>10750772</ID>
+      <VertexID>357910656</VertexID>
+      <Position>329.076666666667,193</Position>
+      <Width>100</Width>
+      <Height>100</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>1658455</ID>
+      <VertexID>-1899089191</VertexID>
+      <Position>179.576666666667,360.5</Position>
+      <Width>100</Width>
+      <Height>100</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>50611656</ID>
+      <VertexID>1287550253</VertexID>
+      <Position>461.576666666667,378.5</Position>
+      <Width>100</Width>
+      <Height>100</Height>
       <ZIndex>0</ZIndex>
     </DataStructures.UI.VertexControl>
   </FrameworkElements>

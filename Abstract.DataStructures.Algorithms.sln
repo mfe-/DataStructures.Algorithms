@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathematics", "Mathematics\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeChecker", "BarcodeChecker\BarcodeChecker.csproj", "{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeChecker", "UI\BarcodeChecker\BarcodeChecker.csproj", "{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -44,14 +44,14 @@ namespace DataStructures.Demo
             set
             {
                 SetProperty(ref _SelectedMethodInfos, value, nameof(SelectedMethodInfos));
-                ParameterInfos = SelectedMethodInfos.GetParameters().Select(a=>new MethodParameter()
+                ParameterInfos = SelectedMethodInfos.GetParameters().Select(a => new MethodParameter()
                 {
                     Name = a.Name,
                     ParameterType = a.ParameterType.FullName,
                     ParameterValue = ""
                 }).ToList();
 
-                ModuleFunction.MethodTyp = SelectedMethodInfos.ToString();
+                ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
                 ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
                 ModuleFunction.MethodParameters = ParameterInfos;
             }
@@ -77,10 +77,6 @@ namespace DataStructures.Demo
         public Assembly Assembly { get; set; }
         protected void OnPickAssemblyCommand()
         {
-            if (ModuleFunction == null)
-            {
-                ModuleFunction = new ModuleFunction();
-            }
             OpenFileDialog openFileDialog = new OpenFileDialog();
             bool? result = openFileDialog.ShowDialog();
             if (result.HasValue && result.Value)
@@ -117,6 +113,7 @@ namespace DataStructures.Demo
             {
                 if ((Vertex as Vertex<ModuleFunction>) != null)
                     (Vertex as Vertex<ModuleFunction>).Value = value;
+                RaisePropertyChanged(nameof(ModuleFunction));
             }
         }
 
@@ -124,7 +121,14 @@ namespace DataStructures.Demo
         public IVertex Vertex
         {
             get { return _Vertex; }
-            set { SetProperty(ref _Vertex, value, nameof(Vertex)); }
+            set
+            {
+                SetProperty(ref _Vertex, value, nameof(Vertex));
+                if (ModuleFunction == null)
+                {
+                    ModuleFunction = new ModuleFunction();
+                }
+            }
         }
     }
 }

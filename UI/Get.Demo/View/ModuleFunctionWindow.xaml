@@ -29,15 +29,6 @@
         <ListBox MinHeight="40" 
                  ItemsSource="{Binding Path=ParameterInfos,UpdateSourceTrigger=PropertyChanged}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <TextBox Text="{Binding Path=Name}" IsEnabled="False" />
-                        <TextBox Text="{Binding Path=ParameterType}" IsEnabled="False" />
-                        <TextBox Text="{Binding Path=ParameterValue}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
     </DockPanel>
 </Window>

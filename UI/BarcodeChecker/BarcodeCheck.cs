@@ -6,7 +6,7 @@ namespace BarcodeChecker
     {
         public string barcode { get; set; }
 
-        public bool CheckBarcode()
+        public bool CheckBarcode(string barcode)
         {
             if (barcode.StartsWith("BA"))
             {
