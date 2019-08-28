@@ -58,10 +58,11 @@
                                                     CommandParameter="{Binding}" />
                                             </interactivity:EventTrigger>
                                         </interactivity:Interaction.Triggers>
-                                        <TextBlock Text="{Binding Path=Weighted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                                        <Button Content="x" Focusable="False" 
+                                 
+                                        <TextBlock Width="1" Text="asdfasdf" Focusable="True" />
+                                        <Button Content="x" Focusable="False" FocusManager.IsFocusScope="False"
                                                 Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                                CommandParameter="{Binding}"/>
+                                                CommandParameter="{Binding}" FocusVisualStyle="{x:Null}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>

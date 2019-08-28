@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IModule.cs" />
+    <Compile Include="ModuleFunction.cs" />
     <Compile Include="Window1ViewModel.cs" />
     <Compile Include="View\Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>

@@ -104,7 +104,7 @@ namespace DataStructures.Demo
         
         public void SimulateGraphLoadFromFile()
         {
-            ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+            //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
         }
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
