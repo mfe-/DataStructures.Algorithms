@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,14 +21,20 @@ namespace DataStructures.Demo
 
         public object Run(params object[] p)
         {
+            var t = Assembly.GetExecutingAssembly().GetTypes();
+
+            paramList.Add(t);
+
+            methodResult = t;
             //find proper method via reflection from methodToRun
             //var t = Assembly.GetExecutingAssembly().GetTypes();
             //prepare paramList
 
             //execute method
-            
+
             //save result into methodResult
-            return null;
+            return methodResult;
+            //return null;
         }
     }
 }

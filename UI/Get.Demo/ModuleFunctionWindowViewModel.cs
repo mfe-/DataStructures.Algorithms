@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace DataStructures.Demo
         private ICommand _PickAssemblyCommand;
         public ICommand PickAssemblyCommand => _PickAssemblyCommand ?? (_PickAssemblyCommand = new DelegateCommand(OnPickAssemblyCommand));
 
+        public ICommand _SaveAssemblyCommand;
+        public ICommand SaveAssemblyCommand => _SaveAssemblyCommand ?? (_SaveAssemblyCommand = new DelegateCommand(OnSaveAssemblyCommand));
+
         protected void OnPickAssemblyCommand()
         {
             //assemblyladen
@@ -25,8 +29,31 @@ namespace DataStructures.Demo
             if(ModuleFunction == null)
             {
                 ModuleFunction = new ModuleFunction();
-            }
+                //Test
+                ModuleFunction.Description = "Hallo Test";
 
+            }
+            else
+            {
+                ModuleFunction.Run();
+            }
+        }
+         
+        protected void OnSaveAssemblyCommand()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Title = "Save the assembly";
+            saveFileDialog1.FileName = ModuleFunction.Description;
+            saveFileDialog1.ShowDialog();
+
+            var savinMethod = ModuleFunction.methodToRun;
+            
+            if (saveFileDialog1.FileName != "")
+            {
+                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
+                fs.Close();
+            }                                 
         }
 
         //command mit speichern -> 
@@ -44,6 +71,7 @@ namespace DataStructures.Demo
                 Vertex.Value = value;
             }
         }
+
 
         private IVertex<IModule> _Vertex;
         public IVertex<IModule> Vertex

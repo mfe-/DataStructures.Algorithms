@@ -6,10 +6,16 @@
         xmlns:local="clr-namespace:DataStructures.Demo.View"
         mc:Ignorable="d"
         Title="ModuleFunctionWindow" Height="450" Width="800">
-    <DockPanel LastChildFill="False" >
-        <Button Content="Select assembly" Command="{Binding PickAssemblyCommand}"></Button>
-        <ListBox></ListBox>
+    <DockPanel LastChildFill="True" >
+        <StackPanel Margin="15,20,15,20">
+        <Button Content="Select assembly" VerticalAlignment="Top" Height="30" Command="{Binding PickAssemblyCommand}"></Button>
+        
         <TextBox Text="{Binding Path=ModuleFunction.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-        <Button Content="Save" />
+            <ListBox MinHeight="40" ></ListBox>
+            <Button Content="Save" Height="30"  VerticalAlignment="Bottom"
+                    Command="{Binding SaveAssemblyCommand}"/>
+            
+                    
+        </StackPanel>
     </DockPanel>
 </Window>
