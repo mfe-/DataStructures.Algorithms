@@ -19,6 +19,13 @@ namespace DataStructures.Demo
         public List<object> paramList = new List<object>();
         public object methodResult = "";
 
+        [DataMember(Name = "MethodDeclaringType", Order = 4, IsRequired = true)]
+        public string MethodDeclaringType { get; set; }
+
+        [DataMember(Name = "AssemblyFullName", Order = 3, IsRequired = true)]
+        public string AssemblyFullName { get; set; }
+        [DataMember(Name = "MethodTyp", Order = 2, IsRequired = true)]
+        public string MethodTyp { get; set; }
         [DataMember(Name = "Description", Order = 1, IsRequired = true)]
         public string Description { get; set; }
 

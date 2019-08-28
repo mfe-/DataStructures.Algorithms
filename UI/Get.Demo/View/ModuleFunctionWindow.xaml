@@ -7,15 +7,26 @@
         mc:Ignorable="d"
         Title="ModuleFunctionWindow" Height="450" Width="800">
     <DockPanel LastChildFill="True" >
-        <StackPanel Margin="15,20,15,20">
         <Button Content="Select assembly" VerticalAlignment="Top" Height="30" Command="{Binding PickAssemblyCommand}"></Button>
-        
-        <TextBox Text="{Binding Path=ModuleFunction.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            <ListBox MinHeight="40" ></ListBox>
-            <Button Content="Save" Height="30"  VerticalAlignment="Bottom"
-                    Command="{Binding SaveAssemblyCommand}"/>
-            
-                    
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Description" />
+            <TextBox Text="{Binding Path=ModuleFunction.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Filter Methodname" />
+            <TextBox Text="{Binding Path=FilterMethodName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <ListBox MinHeight="40" 
+                 ItemsSource="{Binding Path=FilterMethodInfos,UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding SelectedMethodInfos,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Save" Height="30"  VerticalAlignment="Bottom"
+                    Command="{Binding SaveAssemblyCommand}"/>
     </DockPanel>
 </Window>
