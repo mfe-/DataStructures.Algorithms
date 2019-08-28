@@ -93,6 +93,7 @@
     </ApplicationDefinition>
     <Compile Include="FlowRunner.cs" />
     <Compile Include="IModule.cs" />
+    <Compile Include="MethodParameter.cs" />
     <Compile Include="ModuleFunction.cs" />
     <Compile Include="ModuleFunctionWindowViewModel.cs" />
     <Compile Include="ModuleResolver.cs" />

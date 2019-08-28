@@ -11,29 +11,34 @@ namespace DataStructures.Demo
     [DataContract(Namespace = "http://schemas.get.com/Graph/ModuleFunction")]
     public class ModuleFunction : IModule
     {
+        public ModuleFunction()
+        {
+            MethodParameters = new List<MethodParameter>();
+        }
         public bool Condition(object param)
         {
             throw new NotImplementedException();
         }
-        public string methodToRun = "";
-        public List<object> paramList = new List<object>();
         public object methodResult = "";
 
-        [DataMember(Name = "MethodDeclaringType", Order = 4, IsRequired = true)]
+        [DataMember(Name = "MethodParameters", Order = 5, IsRequired = false)]
+        public IEnumerable<MethodParameter> MethodParameters { get; set; }
+
+        [DataMember(Name = "MethodDeclaringType", Order = 4, IsRequired = false)]
         public string MethodDeclaringType { get; set; }
 
-        [DataMember(Name = "AssemblyFullName", Order = 3, IsRequired = true)]
+        [DataMember(Name = "AssemblyFullName", Order = 3, IsRequired = false)]
         public string AssemblyFullName { get; set; }
-        [DataMember(Name = "MethodTyp", Order = 2, IsRequired = true)]
+        [DataMember(Name = "MethodTyp", Order = 2, IsRequired = false)]
         public string MethodTyp { get; set; }
-        [DataMember(Name = "Description", Order = 1, IsRequired = true)]
+        [DataMember(Name = "Description", Order = 1, IsRequired = false)]
         public string Description { get; set; }
 
         public object Run(params object[] p)
         {
             var t = Assembly.GetExecutingAssembly().GetTypes();
 
-            paramList.Add(t);
+
 
             methodResult = t;
             //find proper method via reflection from methodToRun

@@ -25,9 +25,6 @@ namespace DataStructures.Demo
         private ICommand _PickAssemblyCommand;
         public ICommand PickAssemblyCommand => _PickAssemblyCommand ?? (_PickAssemblyCommand = new DelegateCommand(OnPickAssemblyCommand));
 
-        public ICommand _SaveAssemblyCommand;
-        public ICommand SaveAssemblyCommand => _SaveAssemblyCommand ?? (_SaveAssemblyCommand = new DelegateCommand(OnSaveAssemblyCommand));
-
         private ObservableCollection<MethodInfo> _MethodInfos;
         public ObservableCollection<MethodInfo> MethodInfos
         {
@@ -44,8 +41,29 @@ namespace DataStructures.Demo
         public MethodInfo SelectedMethodInfos
         {
             get { return _SelectedMethodInfos; }
-            set { SetProperty(ref _SelectedMethodInfos, value, nameof(SelectedMethodInfos)); }
+            set
+            {
+                SetProperty(ref _SelectedMethodInfos, value, nameof(SelectedMethodInfos));
+                ParameterInfos = SelectedMethodInfos.GetParameters().Select(a=>new MethodParameter()
+                {
+                    Name = a.Name,
+                    ParameterType = a.ParameterType.FullName,
+                    ParameterValue = ""
+                }).ToList();
+
+                ModuleFunction.MethodTyp = SelectedMethodInfos.ToString();
+                ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
+                ModuleFunction.MethodParameters = ParameterInfos;
+            }
         }
+
+        private List<MethodParameter> _ParameterInfos;
+        public List<MethodParameter> ParameterInfos
+        {
+            get { return _ParameterInfos; }
+            set { SetProperty(ref _ParameterInfos, value, nameof(ParameterInfos)); }
+        }
+
         private String _FilterMethodName;
         public String FilterMethodName
         {
@@ -80,14 +98,9 @@ namespace DataStructures.Demo
                 }
                 MethodInfos = new ObservableCollection<MethodInfo>(mList);
                 FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
-            }
-        }
 
-        protected void OnSaveAssemblyCommand()
-        {
-            ModuleFunction.MethodTyp = SelectedMethodInfos.ToString();
-            ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
-            ModuleFunction.AssemblyFullName = Assembly.FullName;
+                ModuleFunction.AssemblyFullName = Assembly.FullName;
+            }
         }
 
         //command mit speichern -> 
