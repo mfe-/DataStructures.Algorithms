@@ -18,7 +18,7 @@ namespace DataStructures
 
         protected IVertex _Start = null;
 
-        public Graph()       {  }
+        public Graph() { }
 
         public Graph(bool directed)
         {
@@ -57,6 +57,16 @@ namespace DataStructures
             {
                 _Start = value;
                 NotifyPropertyChanged("StartVertex");
+            }
+        }
+        private Func<IVertex> _CreateVertexFunc;
+        public Func<IVertex> CreateVertexFunc
+        {
+            get { return _CreateVertexFunc; }
+            set
+            {
+                _CreateVertexFunc = value;
+                NotifyPropertyChanged(nameof(CreateVertexFunc));
             }
         }
         /// <summary>
@@ -126,7 +136,7 @@ namespace DataStructures
         //        NotifyPropertyChanged("Directed");
 
         //    }
-        
+
 
         /// <summary>
         /// Gets or sets the start vertex of the graph

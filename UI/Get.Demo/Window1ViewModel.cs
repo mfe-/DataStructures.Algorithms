@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using DataStructures.Demo.View;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,25 @@ namespace DataStructures.Demo
         public Window1ViewModel()
         {
             Graph = new Graph() { Directed = true };
+            Graph.CreateVertexFunc = VertexFactory;
+        }
+        protected IVertex<IModule> VertexFactory()
+        {
+            return new Vertex<IModule>();
         }
         private ICommand _ClickCommand;
-        public ICommand ClickCommand => _ClickCommand ?? (_ClickCommand = new DelegateCommand<IVertex<dynamic>>(OnClickCommand));
-        private int _counter = 0;
-        protected void OnClickCommand(IVertex<dynamic> param)
+        public ICommand ClickCommand => _ClickCommand ?? (_ClickCommand = new DelegateCommand<IVertex>(OnClickCommand));
+
+        protected void OnClickCommand(IVertex param)
         {
-            //param.Value = param.Value + 1;
+            var vertex = param as IVertex<IModule>;
+
+            ModuleFunctionWindow moduleFunctionWindow = new ModuleFunctionWindow();
+            var moduleFunctionWindowViewModel = new ModuleFunctionWindowViewModel();
+            moduleFunctionWindowViewModel.Vertex = vertex;
+            moduleFunctionWindow.DataContext = moduleFunctionWindowViewModel;
+            moduleFunctionWindow.ShowDialog();
+
 
         }
         private Graph _Graph;

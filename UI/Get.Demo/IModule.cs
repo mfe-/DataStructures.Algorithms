@@ -10,5 +10,6 @@ namespace DataStructures.Demo
     {
         object Run(params object[] p);
         bool Condition(object param);
+        string Description { get; set; }
     }
 }

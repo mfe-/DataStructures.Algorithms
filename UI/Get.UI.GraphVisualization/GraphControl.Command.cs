@@ -263,10 +263,17 @@ namespace DataStructures.UI
 
                 //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
                 Point p = (Mouse.GetPosition(sender as IInputElement));
-                Vertex<object> v = new Vertex<object>();
 
-                gv.Graph.AddVertex(new Vertex<object>());
-
+                IVertex vertex = null;
+                if (Graph.CreateVertexFunc==null)
+                {
+                    vertex = new Vertex<object>(); ;
+                }
+                else
+                {
+                    vertex = Graph.CreateVertexFunc();
+                }
+                gv.Graph.AddVertex(vertex);
             }
         }
 

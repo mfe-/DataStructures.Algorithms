@@ -15,6 +15,9 @@ namespace DataStructures.Demo
         public string methodToRun = "";
         public List<object> paramList = new List<object>();
         public object methodResult = "";
+
+        public string Description { get; set; }
+
         public object Run(params object[] p)
         {
             //find proper method via reflection from methodToRun
