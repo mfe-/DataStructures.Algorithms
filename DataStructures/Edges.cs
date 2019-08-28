@@ -46,17 +46,17 @@ namespace DataStructures
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "U", Order = 2, IsRequired = true)]
-        public IVertex U { get { return u; } set { u = value; NotifyPropertyChanged("U"); } }
+        public IVertex U { get { return u; } set { u = value; NotifyPropertyChanged(nameof(U)); } }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "V", Order = 3, IsRequired = true)]
-        public IVertex V { get { return v; } set { v = value; NotifyPropertyChanged("V"); } }
+        public IVertex V { get { return v; } set { v = value; NotifyPropertyChanged(nameof(V)); } }
         /// <summary>
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
-        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged("Weighted"); } }
+        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
         
         /// <summary>
         /// Returns a string that represents the current object.

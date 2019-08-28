@@ -15,6 +15,7 @@ namespace DataStructures
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         protected Guid _Guid;
         protected int _weighted;
+        protected TData _Data;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.
@@ -31,18 +32,22 @@ namespace DataStructures
             _weighted = pweighted;
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
-        public TData Value { get; set; }
+        public TData Value
+        {
+            get { return _Data; }
+            set { _Data = value; NotifyPropertyChanged(nameof(Value)); }
+        }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         [DataMember(Name = "Weighted", Order = 1, IsRequired = true)]
-        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged("Weighted"); } }
+        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
         [DataMember(Name = "Edges", Order = 2, IsRequired = true)]
-        public ObservableCollection<IEdge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged("Edges"); } }
+        public ObservableCollection<IEdge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged(nameof(Edges)); } }
 
         /// <summary>
         /// Amount of neighbours
