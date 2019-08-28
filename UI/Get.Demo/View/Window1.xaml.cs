@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace DataStructures.Demo
 {
@@ -60,25 +61,25 @@ namespace DataStructures.Demo
 
             que.Enqueue(() => vg.AddEdge(vf, 5, graph.Directed));
 
-            que.Enqueue(() => vc.AddEdge(vb,3, graph.Directed));
-            que.Enqueue(() => vc.AddEdge(vd,2, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vb, 3, graph.Directed));
+            que.Enqueue(() => vc.AddEdge(vd, 2, graph.Directed));
 
-            que.Enqueue(() => vd.AddEdge(ve,2, graph.Directed));
+            que.Enqueue(() => vd.AddEdge(ve, 2, graph.Directed));
 
-            que.Enqueue(() => vg.AddEdge(vh,6, graph.Directed));
-            que.Enqueue(() => vh.AddEdge(vi,10, graph.Directed));
-            que.Enqueue(() => vi.AddEdge(vj,1, graph.Directed));
-            que.Enqueue(() => vj.AddEdge(vf,2, graph.Directed));
+            que.Enqueue(() => vg.AddEdge(vh, 6, graph.Directed));
+            que.Enqueue(() => vh.AddEdge(vi, 10, graph.Directed));
+            que.Enqueue(() => vi.AddEdge(vj, 1, graph.Directed));
+            que.Enqueue(() => vj.AddEdge(vf, 2, graph.Directed));
 
-            que.Enqueue(() => vh.AddEdge(vd,5, graph.Directed));
-            que.Enqueue(() => vi.AddEdge(ve,7, graph.Directed));
+            que.Enqueue(() => vh.AddEdge(vd, 5, graph.Directed));
+            que.Enqueue(() => vi.AddEdge(ve, 7, graph.Directed));
 
-            que.Enqueue(() => vg.AddEdge(vl,1, graph.Directed));
-            que.Enqueue(() => vl.AddEdge(vk,8, graph.Directed));
+            que.Enqueue(() => vg.AddEdge(vl, 1, graph.Directed));
+            que.Enqueue(() => vl.AddEdge(vk, 8, graph.Directed));
 
             que.Enqueue(() => va.RemoveEdge(vb, graph.Directed));
 
-            que.Enqueue(() => vh.Weighted=20);
+            que.Enqueue(() => vh.Weighted = 20);
 
             que.Enqueue(() => vc.Weighted = 11);
 
@@ -88,7 +89,7 @@ namespace DataStructures.Demo
             _GraphVisualization.Graph = graph;
             ManualResetEvent mre = new ManualResetEvent(false);
 
-            Thread thread = new Thread(new ParameterizedThreadStart(delegate(object param)
+            Thread thread = new Thread(new ParameterizedThreadStart(delegate (object param)
             {
                 while (que.Count != 0)
                 {
@@ -101,7 +102,7 @@ namespace DataStructures.Demo
             thread.Start();
 
         }
-        
+
         public void SimulateGraphLoadFromFile()
         {
             //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
@@ -109,6 +110,15 @@ namespace DataStructures.Demo
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
+            _GraphVisualization.DataContractSerializerSettingsActionInvoker =
+                new Action<DataContractSerializerSettings>(dataContractSerializerSettingsActionInvoker =>
+                {
+                    List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
+                    types.Add(typeof(ModuleFunction));
+                    types.Add(typeof(Vertex<ModuleFunction>));
+                    dataContractSerializerSettingsActionInvoker.KnownTypes = types;
+                });
+
             if (Debugger.IsAttached)
             {
                 //SimulateGraphChanges();
@@ -305,7 +315,7 @@ namespace DataStructures.Demo
             if (firstVertex == null) firstVertex = v;
 
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-              delegate()
+              delegate ()
               {
                   _GraphVisualization.SetFocus(v);
               }));
@@ -314,7 +324,7 @@ namespace DataStructures.Demo
             foreach (IEdge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-                  delegate()
+                  delegate ()
                   {
                       _GraphVisualization.SetFocus(e);
                   }));
@@ -330,7 +340,7 @@ namespace DataStructures.Demo
             //visist x
             visited.Add(v);
             _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-              delegate()
+              delegate ()
               {
                   _GraphVisualization.SetFocus(v);
                   Debug.WriteLine(v + " visited");
@@ -340,7 +350,7 @@ namespace DataStructures.Demo
             foreach (IEdge e in v.Edges)
             {
                 _GraphVisualization.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, new Action(
-                  delegate()
+                  delegate ()
                   {
                       _GraphVisualization.SetFocus(e);
                       Debug.WriteLine(e + " visited");

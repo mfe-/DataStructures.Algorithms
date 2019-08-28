@@ -13,20 +13,36 @@ namespace DataStructures
     /// </summary>
     public static class GraphExtensions
     {
+        public static DataContractSerializerSettings GetDataContractSerializerSettings()
+        {
+            return GetDataContractSerializerSettings(new List<Type>());
+        }
+        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes = null, DataContractResolver dataContractResolver = null)
+        {
+            List<Type> types = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
+            if (knownTypes != null)
+            {
+                types.AddRange(knownTypes);
+            }
+            var dataContractSerializerSettings = new DataContractSerializerSettings();
+            dataContractSerializerSettings.PreserveObjectReferences = true;
+            dataContractSerializerSettings.KnownTypes = types;
+            dataContractSerializerSettings.DataContractResolver = dataContractResolver;
+            return dataContractSerializerSettings;
+        }
         /// <summary>
         /// Serialize the Graph into a XElement
         /// </summary>
         /// <param name="g">Graph to save</param>
         /// <returns>Serialized Graph</returns>
-        public static XElement Save(this Graph g)
+        public static XElement Save(this Graph g, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
         {
             using (MemoryStream ms = new MemoryStream())
             {
                 using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
                 {
-                    var dataContractSerializerSettings = new DataContractSerializerSettings();
-                    dataContractSerializerSettings.PreserveObjectReferences = true;
-                    dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex<object>),typeof(Edge<object>) };
+                    DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
+                    DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
                     DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                     serializer.WriteObject(writer, g);
                     writer.Flush();
@@ -44,15 +60,15 @@ namespace DataStructures
         {
             Load(g, pfilename, 100);
         }
-        public static void Load(this Graph g, String pfilename, int maxDepth)
+        public static void Load(this Graph g, String pfilename, int maxDepth, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
         {
             using (FileStream fs = new FileStream(pfilename, FileMode.Open))
             {
                 XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = maxDepth };
                 using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, xmlDictionaryReaderQuotas))
                 {
-                    var dataContractSerializerSettings = new DataContractSerializerSettings();
-                    dataContractSerializerSettings.PreserveObjectReferences = true;
+                    DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
+                    DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
                     DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                     Graph a = (Graph)serializer.ReadObject(reader, true);
                     foreach (var v in a.Vertices)
@@ -62,16 +78,15 @@ namespace DataStructures
                 }
             }
         }
-        public static Graph Load(this XElement e)
+        public static Graph Load(this XElement e, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
         {
             Graph g = new Graph();
             //load graph
             MemoryStream memoryStream = new MemoryStream();
             e.Save(memoryStream);
             memoryStream.Position = 0;
-            var dataContractSerializerSettings = new DataContractSerializerSettings();
-            dataContractSerializerSettings.KnownTypes = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
-            dataContractSerializerSettings.PreserveObjectReferences = true;
+            DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
+            DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
             DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
             Graph u = ndcs.ReadObject(memoryStream) as Graph;
 

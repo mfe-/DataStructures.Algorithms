@@ -17,20 +17,18 @@ namespace DataStructures.Demo
             Graph = new Graph() { Directed = true };
             Graph.CreateVertexFunc = VertexFactory;
         }
-        protected IVertex<IModule> VertexFactory()
+        protected IVertex<ModuleFunction> VertexFactory()
         {
-            return new Vertex<IModule>();
+            return new Vertex<ModuleFunction>();
         }
         private ICommand _ClickCommand;
         public ICommand ClickCommand => _ClickCommand ?? (_ClickCommand = new DelegateCommand<IVertex>(OnClickCommand));
 
         protected void OnClickCommand(IVertex param)
         {
-            var vertex = param as IVertex<IModule>;
-
             ModuleFunctionWindow moduleFunctionWindow = new ModuleFunctionWindow();
             var moduleFunctionWindowViewModel = new ModuleFunctionWindowViewModel();
-            moduleFunctionWindowViewModel.Vertex = vertex;
+            moduleFunctionWindowViewModel.Vertex = param;
             moduleFunctionWindow.DataContext = moduleFunctionWindowViewModel;
             moduleFunctionWindow.ShowDialog();
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataStructures.Demo
 {
+    [DataContract(Namespace = "http://schemas.get.com/Graph/ModuleFunction")]
     public class ModuleFunction : IModule
     {
         public bool Condition(object param)
@@ -16,6 +18,7 @@ namespace DataStructures.Demo
         public List<object> paramList = new List<object>();
         public object methodResult = "";
 
+        [DataMember(Name = "Description", Order = 1, IsRequired = true)]
         public string Description { get; set; }
 
         public object Run(params object[] p)
