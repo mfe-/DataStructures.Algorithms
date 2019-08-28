@@ -9,6 +9,8 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Collections.Specialized;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DataStructures.UI
 {
@@ -145,6 +147,7 @@ namespace DataStructures.UI
 
         #endregion
 
+        public Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvoker { get; set; }
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
@@ -152,7 +155,9 @@ namespace DataStructures.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement Xgraph = this.Graph.Save();
+            var v = Graph.CreateVertexFunc();
+
+            XElement Xgraph = this.Graph.Save(DataContractSerializerSettingsActionInvoker);
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
@@ -196,7 +201,7 @@ namespace DataStructures.UI
                     //load graph
                     XElement XGraph = root.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph"));
 
-                    this.Graph = XGraph.Load();
+                    this.Graph = XGraph.Load(DataContractSerializerSettingsActionInvoker);
                     //set positions of items
                     var framework = root.Elements("FrameworkElements").First().Elements(typeof(VertexControl).FullName).ToList();
                     foreach (var y in framework)
@@ -265,7 +270,7 @@ namespace DataStructures.UI
                 Point p = (Mouse.GetPosition(sender as IInputElement));
 
                 IVertex vertex = null;
-                if (Graph.CreateVertexFunc==null)
+                if (Graph.CreateVertexFunc == null)
                 {
                     vertex = new Vertex<object>(); ;
                 }
