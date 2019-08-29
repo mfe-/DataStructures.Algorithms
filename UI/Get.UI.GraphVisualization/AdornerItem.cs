@@ -24,15 +24,10 @@ namespace DataStructures.UI
             double renderRadius = 5.0;
 
             // Draw a circle at each corner.
-            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
-            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
-            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
-            //drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
-
-            drawingContext.DrawEllipse(renderBrush, renderPen, new Point(adornedElementRect.Width / 2, 0).Add(0, -6), renderRadius, renderRadius);
-            drawingContext.DrawEllipse(renderBrush, renderPen, new Point(adornedElementRect.Width, adornedElementRect.Height / 2).Add(6, 0), renderRadius, renderRadius);
-            drawingContext.DrawEllipse(renderBrush, renderPen, new Point(0, adornedElementRect.Width / 2).Add(-6, 0), renderRadius, renderRadius);
-            drawingContext.DrawEllipse(renderBrush, renderPen, new Point(adornedElementRect.Width / 2, adornedElementRect.Height).Add(0, 6), renderRadius, renderRadius);
+            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
+            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
+            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
+            drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
 
         }
     }

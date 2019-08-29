@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
@@ -44,10 +45,10 @@ namespace DataStructures.Demo
             set
             {
                 SetProperty(ref _SelectedMethodInfos, value, nameof(SelectedMethodInfos));
-                ParameterInfos = SelectedMethodInfos.GetParameters().Select(a => new MethodParameter()
+                ParameterInfos = SelectedMethodInfos?.GetParameters().Select(a => new MethodParameter()
                 {
                     Name = a.Name,
-                    ParameterType = a.ParameterType.FullName,
+                    ParameterType = a.ParameterType?.FullName,
                     ParameterValue = ""
                 }).ToList();
 
@@ -71,31 +72,38 @@ namespace DataStructures.Demo
             set
             {
                 SetProperty(ref _FilterMethodName, value, nameof(FilterMethodName));
-                FilterMethodInfos = MethodInfos.Where(a => a.Name.StartsWith(FilterMethodName));
+                FilterMethodInfos = MethodInfos.Where(a => a.Name.ToLower().StartsWith(FilterMethodName.ToLower()) || a.Name.Contains(FilterMethodName));
             }
         }
         public Assembly Assembly { get; set; }
         protected void OnPickAssemblyCommand()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            bool? result = openFileDialog.ShowDialog();
-            if (result.HasValue && result.Value)
+            try
             {
-                Assembly = Assembly.LoadFrom(openFileDialog.FileName);
-                List<MethodInfo> mList = new List<MethodInfo>();
-                foreach (var t in Assembly.GetTypes().ToList())
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                bool? result = openFileDialog.ShowDialog();
+                if (result.HasValue && result.Value)
                 {
-                    var m = t.GetMethods();
-                    if (t != null ||
-                        t.Name != nameof(MethodInfo.Equals) || t.Name != nameof(MethodInfo.ToString))
+                    Assembly = Assembly.LoadFrom(openFileDialog.FileName);
+                    List<MethodInfo> mList = new List<MethodInfo>();
+                    foreach (var t in Assembly.GetTypes().ToList())
                     {
-                        mList.AddRange(m);
+                        var m = t.GetMethods();
+                        if (t != null ||
+                            t.Name != nameof(MethodInfo.Equals) || t.Name != nameof(MethodInfo.ToString))
+                        {
+                            mList.AddRange(m);
+                        }
                     }
-                }
-                MethodInfos = new ObservableCollection<MethodInfo>(mList);
-                FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
+                    MethodInfos = new ObservableCollection<MethodInfo>(mList);
+                    FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
 
-                ModuleFunction.AssemblyFullName = Assembly.FullName;
+                    ModuleFunction.AssemblyFullName = Assembly.FullName;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
 
