@@ -218,8 +218,8 @@ namespace DataStructures.UI
             double c = (b - r) * Math.Sin(alpha);
             double d = (b - r) * Math.Cos(alpha);
 
-            double dxx = pu.X + d + (dx > 0 ? -7 : 7);
-            double dyy = pu.Y + c + (dy > 0 ? -7 : 7);
+            double dxx = pu.X + d + (dx > 0 ? -35 : 35); //35 bei 100
+            double dyy = pu.Y + c + (dy > 0 ? -35 : 35);
 
             return new Point(dxx, dyy);
         }

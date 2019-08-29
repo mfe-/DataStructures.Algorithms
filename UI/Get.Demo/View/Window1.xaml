@@ -17,7 +17,7 @@
 
     </Window.Resources>
     <Window.Content>
-        <DockPanel x:Name="dockPanel">
+        <DockPanel x:Name="dockPanel" >
             <TextBlock Text="{Binding Path=.}" />
             <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
 
@@ -52,23 +52,21 @@
                                     <StackPanel Orientation="Vertical" Background="Yellow" 
                                                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                                 ToolTip="{Binding Path=Value.Description,UpdateSourceTrigger=PropertyChanged}">
-                                        <interactivity:Interaction.Triggers>
-                                            <interactivity:EventTrigger EventName="MouseDoubleClick">
-                                                <interactivity:InvokeCommandAction 
-                                                    Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                                    CommandParameter="{Binding}" />
-                                            </interactivity:EventTrigger>
-                                        </interactivity:Interaction.Triggers>
+                                  
                                         <TextBlock Text="{Binding Path=Value.MethodNameTyp,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
                                         <!--<Expander>
                                             <ListBox ItemsSource="{Binding Path=Value.MethodParameters,UpdateSourceTrigger=PropertyChanged}"
                                                      Width="80" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Visible"></ListBox>
                                         </Expander>-->
-                                        <Button Content="Edit Stage" Focusable="False" FocusManager.IsFocusScope="False"
-                                                Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                                CommandParameter="{Binding}" 
-                                                Margin="3"
-                                                FocusVisualStyle="{x:Null}"/>
+                                        <CheckBox >
+                                            <interactivity:Interaction.Triggers>
+                                                <interactivity:EventTrigger EventName="MouseDoubleClick">
+                                                    <interactivity:InvokeCommandAction 
+                                                    Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                                    CommandParameter="{Binding}" />
+                                                </interactivity:EventTrigger>
+                                            </interactivity:Interaction.Triggers>
+                                        </CheckBox>
                                     </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>
