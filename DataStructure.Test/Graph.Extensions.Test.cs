@@ -75,6 +75,7 @@ namespace DataStructures.Test
         {
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph"));
+
             Graph g = GraphExtensions.Load(xmlElement);
 
             //undirected graph required
