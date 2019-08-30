@@ -65,7 +65,6 @@ namespace DataStructures.UI
             BackgroundProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(Brushes.Transparent));
             //enables commands in contextmenue if no item got is focused
             FocusableProperty.OverrideMetadata(typeof(GraphControl), new FrameworkPropertyMetadata(true));
-
         }
 
         #region Drag and Drop
@@ -82,8 +81,8 @@ namespace DataStructures.UI
             {
                 this.Focus();
             }
-
-            if (e.ClickCount.Equals(2) && VisualTreeHelper.HitTest(this, e.GetPosition(this)).VisualHit.Equals(this))
+            var hitTestResult = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+            if (e.ClickCount.Equals(2) && hitTestResult != null && hitTestResult.VisualHit.Equals(this))
             {
                 RaiseMouseDoubleClickEvent();
             }

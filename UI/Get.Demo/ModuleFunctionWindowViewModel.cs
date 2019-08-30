@@ -89,8 +89,7 @@ namespace DataStructures.Demo
                     foreach (var t in Assembly.GetTypes().ToList())
                     {
                         var m = t.GetMethods();
-                        if (t != null ||
-                            t.Name != nameof(MethodInfo.Equals) || t.Name != nameof(MethodInfo.ToString))
+                        if (t != null && t.IsPublic && t.Name != nameof(MethodInfo.Equals) && t.Name != nameof(MethodInfo.ToString))
                         {
                             mList.AddRange(m);
                         }

@@ -65,6 +65,25 @@ namespace DataStructures.UI
         {
 
         }
+        static VertexControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
+
+            WidthProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
+            HeightProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
+
+            BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(new Thickness(1)));
+
+            BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.Black));
+            BackgroundProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.White));
+        }
+
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            base.OnMouseDoubleClick(e);
+            CommandOnDoubleClick?.Execute(Vertex);
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -118,25 +137,20 @@ namespace DataStructures.UI
             if (_adornerLayer != null)
                 _adornerLayer.Remove(_adornerItem);
         }
-
-        static VertexControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(typeof(VertexControl)));
-
-            WidthProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
-            HeightProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata((double)40));
-            
-            BorderThicknessProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(new Thickness(1)));
-
-            BorderBrushProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.Black));
-            BackgroundProperty.OverrideMetadata(typeof(VertexControl), new FrameworkPropertyMetadata(Brushes.White));
-        }
-
         public DataStructures.IVertex Vertex
         {
             get { return (DataStructures.IVertex)GetValue(VertexProperty); }
             set { SetValue(VertexProperty, value); }
         }
+        public ICommand CommandOnDoubleClick
+        {
+            get { return (ICommand)GetValue(CommandOnDoubleClickProperty); }
+            set { SetValue(CommandOnDoubleClickProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ComandOnDoubleClick.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandOnDoubleClickProperty =
+            DependencyProperty.Register("CommandOnDoubleClick", typeof(ICommand), typeof(VertexControl), new PropertyMetadata(null));
 
         /// <summary>
         /// The DateTemplate to use for <seealso cref="IVertex{TData}"/>
@@ -216,7 +230,7 @@ namespace DataStructures.UI
                 if (_Position != value)
                 {
                     _Position = value;
-                    NotifyPropertyChanged("Position");
+                    NotifyPropertyChanged(nameof(Position));
                 }
             }
         }
@@ -253,7 +267,7 @@ namespace DataStructures.UI
 #endif
         }
 
-        public static IntToStringConverter IntToStringConverter = new IntToStringConverter();
+        public static readonly IntToStringConverter IntToStringConverter = new IntToStringConverter();
     }
     public class IntToStringConverter : IValueConverter
     {
