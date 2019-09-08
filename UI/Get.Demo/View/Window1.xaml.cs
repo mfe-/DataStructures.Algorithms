@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using StateMachineEngine;
 
 namespace DataStructures.Demo
 {
@@ -114,9 +115,9 @@ namespace DataStructures.Demo
                 new Action<DataContractSerializerSettings>(dataContractSerializerSettingsActionInvoker =>
                 {
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
-                    types.Add(typeof(ModuleFunction));
-                    types.Add(typeof(Vertex<ModuleFunction>));
-                    types.Add(typeof(Edge<ModuleFunction>));
+                    types.Add(typeof(StateModule));
+                    types.Add(typeof(Vertex<StateModule>));
+                    types.Add(typeof(Edge<StateModule>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
                 });
 

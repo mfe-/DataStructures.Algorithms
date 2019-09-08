@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DataStructures.Demo
+namespace StateMachineEngine
 {
     [DataContract(Namespace = "http://schemas.get.com/Graph/ModuleFunction")]
-    public class ModuleFunction : IModule, INotifyPropertyChanged
+    public class StateModule : IState, INotifyPropertyChanged
     {
-        public ModuleFunction()
+        public StateModule()
         {
             MethodParameters = new List<MethodParameter>();
         }

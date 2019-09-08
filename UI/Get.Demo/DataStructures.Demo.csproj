@@ -91,20 +91,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FlowRunner.cs" />
-    <Compile Include="IModule.cs" />
-    <Compile Include="MethodParameter.cs" />
-    <Compile Include="ModuleFunction.cs" />
-    <Compile Include="ModuleFunctionWindowViewModel.cs" />
-    <Compile Include="ModuleResolver.cs" />
-    <Compile Include="View\ModuleFunctionWindow.xaml.cs">
-      <DependentUpon>ModuleFunctionWindow.xaml</DependentUpon>
+    <Compile Include="StateModuleWindowViewModel.cs" />
+    <Compile Include="View\StateModuleWindow.xaml.cs">
+      <DependentUpon>StateModuleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window1ViewModel.cs" />
     <Compile Include="View\Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\ModuleFunctionWindow.xaml">
+    <Page Include="View\StateModuleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,6 +162,10 @@
     <ProjectReference Include="..\Get.UI.GraphVisualization\DataStructures.UI.csproj">
       <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
       <Name>DataStructures.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StateMachineEngine\StateMachineEngine.csproj">
+      <Project>{bdc9ca70-e444-4743-9fbf-f6c21b9a1438}</Project>
+      <Name>StateMachineEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

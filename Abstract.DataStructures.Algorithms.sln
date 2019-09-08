@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.779
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C4B0BDA3-F5AE-40F9-8D10-061014F79E45}"
 EndProject
@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathematics", "Mathematics\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarcodeChecker", "UI\BarcodeChecker\BarcodeChecker.csproj", "{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarcodeChecker", "UI\BarcodeChecker\BarcodeChecker.csproj", "{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateMachineEngine", "UI\StateMachineEngine\StateMachineEngine.csproj", "{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,18 @@ Global
 		{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}.Release|x86.Build.0 = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Debug|x86.Build.0 = Debug|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|x86.ActiveCfg = Release|Any CPU
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +111,7 @@ Global
 		{F6441FDB-9D04-462D-8F62-DE84FC516654} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{4E17F47F-8DB8-41ED-BB04-A26D6793D224} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{A1D53D3E-F836-4DD1-9E08-976D7EE4632E} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
+		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F001E7F5-7F90-426A-BE4E-056CBCEDFD60}

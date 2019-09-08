@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace DataStructures.Demo
+namespace StateMachineEngine
 {
-    public interface IModule
+    public interface IState
     {
         /// <summary>
         /// Get or sets the assembly FullName which should be used to look up for the executing method

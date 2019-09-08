@@ -1,25 +1,20 @@
 ﻿using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using StateMachineEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace DataStructures.Demo
 {
-    public class ModuleFunctionWindowViewModel : BindableBase
+    public class StateModuleWindowViewModel : BindableBase
     {
-        public ModuleFunctionWindowViewModel()
+        public StateModuleWindowViewModel()
         {
             MethodInfos = new ObservableCollection<MethodInfo>();
         }
@@ -110,16 +105,16 @@ namespace DataStructures.Demo
 
         //todo list mite methoden
 
-        public ModuleFunction ModuleFunction
+        public StateModule ModuleFunction
         {
             get
             {
-                return (Vertex as Vertex<ModuleFunction>)?.Value as ModuleFunction;
+                return (Vertex as Vertex<StateModule>)?.Value as StateModule;
             }
             set
             {
-                if ((Vertex as Vertex<ModuleFunction>) != null)
-                    (Vertex as Vertex<ModuleFunction>).Value = value;
+                if ((Vertex as Vertex<StateModule>) != null)
+                    (Vertex as Vertex<StateModule>).Value = value;
                 RaisePropertyChanged(nameof(ModuleFunction));
             }
         }
@@ -133,7 +128,7 @@ namespace DataStructures.Demo
                 SetProperty(ref _Vertex, value, nameof(Vertex));
                 if (ModuleFunction == null)
                 {
-                    ModuleFunction = new ModuleFunction();
+                    ModuleFunction = new StateModule();
                 }
             }
         }
