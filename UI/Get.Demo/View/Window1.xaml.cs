@@ -119,12 +119,12 @@ namespace DataStructures.Demo
                     types.Add(typeof(Vertex<StateModule>));
                     types.Add(typeof(Edge<StateModule>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
+                    dataContractSerializerSettingsActionInvoker.DataContractResolver = new StateResolver();
                 });
-
             if (Debugger.IsAttached)
             {
-                //SimulateGraphChanges();
-                SimulateGraphLoadFromFile();
+                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\state.xml", _GraphVisualization);
+                //SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
                 //_GraphVisualization.Graph = new Graph();
 

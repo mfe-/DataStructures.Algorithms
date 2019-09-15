@@ -155,8 +155,6 @@ namespace DataStructures.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var v = Graph.CreateVertexFunc();
-
             XElement Xgraph = this.Graph.Save(DataContractSerializerSettingsActionInvoker);
 
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4

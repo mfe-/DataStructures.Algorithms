@@ -5,6 +5,7 @@ using StateMachineEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -44,13 +45,22 @@ namespace DataStructures.Demo
                 {
                     Name = a.Name,
                     ParameterType = a.ParameterType?.FullName,
-                    ParameterValue = ""
+                    ParameterValue = "",
+                    Position = a.Position
                 }).ToList();
-                if(ModuleFunction!=null)
+                if (ModuleFunction != null)
                 {
-                    ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
-                    ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
-                    ModuleFunction.MethodParameters = ParameterInfos;
+                    //new method selected
+                    if(SelectedMethodInfos.ToString()!= ModuleFunction.MethodNameTyp)
+                    {
+                        ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
+                        ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
+                        ModuleFunction.MethodParameters = ParameterInfos;
+                    }
+                    else
+                    {
+                        ParameterInfos = ModuleFunction.MethodParameters.ToList();
+                    }
                 }
             }
         }
@@ -82,25 +92,33 @@ namespace DataStructures.Demo
                 if (result.HasValue && result.Value)
                 {
                     Assembly = Assembly.LoadFrom(openFileDialog.FileName);
-                    List<MethodInfo> mList = new List<MethodInfo>();
-                    foreach (var t in Assembly.GetTypes().ToList())
-                    {
-                        var m = t.GetMethods();
-                        if (t != null && t.IsPublic && t.Name != nameof(MethodInfo.Equals) && t.Name != nameof(MethodInfo.ToString))
-                        {
-                            mList.AddRange(m);
-                        }
-                    }
-                    MethodInfos = new ObservableCollection<MethodInfo>(mList);
-                    FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
-
-                    ModuleFunction.AssemblyFullName = Assembly.FullName;
+                    SetupSelectableMethods();
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
+        }
+
+        private void SetupSelectableMethods()
+        {
+            List<MethodInfo> mList = new List<MethodInfo>();
+            foreach (var t in Assembly.GetTypes().ToList())
+            {
+                if (t.IsPublic)
+                {
+                    var m = t.GetMethods();
+                    if (t != null && t.IsPublic && t.Name != nameof(MethodInfo.Equals) && t.Name != nameof(MethodInfo.ToString))
+                    {
+                        mList.AddRange(m);
+                    }
+                }
+            }
+            MethodInfos = new ObservableCollection<MethodInfo>(mList);
+            FilterMethodInfos = new ObservableCollection<MethodInfo>(MethodInfos);
+
+            ModuleFunction.AssemblyFullName = Assembly.FullName;
         }
 
         //command mit speichern -> 
@@ -111,12 +129,12 @@ namespace DataStructures.Demo
         {
             get
             {
-                return (Vertex as Vertex<StateModule>)?.Value as StateModule;
+                return (Vertex as Vertex<IState>)?.Value as StateModule;
             }
             set
             {
-                if ((Vertex as Vertex<StateModule>) != null)
-                    (Vertex as Vertex<StateModule>).Value = value;
+                if ((Vertex as Vertex<IState>) != null)
+                    (Vertex as Vertex<IState>).Value = value;
                 RaisePropertyChanged(nameof(ModuleFunction));
             }
         }
@@ -131,6 +149,18 @@ namespace DataStructures.Demo
                 if (ModuleFunction == null)
                 {
                     ModuleFunction = new StateModule();
+                }
+                else
+                {
+                    Assembly = ModuleFunction.LoadAssembly();
+                    if(Assembly!=null)
+                    {
+                        SetupSelectableMethods();
+                        if (!String.IsNullOrEmpty(ModuleFunction.MethodNameTyp))
+                        {
+                            SelectedMethodInfos = ModuleFunction.LoadMethodTyp();
+                        }
+                    }
                 }
             }
         }
