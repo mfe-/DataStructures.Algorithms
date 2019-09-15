@@ -87,15 +87,15 @@ namespace DataStructures.UI
                 RaiseMouseDoubleClickEvent();
             }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
-                this.SelectedItem = (FrameworkElement)e.Source;
-                this.SelectedItem.Focus();
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
-                SetPosition(SelectedItem, p);
+                this.SelectedMouseItem = (FrameworkElement)e.Source;
+                this.SelectedMouseItem.Focus();
+                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
+                SetPosition(SelectedMouseItem, p);
             }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
                 //create a temporary edge
                 EdgeControl ev = new EdgeControl();
@@ -105,7 +105,7 @@ namespace DataStructures.UI
 
                 ev.PositionU = GetPosition(vv);
                 ev.PositionV = e.GetPosition(this);
-                this.SelectedItem = ev;
+                this.SelectedMouseItem = ev;
                 this.Children.Add(ev);
             }
         }
@@ -135,18 +135,18 @@ namespace DataStructures.UI
 
             }
 
-            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
-                VertexControl v = SelectedItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
+                VertexControl v = SelectedMouseItem as VertexControl;
+                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
                 v.Position = p;
-                SetPosition(SelectedItem, p);
+                SetPosition(SelectedMouseItem, p);
             }
 
             //move edge
-            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
+            if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(EdgeControl)))
             {
-                EdgeControl ev = SelectedItem as EdgeControl;
+                EdgeControl ev = SelectedMouseItem as EdgeControl;
                 Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
                 ev.PositionV = p;
             }
@@ -159,23 +159,23 @@ namespace DataStructures.UI
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
-                VertexControl v = SelectedItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedItem.ActualHeight / 2));
+                VertexControl v = SelectedMouseItem as VertexControl;
+                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
                 v.Position = p;
-                SetPosition(SelectedItem, p);
-                SelectedItem = null;
+                SetPosition(SelectedMouseItem, p);
+                SelectedMouseItem = null;
             }
             //add edge to graph or remove temporary edge
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedItem != null && SelectedItem.GetType().Equals(typeof(EdgeControl)))
+            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(EdgeControl)))
             {
 
                 HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
                 FrameworkElement u = result.VisualHit as FrameworkElement;
 
                 VertexControl vv = u.TemplatedParent as VertexControl;
-                EdgeControl ev = SelectedItem as EdgeControl;
+                EdgeControl ev = SelectedMouseItem as EdgeControl;
 
                 //maybe we hit the ItemTemplate Control
                 if (vv == null && u.DataContext != null && u.DataContext is IVertex)
@@ -192,8 +192,8 @@ namespace DataStructures.UI
                     v.AddEdge(vv.Vertex, 0, Graph.Directed);
                 }
 
-                this.Children.Remove(SelectedItem);
-                SelectedItem = null;
+                this.Children.Remove(SelectedMouseItem);
+                SelectedMouseItem = null;
             }
         }
 
@@ -666,7 +666,21 @@ namespace DataStructures.UI
             remove { RemoveHandler(MouseDoubleClickEvent, value); }
         }
 
-        protected FrameworkElement SelectedItem { get; set; }
+
+        private FrameworkElement _SelectedMouseItem;
+        protected FrameworkElement SelectedMouseItem
+        {
+            get { return _SelectedMouseItem; }
+            set
+            {
+                if (value != null)
+                {
+                    SelectedItem = value;
+                }
+                _SelectedMouseItem = value;
+            }
+        }
+        public FrameworkElement SelectedItem { get; set; }
 
         /// <summary>
         /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
