@@ -46,10 +46,12 @@ namespace DataStructures.Demo
                     ParameterType = a.ParameterType?.FullName,
                     ParameterValue = ""
                 }).ToList();
-
-                ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
-                ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
-                ModuleFunction.MethodParameters = ParameterInfos;
+                if(ModuleFunction!=null)
+                {
+                    ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
+                    ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
+                    ModuleFunction.MethodParameters = ParameterInfos;
+                }
             }
         }
 

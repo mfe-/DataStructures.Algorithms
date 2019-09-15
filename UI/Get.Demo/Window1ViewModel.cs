@@ -21,14 +21,21 @@ namespace DataStructures.Demo
 
         protected void OnClickCommand(IVertex param)
         {
-            ModuleFunctionWindow moduleFunctionWindow = new ModuleFunctionWindow();
+            StateModuleWindow moduleFunctionWindow = new StateModuleWindow();
             var moduleFunctionWindowViewModel = new StateModuleWindowViewModel();
             moduleFunctionWindowViewModel.Vertex = param;
             moduleFunctionWindow.DataContext = moduleFunctionWindowViewModel;
             moduleFunctionWindow.ShowDialog();
+        }
 
+        private ICommand _RunStateMachineCommand;
+        public ICommand RunStateMachineCommand => _RunStateMachineCommand ?? (_RunStateMachineCommand = new DelegateCommand<object>(OnRunStateMachineCommand));
+
+        protected void OnRunStateMachineCommand(object param)
+        {
 
         }
+
         private Graph _Graph;
         public Graph Graph
         {
