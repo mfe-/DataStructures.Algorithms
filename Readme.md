@@ -16,6 +16,7 @@ Contains the current datastructures
 
 ## DataStructures.UI
 
+![alt tag](http://i.imgur.com/4WS122c.gif)
 Contains a WPF control to visualize a graph. 
 Use `DataStructures.UI.sln` and set `UI\DataStructures.Demo` as start up project to work with the `GraphControl`.
 
