@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Algorithms.Graph;
 
 namespace DataStructures.UI
 {

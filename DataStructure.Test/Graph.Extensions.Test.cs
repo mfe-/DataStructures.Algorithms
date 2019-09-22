@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml;
 using System.Xml.Linq;
+using Algorithms.Graph;
 
 namespace DataStructures.Test
 {

@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Get.the.Solution.DataStructure;
+using DataStructures;
 
-namespace Get.the.Solution.Algorithms.Graph
+namespace Algorithms.Graph
 {
     public static partial class VertexAlgorithms
     {
-        public static IEnumerable<IVertex<W, D>> Depth_First_Traversal<W, D>(this IVertex<W, D> s, IEnumerable<IVertex<W, D>> visited)
-            where W : IComparable<W>
+        public static IList<IVertex> Depth_First_Traversal(this IVertex s, IList<IVertex> visited)
         {
             //visist x
-            visited.ToList<IVertex<W, D>>().Add(s);
+            visited.Add(s);
 
             //FOR each y such that (x,y) is an edge DO 
-            foreach (IEdge<W, D> e in s.Edges)
+            foreach (IEdge e in s.Edges)
             {
                 if (!visited.Contains(e.V))
                 {
-                    visited = Depth_First_Traversal<W, D>(e.V, visited).ToList<IVertex<W, D>>();
+                    visited = Depth_First_Traversal(e.V, visited);
                 }
             }
             return visited;

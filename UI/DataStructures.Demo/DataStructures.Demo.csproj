@@ -151,6 +151,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Algorithms.Graph\Algorithms.Graph.csproj">
+      <Project>{95f5911b-57b9-43a5-bdc3-caacc05c0407}</Project>
+      <Name>Algorithms.Graph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Mathematics\Mathematics.csproj">
       <Project>{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}</Project>
       <Name>Mathematics</Name>
@@ -159,7 +163,7 @@
       <Project>{71CEDB71-D97C-4F85-99F8-B587B799BCDD}</Project>
       <Name>DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Get.UI.GraphVisualization\DataStructures.UI.csproj">
+    <ProjectReference Include="..\DataStructures.UI\DataStructures.UI.csproj">
       <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
       <Name>DataStructures.UI</Name>
     </ProjectReference>

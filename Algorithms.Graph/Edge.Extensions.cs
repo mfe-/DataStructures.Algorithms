@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using DataStructures;
+using System.Collections.Generic;
 
 
-namespace DataStructures
+namespace Algorithms.Graph
 {
     /// <summary>
     /// Provides a set of static methods for working with Edge objects.

@@ -7,6 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Input;
+using Algorithms.Graph;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace DataStructures.UI
