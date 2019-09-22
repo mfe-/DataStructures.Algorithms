@@ -1,7 +1,7 @@
 version: 1.0.{build}
 image: Visual Studio 2019
 before_build:
-- cmd: nuget restore
+- cmd: nuget restore DataStructures.UI.sln
 build:
   project: DataStructures.UI.sln
   verbosity: minimal
