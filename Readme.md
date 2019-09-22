@@ -2,7 +2,7 @@
 
 A collection of basic algorithms and data structures (algodat)
 
-[<img src="https://ci.appveyor.com/api/projects/status/github/mfe-/Get.the.solution?branch=master&svg=true">](https://ci.appveyor.com/project/mfe-/get-the-solution)
+[![Build status](https://ci.appveyor.com/api/projects/status/ochuuevuytt1ekin/branch/master?svg=true)](https://ci.appveyor.com/project/mfe-/get-the-solution/branch/master)
 
 ## DataStructures (Work in Progress)
 
