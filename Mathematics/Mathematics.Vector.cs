@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Get.the.Solution.Mathematics
+namespace Mathematics
 {
     //public static partial class Mathematics
     //{
@@ -98,10 +98,6 @@ namespace Get.the.Solution.Mathematics
             //TODO;
 
             return true;
-        }
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
         public override string ToString()
         {

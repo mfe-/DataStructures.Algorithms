@@ -1,0 +1,115 @@
+﻿<Window x:Class="DataStructures.Demo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DataStructures.Demo"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:ui="clr-namespace:DataStructures.UI;assembly=DataStructures.UI"
+    xmlns:Base="http://schemas.get.com/winfx/2009/xaml/Base"
+    xmlns:mgraph="clr-namespace:DataStructures;assembly=DataStructures"
+    xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    Title="Window1" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:Window1ViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+
+    </Window.Resources>
+    <Window.Content>
+        <DockPanel x:Name="dockPanel" >
+            <TextBlock Text="{Binding Path=.}" />
+            <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
+
+            <ui:GraphControl x:Name="_GraphVisualization" 
+                             Graph="{Binding Graph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="MouseDoubleClick">
+                        <interactivity:InvokeCommandAction 
+                            Command="{x:Static ui:GraphControl.AddVertexRoutedCommand}"
+                            CommandParameter="{Binding Path=.}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+
+                <ui:GraphControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="_Save" Command="Save" />
+                        <MenuItem Header="_Load" Command="Open" />
+                        <MenuItem Header="_Print" Command="Print" />
+                        <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphControl.KruskalRoutedCommand}" />
+                        <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
+                        <MenuItem Header="_Direct" Command="{x:Static ui:GraphControl.SetDirectedRoutedCommand}" />
+                    </ContextMenu>
+                </ui:GraphControl.ContextMenu>
+                <ui:GraphControl.Resources>
+                    <ContextMenu x:Key="ContextMenu">
+                        <MenuItem Header="Edit" 
+                                  Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                  CommandParameter="{Binding Path=SelectedItem.Vertex,Source={x:Reference _GraphVisualization},UpdateSourceTrigger=PropertyChanged}"/>
+                        <MenuItem Header="Run" 
+                                  Command="{Binding Path=DataContext.RunStateMachineCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                  CommandParameter="{Binding Path=SelectedItem.Vertex,Source={x:Reference _GraphVisualization},UpdateSourceTrigger=PropertyChanged}"/>
+                    </ContextMenu>
+                    <Style TargetType="{x:Type ui:VertexControl}">
+                        <Setter Property="Width" Value="100" />
+                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Background" Value="#fff299" />
+                        <Setter Property="CommandOnDoubleClick" Value="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}" />
+                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}" />
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Background="Yellow" 
+                                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                ToolTip="{Binding Path=Value.Description,UpdateSourceTrigger=PropertyChanged}">
+
+                                        <TextBlock Text="{Binding Path=Value.MethodNameTyp,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
+                                        <!--<Expander>
+                                            <ListBox ItemsSource="{Binding Path=Value.MethodParameters,UpdateSourceTrigger=PropertyChanged}"
+                                                     Width="80" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Visible"></ListBox>
+                                        </Expander>-->
+                                        <!--<CheckBox >
+                                            <interactivity:Interaction.Triggers>
+                                                <interactivity:EventTrigger EventName="MouseDoubleClick">
+                                                    <interactivity:InvokeCommandAction 
+                                                    Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
+                                                    CommandParameter="{Binding}" />
+                                                </interactivity:EventTrigger>
+                                            </interactivity:Interaction.Triggers>
+                                        </CheckBox>-->
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="{x:Type ui:EdgeControl}">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="StrokeThickness" Value="2" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:GraphControl.Resources>
+            </ui:GraphControl>
+
+            <!--<Border BorderBrush="Green" BorderThickness="3" x:Name="_border">
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="GotFocus">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation 
+                                Storyboard.TargetName="_border"
+                                Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)"
+                                From="Black" To="Red" 
+                                Duration="00:00:01.000" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                </Border.Triggers>
+            </Border>-->
+            <!--<Button Click="Button_Click" DockPanel.Dock="Bottom" Width="20" Height="20"></Button>-->
+        </DockPanel>
+    </Window.Content>
+</Window>

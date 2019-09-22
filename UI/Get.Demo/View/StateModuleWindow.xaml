@@ -1,0 +1,34 @@
+﻿<Window x:Class="DataStructures.Demo.View.StateModuleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataStructures.Demo.View"
+        mc:Ignorable="d"
+        Title="ModuleFunctionWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True" >
+        <Button Content="Select assembly" VerticalAlignment="Top" Height="30" Command="{Binding PickAssemblyCommand}"></Button>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Description" />
+            <TextBox Text="{Binding Path=ModuleFunction.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Filter Methodname" />
+            <TextBox Text="{Binding Path=FilterMethodName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <ListBox MinHeight="40" 
+                 ItemsSource="{Binding Path=FilterMethodInfos,UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding SelectedMethodInfos,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox MinHeight="40" 
+                 ItemsSource="{Binding Path=ParameterInfos,UpdateSourceTrigger=PropertyChanged}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+        </ListBox>
+    </DockPanel>
+</Window>

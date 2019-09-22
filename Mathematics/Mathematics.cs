@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace Get.the.Solution.Mathematics
+namespace Mathematics
 {
     public partial class Mathematics
     {
