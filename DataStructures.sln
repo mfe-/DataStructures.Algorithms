@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "Algorithms\Algorithms.csproj", "{A6417910-4673-4CE0-A3B6-43E10DB0151E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{A6417910-4673-4CE0-A3B6-43E10DB0151E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.Test", "Algorithms.DataStrucre.Test\Algorithms.Test.csproj", "{639925E2-1FD6-4E3F-A76B-5F37D93F2698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.Graph", "Algorithms.Graph\Algorithms.Graph.csproj", "{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph", "Algorithms.Graph\Algorithms.Graph.csproj", "{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms.Graph.Test", "Algorithms.Graph.Test\Algorithms.Graph.Test.csproj", "{FA37CC20-24DF-41C6-9D44-7FCD32BC088C}"
 EndProject
@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMachineEngine", "StateMachineEngine\StateMachineEngine.csproj", "{82865BDA-046D-42AA-93EE-63EB0B157D6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +166,26 @@ Global
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|x64.Build.0 = Release|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}.Release|x86.Build.0 = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|x64.Build.0 = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Debug|x86.Build.0 = Debug|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|ARM.Build.0 = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|x64.ActiveCfg = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|x64.Build.0 = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|x86.ActiveCfg = Release|Any CPU
+		{82865BDA-046D-42AA-93EE-63EB0B157D6F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

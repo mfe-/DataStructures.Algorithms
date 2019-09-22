@@ -163,7 +163,7 @@
       <Project>{4E17F47F-8DB8-41ED-BB04-A26D6793D224}</Project>
       <Name>DataStructures.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StateMachineEngine\StateMachineEngine.csproj">
+    <ProjectReference Include="..\..\StateMachineEngine\StateMachineEngine.csproj">
       <Project>{bdc9ca70-e444-4743-9fbf-f6c21b9a1438}</Project>
       <Name>StateMachineEngine</Name>
     </ProjectReference>

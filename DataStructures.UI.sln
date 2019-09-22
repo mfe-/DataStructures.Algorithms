@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarcodeChecker", "UI\BarcodeChecker\BarcodeChecker.csproj", "{A1D53D3E-F836-4DD1-9E08-976D7EE4632E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateMachineEngine", "UI\StateMachineEngine\StateMachineEngine.csproj", "{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMachineEngine", "StateMachineEngine\StateMachineEngine.csproj", "{BDC9CA70-E444-4743-9FBF-F6C21B9A1438}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,7 +111,6 @@ Global
 		{F6441FDB-9D04-462D-8F62-DE84FC516654} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{4E17F47F-8DB8-41ED-BB04-A26D6793D224} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 		{A1D53D3E-F836-4DD1-9E08-976D7EE4632E} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
-		{BDC9CA70-E444-4743-9FBF-F6C21B9A1438} = {C4B0BDA3-F5AE-40F9-8D10-061014F79E45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F001E7F5-7F90-426A-BE4E-056CBCEDFD60}
