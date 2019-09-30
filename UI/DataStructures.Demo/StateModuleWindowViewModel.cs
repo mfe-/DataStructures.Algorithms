@@ -48,10 +48,10 @@ namespace DataStructures.Demo
                     ParameterValue = "",
                     Position = a.Position
                 }).ToList();
-                if (ModuleFunction != null)
+                if (ModuleFunction != null && SelectedMethodInfos != null)
                 {
                     //new method selected
-                    if(SelectedMethodInfos.ToString()!= ModuleFunction.MethodNameTyp)
+                    if (SelectedMethodInfos.ToString() != ModuleFunction.MethodNameTyp)
                     {
                         ModuleFunction.MethodNameTyp = SelectedMethodInfos.ToString();
                         ModuleFunction.MethodDeclaringType = SelectedMethodInfos.DeclaringType.FullName;
@@ -129,12 +129,24 @@ namespace DataStructures.Demo
         {
             get
             {
-                return (Vertex as Vertex<IState>)?.Value as StateModule;
+                if ((Vertex as Vertex<IState>)?.Value as StateModule != null)
+                {
+                    return (Vertex as Vertex<IState>)?.Value as StateModule;
+                }
+                if ((Vertex as IVertex<StateModule>)?.Value as StateModule != null)
+                {
+                    return (Vertex as IVertex<StateModule>)?.Value as StateModule;
+                }
+                return null;
             }
             set
             {
                 if ((Vertex as Vertex<IState>) != null)
                     (Vertex as Vertex<IState>).Value = value;
+                if ((Vertex as Vertex<StateModule>) != null)
+                {
+                    (Vertex as Vertex<StateModule>).Value = value;
+                }
                 RaisePropertyChanged(nameof(ModuleFunction));
             }
         }
@@ -153,7 +165,7 @@ namespace DataStructures.Demo
                 else
                 {
                     Assembly = ModuleFunction.LoadAssembly();
-                    if(Assembly!=null)
+                    if (Assembly != null)
                     {
                         SetupSelectableMethods();
                         if (!String.IsNullOrEmpty(ModuleFunction.MethodNameTyp))

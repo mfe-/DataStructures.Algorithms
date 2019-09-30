@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StateMachineEngine
 {
-    public class GetHttpData<TData>
+    public class GetHttpData
     {
         public GetHttpData()
         {
@@ -15,7 +15,12 @@ namespace StateMachineEngine
         }
         protected HttpClient HttpClient { get; set; }
 
-        public async Task<TData> GetAsync(string url)
+        public async Task<String> GetAsync(string url)
+        {
+            var response = await HttpClient.GetAsync(url);
+            return await response.Content.ReadAsStringAsync();
+        }
+        public async Task<TData> GetAsync<TData>(string url)
         {
             var response = await HttpClient.GetAsync(url);
             return await ToObjectAsync<TData>(response);

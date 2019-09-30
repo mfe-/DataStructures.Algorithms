@@ -18,6 +18,7 @@ namespace StateMachineEngine
         }
         public bool Condition(object param)
         {
+            return true;
             throw new NotImplementedException();
         }
         public object methodResult = "";
@@ -90,7 +91,7 @@ namespace StateMachineEngine
             set { SetProperty(ref _Description, value, nameof(Description)); }
         }
 
-        protected Assembly Assembly { get; set; }
+        public Assembly Assembly { get; protected set; }
         public static IEnumerable<String> GetAssemblies()
         {
             string dir = Assembly.GetExecutingAssembly().Location;
@@ -108,8 +109,10 @@ namespace StateMachineEngine
         public Assembly LoadAssembly()
         {
             string foundAssemblyPath = GetAssemblies().
-                        FirstOrDefault(a => a.Contains(",") && $"{AssemblyFullName.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()}.dll" == new FileInfo(a).Name);
-            if(!String.IsNullOrEmpty(foundAssemblyPath))
+                        FirstOrDefault(a => AssemblyFullName.Contains(",") &&
+                        $"{AssemblyFullName.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)?.FirstOrDefault()}.dll" == new FileInfo(a).Name);
+
+            if (!String.IsNullOrEmpty(foundAssemblyPath))
             {
                 Assembly = Assembly.LoadFrom(foundAssemblyPath);
                 if (Assembly.FullName != AssemblyFullName)

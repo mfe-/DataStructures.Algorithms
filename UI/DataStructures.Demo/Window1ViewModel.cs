@@ -1,6 +1,8 @@
 ﻿using DataStructures.Demo.View;
 using Prism.Commands;
 using StateMachineEngine;
+using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DataStructures.Demo
@@ -10,7 +12,6 @@ namespace DataStructures.Demo
         StateMachineEngine.StateMachineEngine _stateMachine = new StateMachineEngine.StateMachineEngine();
         public Window1ViewModel()
         {
-            Graph = new Graph() { Directed = true };
             PropertyChanged += Window1ViewModel_PropertyChanged;
         }
 
@@ -18,7 +19,11 @@ namespace DataStructures.Demo
         {
             if (nameof(Graph).Equals(e.PropertyName) && Graph != null)
             {
-                Graph.CreateVertexFunc = VertexFactory;
+                if (Graph != null)
+                {
+                    Graph.CreateVertexFunc = VertexFactory;
+                    OnRunStateMachineCommand(Graph.Start as IVertex<StateModule>);
+                }
             }
         }
 
@@ -44,15 +49,19 @@ namespace DataStructures.Demo
         private ICommand _RunStateMachineCommand;
         public ICommand RunStateMachineCommand => _RunStateMachineCommand ?? (_RunStateMachineCommand = new DelegateCommand<IVertex>(OnRunStateMachineCommand));
 
-        protected void OnRunStateMachineCommand(IVertex param)
+        protected async void OnRunStateMachineCommand(IVertex param)
         {
-            IState state = null;
-            IVertex vertex = param;
-            if (param is IVertex<StateModule>)
+            try
             {
-                state = (param as IVertex<StateModule>).Value;
+                param = Graph.Start;
+                await _stateMachine?.Run(param as IVertex<StateModule>);
             }
-            _stateMachine.Run(vertex, state);
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+
         }
 
         private Graph _Graph;
