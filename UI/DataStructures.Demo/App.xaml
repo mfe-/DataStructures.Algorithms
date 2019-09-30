@@ -4,34 +4,13 @@
     xmlns:local="clr-namespace:DataStructures.Demo"
     xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:state="clr-namespace:StateMachineEngine;assembly=StateMachineEngine"
     StartupUri="View/Window1.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="pack://application:,,,/Get.Common;component/XAML/Common.Dictionary.xaml" />-->
                 <ResourceDictionary>
-                    <DataTemplate DataType="{x:Type state:MethodParameter}">
-                        <StackPanel Orientation="Vertical">
-                            <TextBox Text="{Binding Path=Name}" IsEnabled="False" />
-                            <TextBox Text="{Binding Path=ParameterType}" IsEnabled="False" />
-                            <TextBox x:Name="TextBoxParameterValue" Text="{Binding Path=ParameterValue}">
-                
-                            </TextBox>
-                            <CheckBox x:Name="CheckBoxUsePreviousStateValue" IsChecked="{Binding Path=UsePreviousStateValue,UpdateSourceTrigger=PropertyChanged}" 
-                                      Content="Use instead of Parameter value previous computed value">
-                                <interactivity:Interaction.Triggers>
-                                    <interactivity:DataTrigger Binding="{Binding Path=IsChecked,ElementName=CheckBoxUsePreviousStateValue}" Value="True">
-                                        <interactivity:ChangePropertyAction PropertyName="Text" Value="" TargetName="TextBoxParameterValue" />
-                                        <interactivity:ChangePropertyAction PropertyName="IsEnabled" Value="False" TargetName="TextBoxParameterValue" />
-                                    </interactivity:DataTrigger>
-                                    <interactivity:DataTrigger Binding="{Binding Path=IsChecked,ElementName=CheckBoxUsePreviousStateValue}" Value="False">
-                                        <interactivity:ChangePropertyAction PropertyName="IsEnabled" Value="True" TargetName="TextBoxParameterValue" />
-                                    </interactivity:DataTrigger>
-                                </interactivity:Interaction.Triggers>
-                            </CheckBox>
-                        </StackPanel>
-                    </DataTemplate>
+                    
                 </ResourceDictionary>
 
             </ResourceDictionary.MergedDictionaries>

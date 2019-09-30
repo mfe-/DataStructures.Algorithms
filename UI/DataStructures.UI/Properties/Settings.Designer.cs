@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataStructures.UI.Properties {
+namespace DataStructures.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

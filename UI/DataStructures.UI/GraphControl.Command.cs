@@ -9,9 +9,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Collections.Specialized;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Algorithms.Graph;
 
 namespace DataStructures.UI
 {
@@ -29,7 +27,6 @@ namespace DataStructures.UI
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Delete, Delete_Executed, Delete_Enabled));
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, Print_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphControl.SetDirectedRoutedCommand, SetDirected_Executed));
-            this.CommandBindings.Add(new CommandBinding(GraphControl.KruskalRoutedCommand, Kruskal_Executed));
             this.CommandBindings.Add(new CommandBinding(GraphControl.ClearGraphCommand, ClearGraph_Executed));
 
         }
@@ -39,16 +36,6 @@ namespace DataStructures.UI
             {
                 this.Graph = null;
                 this.Graph = new Graph();
-            }
-
-        }
-        private void Kruskal_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
-            {
-                Graph kruskal = this.Graph.Kruskal_DepthFirstSearch();
-                this.Graph = null;
-                this.Graph = kruskal;
             }
 
         }
@@ -149,6 +136,7 @@ namespace DataStructures.UI
         #endregion
 
         public Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvoker { get; set; }
+        public Func<Graph, Action<DataContractSerializerSettings>,XElement> GraphSaveFunc { get; set; }
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
@@ -156,8 +144,8 @@ namespace DataStructures.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement Xgraph = this.Graph.Save(DataContractSerializerSettingsActionInvoker);
-
+            XElement Xgraph = GraphSaveFunc?.Invoke(this.Graph, DataContractSerializerSettingsActionInvoker);
+            
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
                 from item in this.Children.OfType<VertexControl>()
@@ -181,6 +169,10 @@ namespace DataStructures.UI
 
         }
         /// <summary>
+        /// Get or sets the function to load a graph
+        /// </summary>
+        public Func<XElement, Action<DataContractSerializerSettings>, Graph> LoadGraphFunc { get; set; }
+        /// <summary>
         /// Will be executed when the Load command was called
         /// </summary>
         /// <param name="sender">Object which raised Command</param>
@@ -200,7 +192,7 @@ namespace DataStructures.UI
                     //load graph
                     XElement XGraph = root.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph"));
 
-                    this.Graph = XGraph.Load(DataContractSerializerSettingsActionInvoker);
+                    this.Graph = LoadGraphFunc?.Invoke(XGraph, DataContractSerializerSettingsActionInvoker);
                     //set positions of items
                     var framework = root.Elements("FrameworkElements").First().Elements(typeof(VertexControl).FullName).ToList();
                     foreach (var y in framework)

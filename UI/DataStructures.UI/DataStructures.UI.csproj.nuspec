@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Abstract.DataStructures.UI</id>
+    <version>1.0.0</version>
+    <authors>Martin Fetzel</authors>
+    <owners>Martin Fetzel</owners>
+    <licenseUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</projectUrl>
+    <iconUrl>https://get-the-solution.net/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package description</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>graph vertex edge vertices</tags>
+    <dependencies>
+      <dependency id="Abstract.DataStructures" version="0.2.1" />
+    </dependencies>
+  </metadata>
+</package>

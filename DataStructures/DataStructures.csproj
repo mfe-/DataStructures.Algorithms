@@ -19,6 +19,7 @@
     <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Product>Abstract.DataStructures</Product>
+    <PackageIconUrl>https://get-the-solution.net/favicon.ico</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />

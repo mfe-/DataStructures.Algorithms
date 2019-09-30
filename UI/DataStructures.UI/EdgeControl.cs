@@ -7,7 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Input;
-using Algorithms.Graph;
+using System.Linq;
 
 [assembly: XmlnsDefinition("http://schemas.get.com/winfx/2009/xaml/Graph", "Get.UI")]
 namespace DataStructures.UI
@@ -82,7 +82,7 @@ namespace DataStructures.UI
 
             }
             //directed edges exists the other way around too. Set same weight
-            var revertedEdge = Edge.GetOppositeEdge();
+            var revertedEdge = Edge.V.Edges.FirstOrDefault(a => a.V.Equals(Edge.U));
             if (revertedEdge != null)
             {
                 revertedEdge.Weighted = Edge.Weighted;

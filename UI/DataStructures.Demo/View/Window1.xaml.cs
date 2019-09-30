@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using StateMachineEngine;
+using Algorithms.Graph;
 
 namespace DataStructures.Demo
 {
@@ -111,19 +111,22 @@ namespace DataStructures.Demo
 
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
+            
             _GraphVisualization.DataContractSerializerSettingsActionInvoker =
                 new Action<DataContractSerializerSettings>(dataContractSerializerSettingsActionInvoker =>
                 {
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
-                    types.Add(typeof(StateModule));
-                    types.Add(typeof(Vertex<StateModule>));
-                    types.Add(typeof(Edge<StateModule>));
+                    //types.Add(typeof(StateModule));
+                    //types.Add(typeof(Vertex<StateModule>));
+                    //types.Add(typeof(Edge<StateModule>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
-                    dataContractSerializerSettingsActionInvoker.DataContractResolver = new StateResolver();
+                    //dataContractSerializerSettingsActionInvoker.DataContractResolver = new StateResolver();
                 });
+            _GraphVisualization.LoadGraphFunc = GraphExtensions.Load;
+            _GraphVisualization.GraphSaveFunc = GraphExtensions.Save;
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\state.xml", _GraphVisualization);
+                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
                 //SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
                 //_GraphVisualization.Graph = new Graph();
