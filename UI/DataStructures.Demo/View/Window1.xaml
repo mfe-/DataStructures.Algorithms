@@ -23,13 +23,13 @@
 
             <ui:GraphControl x:Name="_GraphVisualization" 
                              Graph="{Binding Graph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                <interactivity:Interaction.Triggers>
+                <!--<interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="MouseDoubleClick">
                         <interactivity:InvokeCommandAction 
                             Command="{x:Static ui:GraphControl.AddVertexRoutedCommand}"
                             CommandParameter="{Binding Path=.}" />
                     </interactivity:EventTrigger>
-                </interactivity:Interaction.Triggers>
+                </interactivity:Interaction.Triggers>-->
 
                 <ui:GraphControl.ContextMenu>
                     <ContextMenu>
@@ -56,31 +56,7 @@
                         <Setter Property="Background" Value="#fff299" />
                         <Setter Property="CommandOnDoubleClick" Value="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}" />
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}" />
-                        <Setter Property="ItemTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Background="Yellow" 
-                                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                                ToolTip="{Binding Path=Value.Description,UpdateSourceTrigger=PropertyChanged}">
 
-                                        <TextBlock Text="{Binding Path=Value.MethodNameTyp,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" />
-                                        <!--<Expander>
-                                            <ListBox ItemsSource="{Binding Path=Value.MethodParameters,UpdateSourceTrigger=PropertyChanged}"
-                                                     Width="80" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Visible"></ListBox>
-                                        </Expander>-->
-                                        <!--<CheckBox >
-                                            <interactivity:Interaction.Triggers>
-                                                <interactivity:EventTrigger EventName="MouseDoubleClick">
-                                                    <interactivity:InvokeCommandAction 
-                                                    Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                                    CommandParameter="{Binding}" />
-                                                </interactivity:EventTrigger>
-                                            </interactivity:Interaction.Triggers>
-                                        </CheckBox>-->
-                                    </StackPanel>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
                     </Style>
 
                     <Style TargetType="{x:Type ui:EdgeControl}">
