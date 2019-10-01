@@ -51,9 +51,9 @@
                                   CommandParameter="{Binding Path=SelectedItem.Vertex,Source={x:Reference _GraphVisualization},UpdateSourceTrigger=PropertyChanged}"/>
                     </ContextMenu>
                     <Style TargetType="{x:Type ui:VertexControl}">
-                        <Setter Property="Width" Value="100" />
-                        <Setter Property="Height" Value="100" />
-                        <Setter Property="Background" Value="#fff299" />
+                        <Setter Property="Width" Value="50" />
+                        <Setter Property="Height" Value="50" />
+                        <!--<Setter Property="Background" Value="#fff299" />-->
                         <Setter Property="CommandOnDoubleClick" Value="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}" />
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}" />
 
