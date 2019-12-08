@@ -13,12 +13,7 @@ pool:
 
 steps:
 - script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  displayName: 'Compile and and run tests'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -26,10 +21,23 @@ steps:
     projects: 'DataStructures.sln'
     arguments: '--configuration=Release --verbosity=n'
 
-- script: dotnet test DataStructures.sln --logger trx
+- script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    projects: 'DataStructures\DataStructures.csproj'
+    arguments: '--include-symbols --include-source --configuration=Release'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    projects: 'DataStructures\DataStructures.csproj'
+    arguments: '--include-symbols --include-source --configuration=Release'
+  
 
