@@ -30,10 +30,7 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
-
-- script: echo $(Build.ArtifactStagingDirectory)
-
-- script: dotnet pack $(Build.ArtifactStagingDirectory)\DataStructures\DataStructures.csproj --include-symbols --include-source --configuration=Release --no-restore
+- script: dotnet pack $(Build.ArtifactStagingDirectory)/DataStructures/DataStructures.csproj --include-symbols --include-source --configuration=Release --no-restore
   displayName: create nuget
   
 
