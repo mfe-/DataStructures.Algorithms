@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 using Algorithms.Graph;
+using Xunit;
 
 namespace DataStructures.Test
 {
-    [TestClass]
     public class GraphExensionsTest
     {
 
@@ -20,8 +19,7 @@ namespace DataStructures.Test
         IVertex v6 = new Vertex<object>() { Weighted = 6 };
         IVertex v7 = new Vertex<object>() { Weighted = 7 };
 
-        [TestInitialize]
-        public void Initialize()
+        public GraphExensionsTest()
         {
             Graph g = new Graph();
 
@@ -49,7 +47,7 @@ namespace DataStructures.Test
             this.g = g;
         }
 
-        [TestMethod]
+        [Fact]
         public void AdjacencyListTest()
         {
 
@@ -66,10 +64,10 @@ namespace DataStructures.Test
 
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    Assert.AreEqual(matrix[i][j], result[i][j]);
+                    Assert.Equal(matrix[i][j], result[i][j]);
 
         }
-        [TestMethod]
+        [Fact]
         public void DepthFirstSearch_should_find_circles_in_undirected_graph()
         {
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
@@ -78,7 +76,7 @@ namespace DataStructures.Test
             Graph g = GraphExtensions.Load(xmlElement);
 
             //undirected graph required
-            Assert.IsFalse(g.IsDirected());
+            Assert.False(g.IsDirected());
 
             g.Directed = true;
             //v1
@@ -94,20 +92,20 @@ namespace DataStructures.Test
             //there is a directed circle from 2-...->2
             var resultv2 = v2.DepthFirstSearch(v2);
             PrintEdges(resultv2);
-            Assert.AreEqual(resultv2.Last().V, v2);
+            Assert.Equal(resultv2.Last().V, v2);
             //there is a directed circle from 3-...->3
             v3 = v2.Edges.FirstOrDefault(a => a.V.Weighted == 3).V;
             var resultv3 = v3.DepthFirstSearch(v3);
             PrintEdges(resultv3);
-            Assert.AreEqual(resultv3.Last().V, v3);
+            Assert.Equal(resultv3.Last().V, v3);
 
             v6 = v3.Edges.FirstOrDefault(a => a.V.Weighted == 6).V;
             var resultv6 = v6.DepthFirstSearch(v6);
             PrintEdges(resultv6);
-            Assert.AreEqual(resultv6.Last().V, v6);
+            Assert.Equal(resultv6.Last().V, v6);
 
         }
-        [TestMethod]
+        [Fact]
         public void DepthFirstSearch_should_find_paths_on_directed_and_undirected_graph()
         {
             //directed testen
@@ -121,16 +119,16 @@ namespace DataStructures.Test
             //some possible ways
             //1->3->6, 1->3->5->6,1->2->3->5->6,1->4->6
             //because of so much possible solutions we equal them like that way
-            Assert.AreEqual(resultv1.Count(), 4);
-            Assert.AreEqual(resultv1.Last().V, v6);
+            Assert.Equal(resultv1.Count(), 4);
+            Assert.Equal(resultv1.Last().V, v6);
 
             //look for 1
             //6->7->5->6
             var resultv6 = v6.DepthFirstSearch(v1);
-            Assert.AreEqual(resultv6.Count(), 2);
+            Assert.Equal(resultv6.Count(), 2);
             //when moving from 5->6 , 6 will not be added to the edge list, 
             //because the only left edge is not the goal 
-            Assert.AreEqual(resultv6.Last().V, v5);
+            Assert.Equal(resultv6.Last().V, v5);
 
             //circule detection
             Vertex<object> a = new Vertex<object>(1);
@@ -141,7 +139,7 @@ namespace DataStructures.Test
             b.AddEdge(a);
 
             var resultva = b.DepthFirstSearch(b);
-            Assert.AreNotEqual(resultva.First().U, resultva.Last().V);
+            Assert.NotEqual(resultva.First().U, resultva.Last().V);
 
             //3 undirected connected vertices with circle
             Vertex<object> c = new Vertex<object>(3);
@@ -152,18 +150,18 @@ namespace DataStructures.Test
             b.AddEdge(c);
             c.AddEdge(b);
             var resultvc = c.DepthFirstSearch(c);
-            Assert.AreEqual(resultvc.Last().V, c);
+            Assert.Equal(resultvc.Last().V, c);
 
             //there is no directed circle from 2-...->2
             var resultv2 = v2.DepthFirstSearch(v2);
-            Assert.AreNotEqual(resultv2.Last().V, v2);
+            Assert.NotEqual(resultv2.Last().V, v2);
 
             //there is no directed circle from 3-...->3
             var resultv3 = v3.DepthFirstSearch(v3);
-            Assert.AreNotEqual(resultv3.Last().V, v3);
+            Assert.NotEqual(resultv3.Last().V, v3);
 
             resultv6 = v6.DepthFirstSearch(v6);
-            Assert.AreEqual(resultv6.Last().V, v6);
+            Assert.Equal(resultv6.Last().V, v6);
 
             //circule detection in paths
             a = new Vertex<object>(1);
@@ -176,7 +174,7 @@ namespace DataStructures.Test
             b.AddEdge(c);
             c.AddEdge(b);
             var resultp = a.DepthFirstSearch(a);
-            Assert.AreNotEqual(resultp.First(), resultp.Last());
+            Assert.NotEqual(resultp.First(), resultp.Last());
 
             //example which occours in kruskal
             a = new Vertex<object>(3);
@@ -190,7 +188,7 @@ namespace DataStructures.Test
             c.AddEdge(b);
 
             var result34 = a.DepthFirstSearch(a);
-            Assert.AreNotEqual(result34.First(), result34.Last());
+            Assert.NotEqual(result34.First(), result34.Last());
 
             //example which occours in kruskal
             v1 = new Vertex<object>(1);
@@ -210,11 +208,11 @@ namespace DataStructures.Test
             v4.AddEdge(v6, 0, false);
 
             var circule634 = v6.DepthFirstSearch(v6);
-            Assert.AreEqual(circule634.Last().V, v6);
+            Assert.Equal(circule634.Last().V, v6);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void KruskalTest()
         {
             //check if exception will be thrown
@@ -228,15 +226,15 @@ namespace DataStructures.Test
             }
 
             int a = g.Kruskal_DepthFirstSearch().Depth_First_Traversal().SelectMany(z => z.Edges).Distinct(new EdgeExtensions.EdgeComparer()).Sum(b => b.Weighted);
-            Assert.AreEqual(a, 11);
+            Assert.Equal(a, 11);
         }
-        [TestMethod]
+        [Fact]
         public void Breadth_First_Search()
         {
             g.Start.Breadth_First_Search(v7);
 
         }
-        [TestMethod]
+        [Fact]
         public void Deph_First_Search()
         {
             List<IVertex> result = g.Start.Deph_First_Search().ToList();
@@ -245,7 +243,7 @@ namespace DataStructures.Test
 
             foreach (IVertex v in result2)
             {
-                Assert.IsTrue(result.Contains(v));
+                Assert.True(result.Contains(v));
             }
         }
         public void PrintEdges(IEnumerable<IEdge> edges)
@@ -256,8 +254,6 @@ namespace DataStructures.Test
                 Console.WriteLine($"{edge.U} -> {edge.V}");
             }
         }
-
-        public TestContext TestContext { get; set; }
 
 
     }

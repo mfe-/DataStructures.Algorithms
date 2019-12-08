@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Get.the.Solution.DataStructure.Test
 {
-    [TestClass]
     public class LinkedListTest
     {
-        [TestMethod]
+        [Fact]
         public void TestRemove()
         {
             LinkedList<int> linkedlist = new LinkedList<int>();
             //remove none existing element
             var result = linkedlist.Remove(1);
 
-            Assert.AreEqual(result, false);
-            Assert.AreEqual(linkedlist.Count, 0);
-            Assert.AreEqual(linkedlist.First, null);
+            Assert.Equal(result, false);
+            Assert.Equal(linkedlist.Count, 0);
+            Assert.Equal(linkedlist.First, null);
 
 
             linkedlist.Add(1);
 
-            Assert.AreEqual(linkedlist.First.Value, 1);
-            Assert.AreEqual(linkedlist.Count, 1);
+            Assert.Equal(linkedlist.First.Value, 1);
+            Assert.Equal(linkedlist.Count, 1);
 
             //remove the only one existing first element 
             result = linkedlist.Remove(1);
 
-            Assert.AreEqual(result, true);
-            Assert.AreEqual(linkedlist.Count, 0);
-            Assert.AreEqual(linkedlist.First, null);
+            Assert.Equal(result, true);
+            Assert.Equal(linkedlist.Count, 0);
+            Assert.Equal(linkedlist.First, null);
 
             linkedlist.Add(1);
             linkedlist.Add(2);
@@ -38,10 +36,10 @@ namespace Get.the.Solution.DataStructure.Test
             //remove the last element 
             result = linkedlist.Remove(2);
 
-            Assert.AreEqual(result, true);
-            Assert.AreEqual(linkedlist.Count, 1);
-            Assert.AreEqual(linkedlist.First.Value, 1);
-            Assert.AreEqual(linkedlist.Last.Value, 1);
+            Assert.Equal(result, true);
+            Assert.Equal(linkedlist.Count, 1);
+            Assert.Equal(linkedlist.First.Value, 1);
+            Assert.Equal(linkedlist.Last.Value, 1);
 
             linkedlist.Add(3);
             linkedlist.Add(4);
@@ -49,15 +47,15 @@ namespace Get.the.Solution.DataStructure.Test
             //remove a element in the middle
             result = linkedlist.Remove(3);
 
-            Assert.AreEqual(result, true);
-            Assert.AreEqual(linkedlist.Count, 2);
-            Assert.AreEqual(linkedlist.First.Value, 1);
-            Assert.AreEqual(linkedlist.Last.Value, 4);
+            Assert.Equal(result, true);
+            Assert.Equal(linkedlist.Count, 2);
+            Assert.Equal(linkedlist.First.Value, 1);
+            Assert.Equal(linkedlist.Last.Value, 4);
 
 
 
         }
-        [TestMethod]
+        [Fact]
         public void TestAdd()
         {
             LinkedList<int> linkedlist = new LinkedList<int>();
@@ -77,7 +75,7 @@ namespace Get.the.Solution.DataStructure.Test
             foreach (String s in testStrings)
                 linkedListString.Add(s);
 
-            Assert.AreEqual(linkedListString.Count,testStrings.Length);
+            Assert.Equal(linkedListString.Count,testStrings.Length);
 
             //requries CopyTo
             //var linkedListResultList = linkedListString.ToList();
@@ -102,7 +100,7 @@ namespace Get.the.Solution.DataStructure.Test
             //linkedListString.Add(null);
 
         }
-        [TestMethod]
+        [Fact]
         public void TestGetEnumerator()
         {
             List<int> expectedList = new List<int>()
@@ -124,7 +122,7 @@ namespace Get.the.Solution.DataStructure.Test
                 result.Add(item);
             }
 
-            CollectionAssert.AreEqual(expectedList, result);
+            Assert.Equal(expectedList, result);
 
             linkedlist = new LinkedList<int>();
             result = new List<int>();
@@ -140,7 +138,7 @@ namespace Get.the.Solution.DataStructure.Test
                 result.Add(value);
             }
 
-            CollectionAssert.AreEqual(expectedList, result);
+            Assert.Equal(expectedList, result);
         }
         private int[] GenerateArray(int maxItems, bool randomNumbers = true)
         {

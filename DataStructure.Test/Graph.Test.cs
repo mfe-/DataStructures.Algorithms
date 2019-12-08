@@ -1,13 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿using Xunit;
 
 namespace DataStructures.Test
 {
-    [TestClass]
+
     public class GraphTest
     {
 
@@ -20,8 +15,8 @@ namespace DataStructures.Test
         Vertex<object> v6 = new Vertex<object>() { Weighted = 6 };
         Vertex<object> v7 = new Vertex<object>() { Weighted = 7 };
 
-        [TestInitialize]
-        public void Initialize()
+
+        public GraphTest()
         {
             Graph g = new Graph();
 
@@ -48,7 +43,7 @@ namespace DataStructures.Test
 
             this.g = g;
         }
-        [TestMethod]
+        [Fact]
         public void DirectedTest()
         {
 
@@ -162,7 +157,6 @@ namespace DataStructures.Test
         //    Assert.AreEqual(g.Vertices.Count, 1);
         //}
 
-        public TestContext TestContext { get; set; }
 
     }
 }

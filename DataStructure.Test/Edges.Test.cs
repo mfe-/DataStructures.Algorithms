@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace DataStructures.Test
 {
-    [TestClass]
     public class EdgesTest
     {
         Graph g;
@@ -18,8 +17,7 @@ namespace DataStructures.Test
         IVertex v6;
         IVertex v7;
 
-        [TestInitialize]
-        public void Initialize()
+        public EdgesTest()
         {
             v1 = new Vertex<object>() { Weighted = 1 };
             v2 = new Vertex<object>() { Weighted = 2 };
@@ -53,7 +51,7 @@ namespace DataStructures.Test
 
             this.g = g;
         }
-        [TestMethod]
+        [Fact]
         public void GetHashCodeTest()
         {
             //hascode of transported edges must be the same
@@ -64,12 +62,12 @@ namespace DataStructures.Test
             IEdge e2 = e1.V.Edges.Last();
 
             //transported edge needs same hascode
-            Assert.AreEqual(e1.GetHashCode(), e2.GetHashCode());
+            Assert.Equal(e1.GetHashCode(), e2.GetHashCode());
 
             //random edge - diffrent hascode
-            Assert.AreNotEqual(e1.GetHashCode(), v4.Edges.First().GetHashCode());
+            Assert.NotEqual(e1.GetHashCode(), v4.Edges.First().GetHashCode());
         }
-        [TestMethod]
+        [Fact]
         public void EqualsTest()
         {
             Vertex<object> v1 = new Vertex<object>(1);
@@ -82,9 +80,9 @@ namespace DataStructures.Test
             IEdge e2 = v2.Edges.First();
 
             //e1=e1
-            Assert.IsTrue(e1.Equals(v1.Edges.First()));
+            Assert.True(e1.Equals(v1.Edges.First()));
             //e1=e2
-            Assert.IsFalse(e1.Equals(e2));
+            Assert.False(e1.Equals(e2));
 
 
 
