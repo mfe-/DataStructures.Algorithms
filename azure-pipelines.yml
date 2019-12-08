@@ -31,6 +31,8 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
+  displayName: create nuget
+  condition: succeededOrFailed()
   inputs:
     command: 'pack'
     packagesToPack: '**/DataStructures.csproj'
@@ -38,3 +40,4 @@ steps:
     includesource: true
     versioningScheme: 'off'
     verbosityPack: 'Normal'
+
