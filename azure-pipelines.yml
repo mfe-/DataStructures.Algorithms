@@ -16,6 +16,7 @@ steps:
   displayName: 'Compile and and run tests'
 
 - task: DotNetCoreCLI@2
+  displayName: build solution
   inputs:
     command: 'build'
     projects: 'DataStructures.sln'
@@ -23,21 +24,17 @@ steps:
 
 - script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
 - task: PublishTestResults@2
+  displayName: publish test results
   condition: succeededOrFailed()
   inputs:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
+  displayName: create nuget
   inputs:
     command: 'pack'
     projects: 'DataStructures\DataStructures.csproj'
-    arguments: '--include-symbols --include-source --configuration=Release'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'pack'
-    projects: 'DataStructures\DataStructures.csproj'
-    arguments: '--include-symbols --include-source --configuration=Release'
+    arguments: '--include-symbols --include-source --configuration=Release --no-restore'
   
 
