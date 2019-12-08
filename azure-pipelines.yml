@@ -41,11 +41,11 @@ steps:
     versioningScheme: 'off'
     verbosityPack: 'Normal'
 
-- task: NuGetCommand@2
-  displayName: push created nupkg
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb'
-    allowPackageConflicts: true
+# - task: NuGetCommand@2
+#   displayName: push created nupkg
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+#     nuGetFeedType: 'internal'
+#     publishVstsFeed: '3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb'
+#     allowPackageConflicts: true
