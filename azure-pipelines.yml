@@ -13,7 +13,7 @@ pool:
 
 steps:
 - script: echo Hello, world!
-  displayName: 'Compile and and run tests'
+  displayName: 'build and and run tests'
 
 - task: DotNetCoreCLI@2
   displayName: build solution
@@ -30,6 +30,7 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
+- script: ls $(Build.ArtifactStagingDirectory)
 - script: dotnet pack $(Build.ArtifactStagingDirectory)/DataStructures/DataStructures.csproj --include-symbols --include-source --configuration=Release --no-restore
   displayName: create nuget
   
