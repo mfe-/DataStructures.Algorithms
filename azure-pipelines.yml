@@ -30,8 +30,10 @@ steps:
     testRunner: VSTest
     testResultsFiles: '**/*.trx'
 
-- script: ls $(Build.ArtifactStagingDirectory)
-- script: dotnet pack $(Build.ArtifactStagingDirectory)/DataStructures/DataStructures.csproj --include-symbols --include-source --configuration=Release --no-restore
-  displayName: create nuget
-  
+- task: DotNetCoreCLI@2
+  displayName: dotnet pack
+  inputs:
+    command: 'pack'
+    projects: 'DataStructures.csproj'
+    arguments: '--include-symbols --include-source --configuration=Release --no-restore'
 
