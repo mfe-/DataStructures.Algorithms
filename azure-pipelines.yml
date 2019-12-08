@@ -26,13 +26,10 @@ steps:
     projects: 'DataStructures.sln'
     arguments: '--configuration=Release --verbosity=n'
 
-- task: VSTest@2
+- script: dotnet test DataStructures.sln --logger trx
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    testRunTitle: 'datastruces tests'
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
 
