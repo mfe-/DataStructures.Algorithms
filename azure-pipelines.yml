@@ -31,9 +31,10 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
-  displayName: dotnet pack
   inputs:
     command: 'pack'
-    projects: 'DataStructures.csproj'
-    arguments: '--include-symbols --include-source --configuration=Release --no-restore'
-
+    packagesToPack: 'DataStructures.csproj'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byBuildNumber'
+    verbosityPack: 'Normal'
