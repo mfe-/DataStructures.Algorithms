@@ -9,19 +9,25 @@ namespace DataStructures.Test
     [TestClass]
     public class EdgesTest
     {
-
-        public Graph g;
-        Vertex<object> v1 = new Vertex<object>() { Weighted = 1 };
-        Vertex<object> v2 = new Vertex<object>() { Weighted = 2 };
-        Vertex<object> v3 = new Vertex<object>() { Weighted = 3 };
-        Vertex<object> v4 = new Vertex<object>() { Weighted = 4 };
-        Vertex<object> v5 = new Vertex<object>() { Weighted = 5 };
-        Vertex<object> v6 = new Vertex<object>() { Weighted = 6 };
-        Vertex<object> v7 = new Vertex<object>() { Weighted = 7 };
+        Graph g;
+        IVertex v1;
+        IVertex v2;
+        IVertex v3;
+        IVertex v4;
+        IVertex v5;
+        IVertex v6;
+        IVertex v7;
 
         [TestInitialize]
         public void Initialize()
         {
+            v1 = new Vertex<object>() { Weighted = 1 };
+            v2 = new Vertex<object>() { Weighted = 2 };
+            v3 = new Vertex<object>() { Weighted = 3 };
+            v4 = new Vertex<object>() { Weighted = 4 };
+            v5 = new Vertex<object>() { Weighted = 5 };
+            v6 = new Vertex<object>() { Weighted = 6 };
+            v7 = new Vertex<object>() { Weighted = 7 };
             Graph g = new Graph();
 
             g.AddVertex(v1);
