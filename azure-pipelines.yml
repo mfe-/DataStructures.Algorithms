@@ -36,5 +36,4 @@ steps:
     packagesToPack: 'DataStructures.csproj'
     includesymbols: true
     includesource: true
-    versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
