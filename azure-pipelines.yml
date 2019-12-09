@@ -31,9 +31,22 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
-  displayName: dotnet pack
+  displayName: create nuget
+  condition: succeededOrFailed()
   inputs:
     command: 'pack'
-    projects: 'DataStructures.csproj'
-    arguments: '--include-symbols --include-source --configuration=Release --no-restore'
+    packagesToPack: '**/DataStructures.csproj'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byBuildNumber'
+    verbosityPack: 'Normal'
+    
 
+# - task: NuGetCommand@2
+#   displayName: push created nupkg
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+#     nuGetFeedType: 'internal'
+#     publishVstsFeed: '3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb'
+#     allowPackageConflicts: true

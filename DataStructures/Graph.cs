@@ -16,7 +16,7 @@ namespace DataStructures
         [DataMember(Name = "Vertices")]
         protected ObservableCollection<IVertex> _Vertices = new ObservableCollection<IVertex>();
 
-        protected IVertex _Start = null;
+        protected IVertex? _Start = null;
 
         public Graph() { }
 
@@ -47,7 +47,7 @@ namespace DataStructures
         /// Gets or sets the start vertex of the graph
         /// </summary>
         [DataMember(Name = "StartVertex")]
-        public IVertex Start
+        public IVertex? Start
         {
             get
             {
@@ -59,8 +59,8 @@ namespace DataStructures
                 NotifyPropertyChanged("StartVertex");
             }
         }
-        private Func<IVertex> _CreateVertexFunc;
-        public Func<IVertex> CreateVertexFunc
+        private Func<IVertex>? _CreateVertexFunc;
+        public Func<IVertex>? CreateVertexFunc
         {
             get { return _CreateVertexFunc; }
             set
@@ -147,7 +147,7 @@ namespace DataStructures
 
 
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notify using String property name
@@ -164,8 +164,8 @@ namespace DataStructures
         protected const String Directedmessage = "Graph must be directed";
         protected const String Undirectedmessage = "Graph must be undirected";
 
-        public DirectedException(bool pDirected)
-            : base(pDirected == true ? Directedmessage : Undirectedmessage)
+        public DirectedException(bool directed)
+            : base(directed ? Directedmessage : Undirectedmessage)
         {
 
         }

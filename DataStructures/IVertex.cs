@@ -13,12 +13,12 @@ namespace DataStructures
         /// <summary>
         /// Creates a un/directed edge to the overgiven Vertex
         /// </summary>
-        /// <param name="pu">Vertex to connect</param>
-        /// <param name="pweighted">Weighted of the Edge</param>
+        /// <param name="u">Vertex to connect</param>
+        /// <param name="weighted">Weighted of the Edge</param>
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        IEdge AddEdge(IVertex pu, int pweighted = 0, bool directed = true);
-        void RemoveEdge(IVertex pu);
-        void RemoveEdge(IVertex pu, bool directed);
+        IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true);
+        void RemoveEdge(IVertex u);
+        void RemoveEdge(IVertex u, bool directed);
         /// <summary>
         /// Amount of neighbours
         /// </summary>

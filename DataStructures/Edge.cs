@@ -9,15 +9,9 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge<TData> : IEdge<TData>
     {
-        protected IVertex u;
-        protected IVertex v;
-
+        protected IVertex _u;
+        protected IVertex _v;
         protected int _weighted;
-
-        /// <summary>
-        /// Initializes a new instance of the Edge class for using the IEqualityComparer on Distinct
-        /// </summary>
-        public Edge() { }
 
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -26,8 +20,8 @@ namespace DataStructures
         /// <param name="pv">Vertex of the Edge</param>
         public Edge(IVertex pu, IVertex pv)
         {
-            u = pu;
-            v = pv;
+            _u = pu;
+            _v = pv;
         }
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -37,8 +31,20 @@ namespace DataStructures
         /// <param name="pweighted">Sets the Weighted of the Edge</param>
         public Edge(IVertex pu, IVertex pv, int pweighted)
         {
-            u = pu;
-            v = pv;
+            _u = pu;
+            _v = pv;
+            _weighted = pweighted;
+        }
+        /// <summary>
+        /// Initializes a new instance of the Edge class.
+        /// </summary>
+        /// <param name="pu">Vertex of the Edge</param>
+        /// <param name="pv">Vertex of the Edge</param>
+        /// <param name="pweighted">Sets the Weighted of the Edge</param>
+        public Edge(IVertex<TData> pu, IVertex<TData> pv, int pweighted)
+        {
+            _u = pu;
+            _v = pv;
             _weighted = pweighted;
         }
         public TData Value { get; set; }
@@ -46,18 +52,18 @@ namespace DataStructures
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "U", Order = 2, IsRequired = true)]
-        public IVertex U { get { return u; } set { u = value; NotifyPropertyChanged(nameof(U)); } }
+        public IVertex U { get { return _u; } set { _u = value; NotifyPropertyChanged(nameof(U)); } }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "V", Order = 3, IsRequired = true)]
-        public IVertex V { get { return v; } set { v = value; NotifyPropertyChanged(nameof(V)); } }
+        public IVertex V { get { return _v; } set { _v = value; NotifyPropertyChanged(nameof(V)); } }
         /// <summary>
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
         public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
-        
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -69,15 +75,15 @@ namespace DataStructures
 
         public override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(Edge<TData>))) return false;
+            if (obj != null && !obj.GetType().Equals(typeof(Edge<TData>))) return false;
 
             //true if objA is the same instance as objB or if both are null; otherwise, false.
             if (Object.ReferenceEquals(this, obj)) return true;
 
             //Check whether any of the compared objects is null.
-            if (Object.ReferenceEquals(this, null) || Object.ReferenceEquals(obj, null)) return false;
+            if (Object.ReferenceEquals(obj, null)) return false;
 
-            Edge<TData> edge = obj as Edge<TData>;
+            Edge<TData>? edge = obj as Edge<TData>;
 
             return Equals(edge, false);
         }
@@ -95,31 +101,16 @@ namespace DataStructures
         }
 
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notify using String property name
         /// </summary>
         protected void NotifyPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
-    }
-    public interface IEdge : INotifyPropertyChanged
-    {
-        IVertex U { get; set; }
-        IVertex V { get; set; }
-        int Weighted { get; set; }
-    }
-    public interface IEdge<TData> : IEdge, IData<TData>
-    {
 
     }
 }

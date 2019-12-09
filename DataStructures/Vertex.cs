@@ -62,29 +62,29 @@ namespace DataStructures
 
 
         /// <summary>
-        /// Creates a un/directed edge to the overgiven Vertex
+        /// Creates a (un)directed edge to the overgiven Vertex
         /// </summary>
-        /// <param name="pu">Vertex to connect</param>
-        /// <param name="pweighted">Weighted of the Edge</param>
+        /// <param name="u">Vertex to connect</param>
+        /// <param name="weighted">Weighted of the Edge</param>
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public virtual IEdge AddEdge(IVertex pu, int pweighted = 0, bool directed = true)
+        public virtual IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true)
         {
-            Edge<TData> e1 = new Edge<TData>(this, pu, pweighted);
+            IEdge<TData> e1 = new Edge<TData>(this, u, weighted);
             _Edges.Add(e1);
-            if (directed == false)
+            if (!directed)
             {
-                pu.AddEdge(this, pweighted, true);
+                u.AddEdge((IVertex)this, weighted, true);
             }
             return _Edges.Last();
         }
 
-        public virtual void RemoveEdge(IVertex pu)
+        public virtual void RemoveEdge(IVertex u)
         {
-            RemoveEdge(pu, true);
+            RemoveEdge(u, true);
         }
-        public virtual void RemoveEdge(IVertex pu, bool directed)
+        public virtual void RemoveEdge(IVertex u, bool directed)
         {
-            IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(pu));
+            IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(u));
 
             if (directed.Equals(false))
             {
@@ -113,9 +113,9 @@ namespace DataStructures
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            if (!obj.GetType().Equals(typeof(Vertex<TData>))) return false;
+            if (obj != null && !obj.GetType().Equals(typeof(Vertex<TData>))) return false;
 
-            return this._Guid.Equals((obj as Vertex<TData>)._Guid);
+            return this._Guid.Equals((obj as Vertex<TData>)?._Guid);
         }
         /// <summary>
         /// Serves as a hash function for a particular type. 
@@ -127,19 +127,14 @@ namespace DataStructures
         }
 
         #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notify using String property name
         /// </summary>
         protected void NotifyPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
