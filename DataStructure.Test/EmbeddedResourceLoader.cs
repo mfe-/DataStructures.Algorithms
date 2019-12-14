@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace DataStructures.Test
 {
-    public class EmbeddedResourceLoader
+    public static class EmbeddedResourceLoader
     {
         /// <summary>
         /// loads the embedded string resource 
@@ -18,14 +13,14 @@ namespace DataStructures.Test
         /// <returns>The loaded string</returns>
         internal static string GetFileContents(string sampleFile)
         {
-            //loads a embedded resource file with namespace DataStructures.Test.{0}
+            //loads a embedded resource file with namespace "DataStructures.Test.{0}"
             var asm = Assembly.GetExecutingAssembly();
             var resource = $"{asm.GetName().Name}.{sampleFile}";
             using (var stream = asm.GetManifestResourceStream(resource))
             {
                 if (stream != null)
                 {
-                    var reader = new StreamReader(stream);
+                    using var reader = new StreamReader(stream);
                     return reader.ReadToEnd();
                 }
             }

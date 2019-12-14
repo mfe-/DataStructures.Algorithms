@@ -71,7 +71,7 @@ namespace DataStructures.Test
         public void DepthFirstSearch_should_find_circles_in_undirected_graph()
         {
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
-            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph"));
+            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
 
             Graph g = GraphExtensions.Load(xmlElement);
 
@@ -109,7 +109,7 @@ namespace DataStructures.Test
         public void DepthFirstSearch_should_find_paths_on_directed_and_undirected_graph()
         {
             //directed testen
-            if (g.Directed == true)
+            if (g.Directed)
             {
                 g.Directed = false;
             }

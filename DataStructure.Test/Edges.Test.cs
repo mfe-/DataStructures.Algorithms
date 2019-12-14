@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Xunit;
 
 namespace DataStructures.Test
 {
     public class EdgesTest
     {
-        Graph g;
-        IVertex v1;
-        IVertex v2;
-        IVertex v3;
-        IVertex v4;
-        IVertex v5;
-        IVertex v6;
-        IVertex v7;
+        readonly Graph g;
+        readonly IVertex v1;
+        readonly IVertex v2;
+        readonly IVertex v3;
+        readonly IVertex v4;
+        readonly IVertex v5;
+        readonly IVertex v6;
+        readonly IVertex v7;
 
         public EdgesTest()
         {
@@ -52,7 +49,7 @@ namespace DataStructures.Test
             this.g = g;
         }
         [Fact]
-        public void GetHashCodeTest()
+        public void Edge_from_V_to_U_and_Edge_from_U_to_V_should_have_the_same_HashCode()
         {
             //hascode of transported edges must be the same
             IEdge e1 = g.Vertices.First().Edges.First();
@@ -68,25 +65,26 @@ namespace DataStructures.Test
             Assert.NotEqual(e1.GetHashCode(), v4.Edges.First().GetHashCode());
         }
         [Fact]
-        public void EqualsTest()
+        public void Two_edges_with_the_same_U_and_V_should_return_the_same_HasHode()
         {
-            Vertex<object> v1 = new Vertex<object>(1);
-            Vertex<object> v2 = new Vertex<object>(2);
+            IVertex vertex1 = new Vertex<object>();
+            Vertex<object> vertex2 = new Vertex<object>();
 
-            v1.AddEdge(v2);
-            v2.AddEdge(v1);
+            IEdge edge1 = vertex1.AddEdge(vertex2, directed: false);
+            IEdge edge2 = vertex1.AddEdge(vertex2, directed: false);
 
-            IEdge e1 = v1.Edges.First();
-            IEdge e2 = v2.Edges.First();
+            Assert.Equal(edge1.GetHashCode(), edge2.GetHashCode());
+        }
+        [Fact]
+        public void Two_edges_with_the_diffrent_U_and_V_should_return_the_diffrent_HasHodes()
+        {
+            IVertex vertex1 = new Vertex<object>();
+            Vertex<object> vertex2 = new Vertex<object>();
 
-            //e1=e1
-            Assert.True(e1.Equals(v1.Edges.First()));
-            //e1=e2
-            Assert.False(e1.Equals(e2));
+            IEdge edge1 = vertex1.AddEdge(vertex2, directed: false);
+            IEdge edge2 = vertex2.AddEdge(vertex2, directed: false);
 
-
-
-
+            Assert.NotEqual(edge1.GetHashCode(), edge2.GetHashCode());
         }
     }
 }
