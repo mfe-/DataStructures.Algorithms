@@ -8,6 +8,8 @@
 trigger:
 - master
 
+name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -23,6 +25,9 @@ steps:
     arguments: '--configuration=Release --verbosity=n'
 
 - script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
+  displayName: 'run test'
+  condition: succeededOrFailed()
+
 - task: PublishTestResults@2
   displayName: publish test results
   condition: succeededOrFailed()
@@ -42,11 +47,4 @@ steps:
     verbosityPack: 'Normal'
     
 
-# - task: NuGetCommand@2
-#   displayName: push created nupkg
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-#     nuGetFeedType: 'internal'
-#     publishVstsFeed: '3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb'
-#     allowPackageConflicts: true
+
