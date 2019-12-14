@@ -8,7 +8,7 @@
     xmlns:mgraph="clr-namespace:DataStructures;assembly=Abstract.DataStructures"
     xmlns:coll="clr-namespace:System.Collections.ObjectModel;assembly=System"
     xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     Title="Window1" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:Window1ViewModel />
@@ -23,13 +23,13 @@
 
             <ui:GraphControl x:Name="_GraphVisualization" 
                              Graph="{Binding Graph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                <!--<interactivity:Interaction.Triggers>
+                <interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="MouseDoubleClick">
                         <interactivity:InvokeCommandAction 
                             Command="{x:Static ui:GraphControl.AddVertexRoutedCommand}"
                             CommandParameter="{Binding Path=.}" />
                     </interactivity:EventTrigger>
-                </interactivity:Interaction.Triggers>-->
+                </interactivity:Interaction.Triggers>
 
                 <ui:GraphControl.ContextMenu>
                     <ContextMenu>
