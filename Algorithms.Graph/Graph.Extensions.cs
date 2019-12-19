@@ -1,104 +1,15 @@
 ﻿using DataStructures;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace Algorithms.Graph
 {
     /// <summary>
     /// Provides a set of static methods for working with graph objects.
     /// </summary>
-    public static class GraphExtensions
+    public static partial class GraphExtensions
     {
-        public static DataContractSerializerSettings GetDataContractSerializerSettings()
-        {
-            return GetDataContractSerializerSettings(new List<Type>());
-        }
-        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes = null, DataContractResolver dataContractResolver = null)
-        {
-            List<Type> types = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
-            if (knownTypes != null)
-            {
-                types.AddRange(knownTypes);
-            }
-            var dataContractSerializerSettings = new DataContractSerializerSettings();
-            dataContractSerializerSettings.PreserveObjectReferences = true;
-            dataContractSerializerSettings.KnownTypes = types;
-            dataContractSerializerSettings.DataContractResolver = dataContractResolver;
-            return dataContractSerializerSettings;
-        }
-        /// <summary>
-        /// Serialize the Graph into a XElement
-        /// </summary>
-        /// <param name="g">Graph to save</param>
-        /// <returns>Serialized Graph</returns>
-        public static XElement Save(this DataStructures.Graph g, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                using (XmlDictionaryWriter writer = XmlDictionaryWriter.CreateTextWriter(ms))
-                {
-                    DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
-                    DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
-                    DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-                    serializer.WriteObject(writer, g);
-                    writer.Flush();
-                    ms.Position = 0;
-                    return XElement.Load(ms);
-                }
-            }
-        }
-        /// <summary>
-        /// Deserialize the Graph from a xml file
-        /// </summary>
-        /// <param name="g">where the graph should be into deserialize </param>
-        /// <param name="pfilename">filename to the xml file which contains the data of the graph</param>
-        public static void Load(this DataStructures.Graph g, String pfilename)
-        {
-            Load(g, pfilename, 100);
-        }
-        public static void Load(this DataStructures.Graph g, String pfilename, int maxDepth, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
-        {
-            using (FileStream fs = new FileStream(pfilename, FileMode.Open))
-            {
-                XmlDictionaryReaderQuotas xmlDictionaryReaderQuotas = new XmlDictionaryReaderQuotas() { MaxDepth = maxDepth };
-                using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, xmlDictionaryReaderQuotas))
-                {
-                    DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
-                    DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
-                    DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-                    DataStructures.Graph a = (DataStructures.Graph)serializer.ReadObject(reader, true);
-                    foreach (var v in a.Vertices)
-                    {
-                        g.Vertices.Add(v);
-                    }
-                }
-            }
-        }
-        public static DataStructures.Graph Load(this XElement e, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
-        {
-            DataStructures.Graph g = new DataStructures.Graph();
-            //load graph
-            MemoryStream memoryStream = new MemoryStream();
-            e.Save(memoryStream);
-            memoryStream.Position = 0;
-            DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
-            DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
-            DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-            DataStructures.Graph u = ndcs.ReadObject(memoryStream) as DataStructures.Graph;
-
-            g.Start = u.Start;
-
-            g.Directed = u.Directed;
-
-            foreach (IVertex v in u.Vertices)
-                g.Vertices.Add(v);
-            return g;
-        }
         public static bool IsDirected(this DataStructures.Graph g)
         {
             //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
@@ -132,9 +43,14 @@ namespace Algorithms.Graph
         {
             return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
         }
+        /// <summary>
+        /// Converts a edge list to a vertices list
+        /// </summary>
+        /// <param name="l">The edge list</param>
+        /// <returns></returns>
         public static IEnumerable<IVertex> ToVertexList(this IEnumerable<IEdge> l)
         {
-            return l.SelectMany(a => new List<IVertex>() { a.U, a.V }).Distinct();
+            return l.SelectMany(a => new[] { a.U, a.V }).Distinct();
         }
         /// <summary>
         /// The undirected graph contains for two vertices two edges. 
@@ -145,6 +61,7 @@ namespace Algorithms.Graph
         /// <returns></returns>
         public static IEdge GetOppositeEdge(this IEdge edge)
         {
+            if (edge == null) throw new ArgumentNullException(nameof(edge));
             return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
         }
         /// <summary>
@@ -154,14 +71,15 @@ namespace Algorithms.Graph
         /// </summary>
         /// <param name="s">Root IVertex of graph</param>
         /// <returns>All reachable vertices</returns>
-        public static IEnumerable<IVertex> Depth_First_Traversal(this DataStructures.Graph s)
+        public static IEnumerable<IVertex> DepthFirstTraversal(this DataStructures.Graph s)
         {
+            if (s == null) throw new ArgumentNullException(nameof(s));
             List<IVertex> l = new List<IVertex>();
             foreach (IVertex v in s.Vertices)
-                l.AddRange(Depth_First_Traversal(v, new List<IVertex>()));
+                l.AddRange(DepthFirstTraversal(v, new List<IVertex>()));
             return l;
         }
-        private static List<IVertex> Depth_First_Traversal(this IVertex s, List<IVertex> visited)
+        private static List<IVertex> DepthFirstTraversal(this IVertex s, List<IVertex> visited)
         {
             //visist x
             visited.Add(s);
@@ -171,12 +89,12 @@ namespace Algorithms.Graph
             {
                 if (!visited.Contains(e.V))
                 {
-                    visited = Depth_First_Traversal(e.V, visited);
+                    visited = DepthFirstTraversal(e.V, visited);
                 }
             }
             return visited;
         }
-        public static IEnumerable<IVertex> Deph_First_Search(this IVertex s)
+        public static IEnumerable<IVertex> DephFirstSearch(this IVertex s)
         {
             List<IVertex> visited = new List<IVertex>();
 
@@ -199,7 +117,7 @@ namespace Algorithms.Graph
 
             return visited;
         }
-        public static List<IEdge> Breadth_First_Search(this IVertex start, IVertex target)
+        public static List<IEdge> BreadthFirstSearch(this IVertex start, IVertex target)
         {
             List<IEdge> l = new List<IEdge>();
             //TODO
@@ -243,10 +161,10 @@ namespace Algorithms.Graph
         /// <returns></returns>
         public static int[][] AdjacencyList(this DataStructures.Graph g)
         {
-            var vertices = Depth_First_Traversal(g).Sort().Distinct().ToArray();
-            var IEdges = vertices.SelectMany(a => a.Edges).Distinct<IEdge>();
+            var vertices = DepthFirstTraversal(g).Sort().Distinct().ToArray();
+            var edges = vertices.SelectMany(a => a.Edges).Distinct<IEdge>();
             //create matrix
-            int c = vertices.Count<IVertex>();
+            int c = vertices.Length;
             int[][] m = new int[c][];
             for (int o = 0; o < c; o++)
             {
@@ -256,7 +174,7 @@ namespace Algorithms.Graph
                     IVertex i = vertices[o];
                     IVertex j = vertices[y];
 
-                    row[y] = IEdges.Where(b => b.V.Equals(i) && b.U.Equals(j)).Count() == 0 ? 0 : 1;
+                    row[y] = !edges.Any(b => b.V.Equals(i) && b.U.Equals(j)) ? 0 : 1;
                 }
 
                 m[o] = row;
@@ -265,7 +183,7 @@ namespace Algorithms.Graph
             return m;
         }
 
-        public static DataStructures.Graph Kruskal_DepthFirstSearch(this DataStructures.Graph g)
+        public static DataStructures.Graph KruskalDepthFirstSearch(this DataStructures.Graph g)
         {
             //works only with undircted graphs
             if (g.Directed.Equals(true))
@@ -276,9 +194,9 @@ namespace Algorithms.Graph
 
             List<IVertex> vertices = new List<IVertex>();
             //order IEdges by pyramiding weighted
-            IEdge[] IEdges = Depth_First_Traversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
+            IEdge[] IEdges = DepthFirstTraversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
             //remove IEdges 
-            foreach (IVertex z in g_.Depth_First_Traversal())
+            foreach (IVertex z in g_.DepthFirstTraversal())
             {
                 vertices.Add(z);
 
@@ -290,8 +208,8 @@ namespace Algorithms.Graph
             {
                 IEdge e = IEdges[i];
                 weight = weight + e.Weighted;
-                IVertex u = vertices.Where(a => a.Equals(e.U)).First<IVertex>();
-                IVertex v = vertices.Where(a => a.Equals(e.V)).First<IVertex>();
+                IVertex u = vertices.First(a => a.Equals(e.U));
+                IVertex v = vertices.First(a => a.Equals(e.V));
                 //add 2x IEdges to create a undirected graph
                 u.AddEdge(v, e.Weighted);
                 v.AddEdge(u, e.Weighted);
@@ -309,84 +227,82 @@ namespace Algorithms.Graph
 
             return g_;
         }
-
-        public static IEdge Dijkstra(this DataStructures.Graph g, IVertex start)
-        {
-            //tabel
-            int min = start.Edges.First().Weighted;
-            foreach (IEdge e in start.Edges)
-            {
-                if (min > e.Weighted)
-                {
-                    min = e.Weighted;
-                }
-            }
-            return null;
-        }
         /// <summary>
-        /// Searches beginning from the start IVertex to the goal IVertex a path
+        /// Searches from the <paramref name="start"/> the overgiven <paramref name="goal"/>
         /// http://en.wikipedia.org/wiki/Depth-first_search
         /// </summary>
-        /// <param name="g">Graph which is IVertex containing</param>
-        /// <param name="start">Where the look up should beginn</param>
-        /// <param name="goal">Which IVertex should be found</param>
-        /// <returns>Returns a list of containing all IEdges which are required to get the path beginning from the start to the goal IVertex</returns>
-        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal)
+        /// <param name="start">Where the look up should start</param>
+        /// <param name="goal">Which IVertex should be found. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
+        /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
+        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsdirected = true)
         {
-            return DepthFirstSearch(start, new List<IEdge>(), goal);
+            if (start == null) throw new ArgumentNullException(nameof(start));
+            if (graphIsdirected)
+            {
+                return DepthFirstSearchDirected(start, new List<IEdge>(), goal);
+            }
+            else
+            {
+                return DepthFirstSearchUndirected(start, new List<IEdge>(), goal);
+            }
         }
-        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> edges, IVertex goal)
+        private static IEnumerable<IEdge> DepthFirstSearchUndirected(IVertex current, List<IEdge> edges, IVertex goal)
         {
-            //mark edges
             foreach (IEdge e in current.Edges)
             {
-                //check if we found the goal
-                if (e.V.Equals(goal))
+                if (!edges.Any(a => a.Equals(e)))
                 {
-                    //some special behaviour duo circlues which we have to consider resulting of the our model (undirected: 1->3, 3->1)
-                    if (!edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e))//schauen ob er zurückgehen will
-                        || (edges.First().U.Edges.SelectMany(a => a.V.Edges).ToList().Exists(y => y.Equals(e) && //(kreis existiert mit IEdge ausgehend vom start), (schauen ob dazwischen noch andere IEdges sind)
-                        edges.Find(delegate (IEdge ed) { return ed.V == e.U && ed.U != e.V; }) != null)))
-                    {
-                        edges.Add(e);
-                        return edges;
-                    }
+                    //mark edges
+                    edges.Add(e);
+                    DepthFirstSearchUndirected(e.V, edges, goal);
                 }
-                //do not add already visited IVertex
-                if (!edges.ToVertexList().Contains(e.V))
-                {
-                    if ((!edges.Count.Equals(0) && (e.V != edges.First().U)) || edges.Count.Equals(0))
-                    {
-                        edges.Add(e);
-                        DepthFirstSearch(e.V, edges, goal);
-                    }
-                }
-                if (edges.Last().V.Equals(goal)) return edges;
+                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
             }
 
-
+            return edges;
+        }
+        private static IEnumerable<IEdge> DepthFirstSearchDirected(IVertex current, List<IEdge> edges, IVertex goal)
+        {
+            foreach (IEdge e in current.Edges)
+            {
+                //check if already visited IVertex 
+                //(use == operator instead of Equals for directed graphs,
+                //as the overriden equals of the Edge implementeation returns true for transposed edges)
+                if (!edges.Any(a => a == e))
+                {
+                    //mark edges
+                    edges.Add(e);
+                    DepthFirstSearchDirected(e.V, edges, goal);
+                }
+                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
+            }
             return edges;
         }
 
         /// <summary>
-        /// Determinds if the overgivven IVertex is adjacent to the current IVertex
+        /// Determinds if the overgiven <paramref name="v"/> is adjacent to the current IVertex
         /// </summary>
         /// <param name="v">the IVertex to check</param>
         /// <returns>True if the overgiven IVertex is adjacent</returns>
         public static Boolean Adjacent(this IVertex v)
         {
-            return v.Edges.Where(a => a.U.Equals(v) || a.V.Equals(v)).Count().Equals(0);
+            if (v == null) throw new ArgumentNullException(nameof(v));
+            return !v.Edges.Any(a => a.U.Equals(v) || a.V.Equals(v));
         }
         /// <summary>
         /// Calculates the distance by summing the weighted of the IEdges.
         /// </summary>
-        /// <param name="IEdges"></param>
+        /// <param name="edges"></param>
         /// <returns></returns>
-        public static int Distance(this IEnumerable<IEdge> IEdges)
+        public static int Distance(this IEnumerable<IEdge> edges)
         {
             int distance = 0;
-            foreach (IEdge e in IEdges)
+            if (edges == null) return distance;
+
+            foreach (IEdge e in edges)
                 distance = +e.Weighted + distance;
+
             return distance;
         }
 

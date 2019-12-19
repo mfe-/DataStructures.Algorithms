@@ -142,7 +142,7 @@ namespace DataStructures
         /// Gets or sets the start vertex of the graph
         /// </summary>
         [DataMember(Name = "Directed")]
-        public bool Directed { get { return directed; } set { directed = value; NotifyPropertyChanged("Directed"); } }
+        public bool Directed { get { return directed; } set { directed = value; NotifyPropertyChanged(nameof(Directed)); } }
 
 
 

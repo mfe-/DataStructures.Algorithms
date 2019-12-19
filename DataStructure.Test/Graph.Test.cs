@@ -2,7 +2,6 @@
 
 namespace DataStructures.Test
 {
-
     public class GraphTest
     {
 

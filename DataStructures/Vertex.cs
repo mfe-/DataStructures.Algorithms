@@ -85,16 +85,16 @@ namespace DataStructures
         public virtual void RemoveEdge(IVertex u, bool directed)
         {
             IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(u));
-
-            if (directed.Equals(false))
+            if (edge != null)
             {
-                IEdge edged = edge.V.Edges.FirstOrDefault(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted));
+                if (directed.Equals(false))
+                {
+                    IEdge edged = edge.V.Edges.FirstOrDefault(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted));
 
-                edge.V.Edges.Remove(edged);
+                    edge.V.Edges.Remove(edged);
+                }
+                this.Edges.Remove(edge);
             }
-            this.Edges.Remove(edge);
-
-
         }
 
         /// <summary>

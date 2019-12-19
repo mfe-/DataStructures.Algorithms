@@ -5,7 +5,7 @@ using System;
 
 namespace DataStructures
 {
-    [DebuggerDisplay("Edge={Weighted},U={U},V={V}")]
+    [DebuggerDisplay("U={U}->V={V},Edge ={Weighted}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge<TData> : IEdge<TData>
     {
@@ -75,29 +75,17 @@ namespace DataStructures
 
         public override bool Equals(object obj)
         {
-            if (obj != null && !obj.GetType().Equals(typeof(Edge<TData>))) return false;
-
-            //true if objA is the same instance as objB or if both are null; otherwise, false.
-            if (Object.ReferenceEquals(this, obj)) return true;
-
-            //Check whether any of the compared objects is null.
-            if (Object.ReferenceEquals(obj, null)) return false;
-
-            Edge<TData>? edge = obj as Edge<TData>;
-
-            return Equals(edge, false);
+            if (!(obj is IEdge)) return false;
+            return (obj as IEdge)?.GetHashCode() == this.GetHashCode();
         }
 
         /// <summary>
-        /// Serves as a hash function for the type edge.
-        /// The implementation of the GetHashCode method does not guarantee unique return values for different objects.
-        /// The HasCode will be calculated with the GetHasCode functions from the vertex u and v. Transported edges have the same values.
-        /// http://msdn.microsoft.com/en-us/library/system.object.gethashcode.aspx
+        /// Creates a HasCode based of the used vertices. If no Vertex is set the value zero is used.
         /// </summary>
         /// <returns>A hash code for the current Object.</returns>
         public override int GetHashCode()
         {
-            return Math.Abs(U.GetHashCode()) + Math.Abs(V.GetHashCode());
+            return Math.Abs(U.GetHashCode()) + (V != null ? Math.Abs(V.GetHashCode()) : 0);
         }
 
         #region INotifyPropertyChanged

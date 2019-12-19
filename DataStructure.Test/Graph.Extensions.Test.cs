@@ -9,49 +9,198 @@ namespace DataStructures.Test
 {
     public class GraphExensionsTest
     {
-
-        public Graph g;
-        IVertex v1 = new Vertex<object>() { Weighted = 1 };
-        IVertex v2 = new Vertex<object>() { Weighted = 2 };
-        IVertex v3 = new Vertex<object>() { Weighted = 3 };
-        IVertex v4 = new Vertex<object>() { Weighted = 4 };
-        IVertex v5 = new Vertex<object>() { Weighted = 5 };
-        IVertex v6 = new Vertex<object>() { Weighted = 6 };
-        IVertex v7 = new Vertex<object>() { Weighted = 7 };
+        private readonly Graph _g;
 
         public GraphExensionsTest()
         {
-            Graph g = new Graph();
-
-            g.AddVertex(v1);
-
-            v1.AddEdge(v2, 2);
-            v1.AddEdge(v3, 5);
-            v1.AddEdge(v4, 3);
-
-            v2.AddEdge(v3, 4);
-            v2.AddEdge(v5, 6);
-
-            v3.AddEdge(v5, 4);
-            v3.AddEdge(v6, 1);
-            v3.AddEdge(v4, 1);
-
-            v4.AddEdge(v6, 3);
-
-            v5.AddEdge(v6, 2);
-
-            v6.AddEdge(v7, 5);
-
-            v7.AddEdge(v5, 2);
-
-            this.g = g;
+            //constructor will be called for each test
+            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
+            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
+            _g = GraphExtensions.Load(xmlElement);
         }
+
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_should_find_one_path_from_v1_to_v6()
+        {
+            var v1 = _g.Start;
+            var v6 = v1.Edges.First().V.Edges.Last().V;
+            //1-6
+            var resultv1 = v1.DepthFirstSearch(v6, false);
+            //was v6 found?
+            Assert.Equal(v6, resultv1.Last().V);
+            //some possible solutions
+            //1->3->6, 1->3->5->6,1->2->3->5->6,1->4->6
+            //1->3->5->5->2->1->4->3->2->3->6
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_should_find_one_path_from_v6_to_v1()
+        {
+            var v1 = _g.Start;
+            var v6 = v1.Edges.First().V.Edges.Last().V;
+            //look for 1
+            //6->3->1
+            var resultv6 = v6.DepthFirstSearch(v1, false);
+            Assert.Equal(resultv6.Last().V, v1);
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_should_find_one_path_from_v2_to_v2()
+        {
+            var v1 = _g.Start;
+            var v2 = v1.Edges.Last().V;
+            //loop 2->1 -> 2 (weil undirected)
+            var resultv6 = v2.DepthFirstSearch(v2, false);
+            Assert.Equal(resultv6.Last().V, v2);
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_should_find_all_edges()
+        {
+            var v1 = _g.Start;
+            //providing no goal should visit all vertices in the graph
+            var resultv = v1.DepthFirstSearch(null, false);
+            //the graph contains 7 vertices
+            Assert.Equal(7, resultv.ToVertexList().Distinct().Count());
+        }
+        [Fact]
+        public void DepthFirstSearch_on_directed_graph_from_v1_to_v2_and_v1_to_v2()
+        {
+            //circule detection
+            IVertex v1 = new Vertex<object>(1);
+            IVertex v2 = new Vertex<object>(2);
+
+            //2 undirected connected Vertices
+            //v1->v2
+            v1.AddEdge(v2);
+            //v2->v1
+            v2.AddEdge(v1);
+
+            var resultva = v2.DepthFirstSearch(v2, true);
+            Assert.Equal(resultva.First().U, resultva.Last().V);
+        }
+        [Fact]
+        public void DepthFirstSearch_on_directed_graph_from_v2_to_v2_should_find_v2()
+        {
+            var v1 = _g.Start;
+            var v2 = v1.Edges.Last().V;
+
+            var result = v2.DepthFirstSearch(v2);
+            Assert.True(result.Any());
+            Assert.Equal(v2, result.Last().V);
+
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_from_v1_to_v3_should_find_no_goal()
+        {
+            //v1->v2->v3
+            IVertex v1 = new Vertex<string>(1);
+            IVertex v2 = new Vertex<string>(2);
+            IVertex v3 = new Vertex<string>(3);
+
+            v1.AddEdge(v2, 0, false);
+            v2.AddEdge(v3, 0, false);
+
+            var result = v1.DepthFirstSearch(v1, false);
+
+            //the result should not contain v1 as there is only a way from
+            //v1 -> v2 -> v3 but no other
+            Assert.NotEqual(v1, result.Last().V);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(v3, result.Last().V);
+        }
+        [Fact]
+        public void DepthFirstSearch_on_directed_graph_from_v1_to_v3_should_not_find_v1_as_a_goal()
+        {
+            //v1->v2->v3
+            IVertex v1 = new Vertex<string>(1);
+            IVertex v2 = new Vertex<string>(2);
+            IVertex v3 = new Vertex<string>(3);
+
+            //v1->v2
+            v1.AddEdge(v2, 0);
+            //v2->v3
+            v2.AddEdge(v3, 0);
+
+            var result = v1.DepthFirstSearch(v1);
+
+            //the result should not contain v1 as there is only a way from
+            //v1 -> v2 -> v3 but no other
+            Assert.NotEqual(v1, result.Last().V);
+            Assert.Equal(2, result.Count());
+            Assert.Equal(v3, result.Last().V);
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_from_v1_to_v3_but_with_directed_search_option_should_find_v1_as_a_goal()
+        {
+            //v1->v2->v3
+            IVertex v1 = new Vertex<string>(1);
+            IVertex v2 = new Vertex<string>(2);
+            IVertex v3 = new Vertex<string>(3);
+
+            //v1->v2
+            //v2->v1
+            v1.AddEdge(v2, 0, false);
+            //v2->v3
+            //v3->v2
+            v2.AddEdge(v3, 0);
+
+            var result = v1.DepthFirstSearch(v1);
+
+            //the result should not contain v1 as there is only a way from
+            //v1 -> v2 -> v3 but no other
+            Assert.Equal(v1, result.Last().V);
+            Assert.Equal(2, result.Count());
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_with_a_goal_which_does_not_exist_should_return_all_edges()
+        {
+            var edgeResultList = _g.Start.DepthFirstSearch(new Vertex<object>(), false);
+            Assert.Equal(12, edgeResultList.Count());
+            //should contain seven unique vertices
+            Assert.Equal(7, edgeResultList.ToVertexList().Count());
+
+        }
+        [Fact]
+        public void DepthFirstSearch_on_undirected_graph_with_tail_should_find_goal()
+        {
+            //example which occours in kruskal
+            var v1 = new Vertex<object>(1);
+            var v2 = new Vertex<object>(2);
+            var v3 = new Vertex<object>(3);
+            var v4 = new Vertex<object>(4);
+            var v5 = new Vertex<object>(5);
+            var v6 = new Vertex<object>(6);
+            var v7 = new Vertex<object>(7);
+
+            v3.AddEdge(v6, 0, false);
+            v3.AddEdge(v4, 0, false);
+            v1.AddEdge(v2, 0, false);
+            v5.AddEdge(v6, 0, false);
+            v5.AddEdge(v7, 0, false);
+            v1.AddEdge(v4, 0, false);
+            v4.AddEdge(v6, 0, false);
+
+            var circule634 = v6.DepthFirstSearch(v6, false);
+            Assert.Equal(circule634.Last().V, v6);
+
+        }
+        [Fact]
+        public void DephFirstSearch_find_all_vertices_from_graph()
+        {
+            var dfsVerticesResultList = _g.Start.DephFirstSearch();
+            var dfsEdgesResultList = _g.Start.DepthFirstSearch(new Vertex<object>(), false);
+
+            dfsEdgesResultList.ToVertexList();
+
+            Assert.Equal(7, dfsVerticesResultList.Count());
+
+            
+        }
+
 
         [Fact]
         public void AdjacencyListTest()
         {
 
-            int[][] matrix = g.AdjacencyList();
+            int[][] matrix = _g.AdjacencyList();
 
             int[][] result = {new int[]{0,0,0,0,0,0,0},
                               new int[]{1,0,0,0,0,0,0},
@@ -66,193 +215,6 @@ namespace DataStructures.Test
                 for (int j = 0; j < matrix[i].Length; j++)
                     Assert.Equal(matrix[i][j], result[i][j]);
 
-        }
-        [Fact]
-        public void DepthFirstSearch_should_find_circles_in_undirected_graph()
-        {
-            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
-            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-
-            Graph g = GraphExtensions.Load(xmlElement);
-
-            //undirected graph required
-            Assert.False(g.IsDirected());
-
-            g.Directed = true;
-            //v1
-            v1 = null;
-            v2 = null;
-            v3 = null;
-            v4 = null;
-            v5 = null;
-            v6 = null;
-            v1 = g.Start;
-            v2 = v1.Edges.FirstOrDefault(a => a.V.Weighted == 2).V;
-
-            //there is a directed circle from 2-...->2
-            var resultv2 = v2.DepthFirstSearch(v2);
-            PrintEdges(resultv2);
-            Assert.Equal(resultv2.Last().V, v2);
-            //there is a directed circle from 3-...->3
-            v3 = v2.Edges.FirstOrDefault(a => a.V.Weighted == 3).V;
-            var resultv3 = v3.DepthFirstSearch(v3);
-            PrintEdges(resultv3);
-            Assert.Equal(resultv3.Last().V, v3);
-
-            v6 = v3.Edges.FirstOrDefault(a => a.V.Weighted == 6).V;
-            var resultv6 = v6.DepthFirstSearch(v6);
-            PrintEdges(resultv6);
-            Assert.Equal(resultv6.Last().V, v6);
-
-        }
-        [Fact]
-        public void DepthFirstSearch_should_find_paths_on_directed_and_undirected_graph()
-        {
-            //directed testen
-            if (g.Directed)
-            {
-                g.Directed = false;
-            }
-
-            //1-6
-            var resultv1 = v1.DepthFirstSearch(v6);
-            //some possible ways
-            //1->3->6, 1->3->5->6,1->2->3->5->6,1->4->6
-            //because of so much possible solutions we equal them like that way
-            Assert.Equal(resultv1.Count(), 4);
-            Assert.Equal(resultv1.Last().V, v6);
-
-            //look for 1
-            //6->7->5->6
-            var resultv6 = v6.DepthFirstSearch(v1);
-            Assert.Equal(resultv6.Count(), 2);
-            //when moving from 5->6 , 6 will not be added to the edge list, 
-            //because the only left edge is not the goal 
-            Assert.Equal(resultv6.Last().V, v5);
-
-            //circule detection
-            Vertex<object> a = new Vertex<object>(1);
-            Vertex<object> b = new Vertex<object>(2);
-
-            //2 undirected connected Vertices
-            a.AddEdge(b);
-            b.AddEdge(a);
-
-            var resultva = b.DepthFirstSearch(b);
-            Assert.NotEqual(resultva.First().U, resultva.Last().V);
-
-            //3 undirected connected vertices with circle
-            Vertex<object> c = new Vertex<object>(3);
-            //connect a with c
-            a.AddEdge(c);
-            c.AddEdge(a);
-            //connect b with c
-            b.AddEdge(c);
-            c.AddEdge(b);
-            var resultvc = c.DepthFirstSearch(c);
-            Assert.Equal(resultvc.Last().V, c);
-
-            //there is no directed circle from 2-...->2
-            var resultv2 = v2.DepthFirstSearch(v2);
-            Assert.NotEqual(resultv2.Last().V, v2);
-
-            //there is no directed circle from 3-...->3
-            var resultv3 = v3.DepthFirstSearch(v3);
-            Assert.NotEqual(resultv3.Last().V, v3);
-
-            resultv6 = v6.DepthFirstSearch(v6);
-            Assert.Equal(resultv6.Last().V, v6);
-
-            //circule detection in paths
-            a = new Vertex<object>(1);
-            b = new Vertex<object>(2);
-            c = new Vertex<object>(3);
-
-            //create undirected pah
-            a.AddEdge(b);
-            b.AddEdge(a);
-            b.AddEdge(c);
-            c.AddEdge(b);
-            var resultp = a.DepthFirstSearch(a);
-            Assert.NotEqual(resultp.First(), resultp.Last());
-
-            //example which occours in kruskal
-            a = new Vertex<object>(3);
-            b = new Vertex<object>(6);
-            c = new Vertex<object>(4);
-
-            a.AddEdge(b);
-            b.AddEdge(a);
-
-            b.AddEdge(c);
-            c.AddEdge(b);
-
-            var result34 = a.DepthFirstSearch(a);
-            Assert.NotEqual(result34.First(), result34.Last());
-
-            //example which occours in kruskal
-            v1 = new Vertex<object>(1);
-            v2 = new Vertex<object>(2);
-            v3 = new Vertex<object>(3);
-            v4 = new Vertex<object>(4);
-            v5 = new Vertex<object>(5);
-            v6 = new Vertex<object>(6);
-            v7 = new Vertex<object>(7);
-
-            v3.AddEdge(v6, 0, false);
-            v3.AddEdge(v4, 0, false);
-            v1.AddEdge(v2, 0, false);
-            v5.AddEdge(v6, 0, false);
-            v5.AddEdge(v7, 0, false);
-            v1.AddEdge(v4, 0, false);
-            v4.AddEdge(v6, 0, false);
-
-            var circule634 = v6.DepthFirstSearch(v6);
-            Assert.Equal(circule634.Last().V, v6);
-
-        }
-
-        [Fact]
-        public void KruskalTest()
-        {
-            //check if exception will be thrown
-            try
-            {
-                g.Kruskal_DepthFirstSearch();
-            }
-            catch (DirectedException de)
-            {
-                g.Directed = false;
-            }
-
-            int a = g.Kruskal_DepthFirstSearch().Depth_First_Traversal().SelectMany(z => z.Edges).Distinct(new EdgeExtensions.EdgeComparer()).Sum(b => b.Weighted);
-            Assert.Equal(a, 11);
-        }
-        [Fact]
-        public void Breadth_First_Search()
-        {
-            g.Start.Breadth_First_Search(v7);
-
-        }
-        [Fact]
-        public void Deph_First_Search()
-        {
-            List<IVertex> result = g.Start.Deph_First_Search().ToList();
-
-            List<IVertex> result2 = g.Depth_First_Traversal().ToList();
-
-            foreach (IVertex v in result2)
-            {
-                Assert.True(result.Contains(v));
-            }
-        }
-        public void PrintEdges(IEnumerable<IEdge> edges)
-        {
-            Console.WriteLine($"=====================");
-            foreach (var edge in edges)
-            {
-                Console.WriteLine($"{edge.U} -> {edge.V}");
-            }
         }
 
 
