@@ -192,28 +192,26 @@ namespace DataStructures.Test
 
             Assert.Equal(7, dfsVerticesResultList.Count());
 
-            
+
         }
 
-
         [Fact]
-        public void AdjacencyListTest()
+        public void AdjacencyList_should_return_expected_result()
         {
+            int[][] result = _g.AdjacencyList();
 
-            int[][] matrix = _g.AdjacencyList();
-
-            int[][] result = {new int[]{0,0,0,0,0,0,0},
-                              new int[]{1,0,0,0,0,0,0},
-                              new int[]{1,1,0,0,0,0,0},
-                              new int[]{1,0,1,0,0,0,0},
-                              new int[]{0,1,1,0,0,0,1},
-                              new int[]{0,0,1,1,1,0,0},
-                              new int[]{0,0,0,0,0,1,0}
+            int[][] expected = { new int[]{0,2,5,3,0,0,0},
+                              new int[]{2,0,4,0,6,0,0},
+                              new int[]{5,4,0,1,4,1,0},
+                              new int[]{3,0,1,0,0,3,0},
+                              new int[]{0,6,4,0,0,2,2},
+                              new int[]{0,0,1,3,2,0,5},
+                              new int[]{0,0,0,0,2,5,0}
                              };
 
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    Assert.Equal(matrix[i][j], result[i][j]);
+            for (int i = 0; i < result.Length; i++)
+                for (int j = 0; j < result[i].Length; j++)
+                    Assert.Equal(result[i][j], expected[i][j]);
 
         }
 

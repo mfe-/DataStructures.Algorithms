@@ -162,7 +162,6 @@ namespace Algorithms.Graph
         public static int[][] AdjacencyList(this DataStructures.Graph g)
         {
             var vertices = DepthFirstTraversal(g).Sort().Distinct().ToArray();
-            var edges = vertices.SelectMany(a => a.Edges).Distinct<IEdge>();
             //create matrix
             int c = vertices.Length;
             int[][] m = new int[c][];
@@ -174,7 +173,9 @@ namespace Algorithms.Graph
                     IVertex i = vertices[o];
                     IVertex j = vertices[y];
 
-                    row[y] = !edges.Any(b => b.V.Equals(i) && b.U.Equals(j)) ? 0 : 1;
+                    IEdge iToj = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
+
+                    row[y] = iToj == null ? 0 : iToj.Weighted;
                 }
 
                 m[o] = row;
