@@ -9,9 +9,9 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge<TData> : IEdge<TData>
     {
-        protected IVertex _u;
-        protected IVertex _v;
-        protected int _weighted;
+        private IVertex _u;
+        private IVertex _v;
+        private int _weighted;
 
         /// <summary>
         /// Initializes a new instance of the Edge class.

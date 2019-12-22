@@ -11,11 +11,11 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex<TData> : IVertex<TData>
     {
-        protected ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
+        private ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
-        protected readonly Guid _Guid;
-        protected int _weighted;
-        protected TData _Data;
+        private readonly Guid _Guid;
+        private int _weighted;
+        private TData _Data;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.

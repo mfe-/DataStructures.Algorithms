@@ -9,7 +9,7 @@ namespace DataStructures
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         int Weighted { get; set; }
-        ObservableCollection<IEdge> Edges { get; set; }
+        ObservableCollection<IEdge> Edges { get; }
         /// <summary>
         /// Creates a un/directed edge to the overgiven Vertex
         /// </summary>
