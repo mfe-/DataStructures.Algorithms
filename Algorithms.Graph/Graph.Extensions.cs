@@ -117,39 +117,6 @@ namespace Algorithms.Graph
 
             return visited;
         }
-        public static List<IEdge> BreadthFirstSearch(this IVertex start, IVertex target)
-        {
-            List<IEdge> l = new List<IEdge>();
-            //TODO
-            //Stack<IVertex> stack = new Stack<IVertex>();
-
-            //IVertex current = start;
-
-            //for (int i = 1; i <= current.IEdges.Count; i++)
-            //{
-            //    IVertex v = current.IEdges[i-1].V;
-            //    if (v.Equals(target))
-            //    {
-            //        return l;
-            //    }
-            //    else if (i.Equals(current.IEdges.Count) && !v.Equals(target))
-            //    {
-            //        i = 1;
-            //        stack.Push(v);
-            //        current = stack.Pop();
-
-            //    }
-            //    else
-            //    {
-            //        stack.Push(v);
-            //    }
-
-            //}
-
-            return l;
-
-
-        }
         //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
 
         /// <summary>
@@ -173,9 +140,15 @@ namespace Algorithms.Graph
                     IVertex i = vertices[o];
                     IVertex j = vertices[y];
 
-                    IEdge iToj = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
-
-                    row[y] = iToj == null ? 0 : iToj.Weighted;
+                    IEdge edge = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
+                    if (edge == null)
+                    {
+                        row[y] = 0;
+                    }
+                    else
+                    {
+                        row[y] = edge.Weighted == 0 ? 1 : edge.Weighted;
+                    }
                 }
 
                 m[o] = row;
@@ -188,7 +161,7 @@ namespace Algorithms.Graph
         {
             //works only with undircted graphs
             if (g.Directed.Equals(true))
-                throw new DirectedException(false);
+                throw new ArgumentException("Graph is not undirected");
 
             //create g'
             DataStructures.Graph g_ = g;

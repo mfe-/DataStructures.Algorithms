@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Algorithms.Graph;
@@ -185,14 +184,22 @@ namespace DataStructures.Test
         [Fact]
         public void DephFirstSearch_find_all_vertices_from_graph()
         {
-            var dfsVerticesResultList = _g.Start.DephFirstSearch();
+            //Arrange
             var dfsEdgesResultList = _g.Start.DepthFirstSearch(new Vertex<object>(), false);
-
-            dfsEdgesResultList.ToVertexList();
-
+            var dfsEdgeVertexResultList = dfsEdgesResultList.ToVertexList();
+            //Act
+            var dfsVerticesResultList = _g.Start.DephFirstSearch().Distinct();
+            
+            //Assert
             Assert.Equal(7, dfsVerticesResultList.Count());
 
+            Assert.Equal(7, dfsEdgeVertexResultList.Count());
 
+            foreach (var expectedVertex in dfsEdgeVertexResultList)
+            {
+                var resultVertex = dfsVerticesResultList.FirstOrDefault(a => a.Equals(expectedVertex));
+                Assert.NotNull(resultVertex);
+            }
         }
 
         [Fact]
@@ -212,6 +219,82 @@ namespace DataStructures.Test
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
                     Assert.Equal(result[i][j], expected[i][j]);
+
+        }
+        [Fact]
+        public void IsDirected_should_return_false_for_a_directed_graph()
+        {
+            //grpah dijkstra.xml is undirected
+            var result = _g.IsDirected();
+
+            Assert.False(result);
+        }
+        [Fact]
+        public void IsDirected_should_return_true_the_undirected_graph_v1_v2_v3()
+        {
+            //v1->v2->v3
+            IVertex v1 = new Vertex<string>(1);
+            IVertex v2 = new Vertex<string>(2);
+            IVertex v3 = new Vertex<string>(3);
+            Graph g = new Graph();
+            v1.AddEdge(v2);
+            v2.AddEdge(v3);
+            g.Start = v1;
+
+            var result = g.IsDirected();
+            Assert.True(result);
+        }
+        [Fact]
+        public void IsDirected_should_return_false_for_krusal_undirected_example()
+        {
+            var v1 = new Vertex<object>(1);
+            var v2 = new Vertex<object>(2);
+            var v3 = new Vertex<object>(3);
+            var v4 = new Vertex<object>(4);
+            var v5 = new Vertex<object>(5);
+            var v6 = new Vertex<object>(6);
+            var v7 = new Vertex<object>(7);
+
+            v3.AddEdge(v6, 0, false);
+            v3.AddEdge(v4, 0, false);
+
+            v1.AddEdge(v2, 0, false);
+            v5.AddEdge(v6, 0, false);
+            v5.AddEdge(v7, 0, false);
+            v1.AddEdge(v4, 0, false);
+            v4.AddEdge(v6, 0, false);
+            Graph g = new Graph();
+            g.Start = v1;
+
+            var result = g.IsDirected();
+            Assert.False(result);
+
+        }
+        [Fact]
+        public void IsDirected_should_return_false_for_krusal_directed_example()
+        {
+            var v1 = new Vertex<object>(1);
+            var v2 = new Vertex<object>(2);
+            var v3 = new Vertex<object>(3);
+            var v4 = new Vertex<object>(4);
+            var v5 = new Vertex<object>(5);
+            var v6 = new Vertex<object>(6);
+            var v7 = new Vertex<object>(7);
+
+            v3.AddEdge(v6, 0, false);
+            v3.AddEdge(v4, 0, false);
+
+            v1.AddEdge(v2, 0, true);
+
+            v5.AddEdge(v6, 0, false);
+            v5.AddEdge(v7, 0, false);
+            v1.AddEdge(v4, 0, false);
+            v4.AddEdge(v6, 0, false);
+            Graph g = new Graph();
+            g.Start = v1;
+
+            var result = g.IsDirected();
+            Assert.True(result);
 
         }
 
