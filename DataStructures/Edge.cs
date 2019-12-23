@@ -7,7 +7,7 @@ namespace DataStructures
 {
     [DebuggerDisplay("U={U}->V={V},Edge ={Weighted}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
-    public class Edge<TData> : IEdge<TData>
+    public class Edge<TData> where TData : struct, IEdge<TData>
     {
         private IVertex _u;
         private IVertex _v;
@@ -35,19 +35,7 @@ namespace DataStructures
             _v = pv;
             _weighted = pweighted;
         }
-        /// <summary>
-        /// Initializes a new instance of the Edge class.
-        /// </summary>
-        /// <param name="pu">Vertex of the Edge</param>
-        /// <param name="pv">Vertex of the Edge</param>
-        /// <param name="pweighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex<TData> pu, IVertex<TData> pv, int pweighted)
-        {
-            _u = pu;
-            _v = pv;
-            _weighted = pweighted;
-        }
-        public TData Value { get; set; }
+        public TData? Value { get; set; }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
