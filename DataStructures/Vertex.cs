@@ -9,13 +9,13 @@ namespace DataStructures
 {
     [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
-    public class Vertex<TData> where TData : struct, IVertex<TData>
+    public class Vertex<TData> : IVertex<TData>
     {
         private ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
         private int _weighted;
-        private TData? _Data;
+        private TData _Data;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.
@@ -32,7 +32,7 @@ namespace DataStructures
             _weighted = pweighted;
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
-        public TData? Value
+        public TData Value
         {
             get { return _Data; }
             set { _Data = value; NotifyPropertyChanged(nameof(Value)); }
