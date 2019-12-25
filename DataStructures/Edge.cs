@@ -16,23 +16,22 @@ namespace DataStructures
         /// <summary>
         /// Initializes a new instance of the Edge class.
         /// </summary>
-        /// <param name="pu">Vertex of the Edge</param>
-        /// <param name="pv">Vertex of the Edge</param>
-        public Edge(IVertex pu, IVertex pv)
+        /// <param name="u">Vertex of the Edge</param>
+        /// <param name="v">Vertex of the Edge</param>
+        public Edge(IVertex u, IVertex v)
         {
-            _u = pu;
-            _v = pv;
+            _u = u;
+            _v = v;
+            Value = default;
         }
         /// <summary>
         /// Initializes a new instance of the Edge class.
         /// </summary>
-        /// <param name="pu">Vertex of the Edge</param>
-        /// <param name="pv">Vertex of the Edge</param>
+        /// <param name="u">Vertex of the Edge</param>
+        /// <param name="v">Vertex of the Edge</param>
         /// <param name="pweighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex pu, IVertex pv, int pweighted)
+        public Edge(IVertex u, IVertex v, int pweighted) : this(u, v)
         {
-            _u = pu;
-            _v = pv;
             _weighted = pweighted;
         }
         public TData Value { get; set; }

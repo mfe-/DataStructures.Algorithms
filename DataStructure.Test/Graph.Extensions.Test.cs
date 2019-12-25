@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Algorithms.Graph;
@@ -182,14 +183,14 @@ namespace DataStructures.Test
 
         }
         [Fact]
-        public void DephFirstSearch_find_all_vertices_from_graph()
+        public void DepthFirstSearchStack_find_all_vertices_from_graph()
         {
             //Arrange
             var dfsEdgesResultList = _g.Start.DepthFirstSearch(new Vertex<object>(), false);
             var dfsEdgeVertexResultList = dfsEdgesResultList.ToVertexList();
             //Act
-            var dfsVerticesResultList = _g.Start.DephFirstSearch().Distinct();
-            
+            var dfsVerticesResultList = _g.Start.DepthFirstSearchStack();
+
             //Assert
             Assert.Equal(7, dfsVerticesResultList.Count());
 
@@ -201,11 +202,34 @@ namespace DataStructures.Test
                 Assert.NotNull(resultVertex);
             }
         }
+        [Fact]
+        public void DepthFirstSearchStack_on_undirected_graph_should_find_all_vertices()
+        {
+            //example which occours in kruskal
+            var v1 = new Vertex<object>(1);
+            var v2 = new Vertex<object>(2);
+            var v3 = new Vertex<object>(3);
+            var v4 = new Vertex<object>(4);
+            var v5 = new Vertex<object>(5);
+            var v6 = new Vertex<object>(6);
+            var v7 = new Vertex<object>(7);
+
+            v3.AddEdge(v6, 0, false);
+            v3.AddEdge(v4, 0, false);
+            v1.AddEdge(v2, 0, false);
+            v5.AddEdge(v6, 0, false);
+            v5.AddEdge(v7, 0, false);
+            v1.AddEdge(v4, 0, false);
+            v4.AddEdge(v6, 0, false);
+
+            var vertices = v6.DepthFirstSearchStack();
+            Assert.Equal(7, vertices.Count());
+        }
 
         [Fact]
-        public void AdjacencyList_should_return_expected_result()
+        public void AdjacencyMatrix_should_return_expected_result()
         {
-            int[][] result = _g.AdjacencyList();
+            int[][] result = _g.AdjacencyMatrix();
 
             int[][] expected = { new int[]{0,2,5,3,0,0,0},
                               new int[]{2,0,4,0,6,0,0},
@@ -297,7 +321,42 @@ namespace DataStructures.Test
             Assert.True(result);
 
         }
+        [Fact]
+        public void KruskalDepthFirstSearch_should_find_path()
+        {
+            Graph resultGraph = _g.KruskalDepthFirstSearch();
+            //check if all vertices are contained in the graph
+            var resultVertices = resultGraph.DepthFirstTraversal();
+            Assert.Equal(7, resultVertices.Count());
+            //check for circle
+            foreach (var vertex in resultVertices)
+            {
+                var resultFromVertexToVertex = vertex.DepthFirstSearch(vertex, false);
+                var lastEdge = resultFromVertexToVertex.Last();
+                Assert.NotEqual(vertex, lastEdge.V);
+            }
+        }
+        [Fact]
+        public void DepthFirstTraversal_should_find_all_vertices()
+        {
+            var resultVertexList = _g.DepthFirstTraversal();
+            Assert.Equal(7, resultVertexList.Count());
+        }
+        [Fact]
+        public void Distance_on_two_edges_with_weight_3_and_5_should_return_8()
+        {
+            Vertex<string> vertex1 = new Vertex<string>();
+            Vertex<string> vertex2 = new Vertex<string>();
+            Vertex<string> vertex3 = new Vertex<string>();
 
+            IList<IEdge> edges = new List<IEdge>();
+            edges.Add(vertex1.AddEdge(vertex2, 3, false));
+            edges.Add(vertex2.AddEdge(vertex3, 5, false));
+
+            int distance = edges.Distance();
+
+            Assert.Equal(8, distance);
+        }
 
     }
 }

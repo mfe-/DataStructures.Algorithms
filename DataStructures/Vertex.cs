@@ -20,7 +20,11 @@ namespace DataStructures
         /// <summary>
         /// Initializes a new instance of the Vertex class.
         /// </summary>
-        public Vertex() { _Guid = Guid.NewGuid(); }
+        public Vertex()
+        {
+            _Guid = Guid.NewGuid();
+            _Data = default;
+        }
 
         /// <summary>
         /// Initializes a new instance of the Vertex class that contains the specified weighted.

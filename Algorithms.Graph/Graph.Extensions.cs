@@ -10,6 +10,12 @@ namespace Algorithms.Graph
     /// </summary>
     public static partial class GraphExtensions
     {
+        /// <summary>
+        /// Determines whether the graph is directed or undirected.
+        /// Uses the <seealso cref="AdjacencyMatrix"/> to generate a matrix and checks whether its a symmetric
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns></returns>
         public static bool IsDirected(this DataStructures.Graph g)
         {
             //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
@@ -18,7 +24,7 @@ namespace Algorithms.Graph
             //also ist der graph genau dann ungerichtet wenn die matrix symmetrisch ist
             //http://en.wikipedia.org/wiki/Transpose
             //a transportieren also a^t = a symmetrisch
-            int[][] matrix = g.AdjacencyList();
+            int[][] matrix = g.AdjacencyMatrix();
             int[][] matrixT = new int[matrix.Length][];
             for (int i = 0; i < matrix.Length; i++)
             {
@@ -66,35 +72,40 @@ namespace Algorithms.Graph
         }
         /// <summary>
         /// Returns all vertices from the graph
-        /// http://www.brpreiss.com/books/opus4/html/page551.html
-        /// http://www.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch14.html#QQ1-46-90
         /// </summary>
         /// <param name="s">Root IVertex of graph</param>
         /// <returns>All reachable vertices</returns>
         public static IEnumerable<IVertex> DepthFirstTraversal(this DataStructures.Graph s)
         {
             if (s == null) throw new ArgumentNullException(nameof(s));
-            List<IVertex> l = new List<IVertex>();
+            IEnumerable<IVertex> l = Enumerable.Empty<IVertex>();
             foreach (IVertex v in s.Vertices)
-                l.AddRange(DepthFirstTraversal(v, new List<IVertex>()));
+            {
+                var verticeList = DepthFirstTraversal(v, new List<IVertex>());
+                l = l.Union(verticeList);
+            }
             return l;
         }
         private static List<IVertex> DepthFirstTraversal(this IVertex s, List<IVertex> visited)
         {
             //visist x
             visited.Add(s);
-
             //FOR each y such that (x,y) is an IEdge DO 
             foreach (IEdge e in s.Edges)
             {
                 if (!visited.Contains(e.V))
                 {
-                    visited = DepthFirstTraversal(e.V, visited);
+                    DepthFirstTraversal(e.V, visited);
                 }
             }
             return visited;
         }
-        public static IEnumerable<IVertex> DephFirstSearch(this IVertex s)
+        /// <summary>
+        /// DepthFirstSearch implemented as Stack
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static IEnumerable<IVertex> DepthFirstSearchStack(this IVertex s)
         {
             List<IVertex> visited = new List<IVertex>();
 
@@ -105,14 +116,15 @@ namespace Algorithms.Graph
             while (stack.Count != 0)
             {
                 IVertex v = stack.Pop();
-                visited.Add(v);
-                foreach (IEdge e in v.Edges)
+                if (!visited.Contains(v))
                 {
-                    if (!visited.Contains(e.V))
+                    visited.Add(v);
+                    foreach (IEdge e in v.Edges)
                     {
                         stack.Push(e.V);
                     }
                 }
+
             }
 
             return visited;
@@ -126,9 +138,9 @@ namespace Algorithms.Graph
         /// </summary>
         /// <param name="g">Graph on which the adjacency list should be created</param>
         /// <returns></returns>
-        public static int[][] AdjacencyList(this DataStructures.Graph g)
+        public static int[][] AdjacencyMatrix(this DataStructures.Graph g)
         {
-            var vertices = DepthFirstTraversal(g).Sort().Distinct().ToArray();
+            var vertices = DepthFirstTraversal(g).Sort().ToArray();
             //create matrix
             int c = vertices.Length;
             int[][] m = new int[c][];
@@ -159,6 +171,7 @@ namespace Algorithms.Graph
 
         public static DataStructures.Graph KruskalDepthFirstSearch(this DataStructures.Graph g)
         {
+            if (g == null) throw new ArgumentNullException(nameof(g));
             //works only with undircted graphs
             if (g.Directed.Equals(true))
                 throw new ArgumentException("Graph is not undirected");
@@ -167,8 +180,12 @@ namespace Algorithms.Graph
             DataStructures.Graph g_ = g;
 
             List<IVertex> vertices = new List<IVertex>();
-            //order IEdges by pyramiding weighted
-            IEdge[] IEdges = DepthFirstTraversal(g).SelectMany(a => a.Edges).OrderBy(e => e.Weighted).Distinct(new EdgeExtensions.EdgeComparer()).ToArray();
+            //order IEdges by pyramiding weighted, distinct them 
+            IEdge[] IEdges = DepthFirstTraversal(g).
+                SelectMany(a => a.Edges).
+                    OrderBy(e => e.Weighted).
+                        Distinct().
+                            ToArray();
             //remove IEdges 
             foreach (IVertex z in g_.DepthFirstTraversal())
             {
@@ -189,7 +206,7 @@ namespace Algorithms.Graph
                 v.AddEdge(u, e.Weighted);
                 //check if circle
 
-                var o = DepthFirstSearch(u, u);
+                var o = DepthFirstSearch(u, u, false);
 
                 if (o.First().U.Equals(u) && o.Last().V.Equals(u))
                 {
@@ -212,57 +229,21 @@ namespace Algorithms.Graph
         public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsdirected = true)
         {
             if (start == null) throw new ArgumentNullException(nameof(start));
-            if (graphIsdirected)
-            {
-                return DepthFirstSearchDirected(start, new List<IEdge>(), goal);
-            }
-            else
-            {
-                return DepthFirstSearchUndirected(start, new List<IEdge>(), goal);
-            }
+            return DepthFirstSearch(start, new List<IEdge>(), goal, graphIsdirected);
         }
-        private static IEnumerable<IEdge> DepthFirstSearchUndirected(IVertex current, List<IEdge> edges, IVertex goal)
+        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> edges, IVertex goal, bool graphIsdirected)
         {
             foreach (IEdge e in current.Edges)
             {
-                if (!edges.Any(a => a.Equals(e)))
+                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
                 {
                     //mark edges
                     edges.Add(e);
-                    DepthFirstSearchUndirected(e.V, edges, goal);
-                }
-                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
-            }
-
-            return edges;
-        }
-        private static IEnumerable<IEdge> DepthFirstSearchDirected(IVertex current, List<IEdge> edges, IVertex goal)
-        {
-            foreach (IEdge e in current.Edges)
-            {
-                //check if already visited IVertex 
-                //(use == operator instead of Equals for directed graphs,
-                //as the overriden equals of the Edge implementeation returns true for transposed edges)
-                if (!edges.Any(a => a == e))
-                {
-                    //mark edges
-                    edges.Add(e);
-                    DepthFirstSearchDirected(e.V, edges, goal);
+                    DepthFirstSearch(e.V, edges, goal, graphIsdirected);
                 }
                 if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
             }
             return edges;
-        }
-
-        /// <summary>
-        /// Determinds if the overgiven <paramref name="v"/> is adjacent to the current IVertex
-        /// </summary>
-        /// <param name="v">the IVertex to check</param>
-        /// <returns>True if the overgiven IVertex is adjacent</returns>
-        public static Boolean Adjacent(this IVertex v)
-        {
-            if (v == null) throw new ArgumentNullException(nameof(v));
-            return !v.Edges.Any(a => a.U.Equals(v) || a.V.Equals(v));
         }
         /// <summary>
         /// Calculates the distance by summing the weighted of the IEdges.
@@ -279,22 +260,5 @@ namespace Algorithms.Graph
 
             return distance;
         }
-
-
-        public static object Connected(this DataStructures.Graph g, IVertex a, IVertex b)
-        {
-            // Eine Folge von karten e1,e2,...ek e E(G) eines ungerichteten G heißt katenfolge , wenn es knoten v,v1,v2,...vk1 w eV(G) mit 
-            //% gibt ,d.h. man kann die katen e1,2,...ek,ohne absetzen durchlafeun. k... anzahl der kanten
-            //Tiefensuchen hier nehmen Katenfolge von a -> b zurück geben
-            return null;
-        }
-        //public static bool Connected(this Graph g, IVertex a, IVertex b)
-        //{
-        //    // Eine Folge von karten e1,e2,...ek e E(G) eines ungerichteten G heißt katenfolge , wenn es knoten v,v1,v2,...vk1 w eV(G) mit 
-        //    //% gibt ,d.h. man kann die katen e1,2,...ek,ohne absetzen durchlafeun. k... anzahl der kanten
-        //    //Tiefensuchen hier nehmen Katenfolge von a -> b zurück geben
-        //    //return g.Connected(a,b) ==null ? false : true;
-        //    return false;
-        //}
     }
 }

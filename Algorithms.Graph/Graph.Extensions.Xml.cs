@@ -17,7 +17,7 @@ namespace Algorithms.Graph
         {
             return GetDataContractSerializerSettings(new List<Type>());
         }
-        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes = null, DataContractResolver dataContractResolver = null)
+        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes, DataContractResolver dataContractResolver = null)
         {
             List<Type> types = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
             if (knownTypes != null)
@@ -80,6 +80,7 @@ namespace Algorithms.Graph
         }
         public static DataStructures.Graph Load(this XElement e, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
         {
+            if (e == null) throw new ArgumentNullException(nameof(e));
             DataStructures.Graph g = new DataStructures.Graph();
             //load graph
             MemoryStream memoryStream = new MemoryStream();
