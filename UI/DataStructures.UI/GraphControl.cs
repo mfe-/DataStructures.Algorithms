@@ -49,12 +49,12 @@ namespace DataStructures.UI
         /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
         /// http://msdn.microsoft.com/en-us/library/system.random.aspx?queryresult=true
         /// </summary>
-        protected Random _Random = new Random(DateTime.Now.Millisecond);
+        private Random _Random = new Random(DateTime.Now.Millisecond);
 
-        public static RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
-        public static RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
-        public static RoutedCommand KruskalRoutedCommand = new RoutedCommand();
-        public static RoutedCommand ClearGraphCommand = new RoutedCommand();
+        public static readonly RoutedCommand AddVertexRoutedCommand = new RoutedCommand();
+        public static readonly RoutedCommand SetDirectedRoutedCommand = new RoutedCommand();
+        public static readonly RoutedCommand KruskalRoutedCommand = new RoutedCommand();
+        public static readonly RoutedCommand ClearGraphCommand = new RoutedCommand();
 
         public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent(
         "MouseDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(GraphControl));
@@ -76,37 +76,39 @@ namespace DataStructures.UI
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
-            if (e.Source is GraphControl)
+            if (e != null)
             {
-                this.Focus();
-            }
-            var hitTestResult = VisualTreeHelper.HitTest(this, e.GetPosition(this));
-            if (e.ClickCount.Equals(2) && hitTestResult != null && hitTestResult.VisualHit.Equals(this))
-            {
-                RaiseMouseDoubleClickEvent();
-            }
+                if (e.Source is GraphControl)
+                {
+                    this.Focus();
+                }
+                var hitTestResult = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+                if (e.ClickCount.Equals(2) && hitTestResult != null && hitTestResult.VisualHit.Equals(this))
+                {
+                    RaiseMouseDoubleClickEvent();
+                }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                this.SelectedMouseItem = (FrameworkElement)e.Source;
-                this.SelectedMouseItem.Focus();
-                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
-                SetPosition(SelectedMouseItem, p);
-            }
+                if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+                {
+                    this.SelectedMouseItem = (FrameworkElement)e.Source;
+                    this.SelectedMouseItem.Focus();
+                    Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
+                    SetPosition(SelectedMouseItem, p);
+                }
 
-            if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
-            {
-                //create a temporary edge
-                EdgeControl ev = new EdgeControl();
-                Canvas.SetZIndex(ev, -1);
-                VertexControl vv = e.Source as VertexControl;
-                ev.Edge = new Edge<object>(vv.Vertex, null);
+                if (e.Source != null && e.Source.GetType().Equals(typeof(VertexControl)) && e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem == null && e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+                {
+                    //create a temporary edge
+                    EdgeControl ev = new EdgeControl();
+                    Canvas.SetZIndex(ev, -1);
+                    VertexControl vv = e.Source as VertexControl;
+                    ev.Edge = new Edge<object>(vv.Vertex, null);
 
-                ev.PositionU = GetPosition(vv);
-                ev.PositionV = e.GetPosition(this);
-                this.SelectedMouseItem = ev;
-                this.Children.Add(ev);
+                    ev.PositionU = GetPosition(vv);
+                    ev.PositionV = e.GetPosition(this);
+                    this.SelectedMouseItem = ev;
+                    this.Children.Add(ev);
+                }
             }
         }
         /// <summary>
@@ -159,46 +161,73 @@ namespace DataStructures.UI
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
+            if (e != null)
             {
-                VertexControl v = SelectedMouseItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
-                v.Position = p;
-                SetPosition(SelectedMouseItem, p);
-                SelectedMouseItem = null;
-            }
-            //add edge to graph or remove temporary edge
-            if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(EdgeControl)))
-            {
-
-                HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
-                FrameworkElement u = result.VisualHit as FrameworkElement;
-
-                VertexControl vv = u.TemplatedParent as VertexControl;
-                EdgeControl ev = SelectedMouseItem as EdgeControl;
-
-                //maybe we hit the ItemTemplate Control
-                if (vv == null && u.DataContext != null && u.DataContext is IVertex)
+                if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) &&
+                    SelectedMouseItem != null && typeof(VertexControl).Equals(SelectedMouseItem.GetType()) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
                 {
-                    IVertex vertex = u.DataContext as IVertex;
-                    vv = VertexVisualizations.FirstOrDefault(a => a.Vertex == vertex);
+                    VertexControl v = (VertexControl)SelectedMouseItem;
+                    Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
+                    v.Position = p;
+                    SetPosition(SelectedMouseItem, p);
+                    SelectedMouseItem = null;
                 }
-
-                if (vv != null)
+                //add edge to graph or remove temporary edge
+                if (e.Source != null && e.LeftButton.Equals(MouseButtonState.Released) &&
+                    SelectedMouseItem != null && typeof(EdgeControl).Equals(SelectedMouseItem.GetType()))
                 {
-                    //first find the vertex where we started 
-                    IVertex v = VertexVisualizations.Where(z => z.Vertex.Equals(ev.Edge.U)).First().Vertex;
-                    //add to model edge 
-                    v.AddEdge(vv.Vertex, 0, Graph.Directed);
-                }
+                    HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+                    FrameworkElement u = (FrameworkElement)result.VisualHit;
+                    if (u != null)
+                    {
+                        VertexControl vv = null;
+                        if (!(u.TemplatedParent is VertexControl))
+                        {
+                            vv = TryFindParent<VertexControl>(u);
+                        }
+                        else
+                        {
+                            vv = (VertexControl)u.TemplatedParent;
+                        }
 
-                this.Children.Remove(SelectedMouseItem);
-                SelectedMouseItem = null;
+                        EdgeControl ev = (EdgeControl)SelectedMouseItem;
+
+                        //maybe we hit the ItemTemplate Control
+                        if (vv == null && u.DataContext != null && u.DataContext is IVertex)
+                        {
+                            IVertex vertex = (IVertex)u.DataContext;
+                            vv = VertexVisualizations.FirstOrDefault(a => a.Vertex == vertex);
+                        }
+
+                        if (vv != null)
+                        {
+                            //first find the vertex where we started 
+                            IVertex v = VertexVisualizations.First(z => z.Vertex.Equals(ev.Edge.U)).Vertex;
+                            //add to model edge 
+                            v.AddEdge(vv.Vertex, 0, Graph.Directed);
+                        }
+                        this.Children.Remove(SelectedMouseItem);
+                    }
+                    SelectedMouseItem = null;
+                }
             }
+
         }
 
         #endregion Drag and Drop
+        public static T TryFindParent<T>(DependencyObject current) where T : class
+        {
+            DependencyObject parent = VisualTreeHelper.GetParent(current);
+            if (parent == null)
+                parent = LogicalTreeHelper.GetParent(current);
+            if (parent == null)
+                return null;
 
+            if (parent is T)
+                return parent as T;
+            else
+                return TryFindParent<T>(parent);
+        }
         /// <summary>
         /// Measures the size of the current Canvas for the layout.
         /// http://msdn.microsoft.com/en-us/library/hh401019.aspx?queryresult=true
@@ -208,20 +237,23 @@ namespace DataStructures.UI
         protected override Size MeasureOverride(Size constraint)
         {
             Size size = new Size();
-            foreach (UIElement element in Children)
+            if (Children != null)
             {
-                double left = Canvas.GetLeft(element);
-                double top = Canvas.GetTop(element);
-                left = double.IsNaN(left) ? 0 : left;
-                top = double.IsNaN(top) ? 0 : top;
-
-                element.Measure(constraint);
-
-                Size desiredSize = element.DesiredSize;
-                if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
+                foreach (UIElement element in Children)
                 {
-                    size.Width = Math.Max(size.Width, left + desiredSize.Width);
-                    size.Height = Math.Max(size.Height, top + desiredSize.Height);
+                    double left = Canvas.GetLeft(element);
+                    double top = Canvas.GetTop(element);
+                    left = double.IsNaN(left) ? 0 : left;
+                    top = double.IsNaN(top) ? 0 : top;
+
+                    element?.Measure(constraint);
+
+                    Size desiredSize = element.DesiredSize;
+                    if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
+                    {
+                        size.Width = Math.Max(size.Width, left + desiredSize.Width);
+                        size.Height = Math.Max(size.Height, top + desiredSize.Height);
+                    }
                 }
             }
 
@@ -246,55 +278,58 @@ namespace DataStructures.UI
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
         protected virtual void InitialiseGraph(ObservableCollection<IVertex> vertices, EdgeControl e)
         {
+            if (vertices == null) throw new ArgumentNullException(nameof(vertices));
             foreach (IVertex vertex in vertices)
             {
-                vertex.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
-
-                VertexControl visualvertex;
-                bool vertexexists = GetItem(vertex) == null ? false : true;
-
-                if (!vertexexists)
+                if (vertex != null && vertex.Edges != null)
                 {
+                    (vertex.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
 
-                    visualvertex = AddVertex(vertex);
-                    Canvas.SetZIndex(visualvertex, 1);
-                }
-                else
-                {
-                    visualvertex = VertexVisualizations.Where(g => g.Vertex.Equals(vertex)).First();
-                }
-                //add edge to vertex2
-                if (e != null)
-                {
-                    EdgeControl edv = AddEdge(e, visualvertex, EdgeControl.PositionVProperty);
+                    VertexControl visualvertex;
+                    bool vertexexists = GetItem(vertex) != null;
 
-                    this.Children.Add(edv);
-                    //bug? position of edge missing?
-                    Canvas.SetZIndex(edv, -1);
-                }
+                    if (!vertexexists)
+                    {
 
-                if (vertexexists) return;
-                //add edge from vertex1
-                foreach (IEdge ed in vertex.Edges)
-                {
-                    EdgeControl edv = AddEdge(ed, visualvertex, EdgeControl.PositionUProperty);
+                        visualvertex = AddVertex(vertex);
+                        Canvas.SetZIndex(visualvertex, 1);
+                    }
+                    else
+                    {
+                        visualvertex = VertexVisualizations.First(g => g.Vertex.Equals(vertex));
+                    }
+                    //add edge to vertex2
+                    if (e != null)
+                    {
+                        EdgeControl edv = AddEdge(e, visualvertex, EdgeControl.PositionVProperty);
 
-                    InitialiseGraph(new ObservableCollection<IVertex>() { ed.V }, edv);
+                        this.Children.Add(edv);
+                        //bug? position of edge missing?
+                        Canvas.SetZIndex(edv, -1);
+                    }
+
+                    if (vertexexists) return;
+                    //add edge from vertex1
+                    foreach (IEdge ed in vertex.Edges)
+                    {
+                        EdgeControl edv = AddEdge(ed, visualvertex, EdgeControl.PositionUProperty);
+
+                        InitialiseGraph(new ObservableCollection<IVertex>() { ed.V }, edv);
+                    }
                 }
             }
         }
 
         protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-
-            if (e.Action.Equals(NotifyCollectionChangedAction.Add))
+            if (e != null && NotifyCollectionChangedAction.Add.Equals(e?.Action))
             {
-                IList<object> items = e.NewItems.SyncRoot as IList<object>;
-                object item = items.First();
+                IList<object> items = (IList<object>)e.NewItems.SyncRoot;
+                object item = items.FirstOrDefault();
 
                 if (item is IEdge)
                 {
-                    IEdge edge = item as IEdge;
+                    IEdge edge = (IEdge)item;
 
                     //check if vertex is kept in Graph.Vertices and will be moved into the depper graph - if yes its duplicated so remove from graph.vertices
                     if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
@@ -310,19 +345,15 @@ namespace DataStructures.UI
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
 
-                    VertexControl uvisual = null;
-                    VertexControl vvisual = null;
-
-
                     //check if  both vertices u and v exists, otherwise create visualvertex
                     if (GetItem(edge.U) == null)
                     {
-                        uvisual = AddVertex(edge.U);
+                        AddVertex(edge.U);
                     }
 
                     if (GetItem(edge.V) == null)
                     {
-                        vvisual = AddVertex(edge.V);
+                        AddVertex(edge.V);
                     }
 
                     //added item already exists - nothing to do
@@ -337,7 +368,7 @@ namespace DataStructures.UI
                 }
                 if (item is IVertex)
                 {
-                    AddVertex(item as IVertex, Mouse.GetPosition(this).Add(-25, -25));
+                    AddVertex((IVertex)item, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
             if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
@@ -347,37 +378,35 @@ namespace DataStructures.UI
                 if (item is IVertex)
                 {
                     //catch Visualization item
-                    IVertex v = item as IVertex;
-                    VertexControl vv = VertexVisualizations.Where(a => a.Vertex.Equals(v)).First();
+                    IVertex v = (IVertex)item;
+                    VertexControl vv = VertexVisualizations.First(a => a.Vertex.Equals(v));
                     this.Children.Remove(vv);
                 }
 
                 if (item is IEdge)
                 {
-                    IEdge edge = item as IEdge;
+                    IEdge edge = (IEdge)item;
                     RemoveEdge(edge);
                 }
             }
             Debug.WriteLine(this.Graph.Vertices.Count);
         }
 
-        private static void OnGraphChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnGraphChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null && pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphControl)))
+            if (e.NewValue == null && dependencyObject != null && typeof(GraphControl).Equals(dependencyObject.GetType()))
             {
-                GraphControl graphVisualization = pDependencyObject as GraphControl;
-                graphVisualization.Children.Clear();
+                GraphControl graphVisualization = (GraphControl)dependencyObject;
+                graphVisualization?.Children?.Clear();
                 return;
             }
-            if (e.NewValue.GetType() != (typeof(Graph))) return;
-            if (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(GraphControl)))
+            if (e.NewValue != null && e.NewValue.GetType() != (typeof(Graph))) return;
+            if (e.NewValue != null && dependencyObject != null && typeof(GraphControl).Equals(dependencyObject.GetType()))
             {
-                GraphControl graphVisualization = pDependencyObject as GraphControl;
-                Graph graph = e.NewValue as Graph;
-
+                GraphControl graphVisualization = (GraphControl)dependencyObject;
+                Graph graph = (Graph)e.NewValue;
                 graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
-
-                graphVisualization.InitialiseGraph(graph.Vertices);
+                graphVisualization?.InitialiseGraph(graph.Vertices);
             }
         }
 
@@ -408,7 +437,7 @@ namespace DataStructures.UI
             SetTop(vertexcontrol, point.Y);
 
             this.Children.Add(vertexcontrol);
-            v.Edges.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+            (v.Edges as ObservableCollection<IEdge>).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             return vertexcontrol;
         }
 
@@ -433,18 +462,18 @@ namespace DataStructures.UI
         protected virtual EdgeControl AddEdge(IEdge e, bool pAddtoCanvas)
         {
             //get vertex1
-            VertexControl uv = VertexVisualizations.Where(z => z.Vertex.Equals(e.U)).First();
+            VertexControl uv = VertexVisualizations.First(z => z.Vertex.Equals(e.U));
 
             if (uv == null)
-                throw new Exception("There was no proper VertexVisualization found for the Ege.U. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
+                throw new ArgumentNullException(nameof(e), "There was no proper VertexVisualization found for the Ege.U. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
 
             EdgeControl edv = AddEdge(e, uv, EdgeControl.PositionUProperty);
 
 
             //get vertex2
-            VertexControl vv = VertexVisualizations.Where(z => z.Vertex.Equals(e.V)).First();
+            VertexControl vv = VertexVisualizations.First(z => z.Vertex.Equals(e.V));
             if (vv == null)
-                throw new Exception("There was no proper VertexVisualization found for the Ege.V. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
+                throw new ArgumentNullException(nameof(e), "There was no proper VertexVisualization found for the Ege.V. Please check if there exists the requried vertex on which you try to create an EdgeVisualization.");
 
             edv = AddEdge(edv, vv, EdgeControl.PositionVProperty);
 
@@ -463,14 +492,15 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="e">The Edge which should be visualised</param>
         /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
-        /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
+        /// <param name="dependencyProperty">On which Position U/V the VertexVisualization should be set</param>
         /// <returns>Returns the created EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(IEdge pEdge, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
+        protected virtual EdgeControl AddEdge(IEdge pEdge, VertexControl pVertexVisualization, DependencyProperty dependencyProperty)
         {
+            if (dependencyProperty == null) throw new ArgumentNullException(nameof(dependencyProperty));
             EdgeControl edv = new EdgeControl() { Edge = pEdge };
             VertexControl uv = pVertexVisualization;
 
-            if (pDependencyProperty.Equals(EdgeControl.PositionUProperty))
+            if (EdgeControl.PositionUProperty.Equals(dependencyProperty))
             {
                 edv.PositionU = GetPosition(pVertexVisualization);
             }
@@ -479,7 +509,7 @@ namespace DataStructures.UI
                 edv.PositionV = GetPosition(pVertexVisualization);
             }
 
-            CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+            CreatePositionBinding(edv, uv, dependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
 
             CreateDirectedBinding(edv, this.Graph);
 
@@ -488,41 +518,42 @@ namespace DataStructures.UI
         /// <summary>
         /// Adds the second VertexVisualization to the EdgeVisualization, by using the overgiven VertexVisualization
         /// </summary>
-        /// <param name="pEdgeVisualization">The EdgeVisualization which should be used</param>
-        /// <param name="pVertexVisualization">The VertexVisualization which should be used</param>
-        /// <param name="pDependencyProperty">On which Position U/V the VertexVisualization should be set</param>
+        /// <param name="edgeVisualization">The EdgeVisualization which should be used</param>
+        /// <param name="vertexVisualization">The VertexVisualization which should be used</param>
+        /// <param name="dependencyProperty">On which Position U/V the VertexVisualization should be set</param>
         /// <returns>Returns the modified EdgeVisualization</returns>
-        protected virtual EdgeControl AddEdge(EdgeControl pEdgeVisualization, VertexControl pVertexVisualization, DependencyProperty pDependencyProperty)
+        protected virtual EdgeControl AddEdge(EdgeControl edgeVisualization, VertexControl vertexVisualization, DependencyProperty dependencyProperty)
         {
-            EdgeControl edv = pEdgeVisualization;
-            VertexControl uv = pVertexVisualization;
+            if (dependencyProperty == null) throw new ArgumentNullException(nameof(dependencyProperty));
+            if (edgeVisualization == null) throw new ArgumentNullException(nameof(edgeVisualization));
+            if (vertexVisualization == null) throw new ArgumentNullException(nameof(vertexVisualization));
+            EdgeControl edv = edgeVisualization;
+            VertexControl uv = vertexVisualization;
 
-            if (pDependencyProperty.Equals(EdgeControl.PositionUProperty))
+            if (dependencyProperty.Equals(EdgeControl.PositionUProperty))
             {
-                edv.PositionU = GetPosition(pVertexVisualization);
-                CreatePositionBinding(edv, uv, pDependencyProperty, null, new Point(uv.Width / 2, uv.Height / 2));
+                edv.PositionU = GetPosition(vertexVisualization);
+                CreatePositionBinding(edv, uv, dependencyProperty, null, new Point(uv.Width / 2, uv.Height / 2));
             }
             else
             {
-                edv.PositionV = GetPosition(pVertexVisualization);
-                CreatePositionBinding(edv, uv, pDependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
+                edv.PositionV = GetPosition(vertexVisualization);
+                CreatePositionBinding(edv, uv, dependencyProperty, Converters.PointAdderConverter, new Point(uv.Width / 2, uv.Height / 2));
             }
-
-
-
             return edv;
         }
         /// <summary>
         /// Creates a binding between the Edge.Position and the Vertex.Position
         /// </summary>
-        /// <param name="pSetBindingSource">EdgeVisualization on which the binding should be set</param>
+        /// <param name="setBindingSource">EdgeVisualization on which the binding should be set</param>
         /// <param name="pBindingSource">From which VertexVisualization the position should be used</param>
         /// <param name="pDependencyProperty">On which Position Property the binding should be set. Use EdgeVisualization.PositionUProperty or dgeVisualization.PositionVProperty))</param>
         /// <param name="Converter">Set a Converter if needed</param>
         /// <param name="ConverterParameter">Parameter for the Converter</param>
-        protected virtual void CreatePositionBinding(EdgeControl pSetBindingSource, VertexControl pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
+        protected virtual void CreatePositionBinding(EdgeControl setBindingSource, VertexControl pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
         {
-            if (pSetBindingSource.GetBindingExpression(pDependencyProperty) == null)
+            if (setBindingSource == null) throw new ArgumentNullException(nameof(setBindingSource));
+            if (setBindingSource.GetBindingExpression(pDependencyProperty) == null)
             {
                 Binding bindingU = new Binding("Position");
                 bindingU.Source = pBindingSource;
@@ -532,13 +563,14 @@ namespace DataStructures.UI
                 bindingU.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 bindingU.Converter = Converters.PointAdderConverter;
                 bindingU.ConverterParameter = ConverterParameter;
-                pSetBindingSource.SetBinding(pDependencyProperty, bindingU);
+                setBindingSource.SetBinding(pDependencyProperty, bindingU);
             }
         }
         //not tested yet
-        protected virtual void CreateDirectedBinding(EdgeControl pSetBindingSource, Graph pGraphSource)
+        protected virtual void CreateDirectedBinding(EdgeControl setBindingSource, Graph pGraphSource)
         {
-            if (pSetBindingSource.GetBindingExpression(EdgeControl.DirectedProperty) == null)
+            if (setBindingSource == null) throw new ArgumentNullException(nameof(setBindingSource));
+            if (setBindingSource.GetBindingExpression(EdgeControl.DirectedProperty) == null)
             {
                 Binding bindingDirected = new Binding("Directed");
                 bindingDirected.Source = pGraphSource;
@@ -546,7 +578,7 @@ namespace DataStructures.UI
                 bindingDirected.NotifyOnSourceUpdated = true;
                 bindingDirected.NotifyOnTargetUpdated = false;
                 bindingDirected.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pSetBindingSource.SetBinding(EdgeControl.DirectedProperty, bindingDirected);
+                setBindingSource.SetBinding(EdgeControl.DirectedProperty, bindingDirected);
             }
         }
         #endregion
@@ -556,7 +588,7 @@ namespace DataStructures.UI
             IEdge edge = pEdge;
             if (EdgeVisualizations.Any(a => a.Edge.Equals(edge)))
             {
-                EdgeControl ev = EdgeVisualizations.Where(a => a.Edge.Equals(edge)).First();
+                EdgeControl ev = EdgeVisualizations.First(a => a.Edge.Equals(edge));
                 this.Children.Remove(ev);
             }
 
@@ -577,6 +609,7 @@ namespace DataStructures.UI
         /// <returns>Position of the VertexVisualization control</returns>
         protected virtual Point GetPosition(FrameworkElement u)
         {
+            if (u == null) throw new ArgumentNullException(nameof(u));
             double left = Canvas.GetLeft(u as UIElement);
             double top = Canvas.GetTop(u as UIElement);
             return new Point(left + (u.Width / 2), top + (u.Height / 2));
@@ -667,8 +700,8 @@ namespace DataStructures.UI
         }
 
 
-        private FrameworkElement _SelectedMouseItem;
-        protected FrameworkElement SelectedMouseItem
+        private FrameworkElement? _SelectedMouseItem;
+        protected FrameworkElement? SelectedMouseItem
         {
             get { return _SelectedMouseItem; }
             set
@@ -680,7 +713,7 @@ namespace DataStructures.UI
                 _SelectedMouseItem = value;
             }
         }
-        public FrameworkElement SelectedItem { get; set; }
+        public FrameworkElement? SelectedItem { get; set; }
 
         /// <summary>
         /// Represents a dynamic data collection of EdgeVisualizations that provides notifications when items get added, removed, or when the whole list is refreshed.
@@ -707,12 +740,12 @@ namespace DataStructures.UI
         /// <summary>
         /// Represents a dynamic data collection of Frameworkelements which got focused
         /// </summary>
-        public FrameworkElement FocusedFrameworkElement
+        public FrameworkElement? FocusedFrameworkElement
         {
             get
             {
                 IEnumerable<FrameworkElement> FElementList = this.Children.OfType<FrameworkElement>().Where(f => f.IsFocused.Equals(true));
-                if (FElementList != null && FElementList.Count() != 0)
+                if (FElementList != null && FElementList.Any())
                 {
                     return FElementList.First();
                 }

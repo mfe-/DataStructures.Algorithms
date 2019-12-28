@@ -408,6 +408,14 @@ namespace DataStructures.Test
             IVertex<int> vy = null;
             IVertex<int> vyy = null;
 
+            // v1 <---> v2 <---> v3 <--->
+            //  | *    *  | *    * |
+            //  |    *    |    *   |
+            //  |  *  *   |  *  *  | 
+            //  | *     * | *     *|
+            // v4 <---> v5 <---> v6 <--->
+            // stars shows the connection between v1 <-> v5 and v4 <-> v2. v2 <->v6 and v5 <-> v3
+
             for (int y = 0; y < amount_height_vertices; y++)
             {
                 for (int x = 0; x < amount_width_vertices; x++)

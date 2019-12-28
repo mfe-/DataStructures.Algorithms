@@ -32,7 +32,7 @@ namespace DataStructures.UI
         }
         private void ClearGraph_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
+            if (sender != null && typeof(GraphControl).Equals(sender.GetType()))
             {
                 this.Graph = null;
                 this.Graph = new Graph();
@@ -71,9 +71,10 @@ namespace DataStructures.UI
         }
         private void Paste_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement.GetType().Equals(typeof(VertexControl)))
+            if (FocusedFrameworkElement != null &&
+                typeof(VertexControl).Equals(FocusedFrameworkElement.GetType()))
             {
-                VertexControl vv = FocusedFrameworkElement as VertexControl;
+                VertexControl vv = (VertexControl)FocusedFrameworkElement;
 
                 Vertex<object> newVertex = new Vertex<object>();
 
@@ -88,20 +89,21 @@ namespace DataStructures.UI
 
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(VertexControl)))
+            if (FocusedFrameworkElement != null &&
+                typeof(VertexControl).Equals(FocusedFrameworkElement.GetType()))
             {
-                VertexControl vv = FocusedFrameworkElement as VertexControl;
+                VertexControl vv = (VertexControl)FocusedFrameworkElement;
 
                 //case Vertex is connected
-                if (vv.Vertex.Edges.Count.Equals(0))
+                if ((0).Equals(vv?.Vertex?.Edges?.Count) && vv?.Vertex != null)
                 {
                     this.Graph.Vertices.Remove(vv.Vertex);
                 }
 
             }
-            if (FocusedFrameworkElement != null && FocusedFrameworkElement.GetType().Equals(typeof(EdgeControl)))
+            if (FocusedFrameworkElement != null && typeof(EdgeControl).Equals(FocusedFrameworkElement.GetType()))
             {
-                EdgeControl ev = FocusedFrameworkElement as EdgeControl;
+                EdgeControl ev = (EdgeControl)FocusedFrameworkElement;
 
                 IEdge edge = ev.Edge;
 
@@ -111,19 +113,17 @@ namespace DataStructures.UI
                 u.RemoveEdge(v, this.Graph.Directed);
 
                 //the vertex is unconnected so move it to the unconnected vertices list
-                if (u.Edges.Count.Equals(0))
+                if (0.Equals(u?.Edges?.Count))
                 {
                     this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                     this.Graph.Vertices.Add(u);
                     this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
-                    u = null;
                 }
-                if (v.Edges.Count.Equals(0))
+                if (0.Equals(v?.Edges?.Count))
                 {
                     this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                     this.Graph.Vertices.Add(v);
                     this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
-                    v = null;
                 }
             }
         }
@@ -135,8 +135,8 @@ namespace DataStructures.UI
 
         #endregion
 
-        public Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvoker { get; set; }
-        public Func<Graph, Action<DataContractSerializerSettings>,XElement> GraphSaveFunc { get; set; }
+        public Action<DataContractSerializerSettings>? DataContractSerializerSettingsActionInvoker { get; set; }
+        public Func<Graph, Action<DataContractSerializerSettings>, XElement>? GraphSaveFunc { get; set; }
         /// <summary>
         /// Will be executed when the Save command was called
         /// </summary>
@@ -145,7 +145,7 @@ namespace DataStructures.UI
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             XElement Xgraph = GraphSaveFunc?.Invoke(this.Graph, DataContractSerializerSettingsActionInvoker);
-            
+
             //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
             XElement XFrameworkElement = new XElement("FrameworkElements",
                 from item in this.Children.OfType<VertexControl>()
@@ -171,7 +171,7 @@ namespace DataStructures.UI
         /// <summary>
         /// Get or sets the function to load a graph
         /// </summary>
-        public Func<XElement, Action<DataContractSerializerSettings>, Graph> LoadGraphFunc { get; set; }
+        public Func<XElement, Action<DataContractSerializerSettings>, Graph>? LoadGraphFunc { get; set; }
         /// <summary>
         /// Will be executed when the Load command was called
         /// </summary>
@@ -253,17 +253,17 @@ namespace DataStructures.UI
         /// <param name="e">An ExecutedRoutedEventArgs that contains the event data. </param>
         protected void AddVertex_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (sender != null && sender.GetType().Equals(typeof(GraphControl)))
+            if (sender != null && typeof(GraphControl).Equals(sender.GetType()))
             {
-                GraphControl gv = sender as GraphControl;
+                GraphControl gv = (GraphControl)sender;
 
                 //todo wenn man beim graph vertex added soll das graph visualization control auto. selber den neuen vertex dazu tun
                 Point p = (Mouse.GetPosition(sender as IInputElement));
 
-                IVertex vertex = null;
+                IVertex vertex;
                 if (Graph.CreateVertexFunc == null)
                 {
-                    vertex = new Vertex<object>(); ;
+                    vertex = new Vertex<object>();
                 }
                 else
                 {

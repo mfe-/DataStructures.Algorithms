@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Algorithms.Graph;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Threading;
 using System.Windows.Threading;
-using System.Diagnostics;
-using System.Runtime.Serialization;
-using Algorithms.Graph;
 
 namespace DataStructures.Demo
 {
@@ -23,6 +24,7 @@ namespace DataStructures.Demo
             Loaded += new RoutedEventHandler(Window1_Loaded);
 
         }
+
         public void SimulateGraphChanges()
         {
             Graph graph = new Graph(false);
@@ -104,14 +106,9 @@ namespace DataStructures.Demo
 
         }
 
-        public void SimulateGraphLoadFromFile()
-        {
-            //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
-        }
-
         void Window1_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
             _GraphVisualization.DataContractSerializerSettingsActionInvoker =
                 new Action<DataContractSerializerSettings>(dataContractSerializerSettingsActionInvoker =>
                 {
@@ -127,7 +124,6 @@ namespace DataStructures.Demo
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
-                //SimulateGraphLoadFromFile();
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
                 //_GraphVisualization.Graph = new Graph();
 
@@ -135,15 +131,15 @@ namespace DataStructures.Demo
 
 
 
-            //var o = z.AdjacencyList();
-            //var m = _GraphVisualization.Graph.AdjacencyList();
+            //var o = z.AdjacencyMatrix();
+            //var m = _GraphVisualization.Graph.AdjacencyMatrix();
 
             //this.uout(m);
             //this.uout(o);
 
             //_GraphVisualization.Graph.addVertex(_GraphVisualization.Graph.Vertices.First().Edges.First().V);
 
-            //var r = _GraphVisualization.Graph.AdjacencyList();
+            //var r = _GraphVisualization.Graph.AdjacencyMatrix();
 
 
 

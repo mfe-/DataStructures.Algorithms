@@ -19,7 +19,6 @@
     <Window.Content>
         <DockPanel x:Name="dockPanel" >
             <TextBlock Text="{Binding Path=.}" />
-            <GridSplitter HorizontalAlignment="Left" VerticalAlignment="Stretch"  Width="3" />
 
             <ui:GraphControl x:Name="_GraphVisualization" 
                              Graph="{Binding Graph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
@@ -42,21 +41,23 @@
                     </ContextMenu>
                 </ui:GraphControl.ContextMenu>
                 <ui:GraphControl.Resources>
-                    <ContextMenu x:Key="ContextMenu">
-                        <MenuItem Header="Edit" 
-                                  Command="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                  CommandParameter="{Binding Path=SelectedItem.Vertex,Source={x:Reference _GraphVisualization},UpdateSourceTrigger=PropertyChanged}"/>
-                        <MenuItem Header="Run" 
-                                  Command="{Binding Path=DataContext.RunStateMachineCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}"
-                                  CommandParameter="{Binding Path=SelectedItem.Vertex,Source={x:Reference _GraphVisualization},UpdateSourceTrigger=PropertyChanged}"/>
-                    </ContextMenu>
                     <Style TargetType="{x:Type ui:VertexControl}">
                         <Setter Property="Width" Value="50" />
                         <Setter Property="Height" Value="50" />
                         <!--<Setter Property="Background" Value="#fff299" />-->
                         <Setter Property="CommandOnDoubleClick" Value="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}" />
-                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}" />
-
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Background="Yellow" 
+                                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                                ToolTip="{Binding Value,UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBox Text="{Binding Path=Weighted}" />
+                                        <TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
 
                     <Style TargetType="{x:Type ui:EdgeControl}">

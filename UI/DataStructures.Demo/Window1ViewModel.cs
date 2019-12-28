@@ -28,7 +28,7 @@ namespace DataStructures.Demo
         private ICommand _ClickCommand;
         public ICommand ClickCommand => _ClickCommand ?? (_ClickCommand = new DelegateCommand<IVertex>(OnClickCommand));
 
-        protected void OnClickCommand(IVertex param)
+        private void OnClickCommand(IVertex param)
         {
             if (param != null)
             {
@@ -39,7 +39,7 @@ namespace DataStructures.Demo
         private ICommand _RunStateMachineCommand;
         public ICommand RunStateMachineCommand => _RunStateMachineCommand ?? (_RunStateMachineCommand = new DelegateCommand<IVertex>(OnRunStateMachineCommand));
 
-        protected async void OnRunStateMachineCommand(IVertex param)
+        private async void OnRunStateMachineCommand(IVertex param)
         {
 
         }

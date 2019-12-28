@@ -44,51 +44,53 @@ namespace DataStructures.UI
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             //http://stackoverflow.com/questions/8310777/convert-keydown-keys-to-one-string-c-sharp
-            if (e.Key.Equals(Key.Back))
+            if (e != null)
             {
-                if (Edge.Weighted.ToString().Length != 1)
+                if (e.Key.Equals(Key.Back))
                 {
-                    String temp = Edge.Weighted.ToString();
-                    temp = temp.Remove(temp.Length - 1);
-                    int result = 0;
-                    if (Int32.TryParse(temp, out result))
+                    if (Edge.Weighted.ToString(CultureInfo.InvariantCulture).Length != 1)
                     {
-                        Edge.Weighted = result;
+                        String temp = Edge.Weighted.ToString(CultureInfo.InvariantCulture);
+                        temp = temp.Remove(temp.Length - 1);
+                        int result = 0;
+                        if (Int32.TryParse(temp, out result))
+                        {
+                            Edge.Weighted = result;
+                        }
                     }
+                    else
+                    {
+                        Edge.Weighted = 0;
+                    }
+
                 }
                 else
                 {
-                    Edge.Weighted = 0;
-                }
-
-            }
-            else
-            {
-                if (e.Key >= Key.D0 && e.Key <= Key.D9 
-                    || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
-                {
-                    // Number keys pressed so need to so special processing
-                    // also check if shift pressed
-                    String temp = Edge.Weighted.ToString();
-                    temp += e.Key.ToString()[1].ToString();
-
-                    int result = 0;
-                    if (Int32.TryParse(temp, out result))
+                    if (e.Key >= Key.D0 && e.Key <= Key.D9
+                        || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
                     {
-                        Edge.Weighted = result;
+                        // Number keys pressed so need to so special processing
+                        // also check if shift pressed
+                        String temp = Edge.Weighted.ToString(CultureInfo.InvariantCulture);
+                        temp += e.Key.ToString()[1].ToString(CultureInfo.InvariantCulture);
 
+                        int result = 0;
+                        if (Int32.TryParse(temp, out result))
+                        {
+                            Edge.Weighted = result;
+
+                        }
                     }
-                }
 
+                }
             }
             //directed edges exists the other way around too. Set same weight
-            var revertedEdge = Edge.V.Edges.FirstOrDefault(a => a.V.Equals(Edge.U));
+            var revertedEdge = Edge.V?.Edges?.FirstOrDefault(a => a.V.Equals(Edge.U));
             if (revertedEdge != null)
             {
                 revertedEdge.Weighted = Edge.Weighted;
             }
             base.OnPreviewKeyDown(e);
-
         }
         /// <summary>
         /// Participates in rendering operations that are directed by the layout system. Adds the weighted as text in the middle of the edge
@@ -98,11 +100,11 @@ namespace DataStructures.UI
         {
             base.OnRender(drawingContext);
 
-            Point p = new Point((PositionV.X + PositionU.X ) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
+            Point p = new Point((PositionV.X + PositionU.X) / 2 + 4, (PositionV.Y + PositionU.Y) / 2);
 
-            drawingContext.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString() : "",
+            drawingContext?.DrawText(new FormattedText(Edge != null ? Edge.Weighted.ToString(CultureInfo.InvariantCulture) : "",
                 CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily.ToString()),
-                this.FontSize, this.Foreground), p);
+                this.FontSize, this.Foreground, VisualTreeHelper.GetDpi(this).PixelsPerDip), p);
 
         }
         public DataStructures.IEdge Edge
@@ -118,11 +120,11 @@ namespace DataStructures.UI
 
         private static void OnEdgeChanged(DependencyObject pDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            if ((e.NewValue != null && e.NewValue as IEdge != null) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
+            if ((e.NewValue is IEdge) && (pDependencyObject != null && pDependencyObject.GetType().Equals(typeof(EdgeControl))))
             {
-                IEdge edge = e.NewValue as IEdge;
+                IEdge edge = (IEdge)e.NewValue;
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
-                EdgeControl edgeVisualization = pDependencyObject as EdgeControl;
+                EdgeControl edgeVisualization = (EdgeControl)pDependencyObject;
 
                 edge.PropertyChanged += (sender, ePropertyChangedEventArgs) =>
                 {
@@ -187,7 +189,7 @@ namespace DataStructures.UI
             DependencyProperty.Register("Directed", typeof(bool), typeof(EdgeControl), new UIPropertyMetadata(false));
 
 
-        public static ShiftConverter ShiftConverter = new ShiftConverter();
+        public static readonly ShiftConverter ShiftConverter = new ShiftConverter();
 
     }
     public class ShiftConverter : IMultiValueConverter
@@ -214,7 +216,7 @@ namespace DataStructures.UI
             double dx = pv.X - pu.X;
             double dy = pv.Y - pu.Y;
             double alpha = Math.Atan2(dy, dx);
-            double b = Math.Sqrt(Math.Pow(dx,2) + Math.Pow(dy,2));
+            double b = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
 
             double c = (b - r) * Math.Sin(alpha);
             double d = (b - r) * Math.Cos(alpha);
