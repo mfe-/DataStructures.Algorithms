@@ -81,24 +81,10 @@ namespace Algorithms.Graph
             IEnumerable<IVertex> l = Enumerable.Empty<IVertex>();
             foreach (IVertex v in s.Vertices)
             {
-                var verticeList = DepthFirstTraversal(v, new List<IVertex>());
+                var verticeList = DepthFirstSearchStack(v);
                 l = l.Union(verticeList);
             }
             return l;
-        }
-        private static List<IVertex> DepthFirstTraversal(this IVertex s, List<IVertex> visited)
-        {
-            //visist x
-            visited.Add(s);
-            //FOR each y such that (x,y) is an IEdge DO 
-            foreach (IEdge e in s.Edges)
-            {
-                if (!visited.Contains(e.V))
-                {
-                    DepthFirstTraversal(e.V, visited);
-                }
-            }
-            return visited;
         }
         /// <summary>
         /// DepthFirstSearch implemented as Stack
@@ -107,13 +93,10 @@ namespace Algorithms.Graph
         /// <returns></returns>
         public static IEnumerable<IVertex> DepthFirstSearchStack(this IVertex s)
         {
-            List<IVertex> visited = new List<IVertex>();
-
+            HashSet<IVertex> visited = new HashSet<IVertex>();
             Stack<IVertex> stack = new Stack<IVertex>();
-
             stack.Push(s);
-
-            while (stack.Count != 0)
+            while (stack.Any())
             {
                 IVertex v = stack.Pop();
                 if (!visited.Contains(v))
@@ -124,10 +107,80 @@ namespace Algorithms.Graph
                         stack.Push(e.V);
                     }
                 }
+            }
+            return visited;
+        }
+        /// <summary>
+        /// Searches from the <paramref name="start"/> the overgiven <paramref name="goal"/>
+        /// http://en.wikipedia.org/wiki/Depth-first_search
+        /// Completeness: not complete
+        /// Admissible: 
+        /// </summary>
+        /// <param name="start">Where the look up should start</param>
+        /// <param name="goal">Which IVertex should be found. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
+        /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
+        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsDirected = true)
+        {
+            if (start == null) throw new ArgumentNullException(nameof(start));
+            if(graphIsDirected)
+            {
+                return DepthFirstSearchN(start, new List<IEdge>(), goal, graphIsDirected);
+                //return DepthFirstSearchStack(start, goal, graphIsdirected);
+            }
+            else
+            {
+                return DepthFirstSearchN(start, new HashSet<IEdge>(), goal, graphIsDirected);
+                //return DepthFirstSearchStack(start, goal, graphIsdirected);
+            }
+        }
+        public static IEnumerable<IEdge> DepthFirstSearchN(IVertex current, ICollection<IEdge> edges, IVertex goal, bool graphIsdirected)
+        {
+            if (current == null) throw new ArgumentNullException(nameof(current));
+            foreach (IEdge e in current.Edges)
+            {
+                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
+                {
+                    //mark edges
+                    edges.Add(e);
+                    DepthFirstSearchN(e.V, edges, goal, graphIsdirected);
+                }
+                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
+            }
+            return edges;
+        }
+        public static IEnumerable<IEdge> DepthFirstSearchStack(IVertex current, IVertex goal, bool graphIsdirected)
+        {
+            ICollection<IEdge> edges = null;
+            if (graphIsdirected)
+            {
+                edges = new List<IEdge>();
+            }
+            else
+            {
+                edges = new HashSet<IEdge>();
+            }
+            Stack<IEdge> stack = new Stack<IEdge>();
+            stack.Push(current.Edges.FirstOrDefault());
+            while (stack.Any())
+            {
+                foreach (IEdge e in current.Edges)
+                {
+                    if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
+                        stack.Push(e);
+                }
+
+                IEdge currentEdge = stack.Pop();
+                if (!edges.Any(a => EdgeExtensions.Equals(a, currentEdge, graphIsdirected)))
+                {
+                    edges.Add(currentEdge);
+                    current = currentEdge.V;
+                }
+                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
 
             }
 
-            return visited;
+            return edges;
         }
         //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
 
@@ -217,33 +270,6 @@ namespace Algorithms.Graph
             }
 
             return g_;
-        }
-        /// <summary>
-        /// Searches from the <paramref name="start"/> the overgiven <paramref name="goal"/>
-        /// http://en.wikipedia.org/wiki/Depth-first_search
-        /// </summary>
-        /// <param name="start">Where the look up should start</param>
-        /// <param name="goal">Which IVertex should be found. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
-        /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
-        /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
-        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsdirected = true)
-        {
-            if (start == null) throw new ArgumentNullException(nameof(start));
-            return DepthFirstSearch(start, new List<IEdge>(), goal, graphIsdirected);
-        }
-        private static IEnumerable<IEdge> DepthFirstSearch(IVertex current, List<IEdge> edges, IVertex goal, bool graphIsdirected)
-        {
-            foreach (IEdge e in current.Edges)
-            {
-                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
-                {
-                    //mark edges
-                    edges.Add(e);
-                    DepthFirstSearch(e.V, edges, goal, graphIsdirected);
-                }
-                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
-            }
-            return edges;
         }
         /// <summary>
         /// Calculates the distance by summing the weighted of the IEdges.

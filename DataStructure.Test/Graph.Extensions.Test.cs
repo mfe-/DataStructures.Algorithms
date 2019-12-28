@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using Algorithms.Graph;
@@ -187,6 +188,7 @@ namespace DataStructures.Test
         {
             //Arrange
             var dfsEdgesResultList = _g.Start.DepthFirstSearch(new Vertex<object>(), false);
+            //var dfsEdgesResultList1 = GraphExtensions.DepthFirstSearchN(_g.Start, new List<IEdge>(), new Vertex<object>(), false);
             var dfsEdgeVertexResultList = dfsEdgesResultList.ToVertexList();
             //Act
             var dfsVerticesResultList = _g.Start.DepthFirstSearchStack();
@@ -357,6 +359,88 @@ namespace DataStructures.Test
 
             Assert.Equal(8, distance);
         }
+        [Fact]
+        public void hackerearth_Depth_First_Search_sample_should_find_all_vertices()
+        {
+            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("hackerearth-depth-first-search.xml"));
+            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
+            Graph g = GraphExtensions.Load(xmlElement);
 
+            var edges = g.Start.DepthFirstSearch(graphIsDirected: false);
+            //there are eight edges and 6 vertices
+            Assert.Equal(8, edges.Count());
+            var vertexList = edges.ToVertexList().OrderBy(a => a.Weighted);
+            Assert.Equal(6, vertexList.Count());
+        }
+        [Fact]
+        public void Quader_undirected_graph_should_find_goal()
+        {
+            Graph g = Generate_Graph(100, 100);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = g.Start.DepthFirstSearchStack();
+            stopwatch.Stop();
+            Console.WriteLine($"{stopwatch.ElapsedMilliseconds}");
+        }
+        [Fact]
+        public void Quader_undirected_graph_should_find_edges()
+        {
+            Graph g = Generate_Graph(50, 50);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = g.Start.DepthFirstSearch(graphIsDirected: false);
+            stopwatch.Stop();
+
+            Console.WriteLine($"DepthFirstSearch {stopwatch.ElapsedMilliseconds}");
+            //Stopwatch stopwatch1 = new Stopwatch();
+            //stopwatch1.Start();
+            //var result1 = GraphExtensions.DepthFirstSearchStack(g.Start, null, false);
+            //stopwatch1.Stop();
+
+            //Console.WriteLine($" DepthFirstSearchN{stopwatch1.ElapsedMilliseconds}");
+        }
+
+        private Graph Generate_Graph(int amount_width_vertices, int amount_height_vertices)
+        {
+            Graph g = new Graph();
+
+            IVertex<int> vx = null;
+            IVertex<int> vy = null;
+            IVertex<int> vyy = null;
+
+            for (int y = 0; y < amount_height_vertices; y++)
+            {
+                for (int x = 0; x < amount_width_vertices; x++)
+                {
+                    IVertex<int> tempx = new Vertex<int>() { Weighted = x };
+                    if (vx != null)
+                    {
+                        vx.AddEdge(tempx, x, false);
+                        if (vyy != null)
+                        {
+                            var tempy = vyy.Edges.OrderBy(a => a.V.Weighted).Last().V;
+                            vx.AddEdge(vyy, y, false);
+                            tempx.AddEdge(vyy, 7, false);
+                            vyy = tempy as IVertex<int>;
+                            vx.AddEdge(vyy, 9, false);
+                        }
+                    }
+                    if (g.Start == null)
+                    {
+                        g.Start = tempx;
+                    }
+                    vx = tempx;
+                    if (x == 0)
+                    {
+                        vy = vx;
+                    }
+                }
+                vyy = vy;
+                vy = null;
+                vx = null;
+            }
+
+            return g;
+        }
     }
 }

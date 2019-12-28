@@ -83,21 +83,23 @@ namespace Algorithms.Graph
             if (e == null) throw new ArgumentNullException(nameof(e));
             DataStructures.Graph g = new DataStructures.Graph();
             //load graph
-            MemoryStream memoryStream = new MemoryStream();
-            e.Save(memoryStream);
-            memoryStream.Position = 0;
-            DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
-            DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
-            DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-            DataStructures.Graph u = ndcs.ReadObject(memoryStream) as DataStructures.Graph;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                e.Save(memoryStream);
+                memoryStream.Position = 0;
+                DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
+                DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
+                DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
+                DataStructures.Graph u = ndcs.ReadObject(memoryStream) as DataStructures.Graph;
 
-            g.Start = u.Start;
-
-            g.Directed = u.Directed;
-
-            foreach (IVertex v in u.Vertices)
-                g.Vertices.Add(v);
-            return g;
+                g.Directed = u.Directed;
+                foreach (IVertex v in u.Vertices)
+                {
+                    g.Vertices.Add(v);
+                }
+                g.Start = u.Start;
+                return g;
+            }
         }
     }
 }

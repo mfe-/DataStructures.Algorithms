@@ -5,18 +5,19 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C4B0BDA3-F5AE-40F9-8D10-061014F79E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Demo", "UI\DataStructures.Demo\DataStructures.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Demo", "UI\DataStructures.Demo\DataStructures.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.UI", "UI\DataStructures.UI\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI", "UI\DataStructures.UI\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStructures\DataStructures.csproj", "{71CEDB71-D97C-4F85-99F8-B587B799BCDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathematics", "Mathematics\Mathematics.csproj", "{5C7B77E1-5DA8-421F-B54B-DC7F809BAD1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Test", "DataStructure.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC451AE2-F46D-4415-B156-2C455A01FBA8}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		global.json = global.json
 		LICENSE = LICENSE
 		Readme.md = Readme.md

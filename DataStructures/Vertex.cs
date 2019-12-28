@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace DataStructures
 {
-    [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
+    [DebuggerDisplay("Vertex={Weighted},Value={Value},GUID={_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex<TData> : IVertex<TData>
     {
-        private ObservableCollection<IEdge> _Edges = new ObservableCollection<IEdge>();
+        private ObservableCollection<IEdge> _Edges;
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
         private int _weighted;
@@ -23,17 +23,18 @@ namespace DataStructures
         public Vertex()
         {
             _Guid = Guid.NewGuid();
+            _Edges = new ObservableCollection<IEdge>();
             _Data = default;
         }
 
         /// <summary>
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
-        /// <param name="pweighted"></param>
-        public Vertex(int pweighted)
+        /// <param name="weighted"></param>
+        public Vertex(int weighted)
             : this()
         {
-            _weighted = pweighted;
+            _weighted = weighted;
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
         public TData Value
