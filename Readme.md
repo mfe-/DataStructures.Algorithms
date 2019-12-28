@@ -4,17 +4,19 @@ A collection of basic algorithms and data structures (algodat)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ochuuevuytt1ekin/branch/master?svg=true)](https://ci.appveyor.com/project/mfe-/get-the-solution/branch/master)
 
-## DataStructures (Work in Progress - Experimental)
-
-Contains the current datastructures
+## DataStructures (Experimental)
 
 - The graphs datastructure with it vertices and edges is implemented as "linked list". 
   - The idea is that it is not neccessary to load the entire graph to execute an algorithm.
-  - Each vertex can save a generic `Value`. This gives you the ability to save the data.
+  - Each vertex can save a generic `Value`.
   - The graph is fully (de)serializeable.
 - LinkedList (will be reimplemented [see](https://github.com/mfe-/Abstract.DataStructures.Algorithms/issues/3))
 
-## Introduction
+## DataStructures.UI
+
+Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/UI/DataStructures.UI/Readme.md).
+
+### Introduction
 
 When taking a beginners class at the technical university of vienna, I started to 
 implement and adopt some lessions from the algorithms and data structures course.
@@ -26,11 +28,11 @@ When applying these I ran into several issues like limited extensibility, missin
 
 So I started to create my own algorithms and data structures "framework".
 
-## Goal
+#### Goal
 
 With the old version of the framework I mainly focused on visually representing the graph data structure with wpf. (see `UI\DataStructures.Demo`)
 
-## Graph control
+#### Graph control
 
 When creating the graph with the ui (graph control) the proper model will be created in the background. 
 ![alt tag](http://i.imgur.com/4WS122c.gif)

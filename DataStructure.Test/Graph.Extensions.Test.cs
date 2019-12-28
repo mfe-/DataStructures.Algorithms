@@ -385,13 +385,28 @@ namespace DataStructures.Test
         [Fact]
         public void Quader_undirected_graph_should_find_edges()
         {
-            Graph g = Generate_Graph(50, 50);
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var result = g.Start.DepthFirstSearch(graphIsDirected: false);
-            stopwatch.Stop();
+            Graph g = Generate_Graph(40, 40);
 
-            Console.WriteLine($"DepthFirstSearch {stopwatch.ElapsedMilliseconds}");
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
+            //var result = GraphExtensions.DepthFirstSearchN(g.Start, new List<IEdge>(), null, false);
+            //stopwatch.Stop();
+            //Console.WriteLine($"DepthFirstSearchN List {stopwatch.ElapsedMilliseconds}");
+
+            //Stopwatch stopwatch2 = new Stopwatch();
+            //stopwatch2.Start();
+            //var result2 = GraphExtensions.DepthFirstSearchStack(g.Start, null, false);
+            //stopwatch2.Stop();
+            //Console.WriteLine($"DepthFirstSearchN List {stopwatch2.ElapsedMilliseconds}");
+
+
+            Stopwatch stopwatch3 = new Stopwatch();
+            stopwatch3.Start();
+            //var result3 = GraphExtensions.DepthFirstSearchUndirected(g.Start, new HashSet<IEdge>(), null);
+            var result3 = g.Start.DepthFirstSearch(null, false);
+            stopwatch3.Stop();
+            Console.WriteLine($"DepthFirstSearchN HashSet {stopwatch3.ElapsedMilliseconds}");
+
             //Stopwatch stopwatch1 = new Stopwatch();
             //stopwatch1.Start();
             //var result1 = GraphExtensions.DepthFirstSearchStack(g.Start, null, false);
@@ -408,13 +423,13 @@ namespace DataStructures.Test
             IVertex<int> vy = null;
             IVertex<int> vyy = null;
 
-            // v1 <---> v2 <---> v3 <--->
+            // v1 <---> v2 <---> v3 <---> v4
             //  | *    *  | *    * |
             //  |    *    |    *   |
             //  |  *  *   |  *  *  | 
             //  | *     * | *     *|
-            // v4 <---> v5 <---> v6 <--->
-            // stars shows the connection between v1 <-> v5 and v4 <-> v2. v2 <->v6 and v5 <-> v3
+            // v5 <---> v6 <---> v7 <---> v8
+            // stars shows the connection between v1 <-> v6 and v5 <-> v2. v2 <->v7 and v6 <-> v3
 
             for (int y = 0; y < amount_height_vertices; y++)
             {

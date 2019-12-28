@@ -11,66 +11,6 @@ namespace Algorithms.Graph
     public static partial class GraphExtensions
     {
         /// <summary>
-        /// Determines whether the graph is directed or undirected.
-        /// Uses the <seealso cref="AdjacencyMatrix"/> to generate a matrix and checks whether its a symmetric
-        /// </summary>
-        /// <param name="g"></param>
-        /// <returns></returns>
-        public static bool IsDirected(this DataStructures.Graph g)
-        {
-            //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
-            //Schlichte ungerichtete Graphen haben daher eine symmetrische Adjazenzmatrix.
-            //es muss daher von i nach j eine kantegeben und von j nach i, das entspricht aij=aji
-            //also ist der graph genau dann ungerichtet wenn die matrix symmetrisch ist
-            //http://en.wikipedia.org/wiki/Transpose
-            //a transportieren also a^t = a symmetrisch
-            int[][] matrix = g.AdjacencyMatrix();
-            int[][] matrixT = new int[matrix.Length][];
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                matrixT[i] = new int[matrix.Length];
-            }
-
-            //transportieren
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                    matrixT[j][i] = matrix[i][j];
-
-            //check if result1 = matrixT1 --> symmetry --> v1->v2 & v1<-v2 = undirected
-            for (int i = 0; i < matrix.Length; i++)
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    if (matrix[i][j] != matrixT[i][j]) return true;
-                }
-
-            return false;
-        }
-        public static IEnumerable<IVertex> Sort(this IEnumerable<IVertex> l)
-        {
-            return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
-        }
-        /// <summary>
-        /// Converts a edge list to a vertices list
-        /// </summary>
-        /// <param name="l">The edge list</param>
-        /// <returns></returns>
-        public static IEnumerable<IVertex> ToVertexList(this IEnumerable<IEdge> l)
-        {
-            return l.SelectMany(a => new[] { a.U, a.V }).Distinct();
-        }
-        /// <summary>
-        /// The undirected graph contains for two vertices two edges. 
-        /// Pass one of the edge to get the opposite edge of it.
-        /// U->V V->U
-        /// </summary>
-        /// <param name="edge"></param>
-        /// <returns></returns>
-        public static IEdge GetOppositeEdge(this IEdge edge)
-        {
-            if (edge == null) throw new ArgumentNullException(nameof(edge));
-            return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
-        }
-        /// <summary>
         /// Returns all vertices from the graph
         /// </summary>
         /// <param name="s">Root IVertex of graph</param>
@@ -125,103 +65,95 @@ namespace Algorithms.Graph
             if (start == null) throw new ArgumentNullException(nameof(start));
             if(graphIsDirected)
             {
-                return DepthFirstSearchN(start, new List<IEdge>(), goal, graphIsDirected);
-                //return DepthFirstSearchStack(start, goal, graphIsdirected);
+                return DepthFirstSearch(start, new List<IEdge>(), goal, graphIsDirected);
             }
             else
             {
-                return DepthFirstSearchN(start, new HashSet<IEdge>(), goal, graphIsDirected);
-                //return DepthFirstSearchStack(start, goal, graphIsdirected);
+                return DepthFirstSearchUndirected(start, new HashSet<IEdge>(), goal);
             }
         }
-        public static IEnumerable<IEdge> DepthFirstSearchN(IVertex current, ICollection<IEdge> edges, IVertex goal, bool graphIsdirected)
+        /// <summary>
+        /// Recurisv implementation of DepthFirstSearch
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="edges"></param>
+        /// <param name="goal"></param>
+        /// <param name="graphIsDirected"></param>
+        /// <returns></returns>
+        public static IEnumerable<IEdge> DepthFirstSearch(IVertex current, ICollection<IEdge> edges, IVertex goal, bool graphIsDirected)
         {
             if (current == null) throw new ArgumentNullException(nameof(current));
+            if (edges == null) throw new ArgumentNullException(nameof(edges));
             foreach (IEdge e in current.Edges)
             {
-                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
+                //make sure the correct comparison method for edges is used
+                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsDirected)))
                 {
                     //mark edges
                     edges.Add(e);
-                    DepthFirstSearchN(e.V, edges, goal, graphIsdirected);
+                    DepthFirstSearch(e.V, edges, goal, graphIsDirected);
                 }
                 if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
             }
             return edges;
         }
-        public static IEnumerable<IEdge> DepthFirstSearchStack(IVertex current, IVertex goal, bool graphIsdirected)
-        {
-            ICollection<IEdge> edges = null;
-            if (graphIsdirected)
-            {
-                edges = new List<IEdge>();
-            }
-            else
-            {
-                edges = new HashSet<IEdge>();
-            }
-            Stack<IEdge> stack = new Stack<IEdge>();
-            stack.Push(current.Edges.FirstOrDefault());
-            while (stack.Any())
-            {
-                foreach (IEdge e in current.Edges)
-                {
-                    if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
-                        stack.Push(e);
-                }
-
-                IEdge currentEdge = stack.Pop();
-                if (!edges.Any(a => EdgeExtensions.Equals(a, currentEdge, graphIsdirected)))
-                {
-                    edges.Add(currentEdge);
-                    current = currentEdge.V;
-                }
-                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
-
-            }
-
-            return edges;
-        }
-        //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
-
         /// <summary>
-        /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
-        /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
-        /// http://en.wikipedia.org/wiki/Adjacency_list
+        /// Recurisv implementation of DepthFirstSearch for undirected Graphs!
         /// </summary>
-        /// <param name="g">Graph on which the adjacency list should be created</param>
+        /// <remarks>HashSet uses the equals method for comparison of edges</remarks>
+        /// <param name="current">Start vertex</param>
+        /// <param name="edges"></param>
+        /// <param name="goal"></param>
         /// <returns></returns>
-        public static int[][] AdjacencyMatrix(this DataStructures.Graph g)
+        public static IEnumerable<IEdge> DepthFirstSearchUndirected(IVertex current, HashSet<IEdge> edges, IVertex goal)
         {
-            var vertices = DepthFirstTraversal(g).Sort().ToArray();
-            //create matrix
-            int c = vertices.Length;
-            int[][] m = new int[c][];
-            for (int o = 0; o < c; o++)
+            if (current == null) throw new ArgumentNullException(nameof(current));
+            if (edges == null) throw new ArgumentNullException(nameof(edges));
+            foreach (IEdge e in current.Edges)
             {
-                int[] row = new int[c];
-                for (int y = 0; y < c; y++)
+                if (!edges.Contains(e))
                 {
-                    IVertex i = vertices[o];
-                    IVertex j = vertices[y];
-
-                    IEdge edge = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
-                    if (edge == null)
-                    {
-                        row[y] = 0;
-                    }
-                    else
-                    {
-                        row[y] = edge.Weighted == 0 ? 1 : edge.Weighted;
-                    }
+                    //mark edges
+                    edges.Add(e);
+                    DepthFirstSearchUndirected(e.V, edges, goal);
                 }
-
-                m[o] = row;
+                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
             }
-
-            return m;
+            return edges;
         }
+        //public static IEnumerable<IEdge> DepthFirstSearchStack(IVertex current, IVertex goal, bool graphIsdirected)
+        //{
+        //    ICollection<IEdge> edges = null;
+        //    if (graphIsdirected)
+        //    {
+        //        edges = new List<IEdge>();
+        //    }
+        //    else
+        //    {
+        //        edges = new HashSet<IEdge>();
+        //    }
+        //    Stack<IEdge> stack = new Stack<IEdge>();
+        //    stack.Push(current.Edges.FirstOrDefault());
+        //    while (stack.Any())
+        //    {
+        //        foreach (IEdge e in current.Edges)
+        //        {
+        //            if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
+        //                stack.Push(e);
+        //        }
 
+        //        IEdge currentEdge = stack.Pop();
+        //        if (!edges.Any(a => EdgeExtensions.Equals(a, currentEdge, graphIsdirected)))
+        //        {
+        //            edges.Add(currentEdge);
+        //            current = currentEdge.V;
+        //        }
+        //        if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
+
+        //    }
+
+        //    return edges;
+        //}
         public static DataStructures.Graph KruskalDepthFirstSearch(this DataStructures.Graph g)
         {
             if (g == null) throw new ArgumentNullException(nameof(g));
@@ -275,7 +207,7 @@ namespace Algorithms.Graph
         /// Calculates the distance by summing the weighted of the IEdges.
         /// </summary>
         /// <param name="edges"></param>
-        /// <returns></returns>
+        /// <returns>Calculated distance</returns>
         public static int Distance(this IEnumerable<IEdge> edges)
         {
             int distance = 0;
@@ -285,6 +217,105 @@ namespace Algorithms.Graph
                 distance = +e.Weighted + distance;
 
             return distance;
+        }
+        public static IEnumerable<IVertex> Sort(this IEnumerable<IVertex> l)
+        {
+            return l.OrderBy(a => a.Weighted).ThenBy(a => a.Size).ThenBy(a => a.GetHashCode());
+        }
+        /// <summary>
+        /// Converts a edge list to a vertices list
+        /// </summary>
+        /// <param name="l">The edge list</param>
+        /// <returns></returns>
+        public static IEnumerable<IVertex> ToVertexList(this IEnumerable<IEdge> l)
+        {
+            return l.SelectMany(a => new[] { a.U, a.V }).Distinct();
+        }
+        /// <summary>
+        /// The undirected graph contains for two vertices two edges. 
+        /// Pass one of the edge to get the opposite edge of it.
+        /// U->V V->U
+        /// </summary>
+        /// <param name="edge"></param>
+        /// <returns></returns>
+        public static IEdge GetOppositeEdge(this IEdge edge)
+        {
+            if (edge == null) throw new ArgumentNullException(nameof(edge));
+            return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
+        }
+        //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
+
+        /// <summary>
+        /// Sei G ein Graph mit Knotenmengen V(G). Die Adjazenzmatrix A(G) ist eine qudratische nxn n-Matrix 
+        /// mit aij = Fallunterscheidung ist vi und vj mit einer Kante verbunden 1 ansonsten 0
+        /// http://en.wikipedia.org/wiki/Adjacency_list
+        /// </summary>
+        /// <param name="g">Graph on which the adjacency list should be created</param>
+        /// <returns></returns>
+        public static int[][] AdjacencyMatrix(this DataStructures.Graph g)
+        {
+            var vertices = DepthFirstTraversal(g).Sort().ToArray();
+            //create matrix
+            int c = vertices.Length;
+            int[][] m = new int[c][];
+            for (int o = 0; o < c; o++)
+            {
+                int[] row = new int[c];
+                for (int y = 0; y < c; y++)
+                {
+                    IVertex i = vertices[o];
+                    IVertex j = vertices[y];
+
+                    IEdge edge = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
+                    if (edge == null)
+                    {
+                        row[y] = 0;
+                    }
+                    else
+                    {
+                        row[y] = edge.Weighted == 0 ? 1 : edge.Weighted;
+                    }
+                }
+
+                m[o] = row;
+            }
+
+            return m;
+        }
+        /// <summary>
+        /// Determines whether the graph is directed or undirected.
+        /// Uses the <seealso cref="AdjacencyMatrix"/> to generate a matrix and checks whether its a symmetric
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        public static bool IsDirected(this DataStructures.Graph g)
+        {
+            //schauen ob alle vertex jeweils 2mal verbudnen sind also 1->2 und 2->1 nur dann ist es directed=false ansonsten directed=true
+            //Schlichte ungerichtete Graphen haben daher eine symmetrische Adjazenzmatrix.
+            //es muss daher von i nach j eine kantegeben und von j nach i, das entspricht aij=aji
+            //also ist der graph genau dann ungerichtet wenn die matrix symmetrisch ist
+            //http://en.wikipedia.org/wiki/Transpose
+            //a transportieren also a^t = a symmetrisch
+            int[][] matrix = g.AdjacencyMatrix();
+            int[][] matrixT = new int[matrix.Length][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrixT[i] = new int[matrix.Length];
+            }
+
+            //transportieren
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    matrixT[j][i] = matrix[i][j];
+
+            //check if result1 = matrixT1 --> symmetry --> v1->v2 & v1<-v2 = undirected
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (matrix[i][j] != matrixT[i][j]) return true;
+                }
+
+            return false;
         }
     }
 }

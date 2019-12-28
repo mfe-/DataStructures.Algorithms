@@ -52,7 +52,11 @@ namespace DataStructures
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
         [DataMember(Name = "Edges", Order = 2, IsRequired = true)]
-        public ObservableCollection<IEdge> Edges { get { return _Edges; } set { _Edges = value; NotifyPropertyChanged(nameof(Edges)); } }
+        public ObservableCollection<IEdge> Edges
+        {
+            get { return _Edges; }
+            protected set { _Edges = value; NotifyPropertyChanged(nameof(Edges)); }
+        }
 
         /// <summary>
         /// Amount of neighbours
