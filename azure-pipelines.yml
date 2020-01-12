@@ -21,7 +21,7 @@ steps:
   displayName: build solution
   inputs:
     command: 'build'
-    projects: 'DataStructures.sln'
+    projects: 'DataStructures.UI.sln'
     arguments: '--configuration=Release --verbosity=n'
 
 - script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
