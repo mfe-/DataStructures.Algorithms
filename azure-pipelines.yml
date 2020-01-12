@@ -46,18 +46,6 @@ steps:
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
 
-- task: DotNetCoreCLI@2
-  displayName: create nuget DataStructures.UI
-  condition: succeededOrFailed()
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/DataStructures.UI.csproj'
-    nobuild: true
-    includesymbols: true
-    includesource: true
-    versioningScheme: 'byBuildNumber'
-    verbosityPack: 'Normal'
-
 - task: PublishBuildArtifacts@1
   displayName: "Upload Artifacts"
   inputs:
