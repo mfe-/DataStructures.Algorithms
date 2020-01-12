@@ -36,16 +36,27 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
-  displayName: create nuget
+  displayName: create nuget DataStructures
   condition: succeededOrFailed()
   inputs:
     command: 'pack'
-    packagesToPack: '**/DataStructures.csproj;**/DataStructures.UI.csproj'
+    packagesToPack: '**/DataStructures.csproj'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
-    
+
+- task: DotNetCoreCLI@2
+  displayName: create nuget DataStructures.UI
+  condition: succeededOrFailed()
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/DataStructures.UI.csproj'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byBuildNumber'
+    verbosityPack: 'Normal'
+
 - task: PublishBuildArtifacts@1
   displayName: "Upload Artifacts"
   inputs:
