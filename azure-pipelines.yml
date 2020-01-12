@@ -52,6 +52,7 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: '**/DataStructures.UI.csproj'
+    nobuild: true
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
