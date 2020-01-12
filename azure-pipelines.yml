@@ -40,7 +40,7 @@ steps:
   condition: succeededOrFailed()
   inputs:
     command: 'pack'
-    packagesToPack: '**/DataStructures.csproj'
+    packagesToPack: '**/DataStructures.csproj;**/DataStructures.UI.csproj'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
