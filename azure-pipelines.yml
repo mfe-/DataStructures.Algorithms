@@ -13,10 +13,6 @@ name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 pool:
   vmImage: 'windows-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'build and and run tests'
-
 - task: DotNetCoreCLI@2
   displayName: build solution
   inputs:
@@ -40,6 +36,7 @@ steps:
   condition: succeededOrFailed()
   inputs:
     command: 'pack'
+    arguments: '--include-symbols --include-source'
     packagesToPack: '**/DataStructures.csproj'
     includesymbols: true
     includesource: true
