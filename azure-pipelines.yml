@@ -37,12 +37,20 @@ steps:
   condition: succeededOrFailed()
   inputs:
     command: 'pack'
-    arguments: '--include-symbols --include-source'
+    arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
     packagesToPack: '**/DataStructures.csproj'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: 'get-the-solution'
+    allowPackageConflicts: true
 
 - task: PublishBuildArtifacts@1
   displayName: "Upload Artifacts"
