@@ -7,15 +7,14 @@ using System.Linq;
 
 namespace DataStructures
 {
-    [DebuggerDisplay("Vertex={Weighted},Value={Value},GUID={_Guid}")]
+    [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
-    public class Vertex<TData> : IVertex<TData>
+    public class Vertex : IVertex
     {
         private ObservableCollection<IEdge> _Edges;
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
         private int _weighted;
-        private TData _Data;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.
@@ -24,7 +23,6 @@ namespace DataStructures
         {
             _Guid = Guid.NewGuid();
             _Edges = new ObservableCollection<IEdge>();
-            _Data = default;
         }
 
         /// <summary>
@@ -35,12 +33,6 @@ namespace DataStructures
             : this()
         {
             _weighted = weighted;
-        }
-        [DataMember(Name = "Value", Order = 0, IsRequired = false)]
-        public TData Value
-        {
-            get { return _Data; }
-            set { _Data = value; NotifyPropertyChanged(nameof(Value)); }
         }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
@@ -69,7 +61,11 @@ namespace DataStructures
             }
         }
 
-
+        public virtual IEdge CreateEdge(IVertex u, int weighted = 0)
+        {
+            IEdge e1 = new Edge(this, u, weighted);
+            return e1;
+        }
         /// <summary>
         /// Creates a (un)directed edge to the overgiven Vertex
         /// </summary>
@@ -78,11 +74,11 @@ namespace DataStructures
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
         public virtual IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true)
         {
-            IEdge<TData> e1 = new Edge<TData>((IVertex)this, u, weighted);
+            IEdge e1 = CreateEdge(u, weighted);
             _Edges.Add(e1);
             if (!directed)
             {
-                u?.AddEdge((IVertex)this, weighted, true);
+                u?.AddEdge(this, weighted, true);
             }
             return _Edges.Last();
         }
@@ -112,7 +108,7 @@ namespace DataStructures
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return base.ToString() + string.Empty + Weighted;
+            return $"{_Guid}";
         }
         /// <summary>
         /// Determines with the guid whether the specified Object is equal to the current Object.
@@ -122,9 +118,9 @@ namespace DataStructures
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
-            if (obj != null && !obj.GetType().Equals(typeof(Vertex<TData>))) return false;
+            if (obj != null && !obj.GetType().Equals(this.GetType())) return false;
 
-            return this._Guid.Equals((obj as Vertex<TData>)?._Guid);
+            return this._Guid.Equals((obj as Vertex)?._Guid);
         }
         /// <summary>
         /// Returns the Hashvalue for this typ based on the internal used guid
