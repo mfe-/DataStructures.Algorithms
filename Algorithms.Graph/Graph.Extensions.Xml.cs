@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Algorithms.Graph
 {
@@ -19,7 +20,7 @@ namespace Algorithms.Graph
         }
         public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes, DataContractResolver dataContractResolver = null)
         {
-            List<Type> types = new List<Type>() { typeof(Vertex<object>), typeof(Edge<object>) };
+            List<Type> types = new List<Type>() { typeof(Edge), typeof(Vertex), typeof(Vertex<object>), typeof(Edge<object>) };
             if (knownTypes != null)
             {
                 types.AddRange(knownTypes);
@@ -89,6 +90,10 @@ namespace Algorithms.Graph
                 memoryStream.Position = 0;
                 DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
                 DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
+
+                // Create a SurrogateSelector.
+                var ss = new SurrogateSelector();
+
                 DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
                 DataStructures.Graph u = ndcs.ReadObject(memoryStream) as DataStructures.Graph;
 
@@ -101,5 +106,50 @@ namespace Algorithms.Graph
                 return g;
             }
         }
+        //public static DataStructures.Graph Serialize(this DataStructures.IVertex v, string path)
+        //{
+        //    // Create an XmlWriterSettings object with the correct options. 
+        //    XmlWriterSettings settings = new XmlWriterSettings();
+        //    settings.Indent = true;
+        //    settings.IndentChars = ("\t");
+        //    settings.OmitXmlDeclaration = true;
+
+        //    using (var writer = XmlWriter.Create(path, settings))
+        //    {
+        //        void WriteVertexXml(IVertex vertex)
+        //        {
+
+        //        }
+        //        v.BreadthFirstSearch(WriteVertexXml);
+        //        writer.WriteStartElement("book");
+        //        writer.WriteElementString("item", "tesing");
+        //        writer.WriteEndElement();
+
+        //        writer.Flush();
+        //    }
+
+
+        //    return v;
+        //}
+
+        public class VertexSerializationSurrogate : ISerializationSurrogate
+        {
+            /// <summary>
+            /// Serialize the Employee object to save the object's name and address fields.
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
+            public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
+            {
+                
+            }
+
+            public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            {
+                return obj;
+            }
+        }
+
     }
 }

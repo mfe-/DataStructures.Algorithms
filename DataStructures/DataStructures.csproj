@@ -2,7 +2,7 @@
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Version>0.2.2</Version>
     <Authors>Martin Fetzel</Authors>
     <Company />
