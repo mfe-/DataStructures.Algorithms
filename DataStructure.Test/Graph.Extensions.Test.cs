@@ -5,21 +5,34 @@ using System.Linq;
 using System.Xml.Linq;
 using Algorithms.Graph;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace DataStructures.Test
 {
     public class GraphExensionsTest
     {
         private readonly Graph _g;
+        private readonly ITestOutputHelper _testOutputHelper;
 
-        public GraphExensionsTest()
+        public GraphExensionsTest(ITestOutputHelper testOutputHelper)
         {
+            _testOutputHelper = testOutputHelper;
             //constructor will be called for each test
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
             _g = GraphExtensions.Load(xmlElement);
         }
+        [Fact]
+        public void BreadthFirstSearch_should_find_all_vertices_in_graph()
+        {
+            var bfsResult = _g.Start.BreadthFirstSearchQueue();
+            //compare with DFS
+            var dfsResult = _g.Start.DepthFirstSearchStack();
+            Assert.Equal(dfsResult.Count(), bfsResult.Count());
 
+            Assert.True(dfsResult.OrderBy(a => a.Weighted).SequenceEqual(bfsResult.OrderBy(a => a.Weighted)));
+
+        }
         [Fact]
         public void DepthFirstSearch_on_undirected_graph_should_find_one_path_from_v1_to_v6()
         {
@@ -137,8 +150,7 @@ namespace DataStructures.Test
             IVertex v3 = new Vertex<string>(3);
 
             //v1->v2
-            //v2->v1
-            v1.AddEdge(v2, 0, false);
+            v1.AddEdge(v2, 0, true);
             //v2->v3
             //v3->v2
             v2.AddEdge(v3, 0);
@@ -147,7 +159,7 @@ namespace DataStructures.Test
 
             //the result should not contain v1 as there is only a way from
             //v1 -> v2 -> v3 but no other
-            Assert.Equal(v1, result.Last().V);
+            Assert.NotEqual(v1, result.Last().V);
             Assert.Equal(2, result.Count());
         }
         [Fact]
@@ -339,6 +351,25 @@ namespace DataStructures.Test
             }
         }
         [Fact]
+        public void Kruskal_result_should_not_contain_cycles()
+        {
+            //create grid which contains 16 cycles
+            Graph grid = Generate_Grid_Graph(4, 4, VertexFactory);
+
+            Graph result = grid.KruskalDepthFirstSearch();
+            //the graph should still contain all vertices
+            var vertices = result.Start.BreadthFirstSearchQueue();
+            Assert.Equal(16, vertices.Count());
+
+            //check for circle
+            foreach (var vertex in vertices)
+            {
+                var resultFromVertexToVertex = vertex.DepthFirstSearch(vertex, false);
+                var lastEdge = resultFromVertexToVertex.Last();
+                Assert.NotEqual(vertex, lastEdge.V);
+            }
+        }
+        [Fact]
         public void DepthFirstTraversal_should_find_all_vertices()
         {
             var resultVertexList = _g.DepthFirstTraversal();
@@ -359,70 +390,160 @@ namespace DataStructures.Test
 
             Assert.Equal(8, distance);
         }
-        [Fact]
-        public void hackerearth_Depth_First_Search_sample_should_find_all_vertices()
-        {
-            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("hackerearth-depth-first-search.xml"));
-            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            Graph g = GraphExtensions.Load(xmlElement);
+        //[Fact]
+        //public void hackerearth_Depth_First_Search_sample_should_find_all_vertices()
+        //{
+        //    XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("hackerearth-depth-first-search.xml"));
+        //    xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
+        //    Graph g = GraphExtensions.Load(xmlElement);
 
-            var edges = g.Start.DepthFirstSearch(graphIsDirected: false);
-            //there are eight edges and 6 vertices
-            Assert.Equal(8, edges.Count());
-            var vertexList = edges.ToVertexList().OrderBy(a => a.Weighted);
-            Assert.Equal(6, vertexList.Count());
+        //    var edges = g.Start.DepthFirstSearch(graphIsDirected: false);
+        //    //there are eight edges and 6 vertices
+        //    Assert.Equal(8, edges.Count());
+        //    var vertexList = edges.ToVertexList().OrderBy(a => a.Weighted);
+        //    Assert.Equal(6, vertexList.Count());
+        //}
+        IVertex VertexFactoryGeneric(int weight)
+        {
+            return new Vertex<int>() { Weighted = weight };
+        }
+        IVertex VertexFactory(int weight)
+        {
+            return new Vertex() { Weighted = weight };
         }
         [Fact]
-        public void Quader_undirected_graph_should_find_goal()
+        public void QuaderDFS_undirected_grid_graph_VertexFactoryGeneric_should_find_all_with_DFS()
         {
-            Graph g = Generate_Graph(100, 100);
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //with generic
+            Graph g;
+            Stopwatch stopwatch1 = new Stopwatch();
+            g = Generate_Grid_Graph(1000, 1000, VertexFactoryGeneric);
+            stopwatch1.Stop();
+            _testOutputHelper.WriteLine($"Generating VertexFactoryGeneric: {stopwatch1.ElapsedMilliseconds}");
+            stopwatch1.Reset();
+            stopwatch1.Start();
             var result = g.Start.DepthFirstSearchStack();
-            stopwatch.Stop();
-            Console.WriteLine($"{stopwatch.ElapsedMilliseconds}");
+            stopwatch1.Stop();
+            _testOutputHelper.WriteLine($"DepthFirstSearchStack with VertexFactoryGeneric: {stopwatch1.ElapsedMilliseconds}");
+            _testOutputHelper.WriteLine($"Result: {result.Count()}");
         }
-        [Fact]
-        public void Quader_undirected_graph_should_find_edges()
+        [Theory]
+        [InlineData(4, 4)]
+        [InlineData(1000, 1000)]
+        [InlineData(2000, 2000)]
+        public void QuaderDFS_undirected_grid_graph_VertexFactory_should_find_all_with_DFS(int i, int j)
         {
-            Graph g = Generate_Graph(40, 40);
+            //without generic
+            Graph g;
+            Stopwatch stopwatch2 = new Stopwatch();
+            g = Generate_Grid_Graph(i, j, VertexFactory);
+            stopwatch2.Stop();
+            _testOutputHelper.WriteLine($"Generating VertexFactory: {stopwatch2.ElapsedMilliseconds}");
+            stopwatch2.Reset();
+            stopwatch2.Start();
+            var result1 = g.Start.DepthFirstSearchStack();
+            stopwatch2.Stop();
+            _testOutputHelper.WriteLine($"DepthFirstSearchStack with VertexFactory: {stopwatch2.ElapsedMilliseconds}");
+            _testOutputHelper.WriteLine($"Result: {result1.Count()}");
+            int amountEdgesExpected = 2 * (i * j) - i - j;
+            int amountVerticesExpected = i * j;
+            _testOutputHelper.WriteLine($"amountEdgesExpected: {amountEdgesExpected}");
+            _testOutputHelper.WriteLine($"amountVerticesExpected: {amountVerticesExpected}");
+            Assert.Equal(amountVerticesExpected, result1.Count());
+        }
+        [Theory]
+        [InlineData(4, 4)]
+        [InlineData(1000, 1000)]
+        public void QuaderBFS_undirected_grid_graph_VertexFactory_should_find_all_with_BreadthFirstSearch(int i, int j)
+        {
+            Graph g;
+            Stopwatch stopwatch2 = new Stopwatch();
+            g = Generate_Grid_Graph(i, j, VertexFactory);
+            stopwatch2.Stop();
+            _testOutputHelper.WriteLine($"Generating VertexFactory: {stopwatch2.ElapsedMilliseconds}");
+            stopwatch2.Reset();
+            stopwatch2.Start();
+            var result1 = g.Start.BreadthFirstSearchQueue();
+            stopwatch2.Stop();
+            _testOutputHelper.WriteLine($"DepthFirstSearchStack with VertexFactory: {stopwatch2.ElapsedMilliseconds}");
+            _testOutputHelper.WriteLine($"Result: {result1.Count()}");
 
-            //Stopwatch stopwatch = new Stopwatch();
-            //stopwatch.Start();
-            //var result = GraphExtensions.DepthFirstSearchN(g.Start, new List<IEdge>(), null, false);
-            //stopwatch.Stop();
-            //Console.WriteLine($"DepthFirstSearchN List {stopwatch.ElapsedMilliseconds}");
+            //calculate based on the grid graph the amount of edges
+            int amountEdgesExpected = 2 * (i * j) - i - j;
+            int amountVerticesExpected = i * j;
+            _testOutputHelper.WriteLine($"amountEdgesExpected: {amountEdgesExpected}");
+            _testOutputHelper.WriteLine($"amountVerticesExpected: {amountVerticesExpected}");
 
-            //Stopwatch stopwatch2 = new Stopwatch();
-            //stopwatch2.Start();
-            //var result2 = GraphExtensions.DepthFirstSearchStack(g.Start, null, false);
-            //stopwatch2.Stop();
-            //Console.WriteLine($"DepthFirstSearchN List {stopwatch2.ElapsedMilliseconds}");
-
-
-            Stopwatch stopwatch3 = new Stopwatch();
-            stopwatch3.Start();
-            //var result3 = GraphExtensions.DepthFirstSearchUndirected(g.Start, new HashSet<IEdge>(), null);
-            var result3 = g.Start.DepthFirstSearch(null, false);
-            stopwatch3.Stop();
-            Console.WriteLine($"DepthFirstSearchN HashSet {stopwatch3.ElapsedMilliseconds}");
-
-            //Stopwatch stopwatch1 = new Stopwatch();
-            //stopwatch1.Start();
-            //var result1 = GraphExtensions.DepthFirstSearchStack(g.Start, null, false);
-            //stopwatch1.Stop();
-
-            //Console.WriteLine($" DepthFirstSearchN{stopwatch1.ElapsedMilliseconds}");
+            Assert.Equal(amountVerticesExpected, result1.Count());
         }
 
-        private Graph Generate_Graph(int amount_width_vertices, int amount_height_vertices)
+        [Theory]
+        [InlineData(4, 4)]
+        [InlineData(1000, 1000)]
+        public void QuaderDFSEdges_undirected_graph_should_find_edges(int i, int j)
+        {
+            Stopwatch stopwatch2 = new Stopwatch();
+            var g = Generate_Grid_Graph(i, j, VertexFactory);
+
+            stopwatch2.Start();
+            var result2 = g.Start.DepthFirstSearch(null, false);
+            stopwatch2.Stop();
+            _testOutputHelper.WriteLine($"DepthFirstSearchUndirectedStack with VertexFactory: {stopwatch2.ElapsedMilliseconds}");
+            _testOutputHelper.WriteLine($"Result: {result2.Count()}");
+            int amount_vertices = result2.ToVertexList().Count();
+            //calculate based on the grid graph the amount of edges
+            int amountEdgesExpected = 2 * (i * j) - i - j;
+            int amountVerticesExpected = i * j;
+            _testOutputHelper.WriteLine($"amountEdgesExpected: {amountEdgesExpected}");
+            _testOutputHelper.WriteLine($"amountVerticesExpected: {amountVerticesExpected}");
+
+            int amount_edges_result = result2.Count();
+            //check for correct amount of vertices
+            Assert.Equal(amountVerticesExpected, amount_vertices);
+            //check for correct amount of edges
+            Assert.Equal(amountEdgesExpected, amount_edges_result);
+
+        }
+
+        public static Graph Generate_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
         {
             Graph g = new Graph();
+            IVertex[] lastVerticesRow = new IVertex[amount_width_vertices];
+            IVertex[] lastyVerticesRow = new IVertex[amount_width_vertices];
 
-            IVertex<int> vx = null;
-            IVertex<int> vy = null;
-            IVertex<int> vyy = null;
+            for (int y = 0; y < amount_height_vertices; y++)
+            {
+                for (int x = 0; x < amount_width_vertices; x++)
+                {
+                    IVertex currentVertex = funFactory.Invoke(x);
+                    lastVerticesRow[x] = currentVertex;
+                    //connect previous vertex on x axis
+                    if (x - 1 >= 0)
+                    {
+                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
+                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
+                    }
+                    //connect previous vertex on y axis
+                    if (lastyVerticesRow[x] != null)
+                    {
+                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
+                    }
+                }
+                if (g.Start == null)
+                {
+                    g.Start = lastVerticesRow[0];
+                }
+                lastVerticesRow.CopyTo(lastyVerticesRow, 0);
+            }
+            return g;
+        }
 
+        private Graph Generate_Super_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
+        {
+            Graph g = new Graph();
+            IVertex vx = null;
+            IVertex vy = null;
+            IVertex vyy = null;
             // v1 <---> v2 <---> v3 <---> v4
             //  | *    *  | *    * |
             //  |    *    |    *   |
@@ -430,12 +551,11 @@ namespace DataStructures.Test
             //  | *     * | *     *|
             // v5 <---> v6 <---> v7 <---> v8
             // stars shows the connection between v1 <-> v6 and v5 <-> v2. v2 <->v7 and v6 <-> v3
-
             for (int y = 0; y < amount_height_vertices; y++)
             {
                 for (int x = 0; x < amount_width_vertices; x++)
                 {
-                    IVertex<int> tempx = new Vertex<int>() { Weighted = x };
+                    IVertex tempx = funFactory.Invoke(x);
                     if (vx != null)
                     {
                         vx.AddEdge(tempx, x, false);
@@ -444,7 +564,7 @@ namespace DataStructures.Test
                             var tempy = vyy.Edges.OrderBy(a => a.V.Weighted).Last().V;
                             vx.AddEdge(vyy, y, false);
                             tempx.AddEdge(vyy, 7, false);
-                            vyy = tempy as IVertex<int>;
+                            vyy = tempy;
                             vx.AddEdge(vyy, 9, false);
                         }
                     }
