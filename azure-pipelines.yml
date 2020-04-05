@@ -38,9 +38,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
-    packagesToPack: |
-      **/DataStructures.csproj
-      **/Algorithms.Graph.csproj
+    packagesToPack: '**/DataStructures.csproj;**/Algorithms.Graph.csproj'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
