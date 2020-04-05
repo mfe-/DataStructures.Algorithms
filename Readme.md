@@ -5,9 +5,9 @@ A collection of basic algorithms and data structures (algodat)
 [![Build status](https://ci.appveyor.com/api/projects/status/ochuuevuytt1ekin/branch/master?svg=true)](https://ci.appveyor.com/project/mfe-/get-the-solution/branch/master)
 (https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=feed&feed=get-the-solution)
 
-[![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true)
+[![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures
 
-[![Algorithms.Graph package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/1a2c6c0f-0ec0-476d-91d9-59e72944b2b0/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=1a2c6c0f-0ec0-476d-91d9-59e72944b2b0&preferRelease=true)
+[![Algorithms.Graph package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/1a2c6c0f-0ec0-476d-91d9-59e72944b2b0/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=1a2c6c0f-0ec0-476d-91d9-59e72944b2b0&preferRelease=true) Algorithms.Graph
 
 ## DataStructures (Experimental)
 
