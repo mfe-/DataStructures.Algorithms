@@ -177,7 +177,6 @@ namespace Algorithms.Graph
             {
                 // Dequeue a vertex
                 vertex = queue.Dequeue();
-                vertexVisitedAction?.Invoke(vertex);
                 // Get all adjacent vertices of the dequeued vertex
                 // If a adjacent has not been visited, then mark it 
                 // visited and enqueue it 
@@ -188,12 +187,56 @@ namespace Algorithms.Graph
                     if (!visited.Contains(n.V))
                     {
                         visited.Add(n.V);
+                        vertexVisitedAction?.Invoke(vertex);
                         queue.Enqueue(n.V);
                     }
                 }
             }
             return visited;
         }
+        /// <summary>
+        /// Creates a grid Graph
+        /// </summary>
+        /// <param name="amount_width_vertices">width of grid</param>
+        /// <param name="amount_height_vertices">height of grid</param>
+        /// <param name="funFactory">The vertice factory to create vertices</param>
+        /// <returns>The created graph</returns>
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, IVertex> funFactory)
+        {
+            DataStructures.Graph g = new DataStructures.Graph();
+            IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
+            IVertex[] lastyVerticesRow = new IVertex[amountWidthVertices];
+
+            for (int y = 0; y < amountHeightVertices; y++)
+            {
+                for (int x = 0; x < amountWidthVertices; x++)
+                {
+                    IVertex currentVertex = funFactory.Invoke(x);
+                    currentVertex.Weighted = x + y;
+                    lastVerticesRow[x] = currentVertex;
+                    //connect previous vertex on x axis
+                    if (x - 1 >= 0)
+                    {
+                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
+                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
+                    }
+                    //connect previous vertex on y axis
+                    if (lastyVerticesRow[x] != null)
+                    {
+                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
+                    }
+                }
+                if (g.Start == null)
+                {
+                    g.Start = lastVerticesRow[0];
+                }
+                lastVerticesRow.CopyTo(lastyVerticesRow, 0);
+            }
+            return g;
+        }
+
+        //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C
+
         /// <summary>
         /// Kruskal implementation with DFS
         /// </summary>

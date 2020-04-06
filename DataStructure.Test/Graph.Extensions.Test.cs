@@ -9,12 +9,12 @@ using Xunit.Abstractions;
 
 namespace DataStructures.Test
 {
-    public class GraphExensionsTest
+    public class GraphExtensionsTest
     {
         private readonly Graph _g;
         private readonly ITestOutputHelper _testOutputHelper;
 
-        public GraphExensionsTest(ITestOutputHelper testOutputHelper)
+        public GraphExtensionsTest(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
             //constructor will be called for each test
@@ -354,7 +354,7 @@ namespace DataStructures.Test
         public void Kruskal_result_should_not_contain_cycles()
         {
             //create grid which contains 16 cycles
-            Graph grid = Generate_Grid_Graph(4, 4, VertexFactory);
+            Graph grid = GraphExtensions.GenerateGridGraph(4, 4, VertexFactory);
 
             Graph result = grid.KruskalDepthFirstSearch();
             //the graph should still contain all vertices
@@ -417,7 +417,7 @@ namespace DataStructures.Test
             //with generic
             Graph g;
             Stopwatch stopwatch1 = new Stopwatch();
-            g = Generate_Grid_Graph(1000, 1000, VertexFactoryGeneric);
+            g = GraphExtensions.GenerateGridGraph(1000, 1000, VertexFactoryGeneric);
             stopwatch1.Stop();
             _testOutputHelper.WriteLine($"Generating VertexFactoryGeneric: {stopwatch1.ElapsedMilliseconds}");
             stopwatch1.Reset();
@@ -429,6 +429,7 @@ namespace DataStructures.Test
         }
         [Theory]
         [InlineData(4, 4)]
+        [InlineData(512, 512)]
         [InlineData(1000, 1000)]
         [InlineData(2000, 2000)]
         public void QuaderDFS_undirected_grid_graph_VertexFactory_should_find_all_with_DFS(int i, int j)
@@ -436,7 +437,7 @@ namespace DataStructures.Test
             //without generic
             Graph g;
             Stopwatch stopwatch2 = new Stopwatch();
-            g = Generate_Grid_Graph(i, j, VertexFactory);
+            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactory);
             stopwatch2.Stop();
             _testOutputHelper.WriteLine($"Generating VertexFactory: {stopwatch2.ElapsedMilliseconds}");
             stopwatch2.Reset();
@@ -453,12 +454,13 @@ namespace DataStructures.Test
         }
         [Theory]
         [InlineData(4, 4)]
+        [InlineData(512, 512)]
         [InlineData(1000, 1000)]
         public void QuaderBFS_undirected_grid_graph_VertexFactory_should_find_all_with_BreadthFirstSearch(int i, int j)
         {
             Graph g;
             Stopwatch stopwatch2 = new Stopwatch();
-            g = Generate_Grid_Graph(i, j, VertexFactory);
+            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactory);
             stopwatch2.Stop();
             _testOutputHelper.WriteLine($"Generating VertexFactory: {stopwatch2.ElapsedMilliseconds}");
             stopwatch2.Reset();
@@ -479,11 +481,11 @@ namespace DataStructures.Test
 
         [Theory]
         [InlineData(4, 4)]
-        [InlineData(1000, 1000)]
+        [InlineData(512, 512)]
         public void QuaderDFSEdges_undirected_graph_should_find_edges(int i, int j)
         {
             Stopwatch stopwatch2 = new Stopwatch();
-            var g = Generate_Grid_Graph(i, j, VertexFactory);
+            var g = GraphExtensions.GenerateGridGraph(i, j, VertexFactory);
 
             stopwatch2.Start();
             var result2 = g.Start.DepthFirstSearch(null, false);
@@ -503,39 +505,6 @@ namespace DataStructures.Test
             //check for correct amount of edges
             Assert.Equal(amountEdgesExpected, amount_edges_result);
 
-        }
-
-        public static Graph Generate_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
-        {
-            Graph g = new Graph();
-            IVertex[] lastVerticesRow = new IVertex[amount_width_vertices];
-            IVertex[] lastyVerticesRow = new IVertex[amount_width_vertices];
-
-            for (int y = 0; y < amount_height_vertices; y++)
-            {
-                for (int x = 0; x < amount_width_vertices; x++)
-                {
-                    IVertex currentVertex = funFactory.Invoke(x);
-                    lastVerticesRow[x] = currentVertex;
-                    //connect previous vertex on x axis
-                    if (x - 1 >= 0)
-                    {
-                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
-                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
-                    }
-                    //connect previous vertex on y axis
-                    if (lastyVerticesRow[x] != null)
-                    {
-                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
-                    }
-                }
-                if (g.Start == null)
-                {
-                    g.Start = lastVerticesRow[0];
-                }
-                lastVerticesRow.CopyTo(lastyVerticesRow, 0);
-            }
-            return g;
         }
 
         private Graph Generate_Super_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
