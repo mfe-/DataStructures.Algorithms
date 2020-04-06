@@ -126,12 +126,15 @@ namespace DataStructures.UI
                 //jetzt alle EdgeVisualization durchsuchen und schauen in welchem Edge unser Edge drin ist
                 EdgeControl edgeVisualization = (EdgeControl)pDependencyObject;
 
-                edge.PropertyChanged += (sender, ePropertyChangedEventArgs) =>
+                if (edge is INotifyPropertyChanged)
                 {
+                    ((INotifyPropertyChanged)edge).PropertyChanged += (sender, ePropertyChangedEventArgs) =>
+                    {
+                        //Rerender Weighted - OnRender()
+                        edgeVisualization.InvalidateVisual();
+                    };
+                }
 
-                    //Rerender Weighted - OnRender()
-                    edgeVisualization.InvalidateVisual();
-                };
 
             }
         }

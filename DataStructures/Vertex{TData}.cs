@@ -11,7 +11,6 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex<TData> : Vertex, IVertex<TData>
     {
-        private TData _Data;
         /// <summary>
         /// Initializes a new instance of the Vertex class.
         /// </summary>
@@ -28,11 +27,7 @@ namespace DataStructures
         {
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
-        public TData Value
-        {
-            get { return _Data; }
-            set { _Data = value; NotifyPropertyChanged(nameof(Value)); }
-        }
+        public TData Value { get; set; }
 
         public override IEdge CreateEdge(IVertex u, int weighted = 0)
         {

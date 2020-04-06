@@ -10,10 +10,6 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge : IEdge
     {
-        private IVertex _u;
-        private IVertex _v;
-        private int _weighted;
-
         /// <summary>
         /// Initializes a new instance of the Edge class.
         /// </summary>
@@ -21,8 +17,8 @@ namespace DataStructures
         /// <param name="v">Vertex of the Edge</param>
         public Edge(IVertex u, IVertex v)
         {
-            _u = u;
-            _v = v;
+            U = u;
+            V = v;
         }
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -32,23 +28,23 @@ namespace DataStructures
         /// <param name="weighted">Sets the Weighted of the Edge</param>
         public Edge(IVertex u, IVertex v, int weighted) : this(u, v)
         {
-            _weighted = weighted;
+            Weighted = weighted;
         }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "U", Order = 2, IsRequired = true)]
-        public IVertex U { get { return _u; } set { _u = value; NotifyPropertyChanged(nameof(U)); } }
+        public virtual IVertex U { get; set; }
         /// <summary>
         /// Get or sets the Vertex of the Edge
         /// </summary>
         [DataMember(Name = "V", Order = 3, IsRequired = true)]
-        public IVertex V { get { return _v; } set { _v = value; NotifyPropertyChanged(nameof(V)); } }
+        public virtual IVertex V { get; set; }
         /// <summary>
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
-        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
+        public virtual int Weighted { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -75,17 +71,5 @@ namespace DataStructures
         {
             return Math.Abs(U.GetHashCode()) + (V != null ? Math.Abs(V.GetHashCode()) : 0);
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        /// <summary>
-        /// Notify using String property name
-        /// </summary>
-        protected void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
     }
 }

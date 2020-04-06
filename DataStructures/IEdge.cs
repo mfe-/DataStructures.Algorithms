@@ -2,7 +2,7 @@
 
 namespace DataStructures
 {
-    public interface IEdge : INotifyPropertyChanged
+    public interface IEdge /*: INotifyPropertyChanged*/
     {
         IVertex U { get; set; }
         IVertex V { get; set; }

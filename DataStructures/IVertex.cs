@@ -1,15 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace DataStructures
 {
-    public interface IVertex : INotifyPropertyChanged
+    public interface IVertex
     {
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         int Weighted { get; set; }
-        ObservableCollection<IEdge> Edges { get; }
+        ICollection<IEdge> Edges { get; }
         /// <summary>
         /// Creates a un/directed edge to the overgiven Vertex
         /// </summary>

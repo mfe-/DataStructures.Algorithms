@@ -102,7 +102,9 @@ namespace DataStructures.UI
                     EdgeControl ev = new EdgeControl();
                     Canvas.SetZIndex(ev, -1);
                     VertexControl vv = e.Source as VertexControl;
-                    ev.Edge = new Edge<object>(vv.Vertex, null);
+
+                    if (EdgeFactory == null) throw new ArgumentNullException($"Please set{nameof(EdgeFactory)}");
+                    ev.Edge = EdgeFactory.Invoke(vv.Vertex);
 
                     ev.PositionU = GetPosition(vv);
                     ev.PositionV = e.GetPosition(this);
@@ -111,6 +113,7 @@ namespace DataStructures.UI
                 }
             }
         }
+        public Func<IVertex, IEdge> EdgeFactory { get; set; }
         /// <summary>
         /// Called before the MouseMove event occurs. Moves the Vertex item.
         /// </summary>
@@ -283,7 +286,10 @@ namespace DataStructures.UI
             {
                 if (vertex != null && vertex.Edges != null)
                 {
-                    (vertex.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    if (vertex.Edges is ObservableCollection<IEdge>)
+                    {
+                        ((ObservableCollection<IEdge>)vertex.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                    }
 
                     VertexControl visualvertex;
                     bool vertexexists = GetItem(vertex) != null;
@@ -437,7 +443,14 @@ namespace DataStructures.UI
             SetTop(vertexcontrol, point.Y);
 
             this.Children.Add(vertexcontrol);
-            (v.Edges as ObservableCollection<IEdge>).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+            if (v.Edges is ObservableCollection<IEdge>)
+            {
+                ((ObservableCollection<IEdge>)v.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+            }
+            else
+            {
+                throw new NotImplementedException($"Overgiven instance of {v} has not {nameof(ObservableCollection<IEdge>)} implemented for {nameof(IVertex.Edges)}");
+            }
             return vertexcontrol;
         }
 

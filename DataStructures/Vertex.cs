@@ -1,9 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -11,10 +10,8 @@ namespace DataStructures
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex : IVertex
     {
-        private ObservableCollection<IEdge> _Edges;
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
-        private int _weighted;
 
         /// <summary>
         /// Initializes a new instance of the Vertex class.
@@ -22,7 +19,12 @@ namespace DataStructures
         public Vertex()
         {
             _Guid = Guid.NewGuid();
-            _Edges = new ObservableCollection<IEdge>();
+            Edges = new List<IEdge>(10);
+        }
+        public Vertex(ICollection<IEdge> edges) : this()
+        {
+            _Guid = Guid.NewGuid();
+            Edges = edges;
         }
 
         /// <summary>
@@ -32,23 +34,19 @@ namespace DataStructures
         public Vertex(int weighted)
             : this()
         {
-            _weighted = weighted;
+            Weighted = weighted;
         }
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         [DataMember(Name = "Weighted", Order = 1, IsRequired = true)]
-        public int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
+        public virtual int Weighted { get; set; }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
         /// </summary>
         [DataMember(Name = "Edges", Order = 2, IsRequired = true)]
-        public ObservableCollection<IEdge> Edges
-        {
-            get { return _Edges; }
-            protected set { _Edges = value; NotifyPropertyChanged(nameof(Edges)); }
-        }
+        public virtual ICollection<IEdge> Edges { get; protected set; }
 
         /// <summary>
         /// Amount of neighbours
@@ -57,7 +55,7 @@ namespace DataStructures
         {
             get
             {
-                return Edges.Count; //Knotengrad
+                return Edges.Count;
             }
         }
 
@@ -75,12 +73,12 @@ namespace DataStructures
         public virtual IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true)
         {
             IEdge e1 = CreateEdge(u, weighted);
-            _Edges.Add(e1);
+            Edges.Add(e1);
             if (!directed)
             {
                 u?.AddEdge(this, weighted, true);
             }
-            return _Edges.Last();
+            return Edges.Last();
         }
 
         public virtual void RemoveEdge(IVertex u)
@@ -130,18 +128,6 @@ namespace DataStructures
         {
             return _Guid.GetHashCode();
         }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        /// <summary>
-        /// Notify using String property name
-        /// </summary>
-        protected void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
 
     }
 }

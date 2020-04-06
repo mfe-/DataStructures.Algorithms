@@ -1,4 +1,5 @@
 ﻿using Algorithms.Graph;
+using DataStructures.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using static Algorithms.Graph.GraphExtensions;
 
 namespace DataStructures.Demo
 {
@@ -29,18 +31,18 @@ namespace DataStructures.Demo
         {
             Graph graph = new Graph(false);
 
-            Vertex<object> va = new Vertex<object>(1);
-            Vertex<object> vb = new Vertex<object>(2);
-            Vertex<object> vc = new Vertex<object>(3);
-            Vertex<object> vd = new Vertex<object>(4);
-            Vertex<object> ve = new Vertex<object>(5);
-            Vertex<object> vf = new Vertex<object>(6);
-            Vertex<object> vg = new Vertex<object>(7);
-            Vertex<object> vh = new Vertex<object>(8);
-            Vertex<object> vi = new Vertex<object>(9);
-            Vertex<object> vj = new Vertex<object>(10);
-            Vertex<object> vk = new Vertex<object>(11);
-            Vertex<object> vl = new Vertex<object>(12);
+            UI.Vertex va = new UI.Vertex(1);
+            UI.Vertex vb = new UI.Vertex(2);
+            UI.Vertex vc = new UI.Vertex(3);
+            UI.Vertex vd = new UI.Vertex(4);
+            UI.Vertex ve = new UI.Vertex(5);
+            UI.Vertex vf = new UI.Vertex(6);
+            UI.Vertex vg = new UI.Vertex(7);
+            UI.Vertex vh = new UI.Vertex(8);
+            UI.Vertex vi = new UI.Vertex(9);
+            UI.Vertex vj = new UI.Vertex(10);
+            UI.Vertex vk = new UI.Vertex(11);
+            UI.Vertex vl = new UI.Vertex(12);
 
             Queue<Action> que = new Queue<Action>();
 
@@ -117,13 +119,20 @@ namespace DataStructures.Demo
                     //types.Add(typeof(Vertex<StateModule>));
                     //types.Add(typeof(Edge<StateModule>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
-                    //dataContractSerializerSettingsActionInvoker.DataContractResolver = new StateResolver();
+                    //do type test
+                    var vertex = typeof(UI.Vertex);
+                    var edge = typeof(UI.Edge);
+                    dataContractSerializerSettingsActionInvoker.DataContractResolver = new VertexEdgeMapResolver(vertex, edge);
                 });
+            _GraphVisualization.EdgeFactory = (v) => new UI.Edge(v, null);
             _GraphVisualization.LoadGraphFunc = GraphExtensions.Load;
             _GraphVisualization.GraphSaveFunc = GraphExtensions.Save;
             if (Debugger.IsAttached)
             {
-                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                SimulateGraphChanges();
+
+
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
                 //_GraphVisualization.Graph = new Graph();
 

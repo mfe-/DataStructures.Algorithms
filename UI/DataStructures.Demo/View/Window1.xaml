@@ -35,9 +35,10 @@
                         <MenuItem Header="_Save" Command="Save" />
                         <MenuItem Header="_Load" Command="Open" />
                         <MenuItem Header="_Print" Command="Print" />
-                        <MenuItem Header="_Kruskal" Command="{x:Static ui:GraphControl.KruskalRoutedCommand}" />
+                        <MenuItem Header="_Kruskal" Command="{Binding Path=KruskalCommand}" />
                         <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
                         <MenuItem Header="_Direct" Command="{x:Static ui:GraphControl.SetDirectedRoutedCommand}" />
+                        <MenuItem Header="_CreateGridGraph" Command="{Binding Path=GenerateGridGraph}" />
                     </ContextMenu>
                 </ui:GraphControl.ContextMenu>
                 <ui:GraphControl.Resources>
@@ -46,7 +47,7 @@
                         <Setter Property="Height" Value="50" />
                         <!--<Setter Property="Background" Value="#fff299" />-->
                         <Setter Property="CommandOnDoubleClick" Value="{Binding Path=DataContext.ClickCommand,Source={x:Reference dockPanel},UpdateSourceTrigger=Default}" />
-                        <Setter Property="ItemTemplate">
+                        <!--<Setter Property="ItemTemplate">
                             <Setter.Value>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" Background="Yellow" 
@@ -57,7 +58,7 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>
-                        </Setter>
+                        </Setter>-->
                     </Style>
 
                     <Style TargetType="{x:Type ui:EdgeControl}">
