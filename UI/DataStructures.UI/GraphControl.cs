@@ -741,7 +741,20 @@ namespace DataStructures.UI
 
         // Using a DependencyProperty as the backing store for SelectedVertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedVertexProperty =
-            DependencyProperty.Register("SelectedVertex", typeof(IVertex), typeof(GraphControl), new PropertyMetadata(null));
+            DependencyProperty.Register("SelectedVertex", typeof(IVertex), typeof(GraphControl), new UIPropertyMetadata(null, OnSelectedVertexChanged) );
+
+        private static void OnSelectedVertexChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (dependencyObject is GraphControl && e.NewValue != null && e.NewValue is IVertex)
+            {
+                GraphControl graphControl = (GraphControl)dependencyObject;
+                var vertexControl = graphControl.GetItem((IVertex)e.NewValue);
+                if(!vertexControl.IsFocused)
+                {
+                    vertexControl.Focus();
+                }
+            }
+        }
 
         public FrameworkElement? SelectedItem { get; set; }
 

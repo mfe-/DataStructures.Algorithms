@@ -1,7 +1,10 @@
 ﻿using Algorithms.Graph;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DataStructures.Demo
 {
@@ -72,10 +75,42 @@ namespace DataStructures.Demo
         private ICommand _AStarCommand;
         public ICommand AStarCommand => _AStarCommand ?? (_AStarCommand = new DelegateCommand<IVertex>(OnAStarCommand));
 
-        protected void OnAStarCommand(IVertex vertex)
+        protected async void OnAStarCommand(IVertex vertex)
         {
             var result = PreviousSelectedVertex.AStar(vertex);
             var result2 = result.ReconstructPath(vertex);
+
+            Queue<Action> queue = new Queue<Action>();
+            foreach (IVertex item in result2)
+            {
+                queue.Enqueue(() => SelectedVertex = item);
+            }
+
+            while (queue.Count != 0)
+            {
+                Action action = queue.Dequeue();
+                action();
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(true);
+            }
+
+        }
+
+
+        private ICommand _BreadthFirstSearchCommand;
+        public ICommand BreadthFirstSearchCommand => _BreadthFirstSearchCommand ?? (_BreadthFirstSearchCommand = new DelegateCommand<IVertex>(OnBreadthFirstSearchCommand));
+
+        protected async void OnBreadthFirstSearchCommand(IVertex vertex)
+        {
+            Queue<Action> queue = new Queue<Action>();
+
+            var result = vertex.BreadthFirstSearchQueue((v) => queue.Enqueue(() => SelectedVertex = v));
+
+            while (queue.Count != 0)
+            {
+                Action action = queue.Dequeue();
+                action();
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(true);
+            }
         }
 
         private ICommand _KruskalCommand;

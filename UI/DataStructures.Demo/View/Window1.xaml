@@ -36,6 +36,7 @@
                         <MenuItem Header="_Save" Command="Save" />
                         <MenuItem Header="_Load" Command="Open" />
                         <MenuItem Header="_Print" Command="Print" />
+                        <MenuItem Header="_BreadthFirstSearch" Command="{Binding Path=BreadthFirstSearchCommand}" CommandParameter="{Binding SelectedVertex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         <MenuItem Header="_Kruskal" Command="{Binding Path=KruskalCommand}" />
                         <MenuItem Header="_Astar" Command="{Binding Path=AStarCommand}" CommandParameter="{Binding SelectedVertex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
@@ -45,6 +46,13 @@
                 </ui:GraphControl.ContextMenu>
                 <ui:GraphControl.Resources>
                     <Style TargetType="{x:Type ui:VertexControl}">
+                        <Style.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Width" Value="52" />
+                                <Setter Property="Height" Value="52" />
+                                <Setter Property="Background" Value="Gainsboro" />
+                            </Trigger>
+                        </Style.Triggers>
                         <Setter Property="Width" Value="50" />
                         <Setter Property="Height" Value="50" />
                         <!--<Setter Property="Background" Value="#fff299" />-->
@@ -52,9 +60,9 @@
                         <Setter Property="ItemTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Background="Yellow" 
+                                    <StackPanel x:Name="panel" Orientation="Vertical" Background="Yellow" 
                                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-                                    <!--ToolTip="{Binding Value,UpdateSourceTrigger=PropertyChanged}">-->
+                                        <!--ToolTip="{Binding Value,UpdateSourceTrigger=PropertyChanged}">-->
                                         <TextBox Text="{Binding Path=Weighted}" />
                                         <!--<TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />-->
                                     </StackPanel>

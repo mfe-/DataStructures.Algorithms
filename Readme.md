@@ -21,6 +21,20 @@ A collection of basic algorithms and data structures (algodat)
 
 Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/UI/DataStructures.UI/Readme.md).
 
+## Live Samples
+
+### A* search algorithm
+
+
+
+### BFS - breadth first search
+
+
+
+### Kruskal
+
+
+
 ### Introduction
 
 When taking a beginners class at the technical university of vienna, I started to 

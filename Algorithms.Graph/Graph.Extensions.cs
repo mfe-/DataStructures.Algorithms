@@ -165,10 +165,10 @@ namespace Algorithms.Graph
         /// Queue based implementation of BreadthFirstSearch
         /// </summary>
         /// <param name="vertex">start vertex</param>
-        /// <param name="vertexVisitedAction">The action to execute when a vertex is dequeued</param>
+        /// <param name="vertexDequeueAction">The action to execute when a vertex is dequeued</param>
         /// <returns>The list of visited vertices</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<IVertex> BreadthFirstSearchQueue(this IVertex vertex, Action<IVertex> vertexVisitedAction = null)
+        public static IEnumerable<IVertex> BreadthFirstSearchQueue(this IVertex vertex, Action<IVertex> vertexDequeueAction = null)
         {
             HashSet<IVertex> visited = new HashSet<IVertex>() { vertex };
             // Create a queue for BFS 
@@ -179,6 +179,7 @@ namespace Algorithms.Graph
             {
                 // Dequeue a vertex
                 vertex = queue.Dequeue();
+                vertexDequeueAction?.Invoke(vertex);
                 // Get all adjacent vertices of the dequeued vertex
                 // If a adjacent has not been visited, then mark it 
                 // visited and enqueue it 
@@ -189,7 +190,6 @@ namespace Algorithms.Graph
                     if (!visited.Contains(n.V))
                     {
                         visited.Add(n.V);
-                        vertexVisitedAction?.Invoke(vertex);
                         queue.Enqueue(n.V);
                     }
                 }
