@@ -27,11 +27,17 @@
   <ItemGroup>
     <None Remove="dijkstra.xml" />
     <None Remove="hackerearth-depth-first-search.xml" />
+    <None Remove="wiki.xml" />
+    <None Remove="yt.xml" />
+    <None Remove="yt2.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="dijkstra.xml" />
     <EmbeddedResource Include="hackerearth-depth-first-search.xml" />
+    <EmbeddedResource Include="wiki.xml" />
+    <EmbeddedResource Include="yt.xml" />
+    <EmbeddedResource Include="yt2.xml" />
   </ItemGroup>
 
   <ItemGroup>

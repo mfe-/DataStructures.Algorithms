@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Algorithms.Graph;
 using Xunit;
 using Xunit.Abstractions;
+using static Algorithms.Graph.GraphExtensions;
 
 namespace DataStructures.Test
 {
@@ -335,6 +336,94 @@ namespace DataStructures.Test
             Assert.True(result);
 
         }
+        [Fact]
+        public void PriorityQueue_returns_items_in_correct_order()
+        {
+            var q = new PriorityQueue();
+
+            q.Enqueue(new AEdge(new Vertex(1), 0));
+            q.Enqueue(new AEdge(new Vertex(2), 9));
+            q.Enqueue(new AEdge(new Vertex(3), 5));
+            q.Enqueue(new AEdge(new Vertex(4), 3));
+            q.Enqueue(new AEdge(new Vertex(5), 10));
+
+
+            List<int> result = new List<int>();
+            while (q.Any())
+            {
+                AEdge v = q.Dequeue();
+                result.Add(v.F);
+                _testOutputHelper.WriteLine($"{v.Weighted}");
+
+            }
+            Assert.Equal(new int[] { 0, 3, 5, 9, 10 }, result.ToArray());
+
+        }
+        [Fact]
+        public void AStar_should_find_shortes_path()
+        {
+            //de wiki sample
+            IVertex saarbruecken = new Vertex(222);
+            IVertex kaiserslautern = new Vertex(158);
+            IVertex karlsruhe = new Vertex(140);
+            IVertex frankfurt = new Vertex(96);
+            IVertex ludwigshafen = new Vertex(108);
+            IVertex heilbronn = new Vertex(87);
+            IVertex wuerzburg = new Vertex(0);
+
+            saarbruecken.AddEdge(kaiserslautern, 70, false);
+            saarbruecken.AddEdge(karlsruhe, 145, false);
+
+            kaiserslautern.AddEdge(frankfurt, 103, false);
+            kaiserslautern.AddEdge(ludwigshafen, 53, false);
+            karlsruhe.AddEdge(heilbronn, 84, false);
+            heilbronn.AddEdge(wuerzburg, 102, false);
+            ludwigshafen.AddEdge(wuerzburg, 183, false);
+            frankfurt.AddEdge(wuerzburg, 116, false);
+
+            Assert.Equal(7, saarbruecken.BreadthFirstSearchQueue().Count());
+
+            var result = saarbruecken.AStar(wuerzburg);
+            Assert.Equal(289, result.Last().Value.F);
+            var x = GraphExtensions.ReconstructPath(result, wuerzburg);
+            Assert.Equal(new int[] { 0, 96, 158, 222 }, x.Select(a => a.Weighted).ToArray());
+        }
+        [Fact]
+        public void AStarYtExample_should_find_shortes_path()
+        {
+            //this sample was taken from https://www.youtube.com/watch?v=eSOJ3ARN5FM
+            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt.xml"));
+            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
+            Graph g = GraphExtensions.Load(xmlElement);
+
+            IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
+
+            var result = g.Start.AStar(goal);
+
+            Assert.Equal(28, result.Last().Value.F);
+
+            var x = GraphExtensions.ReconstructPath(result, goal);
+            Assert.Equal(new int[] { 0, 8, 10, 11, 13, 16 }, x.Select(a => a.Weighted).ToArray());
+
+        }
+        [Fact]
+        public void AStarYt2Example_should_find_shortes_path()
+        {
+            //this sample was taken from https://www.youtube.com/watch?v=sAoBeujec74
+            XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt2.xml"));
+            xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
+            Graph g = GraphExtensions.Load(xmlElement);
+
+            IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
+
+            var result = g.Start.AStar(goal);
+
+            Assert.Equal(8, result.Last().Value.F);
+
+            var x = GraphExtensions.ReconstructPath(result, goal);
+            Assert.Equal(new int[] { 0, 2, 4, 6,7 }, x.Select(a => a.Weighted).ToArray());
+        }
+
         [Fact]
         public void KruskalDepthFirstSearch_should_find_path()
         {
