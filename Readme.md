@@ -24,16 +24,13 @@ Wpf control to visualize, create and edit a graph. See [here](https://github.com
 ## Live Samples
 
 ### A* search algorithm
-
-
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/astar.gif)
 
 ### BFS - breadth first search
-
-
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/BreadthFirstSearch.gif)
 
 ### Kruskal
-
-
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/kruskal.gif)
 
 ### Introduction
 
