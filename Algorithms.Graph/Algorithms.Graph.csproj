@@ -16,6 +16,8 @@
     <AssemblyName>Algorithms.Graph</AssemblyName>
     <RootNamespace>Algorithms.Graph</RootNamespace>
     <OutputType>Library</OutputType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">

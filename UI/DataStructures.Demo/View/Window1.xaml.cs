@@ -129,8 +129,8 @@ namespace DataStructures.Demo
             _GraphVisualization.GraphSaveFunc = GraphExtensions.Save;
             if (Debugger.IsAttached)
             {
-                //ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
-                SimulateGraphChanges();
+                ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //SimulateGraphChanges();
 
 
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);

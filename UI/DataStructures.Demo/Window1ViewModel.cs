@@ -52,7 +52,31 @@ namespace DataStructures.Demo
             get { return _Graph; }
             set { SetProperty(ref _Graph, value, nameof(Graph)); }
         }
+        private IVertex _SelectedVertex;
+        public IVertex SelectedVertex
+        {
+            get { return _SelectedVertex; }
+            set
+            {
+                PreviousSelectedVertex = _SelectedVertex;
+                SetProperty(ref _SelectedVertex, value, nameof(SelectedVertex));
+            }
+        }
+        private IVertex _PreviousSelectedVertex;
+        public IVertex PreviousSelectedVertex
+        {
+            get { return _PreviousSelectedVertex; }
+            set { SetProperty(ref _PreviousSelectedVertex, value, nameof(PreviousSelectedVertex)); }
+        }
 
+        private ICommand _AStarCommand;
+        public ICommand AStarCommand => _AStarCommand ?? (_AStarCommand = new DelegateCommand<IVertex>(OnAStarCommand));
+
+        protected void OnAStarCommand(IVertex vertex)
+        {
+            var result = PreviousSelectedVertex.AStar(vertex);
+            var result2 = result.ReconstructPath(vertex);
+        }
 
         private ICommand _KruskalCommand;
         public ICommand KruskalCommand => _KruskalCommand ?? (_KruskalCommand = new DelegateCommand(OnKruskalCommand));

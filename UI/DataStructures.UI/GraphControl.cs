@@ -10,6 +10,7 @@ using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace DataStructures.UI
 {
@@ -722,10 +723,26 @@ namespace DataStructures.UI
                 if (value != null)
                 {
                     SelectedItem = value;
+                    if(SelectedItem is VertexControl)
+                    {
+                        SelectedVertex = ((VertexControl)SelectedItem).Vertex;
+                    }
                 }
                 _SelectedMouseItem = value;
             }
         }
+
+
+        public IVertex SelectedVertex
+        {
+            get { return (IVertex)GetValue(SelectedVertexProperty); }
+            set { SetValue(SelectedVertexProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedVertex.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedVertexProperty =
+            DependencyProperty.Register("SelectedVertex", typeof(IVertex), typeof(GraphControl), new PropertyMetadata(null));
+
         public FrameworkElement? SelectedItem { get; set; }
 
         /// <summary>
@@ -766,7 +783,6 @@ namespace DataStructures.UI
                 {
                     return null;
                 }
-
             }
         }
 

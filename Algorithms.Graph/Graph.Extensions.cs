@@ -1,6 +1,8 @@
 ﻿using DataStructures;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -233,6 +235,114 @@ namespace Algorithms.Graph
                 lastVerticesRow.CopyTo(lastyVerticesRow, 0);
             }
             return g;
+        }
+        [DebuggerDisplay("V={V.Weighted},Weighted={Weighted},F={F},U={U.Weighted}")]
+        public struct AEdge : IEdge
+        {
+            public AEdge(IVertex current, int f) : this(current, null, 0, f)
+            {
+            }
+            public AEdge(IVertex current, IVertex predecessor, int weight, int f)
+            {
+                V = current;
+                U = predecessor;
+                Weighted = weight;
+                F = f;
+            }
+            /// <summary>
+            /// predecessor 
+            /// </summary>
+            public IVertex U { get; set; }
+            /// <summary>
+            /// current
+            /// </summary>
+            public IVertex V { get; set; }
+            /// <summary>
+            /// edge weight costs from start to current V
+            /// </summary>
+            public int Weighted { get; set; }
+            public int F { get; set; }
+        }
+        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, AEdge> edge, IVertex goal)
+        {
+            List<IVertex> vertices = new List<IVertex>();
+            AEdge current = edge[goal];
+            while (current.U != null)
+            {
+                vertices.Add(current.V);
+
+                current = edge[current.U];
+
+            }
+            vertices.Add(current.V);
+            return vertices;
+        }
+        public static IDictionary<IVertex, AEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, int> funcHeuristic = null, Func<IEdge, int> funcEdgeWeight = null)
+        {
+            if (funcHeuristic == null)
+            {
+                funcHeuristic = (v) => v.Weighted;
+            }
+            if (funcEdgeWeight == null)
+            {
+                funcEdgeWeight = (e) => e.Weighted;
+            }
+            // The set of discovered nodes that may need to be (re-)expanded.
+            // Initially, only the start node is known.
+            // This is usually implemented as a min-heap or priority queue rather than a hash-set.
+            var openSet = new PriorityQueue();
+            openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
+
+            var closeSet = new Dictionary<IVertex, AEdge>();
+            while (openSet.Any())
+            {
+                //the node in openSet having the lowest fScore[] value
+                AEdge openVertex = openSet.Dequeue();
+                IVertex currentNode = openVertex.V;
+
+                // Current node goes into the closed set
+                closeSet.Add(currentNode, openVertex);
+
+                if (currentNode == goal)
+                {
+                    return closeSet;
+                }
+
+                // expand all neighbours
+                foreach (IEdge edge in currentNode.Edges)
+                {
+                    if (closeSet.ContainsKey(edge.V))
+                        continue;
+
+                    // calculate g-value for new path:
+                    // g-value of predecessor + costs/weight of current edge
+                    int tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
+                    // if successor is alread on list
+                    var sucessorvertex = openSet.Exists(edge.V);
+                    bool exists = sucessorvertex.V != null;
+
+                    if (exists && tentative_g >= sucessorvertex.Weighted)
+                        continue;
+                    // the path to neighbor is better than any previous one or it wasnt added. Record it!
+                    sucessorvertex = new AEdge();
+                    sucessorvertex.V = edge.V;
+                    sucessorvertex.U = currentNode;
+                    sucessorvertex.Weighted = tentative_g;
+                    // update f - value
+                    sucessorvertex.F = tentative_g + funcHeuristic(edge.V);
+
+                    if (exists)
+                    {
+                        openSet.Update(sucessorvertex);
+                    }
+                    else
+                    {
+                        openSet.Enqueue(sucessorvertex);
+                    }
+
+                }
+            }
+            return null;
         }
 
         //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C
