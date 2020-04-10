@@ -17,6 +17,8 @@
     <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
     <PackageTags>graph, vertex, edge, vertices, edges</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataStructures\DataStructures.csproj" />

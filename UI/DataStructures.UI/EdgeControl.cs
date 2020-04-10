@@ -78,7 +78,6 @@ namespace DataStructures.UI
                         if (Int32.TryParse(temp, out result))
                         {
                             Edge.Weighted = result;
-
                         }
                     }
 
