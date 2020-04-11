@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
-using Algorithms.Graph;
+using DataStructures;
 using Xunit;
 using Xunit.Abstractions;
 using static Algorithms.Graph.GraphExtensions;
 
-namespace DataStructures.Test
+namespace Algorithms.Graph.Test
 {
     public class GraphExtensionsTest
     {
-        private readonly Graph _g;
+        private readonly DataStructures.Graph _g;
         private readonly ITestOutputHelper _testOutputHelper;
 
         public GraphExtensionsTest(ITestOutputHelper testOutputHelper)
@@ -275,7 +275,7 @@ namespace DataStructures.Test
             IVertex v1 = new Vertex<string>(1);
             IVertex v2 = new Vertex<string>(2);
             IVertex v3 = new Vertex<string>(3);
-            Graph g = new Graph();
+            DataStructures.Graph g = new DataStructures.Graph();
             v1.AddEdge(v2);
             v2.AddEdge(v3);
             g.Start = v1;
@@ -302,7 +302,7 @@ namespace DataStructures.Test
             v5.AddEdge(v7, 0, false);
             v1.AddEdge(v4, 0, false);
             v4.AddEdge(v6, 0, false);
-            Graph g = new Graph();
+            DataStructures.Graph g = new DataStructures.Graph();
             g.Start = v1;
 
             var result = g.IsDirected();
@@ -329,7 +329,7 @@ namespace DataStructures.Test
             v5.AddEdge(v7, 0, false);
             v1.AddEdge(v4, 0, false);
             v4.AddEdge(v6, 0, false);
-            Graph g = new Graph();
+            DataStructures.Graph g = new DataStructures.Graph();
             g.Start = v1;
 
             var result = g.IsDirected();
@@ -394,7 +394,7 @@ namespace DataStructures.Test
             //this sample was taken from https://www.youtube.com/watch?v=eSOJ3ARN5FM
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            Graph g = GraphExtensions.Load(xmlElement);
+            DataStructures.Graph g = GraphExtensions.Load(xmlElement);
 
             IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
 
@@ -412,7 +412,7 @@ namespace DataStructures.Test
             //this sample was taken from https://www.youtube.com/watch?v=sAoBeujec74
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt2.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            Graph g = GraphExtensions.Load(xmlElement);
+            DataStructures.Graph g = GraphExtensions.Load(xmlElement);
 
             IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
 
@@ -443,9 +443,9 @@ namespace DataStructures.Test
         public void Kruskal_result_should_not_contain_cycles()
         {
             //create grid which contains 16 cycles
-            Graph grid = GraphExtensions.GenerateGridGraph(4, 4, VertexFactory);
+            DataStructures.Graph grid = GraphExtensions.GenerateGridGraph(4, 4, VertexFactory);
 
-            Graph result = grid.KruskalDepthFirstSearch();
+            DataStructures.Graph result = grid.KruskalDepthFirstSearch();
             //the graph should still contain all vertices
             var vertices = result.Start.BreadthFirstSearchQueue();
             Assert.Equal(16, vertices.Count());
@@ -504,7 +504,7 @@ namespace DataStructures.Test
         public void QuaderDFS_undirected_grid_graph_VertexFactoryGeneric_should_find_all_with_DFS()
         {
             //with generic
-            Graph g;
+            DataStructures.Graph g;
             Stopwatch stopwatch1 = new Stopwatch();
             g = GraphExtensions.GenerateGridGraph(1000, 1000, VertexFactoryGeneric);
             stopwatch1.Stop();
@@ -524,7 +524,7 @@ namespace DataStructures.Test
         public void QuaderDFS_undirected_grid_graph_VertexFactory_should_find_all_with_DFS(int i, int j)
         {
             //without generic
-            Graph g;
+            DataStructures.Graph g;
             Stopwatch stopwatch2 = new Stopwatch();
             g = GraphExtensions.GenerateGridGraph(i, j, VertexFactory);
             stopwatch2.Stop();
@@ -547,7 +547,7 @@ namespace DataStructures.Test
         [InlineData(1000, 1000)]
         public void QuaderBFS_undirected_grid_graph_VertexFactory_should_find_all_with_BreadthFirstSearch(int i, int j)
         {
-            Graph g;
+            DataStructures.Graph g;
             Stopwatch stopwatch2 = new Stopwatch();
             g = GraphExtensions.GenerateGridGraph(i, j, VertexFactory);
             stopwatch2.Stop();
@@ -596,9 +596,9 @@ namespace DataStructures.Test
 
         }
 
-        private Graph Generate_Super_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
+        private DataStructures.Graph Generate_Super_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
         {
-            Graph g = new Graph();
+            DataStructures.Graph g = new DataStructures.Graph();
             IVertex vx = null;
             IVertex vy = null;
             IVertex vyy = null;

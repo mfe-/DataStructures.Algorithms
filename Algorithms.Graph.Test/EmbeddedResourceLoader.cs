@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Xml;
 
-namespace DataStructures.Test
+namespace Algorithms.Graph.Test
 {
     public static class EmbeddedResourceLoader
     {

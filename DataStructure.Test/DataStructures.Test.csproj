@@ -25,22 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="dijkstra.xml" />
-    <None Remove="hackerearth-depth-first-search.xml" />
-    <None Remove="wiki.xml" />
-    <None Remove="yt.xml" />
-    <None Remove="yt2.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="dijkstra.xml" />
-    <EmbeddedResource Include="hackerearth-depth-first-search.xml" />
-    <EmbeddedResource Include="wiki.xml" />
-    <EmbeddedResource Include="yt.xml" />
-    <EmbeddedResource Include="yt2.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
@@ -54,17 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Algorithms.Graph\Algorithms.Graph.csproj" />
-    <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Graph.Extensions.Xml.Test.cs" />
   </ItemGroup>
 
 </Project>

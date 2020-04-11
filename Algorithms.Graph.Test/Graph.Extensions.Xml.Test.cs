@@ -1,11 +1,8 @@
-﻿using Algorithms.Graph;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DataStructures;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace DataStructures.Test
+namespace Algorithms.Graph.Test
 {
     public class GraphExtensionsXmlTest
     {
@@ -20,7 +17,7 @@ namespace DataStructures.Test
         public void SaveXmlShould_contain_all_vertices_and_edges()
         {
             //the graph to serialize
-            Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i) => new Vertex());
+            DataStructures.Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i) => new Vertex());
 
             GraphExtensions.Serialize(g.Start, "muh");
 
