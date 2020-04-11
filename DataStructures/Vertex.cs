@@ -51,7 +51,7 @@ namespace DataStructures
         /// <summary>
         /// Amount of neighbours
         /// </summary>
-        public int Size
+        public IComparable Size
         {
             get
             {

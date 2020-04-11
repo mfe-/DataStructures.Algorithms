@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -23,6 +22,6 @@ namespace DataStructures
         /// <summary>
         /// Amount of neighbours
         /// </summary>
-        int Size { get; }
+        IComparable Size { get; }
     }
 }
