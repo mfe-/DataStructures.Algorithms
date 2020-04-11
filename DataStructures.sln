@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{A6417910-4673-4CE0-A3B6-43E10DB0151E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Test", "Algorithms.DataStrucre.Test\Algorithms.Test.csproj", "{639925E2-1FD6-4E3F-A76B-5F37D93F2698}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Test", "Algorithms.Test\Algorithms.Test.csproj", "{639925E2-1FD6-4E3F-A76B-5F37D93F2698}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph", "Algorithms.Graph\Algorithms.Graph.csproj", "{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}"
 EndProject
