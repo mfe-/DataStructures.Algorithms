@@ -10,13 +10,6 @@ namespace Algorithms
     /// <typeparam name="TData">The datatype to store</typeparam>
     public abstract class AbstractTree<TData>
     {
-        public class ANodeLeafe<TData> : NodeLeafe<TData>
-        {
-            public ANodeLeafe(IComparable comparer, TData Value) : base(comparer, Value)
-            {
-            }
-            public int Balance { get; set; }
-        }
 
         /// <summary>
         /// Root node of AVL Tree
@@ -32,7 +25,6 @@ namespace Algorithms
 		public AbstractTree()
         {
             RootNode = null;
-            FuncNodeFactory = (k, data) => new ANodeLeafe<TData>(k, data);
         }
 
 		/// <summary>
@@ -48,7 +40,10 @@ namespace Algorithms
         /// <param name="data">The data</param>
         /// <param name="funcReturnKey">Function whichs computes the key from <typeparamref name="TData"/></param>
         /// <exception cref="ArgumentException">If the key already exists</exception>
-        public abstract void Add(Func<TData,IComparable> funcReturnKey, TData data);
+        public void Add(Func<TData,IComparable> funcReturnKey, TData data)
+        {
+            Add(funcReturnKey(data), data);
+        }
 
         /// <summary>
         /// Removes the overgiven key if it exists

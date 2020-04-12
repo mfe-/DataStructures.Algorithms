@@ -4,8 +4,9 @@ using System;
 namespace Algorithms
 {
     /// <summary>
-    /// AVL Tree - Recommended for tasks which requires lot of lookups
-    /// Not recommended for lots of inserts and deletions
+    /// AVL Tree 
+    /// Recommended for tasks which require a lot of lookups
+    /// Not recommended for inserts and deletions taks
     /// Check also the AVLTreeTest
     /// </summary>
     /// <remarks>
@@ -18,9 +19,16 @@ namespace Algorithms
     /// <typeparam name="TData">The datatype to store</typeparam>
     public class AvlTree<TData> : AbstractTree<TData>
     {
+        public class ANodeLeafe<TData> : NodeLeafe<TData>
+        {
+            public ANodeLeafe(IComparable comparer, TData Value) : base(comparer, Value)
+            {
+            }
+            public int Balance { get; set; }
+        }
         public AvlTree() : base()
         {
-
+            FuncNodeFactory = (k, data) => new ANodeLeafe<TData>(k, data);
         }
 
         /// <inheritdoc/>
@@ -36,11 +44,6 @@ namespace Algorithms
                 Add(RootNode, FuncNodeFactory(k, data));
 
             }
-        }
-        /// <inheritdoc/>
-        public override void Add(Func<TData, IComparable> funcReturnKey, TData data)
-        {
-            Add(funcReturnKey(data), data);
         }
 
         /// <summary>
