@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataStructures
+﻿namespace DataStructures
 {
     /// <summary>
     /// Can be used for linked lists

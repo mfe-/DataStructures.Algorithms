@@ -7,6 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="0000.txt" />
+    <None Remove="0001.txt" />
+    <None Remove="0002.txt" />
+    <None Remove="0003.txt" />
+    <None Remove="0004.txt" />
+    <None Remove="0007.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="0007.txt" />
+    <EmbeddedResource Include="0004.txt" />
+    <EmbeddedResource Include="0003.txt" />
+    <EmbeddedResource Include="0002.txt" />
+    <EmbeddedResource Include="0001.txt" />
+    <EmbeddedResource Include="0000.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">

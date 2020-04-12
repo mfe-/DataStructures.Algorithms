@@ -6,7 +6,7 @@ namespace DataStructures
     /// Node for tree
     /// </summary>
     /// <typeparam name="TNode"></typeparam>
-    public interface INodeTree<TNode> where TNode : INodeTree<TNode>, INode<TNode>
+    public interface INodeTree<TNode> : INode<TNode> where TNode : INodeTree<TNode>, INode<TNode>
     {
         /// <summary>
         /// Parent
