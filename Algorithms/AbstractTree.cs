@@ -26,14 +26,32 @@ namespace Algorithms
         {
             RootNode = null;
         }
+        /// <summary>
+        /// Gets the value that indicates whether the tree is empty or not
+        /// </summary>
+        public virtual bool Empty
+        {
+            get
+            {
+                return RootNode == null;
+            }
+        }
+        /// <summary>
+        /// Gets the amount of nodes of the tree
+        /// </summary>
+        public int Length
+        {
+            get;
+            protected set;
+        }
 
-		/// <summary>
-		/// Inserts data with a key
-		/// </summary>
-		/// <param name="k">The key</param>
-		/// <param name="data">The data which is associated with the key</param>
-		/// <exception cref="ArgumentException">If the key already exists</exception>
-		public abstract void Add(IComparable k, TData data);
+        /// <summary>
+        /// Inserts data with a key
+        /// </summary>
+        /// <param name="k">The key</param>
+        /// <param name="data">The data which is associated with the key</param>
+        /// <exception cref="ArgumentException">If the key already exists</exception>
+        public abstract void Add(IComparable k, TData data);
         /// <summary>
         /// Inserts data with a key
         /// </summary>

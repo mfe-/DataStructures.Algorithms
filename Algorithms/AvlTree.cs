@@ -42,8 +42,8 @@ namespace Algorithms
             {
 
                 Add(RootNode, FuncNodeFactory(k, data));
-
             }
+            Length = Length + 1;
         }
 
         /// <summary>

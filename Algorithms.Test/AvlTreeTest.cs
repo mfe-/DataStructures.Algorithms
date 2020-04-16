@@ -145,11 +145,9 @@ namespace Algorithms.Test
             stopwatch.Reset();
             stopwatch.Start();
             AvlTree<int> avlTree = new AvlTree<int>();
-            int i = 0;
             foreach (int key in ints)
             {
                 avlTree.Add(key, key);
-                i++;
             }
             stopwatch.Stop();
             _testOutputHelper.WriteLine($"avlTree Add:{stopwatch.ElapsedMilliseconds}");

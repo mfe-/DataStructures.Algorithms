@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 
 namespace DataStructures
 {
@@ -8,6 +7,7 @@ namespace DataStructures
     {
 
     }
+    [DebuggerDisplay("Key={Key}")]
     public class NodeLeafe<TData> : INodeLeafe<TData>
     {
         public NodeLeafe(IComparable comparer,TData Value)
