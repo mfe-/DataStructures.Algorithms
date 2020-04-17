@@ -15,18 +15,18 @@ namespace Algorithms.Test
         public BinarySearchTreeTest(ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
-            InitialTest();
         }
 
         /// <summary>
         /// Tests the implementation with an empty tree and the example tree from the exercise sheet ss15.
         /// </summary>
-        private void InitialTest()
+        [Fact]
+        public void InitialTest()
         {
             BinarySearchTree<int> t = new BinarySearchTree<int>();
             int[] arr = new int[] { 30, 20, 45, 10, 25, 38, 50, 5, 13, 22, 29, 12, 14 };
 
-            Assert.False(!t.Empty || t.Length != 0 || t.Height != -1, "Error when testing empty tree!");
+            Assert.False(!t.Empty || t.Count != 0 || t.Height != -1, "Error when testing empty tree!");
 
             foreach (var i in arr)
             {
@@ -35,11 +35,11 @@ namespace Algorithms.Test
 
             Assert.False(t.Empty, "Check the implementation of Empty!");
 
-            Assert.False(t.Length != arr.Length, "Check the implementation of Length!");
+            Assert.False(t.Count != arr.Length, "Check the implementation of Length!");
 
             Assert.False(!t.ContainsKey(20) || t.ContainsKey(23), "Check the implementation of ContainsKey()!");
 
-            //Assert.False(t.valueAtPosition(3) != 13 || t.valueAtPosition(0) != 5), "Check the implementation of valueAtPosition()!");
+            //Assert.False(t.GetElementAt(3) != 13 || t.GetElementAt(0) != 5), "Check the implementation of GetElementAt()!");
 
             //Assert.False(t.position(10) != 1 || t.position(29) != 8 || t.position(31) != 10), "Check the implementation of position()!");
 
@@ -47,7 +47,7 @@ namespace Algorithms.Test
 
             try
             {
-                //t.valueAtPosition(1000);
+                //t.GetElementAt(1000);
             }
             catch (ArgumentException e)
             {
@@ -92,7 +92,7 @@ namespace Algorithms.Test
         {
             Assert.False(tree.Empty != input.Empty, "Failure when calling isEmpty()!");
 
-            Assert.False(tree.Length != input.Length, "Incorrect size - " + " tree: " + tree.Length + " tree set: " + input.Length);
+            Assert.False(tree.Count != input.Count, "Incorrect size - " + " tree: " + tree.Count + " tree set: " + input.Count);
 
             int counter = 0;
             //foreach (var i in input)
@@ -101,7 +101,7 @@ namespace Algorithms.Test
             //    {
             //        bailOut("Element " + i + " is missing!");
             //    }
-            //    if (tree.valueAtPosition(counter++) != i)
+            //    if (tree.GetElementAt(counter++) != i)
             //    {
             //        bailOut("Element " + i + " is at the wrong position!");
             //    }
@@ -124,9 +124,35 @@ namespace Algorithms.Test
             binarySearchTree.Add(14, 1);
             binarySearchTree.Add(13, 1);
 
-            var result = binarySearchTree.Inorder();
+            var inorderResult = binarySearchTree.Inorder().ToArray();
 
-            Assert.Equal(new int[] { 1, 3, 4, 6, 7, 8, 10, 13, 14 }, result.Select(a => (int)a.Key).ToArray());
+            Assert.Equal(new int[] { 1, 3, 4, 6, 7, 8, 10, 13, 14 }, inorderResult.Select(a => (int)a.Key).ToArray());
+
+
+            for (int i = 0; i < binarySearchTree.Count; i++)
+            {
+                int indextest = i;
+                var expected = inorderResult[indextest];
+                var result = binarySearchTree.GetElementAt(indextest);
+                Assert.Equal(expected, result);
+            }
+
+            binarySearchTree = new BinarySearchTree<int>();
+
+            for(int i=0;i<10;i++)
+            {
+                binarySearchTree.Add(i, i);
+            }
+
+            inorderResult = binarySearchTree.Inorder().ToArray();
+            for (int i = 0; i < binarySearchTree.Count; i++)
+            {
+                int indextest = i;
+                var expected = inorderResult[indextest];
+                var result = binarySearchTree.GetElementAt(indextest);
+                Assert.Equal(expected, result);
+            }
+            Dictionary<string, int> keyValuePairs = new Dictionary<string, int>();
         }
         [Theory]
         [InlineData("0011.txt")]
@@ -134,6 +160,7 @@ namespace Algorithms.Test
         [InlineData("0014.txt")]
         [InlineData("0021.txt")]
         [InlineData("0100.txt")]
+        [InlineData("0007.txt")]
         public void Add_test_compared_to_hashSet(string sampleFile)
         {
             IEnumerable<string> testinstance = EmbeddedResourceLoader.GetFileContents(sampleFile);
@@ -170,7 +197,7 @@ namespace Algorithms.Test
             _testOutputHelper.WriteLine($"BinarySearchTree Add:{stopwatch.ElapsedMilliseconds}");
             stopwatch.Reset();
 
-            Assert.Equal(hasSet.Count, binarySearchTree.Length);
+            Assert.Equal(hasSet.Count, binarySearchTree.Count);
 
             stopwatch.Start();
             var leafemin = binarySearchTree.GetMinimum().Key;

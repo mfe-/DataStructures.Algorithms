@@ -5,8 +5,9 @@ namespace Algorithms
 {
     /// <summary>
     /// AVL Tree 
-    /// Recommended for tasks which require a lot of lookups
-    /// Not recommended for inserts and deletions taks
+    /// Recommended for tasks which require a lot of lookups and less rebalancing.
+    /// If the majority of operations of the tree are insertions or deletions and worst-case orders are not expected
+    /// it's recommended to use <seealso cref="BinarySearchTree{TData}"/>
     /// Check also the AVLTreeTest
     /// </summary>
     /// <remarks>
@@ -16,12 +17,12 @@ namespace Algorithms
     /// Insert         O(log(n))     O(log(n))
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
-    /// <typeparam name="TData">The datatype to store</typeparam>
+    /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public class AvlTree<TData> : AbstractTree<TData>
     {
-        public class ANodeLeafe<TData> : NodeLeafe<TData>
+        public class ANodeLeafe<TData1> : NodeLeafe<TData1>
         {
-            public ANodeLeafe(IComparable comparer, TData Value) : base(comparer, Value)
+            public ANodeLeafe(IComparable comparer, TData1 Value) : base(comparer, Value)
             {
             }
             public int Balance { get; set; }
@@ -43,7 +44,7 @@ namespace Algorithms
 
                 Add(RootNode, FuncNodeFactory(k, data));
             }
-            Length = Length + 1;
+            Count = Count + 1;
         }
 
         /// <summary>

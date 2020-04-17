@@ -7,7 +7,7 @@ namespace Algorithms
     /// <summary>
     /// Tree
     /// </summary>
-    /// <typeparam name="TData">The datatype to store</typeparam>
+    /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public abstract class AbstractTree<TData>
     {
 
@@ -39,7 +39,7 @@ namespace Algorithms
         /// <summary>
         /// Gets the amount of nodes of the tree
         /// </summary>
-        public int Length
+        public int Count
         {
             get;
             protected set;
@@ -82,7 +82,8 @@ namespace Algorithms
         public abstract INodeLeafe<TData> GetMaximum();
 
         /// <summary>
-        /// Creates a IEnumerable using Inorder 
+        /// Creates a IEnumerable using Inorder.
+        /// In inorder, the root is visited in the middle
         /// </summary>
         /// <returns></returns>
         public IEnumerable<INodeLeafe<TData>> Inorder()
@@ -95,20 +96,21 @@ namespace Algorithms
         }
 
         /// <summary>
-        /// Create a inorder using <paramref name="io"/> and <paramref name="n"/>
+        /// Create a inorder using <paramref name="inOrderList"/> and <paramref name="n"/>
         /// </summary>
+        /// <remarks>Call for example with  Inorder(RootNode, new List<INodeLeafe<TData>>());</remarks>
         /// <param name="n">Left nodes</param>
-        /// <param name="io">Right nodes</param>
-        protected virtual void Inorder(INodeLeafe<TData> n, ICollection<INodeLeafe<TData>> io)
+        /// <param name="inOrderList">Right nodes</param>
+        protected virtual void Inorder(INodeLeafe<TData> n, ICollection<INodeLeafe<TData>> inOrderList)
         {
             if (n == null)
                 return;
 
-            Inorder(n.V, io);
+            Inorder(n.V, inOrderList);
 
-            io.Add(n);
+            inOrderList.Add(n);
 
-            Inorder(n.U, io);
+            Inorder(n.U, inOrderList);
         }
     }
 }
