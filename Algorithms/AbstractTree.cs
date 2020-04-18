@@ -19,10 +19,10 @@ namespace Algorithms
         /// Factory for creating Nodes
         /// </summary>
         protected Func<IComparable, TData, INodeLeafe<TData>> FuncNodeFactory = null;
-		/// <summary>
-		/// Creates a empty <seealso cref="AbstractTree{TData}"/>
-		/// </summary>
-		public AbstractTree()
+        /// <summary>
+        /// Creates a empty <seealso cref="AbstractTree{TData}"/>
+        /// </summary>
+        public AbstractTree()
         {
             RootNode = null;
         }
@@ -58,7 +58,7 @@ namespace Algorithms
         /// <param name="data">The data</param>
         /// <param name="funcReturnKey">Function whichs computes the key from <typeparamref name="TData"/></param>
         /// <exception cref="ArgumentException">If the key already exists</exception>
-        public void Add(Func<TData,IComparable> funcReturnKey, TData data)
+        public void Add(Func<TData, IComparable> funcReturnKey, TData data)
         {
             Add(funcReturnKey(data), data);
         }
@@ -88,11 +88,26 @@ namespace Algorithms
         /// <returns></returns>
         public IEnumerable<INodeLeafe<TData>> Inorder()
         {
-            IList<INodeLeafe<TData>> ret = new List<INodeLeafe<TData>>();
+            Stack<INodeLeafe<TData>> s = new Stack<INodeLeafe<TData>>();
+            INodeLeafe<TData> current = RootNode;
 
-            Inorder(RootNode, ret);
-
-            return ret;
+            // traverse the tree  
+            while (current != null || s.Count > 0)
+            {
+                // Reach the left most Node of the  curr Node 
+                while (current != null)
+                {
+                    // place pointer to a tree node on the stack before traversing  
+                    // the node's left subtree
+                    s.Push(current);
+                    current = current.V;
+                }
+                current = s.Pop();
+                yield return current;
+                // we have visited the node and its left subtree. 
+                // Now, it's right subtree's turn
+                current = current.U;
+            }
         }
 
         /// <summary>
