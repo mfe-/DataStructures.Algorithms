@@ -421,7 +421,43 @@ namespace Algorithms.Graph.Test
             Assert.Equal(8, result.Last().Value.F);
 
             var x = GraphExtensions.ReconstructPath(result, goal);
-            Assert.Equal(new int[] { 0, 2, 4, 6,7 }, x.Select(a => a.Weighted).ToArray());
+            Assert.Equal(new int[] { 0, 2, 4, 6, 7 }, x.Select(a => a.Weighted).ToArray());
+        }
+        [Theory]
+        [InlineData(4, 4)]
+        [InlineData(512, 512)]
+        [InlineData(800, 800)]
+        public void AStar_should_find_in_grid_graph_from_start_to_last(int i, int j)
+        {
+            DataStructures.Graph g;
+            Stopwatch stopwatch1 = new Stopwatch();
+            IVertex goalToFind = null;
+            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryGeneric, (lastVertex) => goalToFind = lastVertex);
+            IEnumerable<IVertex> result;
+
+            stopwatch1.Start();
+            {
+                var path = g.Start.AStar(goalToFind);
+                result = path.ReconstructPath(goalToFind);
+            }
+            stopwatch1.Stop();
+            _testOutputHelper.WriteLine($"Astar took for grid graph of {i}x{j} {stopwatch1.ElapsedMilliseconds}ms");
+
+            //check if we can get from the start to the goal using the result list
+            Assert.Equal(g.Start, result.Last());
+
+            IVertex lastVisitedVertex = g.Start;
+            //revers list so we begin from start
+            var enumerator = result.Reverse().GetEnumerator();
+            //skip the first item in the list as we want to know to which vertex we should move from start
+            enumerator.MoveNext();
+            while (enumerator.MoveNext())
+            {
+                lastVisitedVertex = lastVisitedVertex.Edges.FirstOrDefault(a => a.V == enumerator.Current).V;
+            }
+            //did we find the goal?
+            Assert.Equal(goalToFind, lastVisitedVertex);
+
         }
         //xml Deserializer creates readOnly list
         //[Fact]

@@ -203,7 +203,7 @@ namespace Algorithms.Graph
         /// <param name="amount_height_vertices">height of grid</param>
         /// <param name="funFactory">The vertice factory to create vertices</param>
         /// <returns>The created graph</returns>
-        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, IVertex> funFactory)
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null)
         {
             DataStructures.Graph g = new DataStructures.Graph();
             IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
@@ -226,6 +226,12 @@ namespace Algorithms.Graph
                     if (lastyVerticesRow[x] != null)
                     {
                         currentVertex.AddEdge(lastyVerticesRow[x], y, false);
+                    }
+                    if(y == amountHeightVertices - 1 && x == amountWidthVertices - 1)
+                    {
+                        //when the last vertex is created invoke action
+                        onLastVertexCreatedAction?.Invoke(currentVertex);
+
                     }
                 }
                 if (g.Start == null)
