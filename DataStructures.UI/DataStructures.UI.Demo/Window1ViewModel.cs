@@ -127,7 +127,7 @@ namespace DataStructures.Demo
         protected void OnGenerateGridGraph()
         {
             Graph = null;
-            Graph = Generate_Grid_Graph(4, 4, (i) => VertexFactory());
+            Graph = Generate_Grid_Graph(4, 4, (i) => { var v = VertexFactory(); v.Weighted = i; return v; } );
         }
         public Graph Generate_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
         {

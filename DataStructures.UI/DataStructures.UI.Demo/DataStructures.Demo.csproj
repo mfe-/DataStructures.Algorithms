@@ -9,10 +9,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="dijkstra.xml" />
+    <None Remove="grid.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dijkstra.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="grid.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
