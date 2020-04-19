@@ -270,9 +270,7 @@ namespace Algorithms.Graph
             while (current.U != null)
             {
                 vertices.Add(current.V);
-
                 current = edge[current.U];
-
             }
             vertices.Add(current.V);
             return vertices;

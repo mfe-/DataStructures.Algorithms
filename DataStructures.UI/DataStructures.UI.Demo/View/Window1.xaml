@@ -38,7 +38,14 @@
                         <MenuItem Header="_Print" Command="Print" />
                         <MenuItem Header="_BreadthFirstSearch" Command="{Binding Path=BreadthFirstSearchCommand}" CommandParameter="{Binding SelectedVertex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                         <MenuItem Header="_Kruskal" Command="{Binding Path=KruskalCommand}" />
-                        <MenuItem Header="_Astar" Command="{Binding Path=AStarCommand}" CommandParameter="{Binding SelectedVertex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <MenuItem Command="{Binding Path=AStarCommand}" CommandParameter="{Binding SelectedVertex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Astar " />
+                                    <TextBlock Text="(Before calling, select start and end node)" Foreground="Gray" />
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
                         <MenuItem Header="_Clear" Command="{x:Static ui:GraphControl.ClearGraphCommand}" />
                         <MenuItem Header="_Direct" Command="{x:Static ui:GraphControl.SetDirectedRoutedCommand}" />
                         <MenuItem Header="_CreateGridGraph" Command="{Binding Path=GenerateGridGraph}" />
