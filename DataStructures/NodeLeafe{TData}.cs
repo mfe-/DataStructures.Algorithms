@@ -10,9 +10,10 @@ namespace DataStructures
     [DebuggerDisplay("Key={Key}")]
     public class NodeLeafe<TData> : INodeLeafe<TData>
     {
-        public NodeLeafe(IComparable comparer,TData Value)
+        public NodeLeafe(IComparable comparer,TData value)
         {
             Key = comparer;
+            Value = value;
         }
         public TData Value { get; set; }
         public INodeLeafe<TData> P { get; set; }
