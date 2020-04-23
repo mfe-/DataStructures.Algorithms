@@ -3,6 +3,11 @@
 A collection of basic algorithms and data structures (algodat)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ochuuevuytt1ekin/branch/master?svg=true)](https://ci.appveyor.com/project/mfe-/get-the-solution/branch/master)
+(https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=feed&feed=get-the-solution)
+
+[![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures
+
+[![Algorithms.Graph package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/1a2c6c0f-0ec0-476d-91d9-59e72944b2b0/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=1a2c6c0f-0ec0-476d-91d9-59e72944b2b0&preferRelease=true) Algorithms.Graph
 
 ## DataStructures (Experimental)
 
@@ -16,10 +21,16 @@ A collection of basic algorithms and data structures (algodat)
 
 Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/UI/DataStructures.UI/Readme.md).
 
-## Some algo related links
+## Live Samples
 
-- The Travelling salesman problem is one of the most well know NP-hard problem. Concorde’s solver can be used to solve exactly or approximately even large instances. <http://www.math.uwaterloo.ca/tsp/index.html>
-- PRIM <http://bioinfo.ict.ac.cn/~dbu/AlgorithmCourses/Lectures/Prim1957.pdf>
+### A* search algorithm
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/astar.gif)
+
+### BFS - breadth first search
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/BreadthFirstSearch.gif)
+
+### Kruskal
+![alt text](https://raw.githubusercontent.com/mfe-/Abstract.DataStructures.Algorithms/master/kruskal.gif)
 
 ### Introduction
 
@@ -36,6 +47,11 @@ So I started to create my own algorithms and data structures "framework".
 #### Goal
 
 With the old version of the framework I mainly focused on visually representing the graph data structure with wpf. (see `UI\DataStructures.Demo`)
+
+##### Some algo related links
+
+- The Travelling salesman problem is one of the most well know NP-hard problem. Concorde’s solver can be used to solve exactly or approximately even large instances. <http://www.math.uwaterloo.ca/tsp/index.html>
+- PRIM <http://bioinfo.ict.ac.cn/~dbu/AlgorithmCourses/Lectures/Prim1957.pdf>
 
 #### Graph control
 

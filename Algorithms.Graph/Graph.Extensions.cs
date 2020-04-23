@@ -1,7 +1,11 @@
 ﻿using DataStructures;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Algorithms.Graph
 {
@@ -11,7 +15,7 @@ namespace Algorithms.Graph
     public static partial class GraphExtensions
     {
         /// <summary>
-        /// Returns all vertices from the graph
+        /// Returns all vertices from the graph using <seealso cref="GraphExtensions.DepthFirstSearchStack"/>
         /// </summary>
         /// <param name="s">Root IVertex of graph</param>
         /// <returns>All reachable vertices</returns>
@@ -29,13 +33,14 @@ namespace Algorithms.Graph
         /// <summary>
         /// DepthFirstSearch implemented as Stack
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static IEnumerable<IVertex> DepthFirstSearchStack(this IVertex s)
+        /// <param name="start">start vertex</param>
+        /// <returns>All collected vertices</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<IVertex> DepthFirstSearchStack(this IVertex start)
         {
             HashSet<IVertex> visited = new HashSet<IVertex>();
             Stack<IVertex> stack = new Stack<IVertex>();
-            stack.Push(s);
+            stack.Push(start);
             while (stack.Any())
             {
                 IVertex v = stack.Pop();
@@ -51,109 +56,306 @@ namespace Algorithms.Graph
             return visited;
         }
         /// <summary>
+        /// Stack based implementation of DepthFirstSearch
         /// Searches from the <paramref name="start"/> the overgiven <paramref name="goal"/>
         /// http://en.wikipedia.org/wiki/Depth-first_search
-        /// Completeness: not complete
+        /// Completeness: Not complete
         /// Admissible: 
         /// </summary>
-        /// <param name="start">Where the look up should start</param>
-        /// <param name="goal">Which IVertex should be found. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="start">start vertex</param>
+        /// <param name="goal">Vertex to lookup. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
         /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
+        /// <param name="edgeVisitedAction">Action which should be executed when adding a edge to the stack</param>
         /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
-        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsDirected = true)
+        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsDirected = true, Action<IEdge> edgeVisitedAction = null)
         {
             if (start == null) throw new ArgumentNullException(nameof(start));
-            if(graphIsDirected)
+            if (graphIsDirected)
             {
-                return DepthFirstSearch(start, new List<IEdge>(), goal, graphIsDirected);
+                return DepthFirstSearchStack(start, new List<IEdge>(), goal, graphIsDirected, edgeVisitedAction);
             }
             else
             {
-                return DepthFirstSearchUndirected(start, new HashSet<IEdge>(), goal);
+                return DepthFirstSearchStack(start, new HashSet<IEdge>(), goal, graphIsDirected, edgeVisitedAction);
+            }
+        }
+        /// <summary>
+        /// Stack based implementation of DepthFirstSearch
+        /// </summary>
+        /// <param name="start">start vertex</param>
+        /// <param name="visited">The list which should be used to store the marked edges</param>
+        /// <param name="goal">Vertex to lookup. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
+        /// <param name="edgeVisitedAction">Action which should be executed when adding a edge to the stack</param>
+        /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static IEnumerable<IEdge> DepthFirstSearchStack(IVertex start, ICollection<IEdge> visited, IVertex goal, bool graphIsDirected, Action<IEdge> edgeVisitedAction = null)
+        {
+            if (start == null) return Enumerable.Empty<IEdge>();
+            if (visited == null) return Enumerable.Empty<IEdge>();
+            Stack<IEdge> stack = new Stack<IEdge>();
+            foreach (var edge in start.Edges)
+            {
+                stack.Push(edge);
+            }
+            while (stack.Any())
+            {
+                IEdge e = stack.Pop();
+                edgeVisitedAction?.Invoke(e);
+                //use for directed graphs == operator and 
+                //for undirected equals method by using "Contains" of the collection
+                if (graphIsDirected ? !visited.Any(a => a == e) : !visited.Contains(e))
+                {
+                    visited.Add(e);
+                    if (e.V == goal) return visited;
+                    foreach (IEdge edge in e.V.Edges)
+                    {
+                        stack.Push(edge);
+                    }
+                }
+            }
+            return visited;
+        }
+        /// <summary>
+        /// Recurisv implementation of DepthFirstSearch
+        /// </summary>
+        /// <remarks>HashSet uses the equals method for comparison of edges</remarks>
+        /// <param name="current">Start vertex</param>
+        /// <param name="goal">Vertex to lookup. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="graphIsDirected">True if graph is directed. False for graph is undirected</param>
+        /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
+        public static IEnumerable<IEdge> DepthFirstSearchRecurisv(this IVertex current, IVertex goal, bool graphIsDirected)
+        {
+            if (current == null) throw new ArgumentNullException(nameof(current));
+            if (graphIsDirected)
+            {
+                return DepthFirstSearchRecurisv(current, new List<IEdge>(), goal, graphIsDirected);
+            }
+            else
+            {
+                return DepthFirstSearchRecurisv(current, new HashSet<IEdge>(), goal, graphIsDirected);
             }
         }
         /// <summary>
         /// Recurisv implementation of DepthFirstSearch
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="edges"></param>
-        /// <param name="goal"></param>
-        /// <param name="graphIsDirected"></param>
-        /// <returns></returns>
-        public static IEnumerable<IEdge> DepthFirstSearch(IVertex current, ICollection<IEdge> edges, IVertex goal, bool graphIsDirected)
+        /// <param name="current">start vertex</param>
+        /// <param name="visited">The list of already visited vertices</param>
+        /// <param name="goal">Vertex to lookup. When no goal supplied, the algorithm will visit all edges which exists in the graph.</param>
+        /// <param name="graphIsDirected">True if graph is directed. False for graph is undirected</param>
+        /// <returns>All collected edges</returns>
+        private static IEnumerable<IEdge> DepthFirstSearchRecurisv(IVertex current, ICollection<IEdge> visited, IVertex goal, bool graphIsDirected)
         {
             if (current == null) throw new ArgumentNullException(nameof(current));
-            if (edges == null) throw new ArgumentNullException(nameof(edges));
+            if (visited == null) throw new ArgumentNullException(nameof(visited));
             foreach (IEdge e in current.Edges)
             {
                 //make sure the correct comparison method for edges is used
-                if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsDirected)))
+                if (graphIsDirected ? !visited.Any(a => a == e) : !visited.Contains(e))
                 {
                     //mark edges
-                    edges.Add(e);
-                    DepthFirstSearch(e.V, edges, goal, graphIsDirected);
+                    visited.Add(e);
+                    DepthFirstSearchRecurisv(e.V, visited, goal, graphIsDirected);
                 }
-                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
+                if (visited.Any() && visited.Last().V.Equals(goal)) return visited;
             }
-            return edges;
+            return visited;
         }
         /// <summary>
-        /// Recurisv implementation of DepthFirstSearch for undirected Graphs!
+        /// Queue based implementation of BreadthFirstSearch
         /// </summary>
-        /// <remarks>HashSet uses the equals method for comparison of edges</remarks>
-        /// <param name="current">Start vertex</param>
-        /// <param name="edges"></param>
-        /// <param name="goal"></param>
-        /// <returns></returns>
-        public static IEnumerable<IEdge> DepthFirstSearchUndirected(IVertex current, HashSet<IEdge> edges, IVertex goal)
+        /// <param name="vertex">start vertex</param>
+        /// <param name="vertexDequeueAction">The action to execute when a vertex is dequeued</param>
+        /// <returns>The list of visited vertices</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<IVertex> BreadthFirstSearchQueue(this IVertex vertex, Action<IVertex> vertexDequeueAction = null)
         {
-            if (current == null) throw new ArgumentNullException(nameof(current));
-            if (edges == null) throw new ArgumentNullException(nameof(edges));
-            foreach (IEdge e in current.Edges)
+            HashSet<IVertex> visited = new HashSet<IVertex>() { vertex };
+            // Create a queue for BFS 
+            Queue<IVertex> queue = new Queue<IVertex>();
+            // Mark the current node as visited and enqueue it 
+            queue.Enqueue(vertex);
+            while (queue.Count != 0)
             {
-                if (!edges.Contains(e))
+                // Dequeue a vertex
+                vertex = queue.Dequeue();
+                vertexDequeueAction?.Invoke(vertex);
+                // Get all adjacent vertices of the dequeued vertex
+                // If a adjacent has not been visited, then mark it 
+                // visited and enqueue it 
+                var i = vertex.Edges.GetEnumerator();
+                while (i.MoveNext())
                 {
-                    //mark edges
-                    edges.Add(e);
-                    DepthFirstSearchUndirected(e.V, edges, goal);
+                    IEdge n = i.Current;
+                    if (!visited.Contains(n.V))
+                    {
+                        visited.Add(n.V);
+                        queue.Enqueue(n.V);
+                    }
                 }
-                if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
             }
-            return edges;
+            return visited;
         }
-        //public static IEnumerable<IEdge> DepthFirstSearchStack(IVertex current, IVertex goal, bool graphIsdirected)
-        //{
-        //    ICollection<IEdge> edges = null;
-        //    if (graphIsdirected)
-        //    {
-        //        edges = new List<IEdge>();
-        //    }
-        //    else
-        //    {
-        //        edges = new HashSet<IEdge>();
-        //    }
-        //    Stack<IEdge> stack = new Stack<IEdge>();
-        //    stack.Push(current.Edges.FirstOrDefault());
-        //    while (stack.Any())
-        //    {
-        //        foreach (IEdge e in current.Edges)
-        //        {
-        //            if (!edges.Any(a => EdgeExtensions.Equals(a, e, graphIsdirected)))
-        //                stack.Push(e);
-        //        }
+        /// <summary>
+        /// Creates a grid Graph
+        /// </summary>
+        /// <param name="amount_width_vertices">width of grid</param>
+        /// <param name="amount_height_vertices">height of grid</param>
+        /// <param name="funFactory">The vertice factory to create vertices</param>
+        /// <returns>The created graph</returns>
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null)
+        {
+            DataStructures.Graph g = new DataStructures.Graph();
+            IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
+            IVertex[] lastyVerticesRow = new IVertex[amountWidthVertices];
 
-        //        IEdge currentEdge = stack.Pop();
-        //        if (!edges.Any(a => EdgeExtensions.Equals(a, currentEdge, graphIsdirected)))
-        //        {
-        //            edges.Add(currentEdge);
-        //            current = currentEdge.V;
-        //        }
-        //        if (edges.Any() && edges.Last().V.Equals(goal)) return edges;
+            for (int y = 0; y < amountHeightVertices; y++)
+            {
+                for (int x = 0; x < amountWidthVertices; x++)
+                {
+                    IVertex currentVertex = funFactory.Invoke(x);
+                    currentVertex.Weighted = x + y;
+                    lastVerticesRow[x] = currentVertex;
+                    //connect previous vertex on x axis
+                    if (x - 1 >= 0)
+                    {
+                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
+                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
+                    }
+                    //connect previous vertex on y axis
+                    if (lastyVerticesRow[x] != null)
+                    {
+                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
+                    }
+                    if(y == amountHeightVertices - 1 && x == amountWidthVertices - 1)
+                    {
+                        //when the last vertex is created invoke action
+                        onLastVertexCreatedAction?.Invoke(currentVertex);
 
-        //    }
+                    }
+                }
+                if (g.Start == null)
+                {
+                    g.Start = lastVerticesRow[0];
+                }
+                lastVerticesRow.CopyTo(lastyVerticesRow, 0);
+            }
+            return g;
+        }
+        [DebuggerDisplay("V={V.Weighted},Weighted={Weighted},F={F},U={U.Weighted}")]
+        public struct AEdge : IEdge
+        {
+            public AEdge(IVertex current, int f) : this(current, null, 0, f)
+            {
+            }
+            public AEdge(IVertex current, IVertex predecessor, int weight, int f)
+            {
+                V = current;
+                U = predecessor;
+                Weighted = weight;
+                F = f;
+            }
+            /// <summary>
+            /// predecessor 
+            /// </summary>
+            public IVertex U { get; set; }
+            /// <summary>
+            /// current
+            /// </summary>
+            public IVertex V { get; set; }
+            /// <summary>
+            /// edge weight costs from start to current V
+            /// </summary>
+            public int Weighted { get; set; }
+            public int F { get; set; }
+        }
+        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, AEdge> edge, IVertex goal)
+        {
+            List<IVertex> vertices = new List<IVertex>();
+            AEdge current = edge[goal];
+            while (current.U != null)
+            {
+                vertices.Add(current.V);
+                current = edge[current.U];
+            }
+            vertices.Add(current.V);
+            return vertices;
+        }
+        public static IDictionary<IVertex, AEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, int> funcHeuristic = null, Func<IEdge, int> funcEdgeWeight = null)
+        {
+            if (funcHeuristic == null)
+            {
+                funcHeuristic = (v) => v.Weighted;
+            }
+            if (funcEdgeWeight == null)
+            {
+                funcEdgeWeight = (e) => e.Weighted;
+            }
+            // The set of discovered nodes that may need to be (re-)expanded.
+            // Initially, only the start node is known.
+            // This is usually implemented as a min-heap or priority queue rather than a hash-set.
+            var openSet = new PriorityQueue();
+            openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
 
-        //    return edges;
-        //}
+            var closeSet = new Dictionary<IVertex, AEdge>();
+            while (openSet.Any())
+            {
+                //the node in openSet having the lowest fScore[] value
+                AEdge openVertex = openSet.Dequeue();
+                IVertex currentNode = openVertex.V;
+
+                // Current node goes into the closed set
+                closeSet.Add(currentNode, openVertex);
+
+                if (currentNode == goal)
+                {
+                    return closeSet;
+                }
+
+                // expand all neighbours
+                foreach (IEdge edge in currentNode.Edges)
+                {
+                    if (closeSet.ContainsKey(edge.V))
+                        continue;
+
+                    // calculate g-value for new path:
+                    // g-value of predecessor + costs/weight of current edge
+                    int tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
+                    // if successor is alread on list
+                    var sucessorvertex = openSet.Exists(edge.V);
+                    bool exists = sucessorvertex.V != null;
+
+                    if (exists && tentative_g >= sucessorvertex.Weighted)
+                        continue;
+                    // the path to neighbor is better than any previous one or it wasnt added. Record it!
+                    sucessorvertex = new AEdge();
+                    sucessorvertex.V = edge.V;
+                    sucessorvertex.U = currentNode;
+                    sucessorvertex.Weighted = tentative_g;
+                    // update f - value
+                    sucessorvertex.F = tentative_g + funcHeuristic(edge.V);
+
+                    if (exists)
+                    {
+                        openSet.Update(sucessorvertex);
+                    }
+                    else
+                    {
+                        openSet.Enqueue(sucessorvertex);
+                    }
+
+                }
+            }
+            return null;
+        }
+
+        //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C
+
+        /// <summary>
+        /// Kruskal implementation with DFS
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns>The new created graph without cycles</returns>
         public static DataStructures.Graph KruskalDepthFirstSearch(this DataStructures.Graph g)
         {
             if (g == null) throw new ArgumentNullException(nameof(g));
@@ -242,6 +444,20 @@ namespace Algorithms.Graph
         {
             if (edge == null) throw new ArgumentNullException(nameof(edge));
             return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
+        }
+        /// <summary>
+        /// Returns a value indicating whether this instance is equal to the edge.
+        /// </summary>
+        /// <param name="edge">The edge to compare to this instance.</param>
+        /// <param name="graphIsdirected">If the parameter is false transported edges will be handled as equal</param>
+        /// <returns>True if the instance and the overgiven edge are euqa; otherwiese, false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals(this IEdge e, IEdge edge, bool graphIsdirected = true)
+        {
+            Contract.Requires(e != null);
+            //use == operator instead of Equals for directed graphs,
+            //as the overriden equals of the edge implementeation returns true for transposed edges)
+            return graphIsdirected ? e == edge : e.Equals(edge);
         }
         //http://www.informatik-forum.at/showthread.php?80262-Aufgabe-29 check auf bipartit graph
 

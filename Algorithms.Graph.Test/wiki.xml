@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Graph z:Id="1" xmlns="http://schemas.get.com/Graph/" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/">
+    <Directed>false</Directed>
+    <StartVertex z:Id="2" i:type="a:VertexOfanyType" xmlns:a="http://schemas.get.com/Graph/Vertex">
+      <a:Weighted>222</a:Weighted>
+      <a:Edges z:Id="3" z:Size="2" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+        <b:anyType z:Id="4" i:type="c:EdgeOfanyType" xmlns:c="http://schemas.get.com/Graph/Edges">
+          <c:Weighted>70</c:Weighted>
+          <c:U z:Ref="2" i:nil="true" />
+          <c:V z:Id="5" i:type="a:VertexOfanyType">
+            <a:Weighted>158</a:Weighted>
+            <a:Edges z:Id="6" z:Size="3">
+              <b:anyType z:Id="7" i:type="c:EdgeOfanyType">
+                <c:Weighted>70</c:Weighted>
+                <c:U z:Ref="5" i:nil="true" />
+                <c:V z:Ref="2" i:nil="true" />
+              </b:anyType>
+              <b:anyType z:Id="8" i:type="c:EdgeOfanyType">
+                <c:Weighted>103</c:Weighted>
+                <c:U z:Ref="5" i:nil="true" />
+                <c:V z:Id="9" i:type="a:VertexOfanyType">
+                  <a:Weighted>96</a:Weighted>
+                  <a:Edges z:Id="10" z:Size="2">
+                    <b:anyType z:Id="11" i:type="c:EdgeOfanyType">
+                      <c:Weighted>103</c:Weighted>
+                      <c:U z:Ref="9" i:nil="true" />
+                      <c:V z:Ref="5" i:nil="true" />
+                    </b:anyType>
+                    <b:anyType z:Id="12" i:type="c:EdgeOfanyType">
+                      <c:Weighted>116</c:Weighted>
+                      <c:U z:Ref="9" i:nil="true" />
+                      <c:V z:Id="13" i:type="a:VertexOfanyType">
+                        <a:Weighted>0</a:Weighted>
+                        <a:Edges z:Id="14" z:Size="3">
+                          <b:anyType z:Id="15" i:type="c:EdgeOfanyType">
+                            <c:Weighted>116</c:Weighted>
+                            <c:U z:Ref="13" i:nil="true" />
+                            <c:V z:Ref="9" i:nil="true" />
+                          </b:anyType>
+                          <b:anyType z:Id="16" i:type="c:EdgeOfanyType">
+                            <c:Weighted>183</c:Weighted>
+                            <c:U z:Ref="13" i:nil="true" />
+                            <c:V z:Id="17" i:type="a:VertexOfanyType">
+                              <a:Weighted>108</a:Weighted>
+                              <a:Edges z:Id="18" z:Size="2">
+                                <b:anyType z:Id="19" i:type="c:EdgeOfanyType">
+                                  <c:Weighted>53</c:Weighted>
+                                  <c:U z:Ref="17" i:nil="true" />
+                                  <c:V z:Ref="5" i:nil="true" />
+                                </b:anyType>
+                                <b:anyType z:Id="20" i:type="c:EdgeOfanyType">
+                                  <c:Weighted>183</c:Weighted>
+                                  <c:U z:Ref="17" i:nil="true" />
+                                  <c:V z:Ref="13" i:nil="true" />
+                                </b:anyType>
+                              </a:Edges>
+                              <a:Guid>66c3f92f-04fa-4dfb-845e-5f5f6c243679</a:Guid>
+                            </c:V>
+                          </b:anyType>
+                          <b:anyType z:Id="21" i:type="c:EdgeOfanyType">
+                            <c:Weighted>142</c:Weighted>
+                            <c:U z:Ref="13" i:nil="true" />
+                            <c:V z:Id="22" i:type="a:VertexOfanyType">
+                              <a:Weighted>87</a:Weighted>
+                              <a:Edges z:Id="23" z:Size="2">
+                                <b:anyType z:Id="24" i:type="c:EdgeOfanyType">
+                                  <c:Weighted>84</c:Weighted>
+                                  <c:U z:Ref="22" i:nil="true" />
+                                  <c:V z:Id="25" i:type="a:VertexOfanyType">
+                                    <a:Weighted>140</a:Weighted>
+                                    <a:Edges z:Id="26" z:Size="2">
+                                      <b:anyType z:Id="27" i:type="c:EdgeOfanyType">
+                                        <c:Weighted>145</c:Weighted>
+                                        <c:U z:Ref="25" i:nil="true" />
+                                        <c:V z:Ref="2" i:nil="true" />
+                                      </b:anyType>
+                                      <b:anyType z:Id="28" i:type="c:EdgeOfanyType">
+                                        <c:Weighted>84</c:Weighted>
+                                        <c:U z:Ref="25" i:nil="true" />
+                                        <c:V z:Ref="22" i:nil="true" />
+                                      </b:anyType>
+                                    </a:Edges>
+                                    <a:Guid>9d3d426a-ef43-4b13-a4d4-0c32c037677f</a:Guid>
+                                  </c:V>
+                                </b:anyType>
+                                <b:anyType z:Id="29" i:type="c:EdgeOfanyType">
+                                  <c:Weighted>142</c:Weighted>
+                                  <c:U z:Ref="22" i:nil="true" />
+                                  <c:V z:Ref="13" i:nil="true" />
+                                </b:anyType>
+                              </a:Edges>
+                              <a:Guid>dd9c821d-bbe2-4915-8ab8-a39bdf0befcd</a:Guid>
+                            </c:V>
+                          </b:anyType>
+                        </a:Edges>
+                        <a:Guid>76d6804e-cb5f-48f8-adfb-6ccda08ff643</a:Guid>
+                      </c:V>
+                    </b:anyType>
+                  </a:Edges>
+                  <a:Guid>8dcca657-1518-4055-8b18-3a4eceb5f40d</a:Guid>
+                </c:V>
+              </b:anyType>
+              <b:anyType z:Id="30" i:type="c:EdgeOfanyType">
+                <c:Weighted>53</c:Weighted>
+                <c:U z:Ref="5" i:nil="true" />
+                <c:V z:Ref="17" i:nil="true" />
+              </b:anyType>
+            </a:Edges>
+            <a:Guid>90afcf4a-6f92-416f-a660-4770f8b2dab0</a:Guid>
+          </c:V>
+        </b:anyType>
+        <b:anyType z:Id="31" i:type="c:EdgeOfanyType" xmlns:c="http://schemas.get.com/Graph/Edges">
+          <c:Weighted>145</c:Weighted>
+          <c:U z:Ref="2" i:nil="true" />
+          <c:V z:Ref="25" i:nil="true" />
+        </b:anyType>
+      </a:Edges>
+      <a:Guid>3e169e07-f2f1-438f-a2a8-837ef3446669</a:Guid>
+    </StartVertex>
+    <Vertices z:Id="32" z:Size="1" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:anyType z:Ref="22" i:nil="true" />
+    </Vertices>
+  </Graph>
+  <FrameworkElements>
+    <DataStructures.UI.VertexControl>
+      <ID>65812741</ID>
+      <VertexID>1786544295</VertexID>
+      <Position>49.17666666666668,290.40000000000003</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>3099778</ID>
+      <VertexID>291336838</VertexID>
+      <Position>189.17666666666668,215.20000000000002</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>45101667</ID>
+      <VertexID>-1689956787</VertexID>
+      <Position>256.37666666666667,371.20000000000005</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>45807089</ID>
+      <VertexID>-1906893302</VertexID>
+      <Position>273.1766666666667,102.4</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>10789009</ID>
+      <VertexID>223446845</VertexID>
+      <Position>360.3766666666667,264</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>48616240</ID>
+      <VertexID>-1027241302</VertexID>
+      <Position>473.1766666666667,420</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+    <DataStructures.UI.VertexControl>
+      <ID>32913796</ID>
+      <VertexID>-1330364644</VertexID>
+      <Position>551.5766666666666,174.4</Position>
+      <Width>50</Width>
+      <Height>50</Height>
+      <ZIndex>0</ZIndex>
+    </DataStructures.UI.VertexControl>
+  </FrameworkElements>
+</Root>

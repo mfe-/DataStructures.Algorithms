@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-
-namespace DataStructures
+﻿namespace DataStructures
 {
-    public interface IEdge : INotifyPropertyChanged
+    public interface IEdge
     {
         IVertex U { get; set; }
         IVertex V { get; set; }

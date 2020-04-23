@@ -2,20 +2,26 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="dijkstra.xml" />
+    <Compile Remove="ExtendedModel\**" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="instanzen\**" />
+    <EmbeddedResource Remove="ExtendedModel\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="instanzen\**" />
+    <None Remove="ExtendedModel\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="instanzen\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="dijkstra.xml" />
-    <EmbeddedResource Include="hackerearth-depth-first-search.xml" />
-    <EmbeddedResource Include="wiki.xml" />
-    <EmbeddedResource Include="yt.xml" />
-    <EmbeddedResource Include="yt2.xml" />
+    <Compile Remove="LinkedListTest.cs" />
+    <Compile Remove="NodeTest.cs" />
+    <Compile Remove="TreeTest.cs" />
+    <Compile Remove="TreeTestStruct.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,11 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Algorithms.Graph\Algorithms.Graph.csproj" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

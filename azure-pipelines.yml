@@ -14,9 +14,6 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'build and and run tests'
-
 - task: DotNetCoreCLI@2
   displayName: build solution
   inputs:
@@ -26,7 +23,7 @@ steps:
 
 - script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
   displayName: 'run test'
-  condition: succeededOrFailed()
+  condition: succeeded()
 
 - task: PublishTestResults@2
   displayName: publish test results
@@ -36,17 +33,45 @@ steps:
     testResultsFiles: '**/*.trx'
 
 - task: DotNetCoreCLI@2
-  displayName: create nuget
-  condition: succeededOrFailed()
+  displayName: create nuget DataStructures;Algorithms.Graph
+  condition: succeeded()
   inputs:
     command: 'pack'
-    packagesToPack: '**/DataStructures.csproj'
+    arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
+    packagesToPack: '**/DataStructures.csproj;**/Algorithms.Graph.csproj;'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
-    
+
+- task: DotNetCoreCLI@2
+  displayName: build DataStructures.UI
+  inputs:
+    command: 'build'
+    projects: '**/**/DataStructures.UI.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: create nuget DataStructures.UI
+  condition: succeeded()
+  inputs:
+    command: 'pack'
+    arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
+    packagesToPack: '**/**/DataStructures.UI.csproj;'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byBuildNumber'
+    verbosityPack: 'Normal'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: 'get-the-solution'
+    allowPackageConflicts: true
+
 - task: PublishBuildArtifacts@1
+  condition: succeededOrFailed()
   displayName: "Upload Artifacts"
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
