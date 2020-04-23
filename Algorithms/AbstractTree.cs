@@ -81,6 +81,42 @@ namespace Algorithms
         /// <returns>The Node with the maximum key value of the tree</returns>
         public abstract INodeLeafe<TData> GetMaximum();
 
+        public INodeLeafe<TData> Find(Func<TData, bool> funcFind)
+        {
+            return Find(new Func<INodeLeafe<TData>, bool>((node) => funcFind(node.Value)));
+        }
+        public INodeLeafe<TData> Find(Func<INodeLeafe<TData>, bool> funcFind)
+        {
+            Stack<INodeLeafe<TData>> s = new Stack<INodeLeafe<TData>>();
+            INodeLeafe<TData> current = RootNode;
+
+            // traverse the tree  
+            while (current != null || s.Count > 0)
+            {
+                // Reach the left most Node of the  curr Node 
+                while (current != null)
+                {
+                    // place pointer to a tree node on the stack before traversing  
+                    // the node's left subtree
+                    s.Push(current);
+                    current = current.V;
+                }
+                current = s.Pop();
+                if (funcFind.Invoke(current))
+                {
+                    return current;
+                }
+                // we have visited the node and its left subtree. 
+                // Now, it's right subtree's turn
+                current = current.U;
+            }
+            return null;
+        }
+        public INodeLeafe<TData> Find(TData data)
+        {
+            return Find((current) => (data.Equals(current.Value)));
+        }
+
         /// <summary>
         /// Creates a IEnumerable using Inorder.
         /// In inorder, the root is visited in the middle

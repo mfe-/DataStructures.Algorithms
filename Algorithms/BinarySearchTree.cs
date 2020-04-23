@@ -21,7 +21,7 @@ namespace Algorithms
     {
         public class BNodeLeafe<TData1> : NodeLeafe<TData1>
         {
-            public BNodeLeafe(IComparable comparer, TData1 Value) : base(comparer, Value)
+            public BNodeLeafe(IComparable comparer, TData1 value) : base(comparer, value)
             {
             }
             public int AmountofNode { get; set; }
@@ -329,7 +329,7 @@ namespace Algorithms
             return GetElementAt(index, (this.RootNode as BNodeLeafe<TData>));
         }
         /// <summary>
-        /// Makes use of the AmountofNode information
+        /// Makes use of the AmountofNode information to retriev the Element at the overgive <paramref name="index"/> in O(logn)
         /// </summary>
         /// <param name="index"></param>
         /// <param name="bNodeLeafe"></param>
