@@ -22,7 +22,7 @@ namespace Algorithms
     {
         public class ANodeLeafe<TData1> : NodeLeafe<TData1>
         {
-            public ANodeLeafe(IComparable comparer, TData1 Value) : base(comparer, Value)
+            public ANodeLeafe(IComparable comparer, TData1 value) : base(comparer, value)
             {
             }
             public int Balance { get; set; }
