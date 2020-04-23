@@ -16,6 +16,11 @@ A collection of basic algorithms and data structures (algodat)
 
 Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/UI/DataStructures.UI/Readme.md).
 
+## Some algo related links
+
+- The Travelling salesman problem is one of the most well know NP-hard problem. Concorde’s solver can be used to solve exactly or approximately even large instances. <http://www.math.uwaterloo.ca/tsp/index.html>
+- PRIM <http://bioinfo.ict.ac.cn/~dbu/AlgorithmCourses/Lectures/Prim1957.pdf>
+
 ### Introduction
 
 When taking a beginners class at the technical university of vienna, I started to 
