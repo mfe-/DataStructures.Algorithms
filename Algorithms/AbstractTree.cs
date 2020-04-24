@@ -70,6 +70,37 @@ namespace Algorithms
         public abstract void Remove(IComparable k);
 
         /// <summary>
+        /// Gets the node with the correspondening value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public virtual INodeLeafe<TData> GetNode(IComparable key, Action<INodeLeafe<TData>> actionCurrentNode = null)
+        {
+            INodeLeafe<TData> p = RootNode;
+            //5.CompareTo(6) = -1      First int is smaller.
+            //6.CompareTo(5) =  1      First int is larger.
+            //5.CompareTo(5) =  0      Ints are equal.
+            while (p != null)
+            {
+                actionCurrentNode?.Invoke(p);
+                if (key.CompareTo(p.Key) == -1)
+                {
+                    p = p.V;
+                }
+                else if (p.Key.CompareTo(key) == 0)
+                {
+                    return p;
+                }
+                else
+                {
+                    p = p.U;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Get the node with the minimum key value of the current tree
         /// </summary>
         /// <returns>The Node with the minimum key of the tree</returns>
