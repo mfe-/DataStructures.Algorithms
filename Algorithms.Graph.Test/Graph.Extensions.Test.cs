@@ -339,7 +339,7 @@ namespace Algorithms.Graph.Test
         [Fact]
         public void PriorityQueue_returns_items_in_correct_order()
         {
-            var q = new PriorityQueue();
+            var q = new PriorityQueue<AEdge>((a) => a.F);
 
             q.Enqueue(new AEdge(new Vertex(1), 0));
             q.Enqueue(new AEdge(new Vertex(2), 9));
@@ -384,7 +384,7 @@ namespace Algorithms.Graph.Test
             Assert.Equal(7, saarbruecken.BreadthFirstSearchQueue().Count());
 
             var result = saarbruecken.AStar(wuerzburg);
-            Assert.Equal(289, result.Last().Value.F);
+            Assert.Equal(289, ((AEdge)(result.Last().Value)).F);
             var x = GraphExtensions.ReconstructPath(result, wuerzburg);
             Assert.Equal(new int[] { 0, 96, 158, 222 }, x.Select(a => a.Weighted).ToArray());
         }
@@ -400,7 +400,7 @@ namespace Algorithms.Graph.Test
 
             var result = g.Start.AStar(goal);
 
-            Assert.Equal(28, result.Last().Value.F);
+            Assert.Equal(28, ((AEdge)(result.Last().Value)).F);
 
             var x = GraphExtensions.ReconstructPath(result, goal);
             Assert.Equal(new int[] { 0, 8, 10, 11, 13, 16 }, x.Select(a => a.Weighted).ToArray());
@@ -418,7 +418,7 @@ namespace Algorithms.Graph.Test
 
             var result = g.Start.AStar(goal);
 
-            Assert.Equal(8, result.Last().Value.F);
+            Assert.Equal(8, ((AEdge)(result.Last().Value)).F);
 
             var x = GraphExtensions.ReconstructPath(result, goal);
             Assert.Equal(new int[] { 0, 2, 4, 6, 7 }, x.Select(a => a.Weighted).ToArray());

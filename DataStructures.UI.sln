@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph", "Algorit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph.Test", "Algorithms.Graph.Test\Algorithms.Graph.Test.csproj", "{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{A9D91761-341E-43A4-B865-EF2D70E242DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,18 @@ Global
 		{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}.Release|x86.Build.0 = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9D91761-341E-43A4-B865-EF2D70E242DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

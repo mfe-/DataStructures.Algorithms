@@ -10,7 +10,7 @@ namespace Algorithms.Graph
 {
     public class PriorityQueue : IEnumerable
     {
-        Dictionary<IVertex, AEdge> list = new Dictionary<IVertex, AEdge>();
+        private readonly Dictionary<IVertex, AEdge> list = new Dictionary<IVertex, AEdge>();
         public PriorityQueue()
         {
         }

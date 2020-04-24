@@ -227,7 +227,7 @@ namespace Algorithms.Graph
                     {
                         currentVertex.AddEdge(lastyVerticesRow[x], y, false);
                     }
-                    if(y == amountHeightVertices - 1 && x == amountWidthVertices - 1)
+                    if (y == amountHeightVertices - 1 && x == amountWidthVertices - 1)
                     {
                         //when the last vertex is created invoke action
                         onLastVertexCreatedAction?.Invoke(currentVertex);
@@ -269,10 +269,10 @@ namespace Algorithms.Graph
             public int Weighted { get; set; }
             public int F { get; set; }
         }
-        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, AEdge> edge, IVertex goal)
+        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, IEdge> edge, IVertex goal)
         {
             List<IVertex> vertices = new List<IVertex>();
-            AEdge current = edge[goal];
+            IEdge current = edge[goal];
             while (current.U != null)
             {
                 vertices.Add(current.V);
@@ -281,7 +281,7 @@ namespace Algorithms.Graph
             vertices.Add(current.V);
             return vertices;
         }
-        public static IDictionary<IVertex, AEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, int> funcHeuristic = null, Func<IEdge, int> funcEdgeWeight = null)
+        public static IDictionary<IVertex, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, int> funcHeuristic = null, Func<IEdge, int> funcEdgeWeight = null)
         {
             if (funcHeuristic == null)
             {
@@ -294,14 +294,19 @@ namespace Algorithms.Graph
             // The set of discovered nodes that may need to be (re-)expanded.
             // Initially, only the start node is known.
             // This is usually implemented as a min-heap or priority queue rather than a hash-set.
-            var openSet = new PriorityQueue();
-            openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
+            var openSet = new PriorityQueue<AEdge>(a => a.F);
+            // helper dictionary for keys of PriorityQueue
+            Dictionary<string, IComparable> keyValuePairs = new Dictionary<string, IComparable>();
 
-            var closeSet = new Dictionary<IVertex, AEdge>();
+            openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
+            keyValuePairs.Add(start.ToString(), funcHeuristic(start));
+
+            var closeSet = new Dictionary<IVertex, IEdge>();
             while (openSet.Any())
             {
                 //the node in openSet having the lowest fScore[] value
                 AEdge openVertex = openSet.Dequeue();
+                keyValuePairs.Remove(openVertex.V.ToString());
                 IVertex currentNode = openVertex.V;
 
                 // Current node goes into the closed set
@@ -322,9 +327,20 @@ namespace Algorithms.Graph
                     // g-value of predecessor + costs/weight of current edge
                     int tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
                     // if successor is alread on list
-                    var sucessorvertex = openSet.Exists(edge.V);
-                    bool exists = sucessorvertex.V != null;
-
+                    IComparable oldKey = -1;
+                    var sucessorvertex = new AEdge();
+                    bool exists = keyValuePairs.ContainsKey(edge.V.ToString());
+                    if (exists)
+                    {
+                        var key = openSet.GetNode(keyValuePairs[edge.V.ToString()]);
+                        var omg = openSet.Exists((aedge) => aedge.V == edge.V, out oldKey);
+                        while (key.Value.V != edge.V)
+                        {
+                            key = key.U;
+                        }
+                        sucessorvertex = key.Value;
+                        oldKey = key.Key;
+                    }
                     if (exists && tentative_g >= sucessorvertex.Weighted)
                         continue;
                     // the path to neighbor is better than any previous one or it wasnt added. Record it!
@@ -337,11 +353,13 @@ namespace Algorithms.Graph
 
                     if (exists)
                     {
-                        openSet.Update(sucessorvertex);
+                        openSet.Update(oldKey, sucessorvertex);
+                        keyValuePairs[edge.V.ToString()] = sucessorvertex.F;
                     }
                     else
                     {
                         openSet.Enqueue(sucessorvertex);
+                        keyValuePairs.Add(edge.V.ToString(), sucessorvertex.F);
                     }
 
                 }

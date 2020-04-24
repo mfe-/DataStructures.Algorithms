@@ -1,11 +1,15 @@
 ﻿using DataStructures;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Algorithms
 {
+    [DebuggerDisplay("Count = {Count}")]
     public class PriorityQueue<TData> : BinarySearchTree<TData>
     {
         private readonly Func<TData, IComparable> _funcKey;
+        private readonly Dictionary<string, IComparable> keyValuePairs = new Dictionary<string, IComparable>();
         public PriorityQueue(Func<TData, IComparable> funcKey) : base()
         {
             _funcKey = funcKey;
@@ -13,11 +17,12 @@ namespace Algorithms
         public TData Exists(TData data, out IComparable key)
         {
             key = -1;
-            INodeLeafe<TData> nodeLeafe = Find(data);
-            if (nodeLeafe != null)
+            if (keyValuePairs.ContainsKey(data.ToString()))
             {
+                INodeLeafe<TData> nodeLeafe = GetNode(keyValuePairs[data.ToString()]);
                 key = nodeLeafe.Key;
                 return nodeLeafe.Value;
+
             }
             return default(TData);
         }
@@ -50,17 +55,27 @@ namespace Algorithms
                 }
                 else if (p.Key.CompareTo(key) == 0)
                 {
-                    //same key - dont throw exception as the binarysearchtree would do
-                    p = p.U; 
+                    //40
+                    //   40 p.Key
+                    //       41 (p.U.Key)
+                    if (p.Key.CompareTo(key) == 0 && p.Key.CompareTo(p?.U?.Key) == -1)
+                    {
+                        q.U = p.U;
+                        break;
+                    }
+                    else
+                    {
+                        //same key - dont throw exception as the binarysearchtree would do
+                        p = p.U;
+                    }
                 }
                 else
                 {
-                    p = p.U; //same key add to right
+                    p = p.U;
+
                 }
             }
             q.P = r;
-            q.V = null;
-            q.U = null;
 
             if (r == null)
             {
