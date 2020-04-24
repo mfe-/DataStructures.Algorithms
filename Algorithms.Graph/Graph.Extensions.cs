@@ -295,18 +295,18 @@ namespace Algorithms.Graph
             // Initially, only the start node is known.
             // This is usually implemented as a min-heap or priority queue rather than a hash-set.
             var openSet = new PriorityQueue<AEdge>(a => a.F);
-            // helper dictionary for keys of PriorityQueue
-            Dictionary<string, IComparable> keyValuePairs = new Dictionary<string, IComparable>();
+            // caching list which keeps the key for the vertices of PriorityQueue
+            Dictionary<string, IComparable> verticeKeyForPriorityQueue = new Dictionary<string, IComparable>();
 
             openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
-            keyValuePairs.Add(start.ToString(), funcHeuristic(start));
+            verticeKeyForPriorityQueue.Add(start.ToString(), funcHeuristic(start));
 
             var closeSet = new Dictionary<IVertex, IEdge>();
             while (openSet.Any())
             {
                 //the node in openSet having the lowest fScore[] value
                 AEdge openVertex = openSet.Dequeue();
-                keyValuePairs.Remove(openVertex.V.ToString());
+                verticeKeyForPriorityQueue.Remove(openVertex.V.ToString());
                 IVertex currentNode = openVertex.V;
 
                 // Current node goes into the closed set
@@ -327,22 +327,31 @@ namespace Algorithms.Graph
                     // g-value of predecessor + costs/weight of current edge
                     int tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
                     // if successor is alread on list
-                    IComparable oldKey = -1;
                     var sucessorvertex = new AEdge();
-                    bool exists = keyValuePairs.ContainsKey(edge.V.ToString());
+                    var cacheKey = edge.V.ToString();
+                    bool exists = verticeKeyForPriorityQueue.ContainsKey(cacheKey);
+                    IList<AEdge> edgeListNode = null;
+                    int oldKey = -1;
                     if (exists)
                     {
-                        var key = openSet.GetNode(keyValuePairs[edge.V.ToString()]);
-                        var omg = openSet.Exists((aedge) => aedge.V == edge.V, out oldKey);
-                        while (key.Value.V != edge.V)
-                        {
-                            key = key.U;
-                        }
-                        sucessorvertex = key.Value;
-                        oldKey = key.Key;
+                        edgeListNode = ((PriorityQueue<AEdge>.PriorityNode<AEdge>)
+                            openSet.GetNode(verticeKeyForPriorityQueue[cacheKey])).Datas;
+                        sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
+                        oldKey = sucessorvertex.F;
                     }
                     if (exists && tentative_g >= sucessorvertex.Weighted)
                         continue;
+
+                    if (exists)
+                    {
+                        //remove old entry
+                        edgeListNode.Remove(sucessorvertex);
+                        if (edgeListNode.Count == 0)
+                        {
+                            openSet.Remove(oldKey);
+                        }
+                        verticeKeyForPriorityQueue.Remove(cacheKey);
+                    }
                     // the path to neighbor is better than any previous one or it wasnt added. Record it!
                     sucessorvertex = new AEdge();
                     sucessorvertex.V = edge.V;
@@ -350,16 +359,15 @@ namespace Algorithms.Graph
                     sucessorvertex.Weighted = tentative_g;
                     // update f - value
                     sucessorvertex.F = tentative_g + funcHeuristic(edge.V);
-
                     if (exists)
                     {
-                        openSet.Update(oldKey, sucessorvertex);
-                        keyValuePairs[edge.V.ToString()] = sucessorvertex.F;
+                        openSet.Enqueue(sucessorvertex);
+                        verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
                     }
                     else
                     {
                         openSet.Enqueue(sucessorvertex);
-                        keyValuePairs.Add(edge.V.ToString(), sucessorvertex.F);
+                        verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
                     }
 
                 }
