@@ -10,9 +10,8 @@ namespace Algorithms
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public abstract class AbstractTree<TData>
     {
-
         /// <summary>
-        /// Root node of AVL Tree
+        /// Root node of Tree
         /// </summary>
         public INodeLeafe<TData> RootNode;
         /// <summary>

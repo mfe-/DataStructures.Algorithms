@@ -96,7 +96,7 @@ namespace Algorithms
                 }
                 else
                 {
-                    p = p.U; //same key add to right
+                    p = p.U; //key greater - add to right
                 }
             }
             q.P = r;
