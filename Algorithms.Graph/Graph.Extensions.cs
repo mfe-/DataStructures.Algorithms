@@ -359,16 +359,9 @@ namespace Algorithms.Graph
                     sucessorvertex.Weighted = tentative_g;
                     // update f - value
                     sucessorvertex.F = tentative_g + funcHeuristic(edge.V);
-                    if (exists)
-                    {
-                        openSet.Enqueue(sucessorvertex);
-                        verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
-                    }
-                    else
-                    {
-                        openSet.Enqueue(sucessorvertex);
-                        verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
-                    }
+
+                    openSet.Enqueue(sucessorvertex);
+                    verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
 
                 }
             }
