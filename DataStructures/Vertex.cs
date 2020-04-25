@@ -106,7 +106,7 @@ namespace DataStructures
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return $"{_Guid}";
+            return _Guid.ToString();
         }
         /// <summary>
         /// Determines with the guid whether the specified Object is equal to the current Object.
