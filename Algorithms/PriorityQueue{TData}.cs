@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace Algorithms
 {
+    /// <summary>
+    /// PriorityQueue using <see cref="BinarySearchTree{TData}"/> with a list on each node to save duplicates
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
     [DebuggerDisplay("Count = {Count}")]
     public class PriorityQueue<TData> : BinarySearchTree<TData>
     {
@@ -19,7 +23,6 @@ namespace Algorithms
             public IList<TData1> Datas { get; }
         }
         private readonly Func<TData, IComparable> _funcKey;
-        private readonly Dictionary<string, IComparable> keyValuePairs = new Dictionary<string, IComparable>();
         public PriorityQueue(Func<TData, IComparable> funcKey) : base()
         {
             _funcKey = funcKey;

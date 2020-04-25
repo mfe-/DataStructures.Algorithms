@@ -430,7 +430,7 @@ namespace Algorithms.Graph.Test
         [Theory]
         [InlineData(4, 4)]
         [InlineData(512, 512)]
-        [InlineData(800, 800)]
+        [InlineData(1024, 1024)]
         public void AStar_should_find_in_grid_graph_from_start_to_last(int i, int j)
         {
             DataStructures.Graph g;
