@@ -34,36 +34,6 @@ namespace Algorithms
             FuncNodeFactory = new Func<IComparable, TData, INodeLeafe<TData>>((key, data) => new BNodeLeafe<TData>(key, data));
         }
         /// <summary>
-        /// Gets the node with the correspondening value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public virtual INodeLeafe<TData> GetNode(IComparable key, Action<INodeLeafe<TData>> actionCurrentNode = null)
-        {
-            INodeLeafe<TData> p = RootNode;
-            //5.CompareTo(6) = -1      First int is smaller.
-            //6.CompareTo(5) =  1      First int is larger.
-            //5.CompareTo(5) =  0      Ints are equal.
-            while (p != null)
-            {
-                actionCurrentNode?.Invoke(p);
-                if (key.CompareTo(p.Key) == -1)
-                {
-                    p = p.V;
-                }
-                else if (p.Key.CompareTo(key) == 0)
-                {
-                    return p;
-                }
-                else
-                {
-                    p = p.U;
-                }
-            }
-
-            return null;
-        }
-        /// <summary>
         /// Gets a value that indicates whether the overgiven value exists in the tree
         /// </summary>
         /// <param name="key"><The value to seek in the tree/param>
@@ -126,7 +96,7 @@ namespace Algorithms
                 }
                 else
                 {
-                    p = p.U; //same key add to right
+                    p = p.U; //key greater - add to right
                 }
             }
             q.P = r;

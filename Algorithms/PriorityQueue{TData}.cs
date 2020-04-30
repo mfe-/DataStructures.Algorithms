@@ -1,36 +1,33 @@
 ﻿using DataStructures;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Algorithms
 {
+    /// <summary>
+    /// PriorityQueue using <see cref="BinarySearchTree{TData}"/> with a list on each node to save duplicates
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
+    [DebuggerDisplay("Count = {Count}")]
     public class PriorityQueue<TData> : BinarySearchTree<TData>
     {
+        [DebuggerDisplay("Key = {Key} Count = {Datas.Count}")]
+        public class PriorityNode<TData1> : BNodeLeafe<TData1>
+        {
+            public PriorityNode(IComparable comparer, TData1 value) : base(comparer, value)
+            {
+                Datas = new List<TData1>();
+            }
+            public IList<TData1> Datas { get; }
+        }
         private readonly Func<TData, IComparable> _funcKey;
         public PriorityQueue(Func<TData, IComparable> funcKey) : base()
         {
             _funcKey = funcKey;
-        }
-        public TData Exists(TData data, out IComparable key)
-        {
-            key = -1;
-            INodeLeafe<TData> nodeLeafe = Find(data);
-            if (nodeLeafe != null)
-            {
-                key = nodeLeafe.Key;
-                return nodeLeafe.Value;
-            }
-            return default(TData);
-        }
-        public TData Exists(Func<TData, bool> findFunc, out IComparable key)
-        {
-            key = -1;
-            INodeLeafe<TData> nodeLeafe = Find(findFunc);
-            if (nodeLeafe != null)
-            {
-                key = nodeLeafe.Key;
-                return nodeLeafe.Value;
-            }
-            return default(TData);
+            FuncNodeFactory = new Func<IComparable, TData, INodeLeafe<TData>>(
+                (key, data) => new PriorityNode<TData>(key, data));
         }
         public override void Add(IComparable key, TData data)
         {
@@ -40,6 +37,7 @@ namespace Algorithms
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
+            bool update = false;
             while (p != null)
             {
                 (p as BNodeLeafe<TData>).AmountofNode += 1;
@@ -50,14 +48,20 @@ namespace Algorithms
                 }
                 else if (p.Key.CompareTo(key) == 0)
                 {
-                    //same key - dont throw exception as the binarysearchtree would do
-                    p = p.U; 
+                    //same key - we dont need a new node
+                    q = p;
+                    update = true;
+                    break;
                 }
                 else
                 {
-                    p = p.U; //same key add to right
+                    p = p.U; 
                 }
             }
+
+            (q as PriorityNode<TData>).Datas.Add(data);
+            if (update) return;
+
             q.P = r;
             q.V = null;
             q.U = null;
@@ -88,16 +92,14 @@ namespace Algorithms
         }
         public TData Dequeue()
         {
-            INodeLeafe<TData> nodeLeafe = GetMinimum();
-            Remove(nodeLeafe.Key);
-            return nodeLeafe.Value;
-        }
-        public IComparable Update(IComparable oldKey, TData data)
-        {
-            Remove(oldKey);
-            var key = _funcKey(data);
-            Add(key, data);
-            return key;
+            PriorityNode<TData> nodeLeafe = (PriorityNode<TData>)GetMinimum();
+            TData data = nodeLeafe.Datas.FirstOrDefault();
+            nodeLeafe.Datas.Remove(data);
+            if (nodeLeafe.Datas.Count == 0)
+            {
+                Remove(nodeLeafe.Key);
+            }
+            return data;
         }
 
         public bool Any()

@@ -52,7 +52,7 @@ namespace Algorithms
         /// </summary>
         /// <param name="node">parent node of the new node</param>
         /// <param name="newNode">The new node to insert</param>
-        protected void Add(INodeLeafe<TData> node, INodeLeafe<TData> newNode)
+        protected virtual void Add(INodeLeafe<TData> node, INodeLeafe<TData> newNode)
         {
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
@@ -234,7 +234,7 @@ namespace Algorithms
         /// Rebalance from a node
         /// </summary>
         /// <param name="node">The noode which we should rebalance</param>
-        private void ReBalance(INodeLeafe<TData> node)
+        protected void ReBalance(INodeLeafe<TData> node)
         {
 
             int Balance = CalculateBalance(node);

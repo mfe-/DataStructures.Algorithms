@@ -24,6 +24,7 @@
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
     <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
   </ItemGroup>
 </Project>
