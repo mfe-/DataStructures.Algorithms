@@ -13,7 +13,7 @@ namespace Algorithms.Graph.Test
             _testOutputHelper = testOutputHelper;
         }
 
-        [Fact]
+        //[Fact] WIP
         public void SaveXmlShould_contain_all_vertices_and_edges()
         {
             //the graph to serialize
