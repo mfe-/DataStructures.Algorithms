@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStructures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,56 @@ namespace Algorithms
 {
     public static class Search
     {
+        /// <summary>
+        /// InOrder stack based implementation - Root is placed in the middle of the list. Elements will be returned ascending
+        /// </summary>
+        /// <typeparam name="TNode">A Treenode which supports traversing Parent Left and Right</typeparam>
+        /// <param name="p">The Node to start</param>
+        /// <returns>ascending elements</returns>
+        public static IEnumerable<INodeTree<TNode>> InOrder<TNode>(this INodeTree<TNode> p) where TNode : INodeTree<TNode>, INode<TNode>
+        {
+            Stack<INodeTree<TNode>> s = new Stack<INodeTree<TNode>>();
+            INodeTree<TNode> current = p;
+
+            // traverse the tree  
+            while (current != null || s.Count > 0)
+            {
+                // Reach the left most Node of the  curr Node 
+                while (current != null)
+                {
+                    // place pointer to a tree node on the stack before traversing  
+                    // the node's left subtree
+                    s.Push(current);
+                    current = current.V;
+                }
+                current = s.Pop();
+                yield return current;
+                // we have visited the node and its left subtree. 
+                // Now, it's right subtree's turn
+                current = current.U;
+            }
+        }
+        /// <summary>
+        /// PreOrder recursiv implementation - The first element is the root node
+        /// </summary>
+        /// <typeparam name="TNode">A Treenode which supports traversing Parent Left and Right</typeparam>
+        /// <param name="p">The Node to start</param>
+        /// <returns></returns>
+        public static IEnumerable<INodeTree<TNode>> PreOrder<TNode>(this INodeTree<TNode> p) where TNode : INodeTree<TNode>, INode<TNode>
+        {
+            return PreOrder(p, new List<INodeTree<TNode>>());
+        }
+        internal static IEnumerable<INodeTree<TNode>> PreOrder<TNode>(this INodeTree<TNode> p, IList<INodeTree<TNode>> list) where TNode : INodeTree<TNode>, INode<TNode>
+        {
+            if (p != null)
+            {
+                list.Add(p);
+                PreOrder(p.V, list);
+                PreOrder(p.U, list);
+            }
+            return list;
+        }
+
         public static T BinarySearch<T>(this IEnumerable<T> A, T key) where T : IComparable<T>
         {
             return BinarySearch(A.ToArray(), key, 0, A.Count() - 1);
