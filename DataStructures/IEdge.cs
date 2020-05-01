@@ -4,6 +4,6 @@
     {
         IVertex U { get; set; }
         IVertex V { get; set; }
-        int Weighted { get; set; }
+        double Weighted { get; set; }
     }
 }

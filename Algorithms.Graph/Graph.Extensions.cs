@@ -203,7 +203,7 @@ namespace Algorithms.Graph
         /// <param name="amount_height_vertices">height of grid</param>
         /// <param name="funFactory">The vertice factory to create vertices</param>
         /// <returns>The created graph</returns>
-        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null)
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null, Action<IVertex[]> actionOnRowCreated = null)
         {
             DataStructures.Graph g = new DataStructures.Graph();
             IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
@@ -213,8 +213,7 @@ namespace Algorithms.Graph
             {
                 for (int x = 0; x < amountWidthVertices; x++)
                 {
-                    IVertex currentVertex = funFactory.Invoke(x);
-                    currentVertex.Weighted = x + y;
+                    IVertex currentVertex = funFactory.Invoke(x, y);
                     lastVerticesRow[x] = currentVertex;
                     //connect previous vertex on x axis
                     if (x - 1 >= 0)
@@ -234,6 +233,7 @@ namespace Algorithms.Graph
 
                     }
                 }
+                actionOnRowCreated?.Invoke(lastVerticesRow);
                 if (g.Start == null)
                 {
                     g.Start = lastVerticesRow[0];
@@ -245,10 +245,10 @@ namespace Algorithms.Graph
         [DebuggerDisplay("V={V.Weighted},Weighted={Weighted},F={F},U={U.Weighted}")]
         public struct AEdge : IEdge
         {
-            public AEdge(IVertex current, int f) : this(current, null, 0, f)
+            public AEdge(IVertex current, double f) : this(current, null, 0, f)
             {
             }
-            public AEdge(IVertex current, IVertex predecessor, int weight, int f)
+            public AEdge(IVertex current, IVertex predecessor, double weight, double f)
             {
                 V = current;
                 U = predecessor;
@@ -266,8 +266,8 @@ namespace Algorithms.Graph
             /// <summary>
             /// edge weight costs from start to current V
             /// </summary>
-            public int Weighted { get; set; }
-            public int F { get; set; }
+            public double Weighted { get; set; }
+            public double F { get; set; }
         }
         public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, IEdge> edge, IVertex goal)
         {
@@ -281,7 +281,7 @@ namespace Algorithms.Graph
             vertices.Add(current.V);
             return vertices;
         }
-        public static IDictionary<IVertex, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, int> funcHeuristic = null, Func<IEdge, int> funcEdgeWeight = null)
+        public static IDictionary<IVertex, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double> funcHeuristic = null, Func<IEdge, double> funcEdgeWeight = null)
         {
             if (funcHeuristic == null)
             {
@@ -325,13 +325,13 @@ namespace Algorithms.Graph
 
                     // calculate g-value for new path:
                     // g-value of predecessor + costs/weight of current edge
-                    int tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
+                    double tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
                     // if successor is alread on list
                     var sucessorvertex = new AEdge();
                     var cacheKey = edge.V.ToString();
                     bool exists = verticeKeyForPriorityQueue.ContainsKey(cacheKey);
                     IList<AEdge> edgeListNode = null;
-                    int oldKey = -1;
+                    double oldKey = -1;
                     if (exists)
                     {
                         edgeListNode = ((PriorityQueue<AEdge>.PriorityNode<AEdge>)
@@ -365,7 +365,7 @@ namespace Algorithms.Graph
 
                 }
             }
-            return null;
+            return closeSet;
         }
 
         //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C
@@ -400,7 +400,7 @@ namespace Algorithms.Graph
                 z.Edges.Clear();
             }
 
-            int weight = 0;
+            double weight = 0;
             for (int i = 0; i < IEdges.Length; i++)
             {
                 IEdge e = IEdges[i];
@@ -429,9 +429,9 @@ namespace Algorithms.Graph
         /// </summary>
         /// <param name="edges"></param>
         /// <returns>Calculated distance</returns>
-        public static int Distance(this IEnumerable<IEdge> edges)
+        public static double Distance(this IEnumerable<IEdge> edges)
         {
-            int distance = 0;
+            double distance = 0;
             if (edges == null) return distance;
 
             foreach (IEdge e in edges)
@@ -508,7 +508,7 @@ namespace Algorithms.Graph
                     }
                     else
                     {
-                        row[y] = edge.Weighted == 0 ? 1 : edge.Weighted;
+                        row[y] = edge.Weighted == 0 ? 1 : System.Convert.ToInt32(edge.Weighted);
                     }
                 }
 

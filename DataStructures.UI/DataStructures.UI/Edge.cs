@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace DataStructures.UI
@@ -9,7 +8,7 @@ namespace DataStructures.UI
     {
         private IVertex _u;
         private IVertex _v;
-        private int _weighted;
+        private double _weighted;
 
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -25,7 +24,7 @@ namespace DataStructures.UI
         /// <param name="u">Vertex of the Edge</param>
         /// <param name="v">Vertex of the Edge</param>
         /// <param name="weighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex u, IVertex v, int weighted) : base(u, v, weighted)
+        public Edge(IVertex u, IVertex v, double weighted) : base(u, v, weighted)
         {
         }
         /// <summary>
@@ -42,7 +41,7 @@ namespace DataStructures.UI
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
-        public override int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
+        public override double Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

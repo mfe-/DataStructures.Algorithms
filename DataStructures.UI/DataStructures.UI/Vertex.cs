@@ -11,7 +11,7 @@ namespace DataStructures.UI
     public class Vertex : DataStructures.Vertex, INotifyPropertyChanged
     {
         private ObservableCollection<IEdge> _Edges;
-        private int _weighted;
+        private double _weighted;
         /// <summary>
         /// Initializes a new instance of the Vertex class.
         /// </summary>
@@ -23,7 +23,7 @@ namespace DataStructures.UI
         {
             _weighted = weighted;
         }
-        public override IEdge CreateEdge(IVertex u, int weighted = 0)
+        public override IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge(this, u, weighted);
             return e1;
@@ -32,7 +32,7 @@ namespace DataStructures.UI
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
-        public override int Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
+        public override double Weighted { get { return _weighted; } set { _weighted = value; NotifyPropertyChanged(nameof(Weighted)); } }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours

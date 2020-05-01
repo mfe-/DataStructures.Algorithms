@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Diagnostics;
-using System;
 
 namespace DataStructures
 {
@@ -24,7 +22,7 @@ namespace DataStructures
         /// <param name="u">Vertex of the Edge</param>
         /// <param name="v">Vertex of the Edge</param>
         /// <param name="weighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex u, IVertex v, int weighted) : base(u, v,weighted)
+        public Edge(IVertex u, IVertex v, double weighted) : base(u, v,weighted)
         {
             Value = default;
         }

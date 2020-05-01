@@ -1,9 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using System;
+﻿using System.Runtime.Serialization;
 using System.Diagnostics;
-using System.Linq;
 
 namespace DataStructures
 {
@@ -22,14 +18,14 @@ namespace DataStructures
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
         /// <param name="weighted"></param>
-        public Vertex(int weighted)
+        public Vertex(double weighted)
             : base(weighted)
         {
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
         public TData Value { get; set; }
 
-        public override IEdge CreateEdge(IVertex u, int weighted = 0)
+        public override IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge<TData>(this, u, weighted);
             return e1;

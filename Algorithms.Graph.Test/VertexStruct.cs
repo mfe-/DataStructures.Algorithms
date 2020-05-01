@@ -19,7 +19,7 @@ namespace Algorithms.Graph.Test
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
         /// <param name="weighted"></param>
-        public Vertex(int weighted)
+        public Vertex(double weighted)
             : this()
         {
             Weighted = weighted;
@@ -29,7 +29,7 @@ namespace Algorithms.Graph.Test
         /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
-        public int Weighted { get; set; }
+        public double Weighted { get; set; }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
@@ -47,7 +47,7 @@ namespace Algorithms.Graph.Test
             }
         }
 
-        public IEdge CreateEdge(IVertex u, int weighted = 0)
+        public IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge(this, u, weighted);
             return e1;
@@ -58,7 +58,7 @@ namespace Algorithms.Graph.Test
         /// <param name="u">Vertex to connect</param>
         /// <param name="weighted">Weighted of the Edge</param>
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true)
+        public IEdge AddEdge(IVertex u, double weighted = 0, bool directed = true)
         {
             IEdge e1 = CreateEdge(u, weighted);
             Edges.Add(e1);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using DataStructures;
 using Xunit;
@@ -348,7 +349,7 @@ namespace Algorithms.Graph.Test
             q.Enqueue(new AEdge(new Vertex(5), 10));
 
 
-            List<int> result = new List<int>();
+            List<double> result = new List<double>();
             while (q.Any())
             {
                 AEdge v = q.Dequeue();
@@ -356,7 +357,7 @@ namespace Algorithms.Graph.Test
                 _testOutputHelper.WriteLine($"{v.Weighted}");
 
             }
-            Assert.Equal(new int[] { 0, 3, 5, 9, 10 }, result.ToArray());
+            Assert.Equal(new double[] { 0, 3, 5, 9, 10 }, result.ToArray());
 
         }
         [Fact]
@@ -386,7 +387,7 @@ namespace Algorithms.Graph.Test
             var result = saarbruecken.AStar(wuerzburg);
             Assert.Equal(289, ((AEdge)(result.Last().Value)).F);
             var x = GraphExtensions.ReconstructPath(result, wuerzburg);
-            Assert.Equal(new int[] { 0, 96, 158, 222 }, x.Select(a => a.Weighted).ToArray());
+            Assert.Equal(new double[] { 0, 96, 158, 222 }, x.Select(a => a.Weighted).ToArray());
         }
         [Fact]
         public void AStarYtExample_should_find_shortes_path()
@@ -396,7 +397,10 @@ namespace Algorithms.Graph.Test
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
             DataStructures.Graph g = GraphExtensions.Load(xmlElement);
 
-            IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
+
+            var vertices = g.Start.BreadthFirstSearchQueue();
+
+            IVertex goal = vertices.FirstOrDefault(a => a.Weighted == 0);
 
             var result = g.Start.AStar(goal);
 
@@ -405,7 +409,7 @@ namespace Algorithms.Graph.Test
             var x = GraphExtensions.ReconstructPath(result, goal);
 
             int sum = new int[] { 0, 8, 10, 11, 13, 16 }.Sum();
-            int resultSum = x.Select(a => a.Weighted).Sum();
+            double resultSum = x.Select(a => a.Weighted).Sum();
             Assert.True(sum >= resultSum);
             //Assert.Equal(new int[] { 0, 8, 10, 11, 13, 16 }, x.Select(a => a.Weighted).ToArray());
 
@@ -425,7 +429,7 @@ namespace Algorithms.Graph.Test
             Assert.Equal(8, ((AEdge)(result.Last().Value)).F);
 
             var x = GraphExtensions.ReconstructPath(result, goal);
-            Assert.Equal(new int[] { 0, 2, 4, 6, 7 }, x.Select(a => a.Weighted).ToArray());
+            Assert.Equal(new double[] { 0, 2, 4, 6, 7 }, x.Select(a => a.Weighted).ToArray());
         }
         [Theory]
         [InlineData(4, 4)]
@@ -436,20 +440,50 @@ namespace Algorithms.Graph.Test
             DataStructures.Graph g;
             Stopwatch stopwatch1 = new Stopwatch();
             IVertex goalToFind = null;
-            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryGeneric, (lastVertex) => goalToFind = lastVertex);
-            IEnumerable<IVertex> result;
 
+            Action<IVertex[]> actionOnRowCreated = new Action<IVertex[]>((v) =>
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (var item in v)
+                {
+                    if (item != v.First())
+                    {
+                        stringBuilder.Append($", ");
+                    }
+                    stringBuilder.Append(Math.Round(item.Weighted, 2));
+                }
+                _testOutputHelper.WriteLine(stringBuilder.ToString());
+            });
+            if (i > 256 && j > 256)
+            {
+                actionOnRowCreated = null;
+            }
+
+            IVertex VertexFactoryDouble(int x, int y)
+            {
+                //the starting point doesn't have any costs
+                double distance = 0;
+                if (!(x == 0 && y == 0))
+                {
+                    distance = Math.Sqrt((Math.Pow(i - x, 2) + Math.Pow((double)(j - y), 2)));
+                }
+                return new Vertex(distance);
+            }
+
+            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, actionOnRowCreated);
+            IEnumerable<IVertex> result;
+            int completeAmountEdges = 2 * (i * j) - i - j;
+            int completeAmountVertices = i * j;
             stopwatch1.Start();
             {
                 var path = g.Start.AStar(goalToFind);
                 result = path.ReconstructPath(goalToFind);
             }
             stopwatch1.Stop();
-            _testOutputHelper.WriteLine($"Astar took for grid graph of {i}x{j} {stopwatch1.ElapsedMilliseconds}ms");
 
             //check if we can get from the start to the goal using the result list
             Assert.Equal(g.Start, result.Last());
-
+            double totalCosts = 0;
             IVertex lastVisitedVertex = g.Start;
             //revers list so we begin from start
             var enumerator = result.Reverse().GetEnumerator();
@@ -457,10 +491,19 @@ namespace Algorithms.Graph.Test
             enumerator.MoveNext();
             while (enumerator.MoveNext())
             {
+                totalCosts = totalCosts + lastVisitedVertex.Weighted;
                 lastVisitedVertex = lastVisitedVertex.Edges.FirstOrDefault(a => a.V == enumerator.Current).V;
+            }
+            totalCosts = totalCosts + lastVisitedVertex.Weighted;
+            if (i == 4 && j == 4)
+            {
+                Assert.Equal(19, Convert.ToInt32(totalCosts));
             }
             //did we find the goal?
             Assert.Equal(goalToFind, lastVisitedVertex);
+
+            _testOutputHelper.WriteLine($"Astar took for grid graph of {i}x{j} with Edges:{completeAmountEdges} Vertices:{completeAmountVertices} {stopwatch1.ElapsedMilliseconds}ms");
+            _testOutputHelper.WriteLine($"Astar result path contains {result.Count()} with costs of {totalCosts}");
 
         }
         //xml Deserializer creates readOnly list
@@ -515,7 +558,7 @@ namespace Algorithms.Graph.Test
             edges.Add(vertex1.AddEdge(vertex2, 3, false));
             edges.Add(vertex2.AddEdge(vertex3, 5, false));
 
-            int distance = edges.Distance();
+            double distance = edges.Distance();
 
             Assert.Equal(8, distance);
         }
@@ -532,13 +575,17 @@ namespace Algorithms.Graph.Test
         //    var vertexList = edges.ToVertexList().OrderBy(a => a.Weighted);
         //    Assert.Equal(6, vertexList.Count());
         //}
-        IVertex VertexFactoryGeneric(int weight)
+        IVertex VertexFactoryGeneric(int x, int y)
         {
-            return new Vertex<int>() { Weighted = weight };
+            return new Vertex<int>() { Weighted = x };
         }
-        IVertex VertexFactory(int weight)
+        IVertex VertexFactory(int x, int y)
         {
-            return new Vertex() { Weighted = weight };
+            return new DataStructures.Vertex(x);
+        }
+        IVertex VertexStructFactory(int x, int y)
+        {
+            return new Vertex(x);
         }
         [Fact]
         public void QuaderDFS_undirected_grid_graph_VertexFactoryGeneric_should_find_all_with_DFS()

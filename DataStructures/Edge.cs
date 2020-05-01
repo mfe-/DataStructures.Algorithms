@@ -26,7 +26,7 @@ namespace DataStructures
         /// <param name="u">Vertex of the Edge</param>
         /// <param name="v">Vertex of the Edge</param>
         /// <param name="weighted">Sets the Weighted of the Edge</param>
-        public Edge(IVertex u, IVertex v, int weighted) : this(u, v)
+        public Edge(IVertex u, IVertex v, double weighted) : this(u, v)
         {
             Weighted = weighted;
         }
@@ -44,7 +44,7 @@ namespace DataStructures
         /// Gets or sets the Weighted of the Edge
         /// </summary>
         [DataMember(Name = "Weighted", IsRequired = true)]
-        public virtual int Weighted { get; set; }
+        public virtual double Weighted { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current object.

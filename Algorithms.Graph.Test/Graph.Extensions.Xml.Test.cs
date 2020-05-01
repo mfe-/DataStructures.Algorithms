@@ -17,7 +17,7 @@ namespace Algorithms.Graph.Test
         public void SaveXmlShould_contain_all_vertices_and_edges()
         {
             //the graph to serialize
-            DataStructures.Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i) => new Vertex());
+            DataStructures.Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i,j) => new Vertex());
 
             GraphExtensions.Serialize(g.Start, "muh");
 

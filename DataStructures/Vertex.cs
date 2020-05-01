@@ -31,7 +31,7 @@ namespace DataStructures
         /// Initializes a new instance of the Vertex class that contains the specified weighted.
         /// </summary>
         /// <param name="weighted"></param>
-        public Vertex(int weighted)
+        public Vertex(double weighted)
             : this()
         {
             Weighted = weighted;
@@ -40,7 +40,7 @@ namespace DataStructures
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         [DataMember(Name = "Weighted", Order = 1, IsRequired = true)]
-        public virtual int Weighted { get; set; }
+        public virtual double Weighted { get; set; }
 
         /// <summary>
         /// Gets or sets the list of edges which connects the vertex neighbours
@@ -59,7 +59,7 @@ namespace DataStructures
             }
         }
 
-        public virtual IEdge CreateEdge(IVertex u, int weighted = 0)
+        public virtual IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge(this, u, weighted);
             return e1;
@@ -70,7 +70,7 @@ namespace DataStructures
         /// <param name="u">Vertex to connect</param>
         /// <param name="weighted">Weighted of the Edge</param>
         /// <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
-        public virtual IEdge AddEdge(IVertex u, int weighted = 0, bool directed = true)
+        public virtual IEdge AddEdge(IVertex u, double weighted = 0, bool directed = true)
         {
             IEdge e1 = CreateEdge(u, weighted);
             Edges.Add(e1);
