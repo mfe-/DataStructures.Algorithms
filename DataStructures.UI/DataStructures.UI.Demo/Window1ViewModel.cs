@@ -78,22 +78,23 @@ namespace DataStructures.Demo
 
         protected async void OnAStarCommand(IVertex vertex)
         {
-
-            Point goalPoint = (vertex as IVertex<Point>).Value;
-            Func<IVertex, double> funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+            Func<IVertex, double> funcManhattanDistanceHeuristic = null;
+            if (typeof(IVertex<Point>).Equals(vertex?.GetType()))
             {
-                Point currentPoint = ((IVertex<Point>)vertex).Value;
-                return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
-            });
+                Point goalPoint = ((IVertex<Point>)(vertex)).Value;
+                funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+                {
+                    Point currentPoint = ((IVertex<Point>)vertex).Value;
+                    return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
+                });
+                Func<IVertex, double> funcEuclideanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+                {
+                    Point currentPoint = ((IVertex<Point>)vertex).Value;
+                    return Math.Sqrt(Math.Pow((currentPoint.X - currentPoint.X), 2) + Math.Pow((currentPoint.Y - currentPoint.Y), 2));
+                });
+            }
 
-            Func<IVertex, double> funcEuclideanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
-            {
-                Point currentPoint = ((IVertex<Point>)vertex).Value;
-                return Math.Sqrt(Math.Pow((currentPoint.X - currentPoint.X), 2) + Math.Pow((currentPoint.Y - currentPoint.Y), 2));
-            });
-
-
-            var result = PreviousSelectedVertex.AStar(vertex, funcEuclideanDistanceHeuristic);
+            var result = PreviousSelectedVertex.AStar(vertex, funcManhattanDistanceHeuristic);
             var result2 = result.ReconstructPath(vertex);
 
             Queue<Action> queue = new Queue<Action>();
