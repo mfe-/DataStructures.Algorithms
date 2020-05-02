@@ -144,29 +144,35 @@ namespace DataStructures.UI
         /// <param name="e"></param>
         protected void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            XElement Xgraph = GraphSaveFunc?.Invoke(this.Graph, DataContractSerializerSettingsActionInvoker);
+            try
+            {
+                XElement Xgraph = GraphSaveFunc?.Invoke(this.Graph, DataContractSerializerSettingsActionInvoker);
 
-            //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
-            XElement XFrameworkElement = new XElement("FrameworkElements",
-                from item in this.Children.OfType<VertexControl>()
-                    //let Contentxaml = XamlWriter.Save(item.Conte)
-                select new XElement(item.GetType().ToString(),
-                    new XElement("ID", item.GetHashCode()),
-                    new XElement("VertexID", item.Vertex.GetHashCode()),
-                    //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
-                    //use instead point.ToString(CultureInfo.InvariantCulture)
-                    new XElement("Position", this.GetPosition(item)),
-                    new XElement(WidthProperty.Name, item.Width),
-                    new XElement(HeightProperty.Name, item.Height),
-                    new XElement("ZIndex", Canvas.GetZIndex((UIElement)item)))
-                    );
+                //http://www.codeproject.com/Articles/24681/WPF-Diagram-Designer-Part-4
+                XElement XFrameworkElement = new XElement("FrameworkElements",
+                    from item in this.Children.OfType<VertexControl>()
+                        //let Contentxaml = XamlWriter.Save(item.Conte)
+                    select new XElement(item.GetType().ToString(),
+                            new XElement("ID", item.GetHashCode()),
+                            new XElement("VertexID", item.Vertex.GetHashCode()),
+                            //todo:  new XElement("Position", this.getPosition(item)), -> returns a string omiting the culture of the operating system
+                            //use instead point.ToString(CultureInfo.InvariantCulture)
+                            new XElement("Position", this.GetPosition(item)),
+                            new XElement(WidthProperty.Name, item.Width),
+                            new XElement(HeightProperty.Name, item.Height),
+                            new XElement("ZIndex", Canvas.GetZIndex((UIElement)item)))
+                        );
 
-            XElement root = new XElement("Root");
-            root.Add(Xgraph);
-            root.Add(XFrameworkElement);
+                XElement root = new XElement("Root");
+                root.Add(Xgraph);
+                root.Add(XFrameworkElement);
 
-            SaveFile(root);
-
+                SaveFile(root);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}{Environment.NewLine}{ex.StackTrace}", ex.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         /// <summary>
         /// Get or sets the function to load a graph
