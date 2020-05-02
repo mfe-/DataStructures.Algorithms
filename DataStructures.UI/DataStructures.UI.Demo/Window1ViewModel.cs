@@ -2,6 +2,7 @@
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -77,7 +78,22 @@ namespace DataStructures.Demo
 
         protected async void OnAStarCommand(IVertex vertex)
         {
-            var result = PreviousSelectedVertex.AStar(vertex);
+
+            Point goalPoint = (vertex as IVertex<Point>).Value;
+            Func<IVertex, double> funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+            {
+                Point currentPoint = ((IVertex<Point>)vertex).Value;
+                return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
+            });
+
+            Func<IVertex, double> funcEuclideanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+            {
+                Point currentPoint = ((IVertex<Point>)vertex).Value;
+                return Math.Sqrt(Math.Pow((currentPoint.X - currentPoint.X), 2) + Math.Pow((currentPoint.Y - currentPoint.Y), 2));
+            });
+
+
+            var result = PreviousSelectedVertex.AStar(vertex, funcEuclideanDistanceHeuristic);
             var result2 = result.ReconstructPath(vertex);
 
             Queue<Action> queue = new Queue<Action>();
@@ -127,39 +143,13 @@ namespace DataStructures.Demo
         protected void OnGenerateGridGraph()
         {
             Graph = null;
-            Graph = Generate_Grid_Graph(4, 4, (i) => { var v = VertexFactory(); v.Weighted = i; return v; } );
-        }
-        public Graph Generate_Grid_Graph(int amount_width_vertices, int amount_height_vertices, Func<int, IVertex> funFactory)
-        {
-            Graph g = new Graph();
-            IVertex[] lastVerticesRow = new IVertex[amount_width_vertices];
-            IVertex[] lastyVerticesRow = new IVertex[amount_width_vertices];
-
-            for (int y = 0; y < amount_height_vertices; y++)
+            IVertex VertexFactoryDouble(int x, int y)
             {
-                for (int x = 0; x < amount_width_vertices; x++)
-                {
-                    IVertex currentVertex = funFactory.Invoke(x);
-                    lastVerticesRow[x] = currentVertex;
-                    //connect previous vertex on x axis
-                    if (x - 1 >= 0)
-                    {
-                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
-                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
-                    }
-                    //connect previous vertex on y axis
-                    if (lastyVerticesRow[x] != null)
-                    {
-                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
-                    }
-                }
-                if (g.Start == null)
-                {
-                    g.Start = lastVerticesRow[0];
-                }
-                lastVerticesRow.CopyTo(lastyVerticesRow, 0);
+                var vertex = new UI.Vertex<Point>();
+                vertex.Value = new Point(x, y);
+                return vertex;
             }
-            return g;
+            Graph = GraphExtensions.GenerateGridGraph(4, 4, VertexFactoryDouble, edgeWeight: 0.1);
         }
 
     }

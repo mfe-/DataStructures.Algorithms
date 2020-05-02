@@ -115,6 +115,7 @@ namespace DataStructures.Demo
                 new Action<DataContractSerializerSettings>(dataContractSerializerSettingsActionInvoker =>
                 {
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
+                    types.Add(typeof(UI.Vertex<Point>));
                     //types.Add(typeof(StateModule));
                     //types.Add(typeof(Vertex<StateModule>));
                     //types.Add(typeof(Edge<StateModule>));

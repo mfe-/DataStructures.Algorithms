@@ -19,7 +19,7 @@ namespace DataStructures.UI
         {
             _Edges = new ObservableCollection<IEdge>();
         }
-        public Vertex(int weighted) : this()
+        public Vertex(double weighted) : this()
         {
             _weighted = weighted;
         }

@@ -71,6 +71,7 @@
                                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                                         <!--ToolTip="{Binding Value,UpdateSourceTrigger=PropertyChanged}">-->
                                         <TextBox Text="{Binding Path=Weighted}" />
+                                        <TextBlock Text="{Binding Path=Value}" />
                                         <!--<TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" />-->
                                     </StackPanel>
                                 </DataTemplate>
