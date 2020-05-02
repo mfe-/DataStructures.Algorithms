@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -435,7 +436,7 @@ namespace Algorithms.Graph.Test
         [InlineData(4, 4)]
         [InlineData(512, 512)]
         [InlineData(1024, 1024)]
-        public void AStar_should_find_in_grid_graph_from_start_to_last(int i, int j)
+        public void AStar_using_ManhattanDistance_visit_expected_amount_vertices(int i, int j)
         {
             DataStructures.Graph g;
             Stopwatch stopwatch1 = new Stopwatch();
@@ -461,29 +462,53 @@ namespace Algorithms.Graph.Test
 
             IVertex VertexFactoryDouble(int x, int y)
             {
-                //the starting point doesn't have any costs
-                double distance = 0;
-                if (!(x == 0 && y == 0))
-                {
-                    distance = Math.Sqrt((Math.Pow(i - x, 2) + Math.Pow((double)(j - y), 2)));
-                }
-                return new DataStructures.Vertex(distance);
+                var vertex = new DataStructures.Vertex<Point>();
+                vertex.Value = new Point(x, y);
+                return vertex;
             }
 
-            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, actionOnRowCreated);
+            g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, actionOnRowCreated, 0.1);
             IEnumerable<IVertex> result;
             int completeAmountEdges = 2 * (i * j) - i - j;
             int completeAmountVertices = i * j;
+
+            Point goalPoint = ((IVertex<Point>)goalToFind).Value;
+            Func<IVertex, double> funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+            {
+                Point currentPoint = ((IVertex<Point>)vertex).Value;
+                return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
+
+            });
+            double SQRT_2 = Math.Sqrt(2);
+            Func<IVertex, IEdge, double> funcNeighborDistance = new Func<IVertex, IEdge, double>((current, e) =>
+            {
+                Point currentPoint = ((IVertex<Point>)current).Value;
+                Point neighbourPoint = ((IVertex<Point>)e.V).Value;
+
+                int diffX = Math.Abs(currentPoint.X - neighbourPoint.X);
+                int diffY = Math.Abs(currentPoint.Y - neighbourPoint.Y);
+
+                switch (diffX + diffY)
+                {
+                    case 1: return 1;
+                    case 2: return SQRT_2;
+                    case 0: return 0;
+                    default:
+                        throw new ApplicationException();
+                }
+            });
+
+            IDictionary<Guid, IEdge> path;
             stopwatch1.Start();
             {
-                var path = g.Start.AStar(goalToFind);
+                path = g.Start.AStar(goalToFind, funcManhattanDistanceHeuristic);
                 result = path.ReconstructPath(goalToFind);
             }
             stopwatch1.Stop();
 
             //check if we can get from the start to the goal using the result list
             Assert.Equal(g.Start, result.Last());
-            double totalCosts = 0;
+
             IVertex lastVisitedVertex = g.Start;
             //revers list so we begin from start
             var enumerator = result.Reverse().GetEnumerator();
@@ -491,19 +516,17 @@ namespace Algorithms.Graph.Test
             enumerator.MoveNext();
             while (enumerator.MoveNext())
             {
-                totalCosts = totalCosts + lastVisitedVertex.Weighted;
                 lastVisitedVertex = lastVisitedVertex.Edges.FirstOrDefault(a => a.V == enumerator.Current).V;
             }
-            totalCosts = totalCosts + lastVisitedVertex.Weighted;
-            if (i == 4 && j == 4)
-            {
-                Assert.Equal(19, Convert.ToInt32(totalCosts));
-            }
+            //with the ManhattanDistanceHeuristic we only need to visit 
+            int expectedVisitedVertices = (i+j)-1;
+            Assert.Equal(expectedVisitedVertices, path.Count);
+
             //did we find the goal?
             Assert.Equal(goalToFind, lastVisitedVertex);
 
             _testOutputHelper.WriteLine($"Astar took for grid graph of {i}x{j} with Edges:{completeAmountEdges} Vertices:{completeAmountVertices} {stopwatch1.ElapsedMilliseconds}ms");
-            _testOutputHelper.WriteLine($"Astar result path contains {result.Count()} with costs of {totalCosts}");
+            _testOutputHelper.WriteLine($"Astar result path contains {path.Count()} and reconstructed path {result.Count()}");
 
         }
         //xml Deserializer creates readOnly list

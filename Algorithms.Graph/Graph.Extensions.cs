@@ -203,7 +203,7 @@ namespace Algorithms.Graph
         /// <param name="amount_height_vertices">height of grid</param>
         /// <param name="funFactory">The vertice factory to create vertices</param>
         /// <returns>The created graph</returns>
-        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null, Action<IVertex[]> actionOnRowCreated = null)
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null, Action<IVertex[]> actionOnRowCreated = null, double edgeWeight = 1)
         {
             DataStructures.Graph g = new DataStructures.Graph();
             IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
@@ -218,13 +218,13 @@ namespace Algorithms.Graph
                     //connect previous vertex on x axis
                     if (x - 1 >= 0)
                     {
-                        currentVertex.AddEdge(lastVerticesRow[x - 1], x, true);
-                        lastVerticesRow[x - 1].AddEdge(currentVertex, x, true);
+                        currentVertex.AddEdge(lastVerticesRow[x - 1], edgeWeight, true);
+                        lastVerticesRow[x - 1].AddEdge(currentVertex, edgeWeight, true);
                     }
                     //connect previous vertex on y axis
                     if (lastyVerticesRow[x] != null)
                     {
-                        currentVertex.AddEdge(lastyVerticesRow[x], y, false);
+                        currentVertex.AddEdge(lastyVerticesRow[x], edgeWeight, false);
                     }
                     if (y == amountHeightVertices - 1 && x == amountWidthVertices - 1)
                     {
@@ -269,19 +269,17 @@ namespace Algorithms.Graph
             public double Weighted { get; set; }
             public double F { get; set; }
         }
-        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<IVertex, IEdge> edge, IVertex goal)
+        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<Guid, IEdge> edge, IVertex goal)
         {
-            List<IVertex> vertices = new List<IVertex>();
-            IEdge current = edge[goal];
+            IEdge current = edge[goal.Guid];
             while (current.U != null)
             {
-                vertices.Add(current.V);
-                current = edge[current.U];
+                yield return current.V;
+                current = edge[current.U.Guid];
             }
-            vertices.Add(current.V);
-            return vertices;
+            yield return current.V;
         }
-        public static IDictionary<IVertex, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double> funcHeuristic = null, Func<IEdge, double> funcEdgeWeight = null)
+        public static IDictionary<Guid, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double> funcHeuristic = null, Func<IVertex, IEdge, double> funcEdgeWeight = null)
         {
             if (funcHeuristic == null)
             {
@@ -289,28 +287,30 @@ namespace Algorithms.Graph
             }
             if (funcEdgeWeight == null)
             {
-                funcEdgeWeight = (e) => e.Weighted;
+                funcEdgeWeight = (current, e) => e.Weighted;
             }
             // The set of discovered nodes that may need to be (re-)expanded.
             // Initially, only the start node is known.
             // This is usually implemented as a min-heap or priority queue rather than a hash-set.
-            var openSet = new PriorityQueue<AEdge>(a => a.F);
+            var openOrderedSet = new PriorityQueue<AEdge>(a => a.F);
             // caching list which keeps the key for the vertices of PriorityQueue
-            Dictionary<string, IComparable> verticeKeyForPriorityQueue = new Dictionary<string, IComparable>();
+            Dictionary<Guid, IComparable> openSet = new Dictionary<Guid, IComparable>();
 
-            openSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
-            verticeKeyForPriorityQueue.Add(start.ToString(), funcHeuristic(start));
+            openOrderedSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
+            openSet.Add(start.Guid, funcHeuristic(start));
 
-            var closeSet = new Dictionary<IVertex, IEdge>();
-            while (openSet.Any())
+            var closeSet = new Dictionary<Guid, IEdge>();
+            int counter = 0;
+            while (openOrderedSet.Any())
             {
+                counter++;
                 //the node in openSet having the lowest fScore[] value
-                AEdge openVertex = openSet.Dequeue();
-                verticeKeyForPriorityQueue.Remove(openVertex.V.ToString());
+                AEdge openVertex = openOrderedSet.Dequeue();
+                openSet.Remove(openVertex.V.Guid);
                 IVertex currentNode = openVertex.V;
 
                 // Current node goes into the closed set
-                closeSet.Add(currentNode, openVertex);
+                closeSet.Add(currentNode.Guid, openVertex);
 
                 if (currentNode == goal)
                 {
@@ -320,22 +320,22 @@ namespace Algorithms.Graph
                 // expand all neighbours
                 foreach (IEdge edge in currentNode.Edges)
                 {
-                    if (closeSet.ContainsKey(edge.V))
+                    if (closeSet.ContainsKey(edge.V.Guid))
                         continue;
 
                     // calculate g-value for new path:
                     // g-value of predecessor + costs/weight of current edge
-                    double tentative_g = openVertex.Weighted + funcEdgeWeight(edge);
+                    double tentative_g = openVertex.Weighted + funcEdgeWeight(currentNode, edge);
                     // if successor is alread on list
                     var sucessorvertex = new AEdge();
-                    var cacheKey = edge.V.ToString();
-                    bool exists = verticeKeyForPriorityQueue.ContainsKey(cacheKey);
-                    IList<AEdge> edgeListNode = null;
+                    var cacheKey = edge.V.Guid;
+                    bool exists = openSet.ContainsKey(cacheKey);
+                    ICollection<AEdge> edgeListNode = null;
                     double oldKey = -1;
                     if (exists)
                     {
                         edgeListNode = ((PriorityQueue<AEdge>.PriorityNode<AEdge>)
-                            openSet.GetNode(verticeKeyForPriorityQueue[cacheKey])).Datas;
+                            openOrderedSet.GetNode(openSet[cacheKey])).Datas;
                         sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
                         oldKey = sucessorvertex.F;
                     }
@@ -348,20 +348,16 @@ namespace Algorithms.Graph
                         edgeListNode.Remove(sucessorvertex);
                         if (edgeListNode.Count == 0)
                         {
-                            openSet.Remove(oldKey);
+                            openOrderedSet.Remove(oldKey);
                         }
-                        verticeKeyForPriorityQueue.Remove(cacheKey);
+                        openSet.Remove(cacheKey);
                     }
                     // the path to neighbor is better than any previous one or it wasnt added. Record it!
-                    sucessorvertex = new AEdge();
-                    sucessorvertex.V = edge.V;
-                    sucessorvertex.U = currentNode;
-                    sucessorvertex.Weighted = tentative_g;
-                    // update f - value
-                    sucessorvertex.F = tentative_g + funcHeuristic(edge.V);
+                    sucessorvertex = 
+                        new AEdge(edge.V, currentNode, tentative_g, tentative_g + funcHeuristic(edge.V));
 
-                    openSet.Enqueue(sucessorvertex);
-                    verticeKeyForPriorityQueue.Add(cacheKey, sucessorvertex.F);
+                    openOrderedSet.Enqueue(sucessorvertex);
+                    openSet.Add(cacheKey, sucessorvertex.F);
 
                 }
             }

@@ -18,9 +18,9 @@ namespace Algorithms
         {
             public PriorityNode(IComparable comparer, TData1 value) : base(comparer, value)
             {
-                Datas = new List<TData1>();
+                Datas = new HashSet<TData1>();
             }
-            public IList<TData1> Datas { get; }
+            public ICollection<TData1> Datas { get; }
         }
         private readonly Func<TData, IComparable> _funcKey;
         public PriorityQueue(Func<TData, IComparable> funcKey) : base()
