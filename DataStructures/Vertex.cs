@@ -58,7 +58,14 @@ namespace DataStructures
                 return Edges.Count;
             }
         }
-
+        /// <inheritdoc/>
+        public Guid Guid
+        {
+            get
+            {
+                return _Guid;
+            }
+        }
         public virtual IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge(this, u, weighted);

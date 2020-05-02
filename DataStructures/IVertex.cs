@@ -6,6 +6,10 @@ namespace DataStructures
     public interface IVertex
     {
         /// <summary>
+        /// Identifier of vertex
+        /// </summary>
+        Guid Guid { get; }
+        /// <summary>
         /// Gets or sets the Weighted of the vertex
         /// </summary>
         double Weighted { get; set; }

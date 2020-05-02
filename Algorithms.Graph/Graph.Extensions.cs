@@ -365,7 +365,7 @@ namespace Algorithms.Graph
 
                 }
             }
-            return closeSet;
+            return null;
         }
 
         //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C

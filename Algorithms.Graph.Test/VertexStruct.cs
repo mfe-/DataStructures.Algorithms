@@ -9,6 +9,14 @@ namespace Algorithms.Graph.Test
     {
         public readonly Guid _Guid;
 
+        public Guid Guid
+        {
+            get
+            {
+                return _Guid;
+            }
+        }
+
         public Vertex(ICollection<IEdge> edges) : this(0)
         {
             _Guid = Guid.NewGuid();

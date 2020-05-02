@@ -467,7 +467,7 @@ namespace Algorithms.Graph.Test
                 {
                     distance = Math.Sqrt((Math.Pow(i - x, 2) + Math.Pow((double)(j - y), 2)));
                 }
-                return new Vertex(distance);
+                return new DataStructures.Vertex(distance);
             }
 
             g = GraphExtensions.GenerateGridGraph(i, j, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, actionOnRowCreated);
