@@ -6,6 +6,8 @@
     <Version>0.2.2</Version>
     <Authors>Martin Fetzel</Authors>
     <Company />
+    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <Description>graph</Description>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
@@ -25,8 +27,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
