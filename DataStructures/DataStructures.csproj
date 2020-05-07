@@ -6,13 +6,12 @@
     <Version>0.2.2</Version>
     <Authors>Martin Fetzel</Authors>
     <Company />
-    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+
     <Description>graph</Description>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
     <PackageTags>graph, vertex, edge, vertices, edges</PackageTags>
-    <Copyright>Copyright ©  2011-2019</Copyright>
+    <Copyright>Copyright ©  2011-2020</Copyright>
     <ProductVersion>8.0.30703</ProductVersion>
     <AssemblyVersion>0.12.0.0</AssemblyVersion>
     <FileVersion>0.12.0.0</FileVersion>
@@ -20,14 +19,19 @@
     <AssemblyName>Abstract.DataStructures</AssemblyName>
     <RootNamespace>DataStructures</RootNamespace>
     <OutputType>Library</OutputType>
-    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
+
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Product>Abstract.DataStructures</Product>
     <PackageIconUrl>https://get-the-solution.net/favicon.ico</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
