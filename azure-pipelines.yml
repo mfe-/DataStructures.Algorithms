@@ -21,7 +21,6 @@ steps:
     projects: 'DataStructures.UI.sln'
     arguments: '--configuration=Release --verbosity=n'
 
-steps:
 - task: DotNetCoreCLI@2
   displayName: build solution debug for nuget
   inputs:
