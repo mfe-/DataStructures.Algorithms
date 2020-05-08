@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace DataStructures.Demo
 {
@@ -14,6 +13,11 @@ namespace DataStructures.Demo
         public Window1ViewModel()
         {
             PropertyChanged += Window1ViewModel_PropertyChanged;
+            ClickCommand = new DelegateCommand<IVertex>(OnClickCommand);
+            AStarCommand = new DelegateCommand<IVertex>(OnAStarCommand);
+            BreadthFirstSearchCommand = new DelegateCommand<IVertex>(OnBreadthFirstSearchCommand);
+            KruskalCommand = new DelegateCommand(OnKruskalCommand);
+            GenerateGridGraph = new DelegateCommand(OnGenerateGridGraph);
         }
 
         private void Window1ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -31,33 +35,24 @@ namespace DataStructures.Demo
         {
             return new DataStructures.UI.Vertex();
         }
-        private ICommand _ClickCommand;
-        public ICommand ClickCommand => _ClickCommand ?? (_ClickCommand = new DelegateCommand<IVertex>(OnClickCommand));
+        public ICommand ClickCommand { get; }
 
         private void OnClickCommand(IVertex param)
         {
             if (param != null)
             {
-
+                //currently nothing to do here
             }
         }
 
-        private ICommand _RunStateMachineCommand;
-        public ICommand RunStateMachineCommand => _RunStateMachineCommand ?? (_RunStateMachineCommand = new DelegateCommand<IVertex>(OnRunStateMachineCommand));
-
-        private async void OnRunStateMachineCommand(IVertex param)
-        {
-
-        }
-
-        private Graph _Graph;
-        public Graph Graph
+        private Graph? _Graph;
+        public Graph? Graph
         {
             get { return _Graph; }
             set { SetProperty(ref _Graph, value, nameof(Graph)); }
         }
-        private IVertex _SelectedVertex;
-        public IVertex SelectedVertex
+        private IVertex? _SelectedVertex;
+        public IVertex? SelectedVertex
         {
             get { return _SelectedVertex; }
             set
@@ -66,32 +61,31 @@ namespace DataStructures.Demo
                 SetProperty(ref _SelectedVertex, value, nameof(SelectedVertex));
             }
         }
-        private IVertex _PreviousSelectedVertex;
-        public IVertex PreviousSelectedVertex
+        private IVertex? _PreviousSelectedVertex;
+        public IVertex? PreviousSelectedVertex
         {
             get { return _PreviousSelectedVertex; }
             set { SetProperty(ref _PreviousSelectedVertex, value, nameof(PreviousSelectedVertex)); }
         }
 
-        private ICommand _AStarCommand;
-        public ICommand AStarCommand => _AStarCommand ?? (_AStarCommand = new DelegateCommand<IVertex>(OnAStarCommand));
+        public ICommand AStarCommand { get; }
 
         protected async void OnAStarCommand(IVertex vertex)
         {
-            Func<IVertex, double> funcManhattanDistanceHeuristic = null;
-            if (typeof(IVertex<Point>).Equals(vertex?.GetType()))
+            Func<IVertex, double>? funcManhattanDistanceHeuristic = null;
+            if (vertex is IVertex<Point> v)
             {
-                Point goalPoint = ((IVertex<Point>)(vertex)).Value;
+                Point goalPoint = v.Value;
                 funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
                 {
                     Point currentPoint = ((IVertex<Point>)vertex).Value;
                     return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
                 });
-                Func<IVertex, double> funcEuclideanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
-                {
-                    Point currentPoint = ((IVertex<Point>)vertex).Value;
-                    return Math.Sqrt(Math.Pow((currentPoint.X - currentPoint.X), 2) + Math.Pow((currentPoint.Y - currentPoint.Y), 2));
-                });
+                //Func<IVertex, double> funcEuclideanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+                //{
+                //    Point currentPoint = ((IVertex<Point>)vertex).Value;
+                //    return Math.Sqrt(Math.Pow((currentPoint.X - currentPoint.X), 2) + Math.Pow((currentPoint.Y - currentPoint.Y), 2));
+                //});
             }
 
             var result = PreviousSelectedVertex.AStar(vertex, funcManhattanDistanceHeuristic);
@@ -112,9 +106,7 @@ namespace DataStructures.Demo
 
         }
 
-
-        private ICommand _BreadthFirstSearchCommand;
-        public ICommand BreadthFirstSearchCommand => _BreadthFirstSearchCommand ?? (_BreadthFirstSearchCommand = new DelegateCommand<IVertex>(OnBreadthFirstSearchCommand));
+        public ICommand BreadthFirstSearchCommand { get; }
 
         protected async void OnBreadthFirstSearchCommand(IVertex vertex)
         {
@@ -130,16 +122,15 @@ namespace DataStructures.Demo
             }
         }
 
-        private ICommand _KruskalCommand;
-        public ICommand KruskalCommand => _KruskalCommand ?? (_KruskalCommand = new DelegateCommand(OnKruskalCommand));
+        public ICommand KruskalCommand { get; }
 
         protected void OnKruskalCommand()
         {
             Graph = Graph.KruskalDepthFirstSearch();
         }
 
-        private ICommand _GenerateGridGraph;
-        public ICommand GenerateGridGraph => _GenerateGridGraph ?? (_GenerateGridGraph = new DelegateCommand(OnGenerateGridGraph));
+
+        public ICommand GenerateGridGraph { get; } 
 
         protected void OnGenerateGridGraph()
         {

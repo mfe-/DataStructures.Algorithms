@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C4B0BDA3-F5AE-40F9-8D10-061014F79E45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Demo", "DataStructures.UI\DataStructures.UI.Demo\DataStructures.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI.Demo", "DataStructures.UI\DataStructures.UI.Demo\DataStructures.UI.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI", "DataStructures.UI\DataStructures.UI\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
 EndProject

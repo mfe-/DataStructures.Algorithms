@@ -267,7 +267,7 @@ namespace DataStructures.UI
                 Point p = (Mouse.GetPosition(sender as IInputElement));
 
                 IVertex vertex;
-                if (Graph.CreateVertexFunc == null)
+                if (Graph?.CreateVertexFunc == null)
                 {
                     vertex = new Vertex<object>();
                 }
@@ -275,7 +275,7 @@ namespace DataStructures.UI
                 {
                     vertex = Graph.CreateVertexFunc();
                 }
-                gv.Graph.AddVertex(vertex);
+                gv.Graph?.AddVertex(vertex);
             }
         }
 

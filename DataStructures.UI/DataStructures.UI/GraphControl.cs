@@ -10,7 +10,6 @@ using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.ComponentModel;
 
 namespace DataStructures.UI
 {
@@ -102,15 +101,17 @@ namespace DataStructures.UI
                     //create a temporary edge
                     EdgeControl ev = new EdgeControl();
                     Canvas.SetZIndex(ev, -1);
-                    VertexControl vv = e.Source as VertexControl;
+                    if (e.Source is VertexControl vv)
+                    {
 
-                    if (EdgeFactory == null) throw new ArgumentNullException($"Please set{nameof(EdgeFactory)}");
-                    ev.Edge = EdgeFactory.Invoke(vv.Vertex);
+                        if (EdgeFactory == null) throw new ArgumentNullException($"Please set{nameof(EdgeFactory)}");
+                        ev.Edge = EdgeFactory.Invoke(vv.Vertex);
 
-                    ev.PositionU = GetPosition(vv);
-                    ev.PositionV = e.GetPosition(this);
-                    this.SelectedMouseItem = ev;
-                    this.Children.Add(ev);
+                        ev.PositionU = GetPosition(vv);
+                        ev.PositionV = e.GetPosition(this);
+                        this.SelectedMouseItem = ev;
+                        this.Children.Add(ev);
+                    }
                 }
             }
         }
@@ -143,18 +144,22 @@ namespace DataStructures.UI
 
             if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(VertexControl)) && !e.OriginalSource.GetType().Equals(typeof(AdornerItem)))
             {
-                VertexControl v = SelectedMouseItem as VertexControl;
-                Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
-                v.Position = p;
-                SetPosition(SelectedMouseItem, p);
+                if (SelectedMouseItem is VertexControl v)
+                {
+                    Point p = new Point((e.GetPosition(this).X - SelectedMouseItem.ActualWidth / 2), (e.GetPosition(this).Y - SelectedMouseItem.ActualHeight / 2));
+                    v.Position = p;
+                    SetPosition(SelectedMouseItem, p);
+                }
             }
 
             //move edge
             if (e.LeftButton.Equals(MouseButtonState.Pressed) && SelectedMouseItem != null && SelectedMouseItem.GetType().Equals(typeof(EdgeControl)))
             {
-                EdgeControl ev = SelectedMouseItem as EdgeControl;
-                Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
-                ev.PositionV = p;
+                if (SelectedMouseItem is EdgeControl ev)
+                {
+                    Point p = new Point((e.GetPosition(this).X - 4), (e.GetPosition(this).Y) - 4);
+                    ev.PositionV = p;
+                }
             }
 
         }
@@ -184,7 +189,7 @@ namespace DataStructures.UI
                     FrameworkElement u = (FrameworkElement)result.VisualHit;
                     if (u != null)
                     {
-                        VertexControl vv = null;
+                        VertexControl? vv = null;
                         if (!(u.TemplatedParent is VertexControl))
                         {
                             vv = TryFindParent<VertexControl>(u);
@@ -208,7 +213,10 @@ namespace DataStructures.UI
                             //first find the vertex where we started 
                             IVertex v = VertexVisualizations.First(z => z.Vertex.Equals(ev.Edge.U)).Vertex;
                             //add to model edge 
-                            v.AddEdge(vv.Vertex, 0, Graph.Directed);
+                            if (Graph != null)
+                            {
+                                v.AddEdge(vv.Vertex, 0, Graph.Directed);
+                            }
                         }
                         this.Children.Remove(SelectedMouseItem);
                     }
@@ -219,7 +227,7 @@ namespace DataStructures.UI
         }
 
         #endregion Drag and Drop
-        public static T TryFindParent<T>(DependencyObject current) where T : class
+        public static T? TryFindParent<T>(DependencyObject current) where T : class
         {
             DependencyObject parent = VisualTreeHelper.GetParent(current);
             if (parent == null)
@@ -250,14 +258,18 @@ namespace DataStructures.UI
                     left = double.IsNaN(left) ? 0 : left;
                     top = double.IsNaN(top) ? 0 : top;
 
-                    element?.Measure(constraint);
-
-                    Size desiredSize = element.DesiredSize;
-                    if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
+                    if (element != null)
                     {
-                        size.Width = Math.Max(size.Width, left + desiredSize.Width);
-                        size.Height = Math.Max(size.Height, top + desiredSize.Height);
+                        element.Measure(constraint);
+
+                        Size desiredSize = element.DesiredSize;
+                        if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
+                        {
+                            size.Width = Math.Max(size.Width, left + desiredSize.Width);
+                            size.Height = Math.Max(size.Height, top + desiredSize.Height);
+                        }
                     }
+
                 }
             }
 
@@ -280,16 +292,16 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="vertices">List of Vertices</param>
         /// <param name="e">The last added EdgeVisualization. EdgeVisualization.VertexVisualizationV will be set.</param>
-        protected virtual void InitialiseGraph(ObservableCollection<IVertex> vertices, EdgeControl e)
+        protected virtual void InitialiseGraph(ObservableCollection<IVertex> vertices, EdgeControl? e)
         {
             if (vertices == null) throw new ArgumentNullException(nameof(vertices));
             foreach (IVertex vertex in vertices)
             {
                 if (vertex != null && vertex.Edges != null)
                 {
-                    if (vertex.Edges is ObservableCollection<IEdge>)
+                    if (vertex.Edges is ObservableCollection<IEdge> elist)
                     {
-                        ((ObservableCollection<IEdge>)vertex.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                        elist.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
 
                     VertexControl visualvertex;
@@ -329,23 +341,20 @@ namespace DataStructures.UI
 
         protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e != null && NotifyCollectionChangedAction.Add.Equals(e?.Action))
+            if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems.SyncRoot is IList<object> items)
             {
-                IList<object> items = (IList<object>)e.NewItems.SyncRoot;
                 object item = items.FirstOrDefault();
-
-                if (item is IEdge)
+                if (item is IEdge edge)
                 {
-                    IEdge edge = (IEdge)item;
 
                     //check if vertex is kept in Graph.Vertices and will be moved into the depper graph - if yes its duplicated so remove from graph.vertices
-                    if (this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
+                    if (this.Graph != null && this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.V);
                         this.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
                     }
-                    if (this.Graph.Vertices.Contains(edge.U) && this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
+                    if (this.Graph != null && this.Graph.Vertices.Contains(edge.U) && this.Graph.Vertices.Contains(edge.V) && this.Graph.Vertices.Count > 1)
                     {
                         this.Graph.Vertices.CollectionChanged -= new NotifyCollectionChangedEventHandler(CollectionChanged);
                         this.Graph.Vertices.Remove(edge.U);
@@ -373,30 +382,27 @@ namespace DataStructures.UI
                         AddEdge(edge);
                     }
                 }
-                if (item is IVertex)
+                if (item is IVertex v)
                 {
-                    AddVertex((IVertex)item, Mouse.GetPosition(this).Add(-25, -25));
+                    AddVertex(v, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
-            if (e.Action.Equals(NotifyCollectionChangedAction.Remove))
+            if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems.SyncRoot is IList<object> vitems)
             {
-                IList<object> items = e.OldItems.SyncRoot as IList<object>;
-                object item = items.First();
-                if (item is IVertex)
+                object item = vitems.First();
+                if (item is IVertex v)
                 {
                     //catch Visualization item
-                    IVertex v = (IVertex)item;
                     VertexControl vv = VertexVisualizations.First(a => a.Vertex.Equals(v));
                     this.Children.Remove(vv);
                 }
 
-                if (item is IEdge)
+                if (item is IEdge edge)
                 {
-                    IEdge edge = (IEdge)item;
                     RemoveEdge(edge);
                 }
             }
-            Debug.WriteLine(this.Graph.Vertices.Count);
+            Debug.WriteLine(this.Graph?.Vertices?.Count);
         }
 
         private static void OnGraphChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -412,8 +418,11 @@ namespace DataStructures.UI
             {
                 GraphControl graphVisualization = (GraphControl)dependencyObject;
                 Graph graph = (Graph)e.NewValue;
-                graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
-                graphVisualization?.InitialiseGraph(graph.Vertices);
+                if (graphVisualization.Graph != null)
+                {
+                    graphVisualization.Graph.Vertices.CollectionChanged += new NotifyCollectionChangedEventHandler(graphVisualization.CollectionChanged);
+                    graphVisualization.InitialiseGraph(graph.Vertices);
+                }
             }
         }
 
@@ -444,9 +453,9 @@ namespace DataStructures.UI
             SetTop(vertexcontrol, point.Y);
 
             this.Children.Add(vertexcontrol);
-            if (v.Edges is ObservableCollection<IEdge>)
+            if (v.Edges is ObservableCollection<IEdge> e)
             {
-                ((ObservableCollection<IEdge>)v.Edges).CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
+                e.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChanged);
             }
             else
             {
@@ -685,9 +694,9 @@ namespace DataStructures.UI
             return _Random.NextDouble() * (maximum - minimum) + minimum;
         }
 
-        public Graph Graph
+        public Graph? Graph
         {
-            get { return (Graph)GetValue(GraphProperty); }
+            get { return (Graph?)GetValue(GraphProperty); }
             set { SetValue(GraphProperty, value); }
         }
 
@@ -723,9 +732,9 @@ namespace DataStructures.UI
                 if (value != null)
                 {
                     SelectedItem = value;
-                    if(SelectedItem is VertexControl)
+                    if (SelectedItem is VertexControl v)
                     {
-                        SelectedVertex = ((VertexControl)SelectedItem).Vertex;
+                        SelectedVertex = v.Vertex;
                     }
                 }
                 _SelectedMouseItem = value;
@@ -741,7 +750,7 @@ namespace DataStructures.UI
 
         // Using a DependencyProperty as the backing store for SelectedVertex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedVertexProperty =
-            DependencyProperty.Register("SelectedVertex", typeof(IVertex), typeof(GraphControl), new UIPropertyMetadata(null, OnSelectedVertexChanged) );
+            DependencyProperty.Register("SelectedVertex", typeof(IVertex), typeof(GraphControl), new UIPropertyMetadata(null, OnSelectedVertexChanged));
 
         private static void OnSelectedVertexChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -749,7 +758,7 @@ namespace DataStructures.UI
             {
                 GraphControl graphControl = (GraphControl)dependencyObject;
                 var vertexControl = graphControl.GetItem((IVertex)e.NewValue);
-                if(!vertexControl.IsFocused)
+                if (!vertexControl.IsFocused)
                 {
                     vertexControl.Focus();
                 }

@@ -15,11 +15,19 @@ pool:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: build solution
+  displayName: build solution release
   inputs:
     command: 'build'
     projects: 'DataStructures.UI.sln'
     arguments: '--configuration=Release --verbosity=n'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: build solution debug for nuget
+  inputs:
+    command: 'build'
+    projects: 'DataStructures.UI.sln'
+    arguments: '--configuration=Debug --verbosity=n'
 
 - script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
   displayName: 'run test'
@@ -62,6 +70,13 @@ steps:
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
 
+- task: DotNetCoreCLI@2
+  displayName: 'creating DataStructures.Demo in $(build.artifactstagingdirectory)'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    arguments: '-r win-x64 -c debug --no-restore /p:PublishSingleFile=true -o $(build.artifactstagingdirectory)'
+    workingDirectory: 'DataStructures.UI/DataStructures.UI.Demo'
 
 - task: NuGetCommand@2
   displayName: 'NuGet push'

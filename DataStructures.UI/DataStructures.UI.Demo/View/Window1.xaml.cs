@@ -136,7 +136,10 @@ namespace DataStructures.Demo
 
                 //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
                 //_GraphVisualization.Graph = new Graph();
-
+            }
+            else
+            {
+                GraphControl.ClearGraphCommand.Execute(null, _GraphVisualization);
             }
 
         }
