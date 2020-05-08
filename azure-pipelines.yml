@@ -69,6 +69,13 @@ steps:
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
 
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: 'get-the-solution'
+    allowPackageConflicts: true
+
 - task: DotNetCoreCLI@2
   displayName: 'creating DataStructures.Demo in $(build.artifactstagingdirectory)'
   inputs:
@@ -76,13 +83,6 @@ steps:
     publishWebProjects: false
     arguments: '-r win-x64 -c debug --no-restore /p:PublishSingleFile=true -o $(build.artifactstagingdirectory)'
     workingDirectory: 'DataStructures.UI/DataStructures.UI.Demo'
-
-- task: NuGetCommand@2
-  displayName: 'NuGet push'
-  inputs:
-    command: push
-    publishVstsFeed: 'get-the-solution'
-    allowPackageConflicts: true
 
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()
