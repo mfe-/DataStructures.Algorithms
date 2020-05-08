@@ -16,7 +16,27 @@
     <AssemblyName>Algorithms</AssemblyName>
     <RootNamespace>Algorithms</RootNamespace>
     <OutputType>Library</OutputType>
+
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Product>Algorithms</Product>
+    <PackageIconUrl>https://get-the-solution.net/favicon.ico</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE" Link="LICENSE">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
   </ItemGroup>
