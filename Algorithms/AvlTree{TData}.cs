@@ -18,7 +18,7 @@ namespace Algorithms
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class AvlTree<TData> : AbstractTree<TData>
+    public class AvlTree<TData> : AbstractTree<INodeLeafe<TData>,TData>
     {
         public class ANodeLeafe<TData1> : NodeLeafe<TData1>
         {

@@ -17,7 +17,7 @@ namespace Algorithms
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class BinarySearchTree<TData> : AbstractTree<TData>
+    public class BinarySearchTree<TData> : AbstractTree<INodeLeafe<TData>,TData>
     {
         public class BNodeLeafe<TData1> : NodeLeafe<TData1>
         {

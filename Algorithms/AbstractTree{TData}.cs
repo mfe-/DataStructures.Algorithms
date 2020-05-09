@@ -8,20 +8,18 @@ namespace Algorithms
     /// Tree
     /// </summary>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public abstract class AbstractTree<TData>
+    public abstract class AbstractTree<TNode, TData> 
+        where TNode : class, INodeTree<TNode>, INode<TNode>, IData<TData>
     {
-        /// <summary>
-        /// Root node of Tree
-        /// </summary>
-        public INodeLeafe<TData> RootNode;
+        public TNode RootNode { get; protected set; }
         /// <summary>
         /// Factory for creating Nodes
         /// </summary>
-        protected Func<IComparable, TData, INodeLeafe<TData>> FuncNodeFactory = null;
+        protected Func<IComparable, TData, TNode> FuncNodeFactory = null;
         /// <summary>
         /// Creates a empty <seealso cref="AbstractTree{TData}"/>
         /// </summary>
-        public AbstractTree()
+        protected AbstractTree()
         {
             RootNode = null;
         }
@@ -73,9 +71,9 @@ namespace Algorithms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public virtual INodeLeafe<TData> GetNode(IComparable key, Action<INodeLeafe<TData>> actionCurrentNode = null)
+        public virtual TNode GetNode(IComparable key, Action<TNode> actionCurrentNode = null)
         {
-            INodeLeafe<TData> p = RootNode;
+            TNode p = RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
@@ -103,22 +101,22 @@ namespace Algorithms
         /// Get the node with the minimum key value of the current tree
         /// </summary>
         /// <returns>The Node with the minimum key of the tree</returns>
-        public abstract INodeLeafe<TData> GetMinimum();
+        public abstract TNode GetMinimum();
 
         /// <summary>
         /// Get the node with the maximum key value of the current tree
         /// </summary>
         /// <returns>The Node with the maximum key value of the tree</returns>
-        public abstract INodeLeafe<TData> GetMaximum();
+        public abstract TNode GetMaximum();
 
-        public INodeLeafe<TData> Find(Func<TData, bool> funcFind)
+        public TNode Find(Func<TData, bool> funcFind)
         {
-            return Find(new Func<INodeLeafe<TData>, bool>((node) => funcFind(node.Value)));
+            return Find(new Func<TNode, bool>((node) => funcFind(node.Value)));
         }
-        public INodeLeafe<TData> Find(Func<INodeLeafe<TData>, bool> funcFind)
+        public TNode Find(Func<TNode, bool> funcFind)
         {
-            Stack<INodeLeafe<TData>> s = new Stack<INodeLeafe<TData>>();
-            INodeLeafe<TData> current = RootNode;
+            Stack<TNode> s = new Stack<TNode>();
+            TNode current = RootNode;
 
             // traverse the tree  
             while (current != null || s.Count > 0)
@@ -142,7 +140,7 @@ namespace Algorithms
             }
             return null;
         }
-        public INodeLeafe<TData> Find(TData data)
+        public TNode Find(TData data)
         {
             return Find((current) => (data.Equals(current.Value)));
         }
@@ -152,10 +150,10 @@ namespace Algorithms
         /// In inorder, the root is visited in the middle
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<INodeLeafe<TData>> Inorder()
+        public IEnumerable<TNode> Inorder()
         {
-            Stack<INodeLeafe<TData>> s = new Stack<INodeLeafe<TData>>();
-            INodeLeafe<TData> current = RootNode;
+            Stack<TNode> s = new Stack<TNode>();
+            TNode current = RootNode;
 
             // traverse the tree  
             while (current != null || s.Count > 0)
@@ -182,7 +180,7 @@ namespace Algorithms
         /// <remarks>Call for example with  Inorder(RootNode, new List<INodeLeafe<TData>>());</remarks>
         /// <param name="n">Left nodes</param>
         /// <param name="inOrderList">Right nodes</param>
-        protected virtual void Inorder(INodeLeafe<TData> n, ICollection<INodeLeafe<TData>> inOrderList)
+        protected virtual void Inorder(TNode n, ICollection<TNode> inOrderList)
         {
             if (n == null)
                 return;
