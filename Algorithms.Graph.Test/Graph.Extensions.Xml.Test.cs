@@ -14,13 +14,13 @@ namespace Algorithms.Graph.Test
         }
 
         //[Fact] WIP
-        public void SaveXmlShould_contain_all_vertices_and_edges()
-        {
-            //the graph to serialize
-            DataStructures.Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i,j) => new Vertex());
+        //public void SaveXmlShould_contain_all_vertices_and_edges()
+        //{
+        //    //the graph to serialize
+        //    DataStructures.Graph g = GraphExtensions.GenerateGridGraph(4, 4, (i,j) => new Vertex());
 
-            GraphExtensions.Serialize(g.Start, "muh");
+        //    GraphExtensions.Serialize(g.Start, "muh");
 
-        }
+        //}
     }
 }
