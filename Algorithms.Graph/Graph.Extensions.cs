@@ -1,6 +1,5 @@
 ﻿using DataStructures;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
@@ -361,7 +360,7 @@ namespace Algorithms.Graph
 
                 }
             }
-            return null;
+            return new Dictionary<Guid, IEdge>();
         }
 
         //https://www.codeproject.com/Articles/118015/Fast-A-Star-2D-Implementation-for-C
