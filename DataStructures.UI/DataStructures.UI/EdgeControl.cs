@@ -218,13 +218,13 @@ namespace DataStructures.UI
             double dx = pv.X - pu.X;
             double dy = pv.Y - pu.Y;
             double alpha = Math.Atan2(dy, dx);
-            double b = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+            double b = Math.Sqrt((dx * dx) + (dy * dy));
 
             double c = (b - r) * Math.Sin(alpha);
             double d = (b - r) * Math.Cos(alpha);
 
-            double dxx = pu.X + d + (dx > 0 ? -35 : 35); //35 bei 100
-            double dyy = pu.Y + c + (dy > 0 ? -35 : 35);
+            double dxx = pu.X + d;
+            double dyy = pu.Y + c;
 
             return new Point(dxx, dyy);
         }

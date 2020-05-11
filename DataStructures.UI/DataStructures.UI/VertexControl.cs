@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Markup;
-using System.Windows.Media.Animation;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -55,11 +48,11 @@ namespace DataStructures.UI
     [TemplatePart(Name = "PART_ValuePanel", Type = typeof(StackPanel))]
     public class VertexControl : Control, INotifyPropertyChanged
     {
-        protected AdornerLayer _adornerLayer;
-        protected AdornerItem _adornerItem;
-        protected StackPanel _innerBorderStackPanel;
-        protected FrameworkElement _ItemFrameworkElementTemplate;
-        protected Border _Border;
+        protected AdornerLayer? _adornerLayer;
+        protected AdornerItem? _adornerItem;
+        protected StackPanel? _innerBorderStackPanel;
+        protected FrameworkElement? _ItemFrameworkElementTemplate;
+        protected Border? _Border;
 
         public VertexControl()
         {
@@ -100,12 +93,16 @@ namespace DataStructures.UI
                 {
                     if (_innerBorderStackPanel == null)
                     {
-                        _innerBorderStackPanel = (_Border.Child as StackPanel);
+                        if (_Border.Child is StackPanel stackPanel)
+                        {
+                            _innerBorderStackPanel = stackPanel;
+                        }
                     }
                     if (_ItemFrameworkElementTemplate != null && _innerBorderStackPanel != null && !_innerBorderStackPanel.Children.Contains(_ItemFrameworkElementTemplate as UIElement))
                     {
                         _innerBorderStackPanel.Children.Add(_ItemFrameworkElementTemplate);
                     }
+                    _Border.CornerRadius = CornerRadius;
                 }
 
                 if (Vertex != null && ItemTemplate != null)
@@ -122,14 +119,14 @@ namespace DataStructures.UI
         protected override void OnMouseEnter(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (_adornerLayer.GetAdorners(this) == null)
-                _adornerLayer.Add(_adornerItem);
+            if (_adornerLayer?.GetAdorners(this) == null)
+                _adornerLayer?.Add(_adornerItem);
         }
         protected override void OnMouseLeave(MouseEventArgs e)
         {
             base.OnMouseLeave(e);
             if (!IsFocused.Equals(true))
-                _adornerLayer.Remove(_adornerItem);
+                _adornerLayer?.Remove(_adornerItem);
         }
         protected override void OnLostFocus(RoutedEventArgs e)
         {
@@ -142,6 +139,18 @@ namespace DataStructures.UI
             get { return (DataStructures.IVertex)GetValue(VertexProperty); }
             set { SetValue(VertexProperty, value); }
         }
+
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(VertexControl), new FrameworkPropertyMetadata(new CornerRadius(40)));
+
+
         public ICommand CommandOnDoubleClick
         {
             get { return (ICommand)GetValue(CommandOnDoubleClickProperty); }
@@ -167,7 +176,7 @@ namespace DataStructures.UI
 
         private static void OnItemTemplateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            VertexControl vertexControl = (dependencyObject as VertexControl);
+            VertexControl vertexControl = dependencyObject as VertexControl;
             if (vertexControl != null && e.NewValue != null && e.NewValue is DataTemplate && vertexControl.ItemTemplate != null)
             {
                 vertexControl._ItemFrameworkElementTemplate = vertexControl.ItemTemplate.LoadContent() as FrameworkElement;
@@ -235,7 +244,7 @@ namespace DataStructures.UI
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Notify using String property name

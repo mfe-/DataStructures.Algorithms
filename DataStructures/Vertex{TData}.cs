@@ -12,6 +12,7 @@ namespace DataStructures
         /// </summary>
         public Vertex() : base()
         {
+            Value = default;
         }
 
         /// <summary>
