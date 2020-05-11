@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStructures;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -88,7 +89,7 @@ namespace Algorithms.Test
         /// </summary>
         /// <param name="tree">tree to compare to</param>
         /// <param name="input">tree set build from original data source</param>
-        private void TestContent(AbstractTree<int> tree, AbstractTree<int> input)
+        private void TestContent<TNode>(AbstractTree<TNode,int> tree, AbstractTree<TNode,int> input) where TNode : class, INodeTree<TNode>, INode<TNode>, IData<int>
         {
             Assert.False(tree.Empty != input.Empty, "Failure when calling isEmpty()!");
 
