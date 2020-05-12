@@ -50,6 +50,7 @@ With the old version of the framework I mainly focused on visually representing 
 
 ##### Some algo related links
 
+- [The Algorithm Design Manual](https://link.springer.com/book/10.1007%2F978-1-84800-070-4)
 - A*Star https://www.codeguru.com/csharp/csharp/cs_misc/designtechniques/article.php/c12527/AStar-A-Implementation-in-C-Path-Finding-PathFinder.htm
 - The Travelling salesman problem is one of the most well know NP-hard problem. Concorde’s solver can be used to solve exactly or approximately even large instances. <http://www.math.uwaterloo.ca/tsp/index.html>
 - PRIM <http://bioinfo.ict.ac.cn/~dbu/AlgorithmCourses/Lectures/Prim1957.pdf>
