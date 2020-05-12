@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using DataStructures;
+using DataStructures.Algorithms.Graph;
 using Xunit;
 using Xunit.Abstractions;
-using static Algorithms.Graph.GraphExtensions;
+using static DataStructures.Algorithms.Graph.GraphExtensions;
 
 namespace Algorithms.Graph.Test
 {

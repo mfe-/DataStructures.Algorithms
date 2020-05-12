@@ -1,10 +1,9 @@
-﻿using DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Algorithms
+namespace DataStructures
 {
     /// <summary>
     /// PriorityQueue using <see cref="BinarySearchTree{TData}"/> with a list on each node to save duplicates

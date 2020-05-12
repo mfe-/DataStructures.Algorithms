@@ -1,7 +1,6 @@
-﻿using DataStructures;
-using System;
+﻿using System;
 
-namespace Algorithms
+namespace DataStructures
 {
     /// <summary>
     /// AVL Tree 

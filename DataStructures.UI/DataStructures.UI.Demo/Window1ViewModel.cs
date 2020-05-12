@@ -1,4 +1,4 @@
-﻿using Algorithms.Graph;
+﻿using DataStructures.Algorithms.Graph;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

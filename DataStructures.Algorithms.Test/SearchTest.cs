@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using DataStructures.Algorithms;
 
 namespace Algorithms.Test
 {

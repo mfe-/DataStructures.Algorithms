@@ -1,9 +1,8 @@
-﻿using DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Algorithms
+namespace DataStructures.Algorithms
 {
     public static class Search
     {

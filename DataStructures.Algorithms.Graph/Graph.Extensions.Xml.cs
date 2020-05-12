@@ -1,5 +1,4 @@
-﻿using DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +6,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
-namespace Algorithms.Graph
+namespace DataStructures.Algorithms.Graph
 {
     /// <summary>
     /// Provides a set of static methods for working with graph objects.

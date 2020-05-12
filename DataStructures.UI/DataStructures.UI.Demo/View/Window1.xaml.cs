@@ -1,15 +1,13 @@
-﻿using Algorithms.Graph;
+﻿using DataStructures.Algorithms.Graph;
 using DataStructures.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using static Algorithms.Graph.GraphExtensions;
 
 namespace DataStructures.Demo
 {

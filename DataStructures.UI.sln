@@ -20,11 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph", "Algorithms.Graph\Algorithms.Graph.csproj", "{95F5911B-57B9-43A5-BDC3-CAACC05C0407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph", "DataStructures.Algorithms.Graph\DataStructures.Algorithms.Graph.csproj", "{95F5911B-57B9-43A5-BDC3-CAACC05C0407}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph.Test", "Algorithms.Graph.Test\Algorithms.Graph.Test.csproj", "{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph.Test", "DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj", "{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "Algorithms\Algorithms.csproj", "{A9D91761-341E-43A4-B865-EF2D70E242DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms", "DataStructures.Algorithms\DataStructures.Algorithms.csproj", "{A9D91761-341E-43A4-B865-EF2D70E242DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

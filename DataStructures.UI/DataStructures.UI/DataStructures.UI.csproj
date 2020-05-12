@@ -2,23 +2,36 @@
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon />
     <StartupObject />
-    <Authors>Martin Fetzel</Authors>
+    <Authors>Martin F.</Authors>
     <Company></Company>
-    <AssemblyName>Abstract.DataStructures.UI</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>
+      Provides a control for visualization of graphs.
+      The displayed graph updates changes on binded graph model in real time.
+    </Description>
     <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
+    <PackageTags>graph, graph control, visualization, vertex, edge, vertices, edges</PackageTags>
+    <Copyright>Copyright © 2011-2020</Copyright>
+    <AssemblyName>Abstract.DataStructures.UI</AssemblyName>
+    <RootNamespace>DataStructures.UI</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Library</OutputType>
+
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIconUrl>https://get-the-solution.net/favicon.ico</PackageIconUrl>
-    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
-    <PackageTags>graph, vertex, edge, vertices, edges</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataStructures\DataStructures.csproj" />
@@ -28,5 +41,11 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

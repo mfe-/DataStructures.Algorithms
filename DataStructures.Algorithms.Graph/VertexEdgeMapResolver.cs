@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Xml;
 
-namespace Algorithms.Graph
+namespace DataStructures.Algorithms.Graph
 {
     /// <summary>
     /// Maps VertexOfanyType and EdgeOfanyType to the overgiven type

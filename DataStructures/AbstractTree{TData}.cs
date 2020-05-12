@@ -1,8 +1,7 @@
-﻿using DataStructures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Algorithms
+namespace DataStructures
 {
     /// <summary>
     /// Tree
