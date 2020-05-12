@@ -10,7 +10,7 @@
     <Company></Company>
     <Description>
       Provides a control for visualization of graphs.
-      The displayed graph updates changes on binded graph model in real time.
+      The displayed graph updates changes based on the binded graph model in real time.
     </Description>
     <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
     <PackageTags>graph, graph control, visualization, vertex, edge, vertices, edges</PackageTags>
