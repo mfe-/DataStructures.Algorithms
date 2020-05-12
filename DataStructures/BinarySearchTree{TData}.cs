@@ -74,7 +74,7 @@ namespace DataStructures
         /// <inheritdoc/>
         public override void Add(IComparable key, TData data)
         {
-            INodeLeafe<TData> q = FuncNodeFactory?.Invoke(key, data);
+            INodeLeafe<TData> q = FuncNodeFactory.Invoke(key, data);
             INodeLeafe<TData> r = null; //r will be predecessor of q
             INodeLeafe<TData> p = this.RootNode;
             //5.CompareTo(6) = -1      First int is smaller.

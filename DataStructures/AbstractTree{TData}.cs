@@ -10,11 +10,11 @@ namespace DataStructures
     public abstract class AbstractTree<TNode, TData> 
         where TNode : class, INodeTree<TNode>, INode<TNode>, IData<TData>
     {
-        public TNode RootNode { get; protected set; }
+        public TNode? RootNode { get; protected set; }
         /// <summary>
         /// Factory for creating Nodes
         /// </summary>
-        protected Func<IComparable, TData, TNode> FuncNodeFactory = null;
+        protected Func<IComparable, TData, TNode>? FuncNodeFactory;
         /// <summary>
         /// Creates a empty <seealso cref="AbstractTree{TData}"/>
         /// </summary>
