@@ -17,14 +17,21 @@ namespace DataStructures
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class AvlTree<TData> : AbstractTree<INodeLeafe<TData>,TData>
+    public class AvlTree<TData> : AbstractTree<INodeTree<TData>,TData>
     {
-        public class ANodeLeafe<TData1> : NodeLeafe<TData1>
+        public class ANodeLeafe<TData1> : INodeTree<TData1>
         {
-            public ANodeLeafe(IComparable comparer, TData1 value) : base(comparer, value)
+            public ANodeLeafe(IComparable comparer, TData1 value)
             {
+                Key = comparer;
+                Value = value;
             }
             public int Balance { get; set; }
+            public TData1 Value { get; set; }
+            public INodeTree<TData1> P { get; set; }
+            public IComparable Key { get; set; }
+            public INodeTree<TData1> V { get; set; }
+            public INodeTree<TData1> U { get; set; }
         }
         public AvlTree() : base()
         {
@@ -51,7 +58,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">parent node of the new node</param>
         /// <param name="newNode">The new node to insert</param>
-        protected virtual void Add(INodeLeafe<TData> node, INodeLeafe<TData> newNode)
+        protected virtual void Add(INodeTree<TData> node, INodeTree<TData> newNode)
         {
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
@@ -113,7 +120,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The current node to start looking up for the key</param>
         /// <param name="k">The key which should be removed</param>
-        private void Remove(INodeLeafe<TData> node, IComparable k)
+        private void Remove(INodeTree<TData> node, IComparable k)
         {
             if (node != null)
             {
@@ -135,8 +142,8 @@ namespace DataStructures
                 else
                 {
                     //found key
-                    INodeLeafe<TData> successor = null;
-                    INodeLeafe<TData> p;
+                    INodeTree<TData> successor = null;
+                    INodeTree<TData> p;
 
                     if (node.V == null || node.U == null)
                     {
@@ -196,7 +203,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node on which we need to calculate the balance</param>
         /// <returns>The balance value</returns>
-        public int CalculateBalance(INodeLeafe<TData> node)
+        public int CalculateBalance(INodeTree<TData> node)
         {
             return Height(node.U) - Height(node.V);
         }
@@ -206,7 +213,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node of which we calculate the height</param>
         /// <returns>The calculated value</returns>
-        public int Height(INodeLeafe<TData> node)
+        public int Height(INodeTree<TData> node)
         {
             if (node == null)
             {
@@ -220,12 +227,12 @@ namespace DataStructures
         /// Rebalance from the overgiven <paramref name="node"/> to the root node
         /// </summary>
         /// <param name="node">The noode which we should rebalance</param>
-        private void ReBalanceToRoot(INodeLeafe<TData> node)
+        private void ReBalanceToRoot(INodeTree<TData> node)
         {
             if (node == null)
                 return;
 
-            INodeLeafe<TData> oldP = node.P;
+            INodeTree<TData> oldP = node.P;
             ReBalance(node);
             ReBalanceToRoot(oldP);
         }
@@ -233,7 +240,7 @@ namespace DataStructures
         /// Rebalance from a node
         /// </summary>
         /// <param name="node">The noode which we should rebalance</param>
-        protected void ReBalance(INodeLeafe<TData> node)
+        protected void ReBalance(INodeTree<TData> node)
         {
 
             int Balance = CalculateBalance(node);
@@ -277,7 +284,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node to look up for the successor</param>
         /// <returns>The successor of the node</returns>
-        public INodeLeafe<TData> GetSuccessor(INodeLeafe<TData> node)
+        public INodeTree<TData> GetSuccessor(INodeTree<TData> node)
         {
             if (node.U != null)
             {
@@ -285,7 +292,7 @@ namespace DataStructures
             }
             else
             {
-                INodeLeafe<TData> successorNode = node.P;
+                INodeTree<TData> successorNode = node.P;
 
                 while (successorNode != null && node == successorNode.U)
                 {
@@ -298,7 +305,7 @@ namespace DataStructures
         }
 
         /// <inheritdoc/>
-        public override INodeLeafe<TData> GetMinimum()
+        public override INodeTree<TData> GetMinimum()
         {
             return GetMinimum(RootNode);
         }
@@ -308,7 +315,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node from to look up the node with the minimum key value</param>
         /// <returns>The node with the lowest key</returns>
-        protected INodeLeafe<TData> GetMinimum(INodeLeafe<TData> node)
+        protected INodeTree<TData> GetMinimum(INodeTree<TData> node)
         {
             if (node == null)
             {
@@ -322,7 +329,7 @@ namespace DataStructures
             return node;
         }
         /// <inheritdoc/>
-        public override INodeLeafe<TData> GetMaximum()
+        public override INodeTree<TData> GetMaximum()
         {
             return GetMaximum(RootNode);
         }
@@ -331,7 +338,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node from to look up the node with the maximum key value</param>
         /// <returns>The node with the maximum key value</returns>
-        protected INodeLeafe<TData> GetMaximum(INodeLeafe<TData> node)
+        protected INodeTree<TData> GetMaximum(INodeTree<TData> node)
         {
             if (node == null)
             {
@@ -350,10 +357,10 @@ namespace DataStructures
         /// </summary>
         /// <param name="n">The node to rotate</param>
         /// <returns>The root node of the subtree</returns>
-        protected INodeLeafe<TData> RotateLeft(INodeLeafe<TData> n)
+        protected INodeTree<TData> RotateLeft(INodeTree<TData> n)
         {
-            INodeLeafe<TData> newRoot = n.U;
-            INodeLeafe<TData> oldRoot = n;
+            INodeTree<TData> newRoot = n.U;
+            INodeTree<TData> oldRoot = n;
 
             newRoot.P = oldRoot.P;
             if (oldRoot.P == null)
@@ -387,10 +394,10 @@ namespace DataStructures
         /// </summary>
         /// <param name="n">The node to rotate</param>
         /// <returns>The root node of the subtree</returns>
-        protected INodeLeafe<TData> RotateRight(INodeLeafe<TData> n)
+        protected INodeTree<TData> RotateRight(INodeTree<TData> n)
         {
-            INodeLeafe<TData> newRoot = n.V;
-            INodeLeafe<TData> oldRoot = n;
+            INodeTree<TData> newRoot = n.V;
+            INodeTree<TData> oldRoot = n;
 
             newRoot.P = oldRoot.P;
             if (oldRoot.P == null)
@@ -423,7 +430,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node to check for balance</param>
         /// <returns>True if the balance is fine, otherwise false</returns>
-        private bool CheckBalance(INodeLeafe<TData> node)
+        private bool CheckBalance(INodeTree<TData> node)
         {
             bool flag = true;
 

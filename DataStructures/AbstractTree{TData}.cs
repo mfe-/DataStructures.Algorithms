@@ -8,7 +8,7 @@ namespace DataStructures
     /// </summary>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public abstract class AbstractTree<TNode, TData> 
-        where TNode : class, INodeTree<TNode>, INode<TNode>, IData<TData>
+        where TNode : class, INodeParent<TNode>, INode<TNode>, IData<TData>
     {
         public TNode? RootNode { get; protected set; }
         /// <summary>

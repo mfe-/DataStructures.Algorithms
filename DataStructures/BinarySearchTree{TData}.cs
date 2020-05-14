@@ -16,21 +16,30 @@ namespace DataStructures
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class BinarySearchTree<TData> : AbstractTree<INodeLeafe<TData>,TData>
+    public class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>,TData>
     {
-        public class BNodeLeafe<TData1> : NodeLeafe<TData1>
+        public class BNode<TData1> : INodeTree<TData1> 
         {
-            public BNodeLeafe(IComparable comparer, TData1 value) : base(comparer, value)
+            public BNode(IComparable comparer, TData1 value)
             {
+                Key = comparer;
+                Value = value;
             }
+            public int Balance { get; set; }
+            public TData1 Value { get; set; }
+            public INodeTree<TData1> P { get; set; }
+            public IComparable Key { get; set; }
+            public INodeTree<TData1> V { get; set; }
+            public INodeTree<TData1> U { get; set; }
             public int AmountofNode { get; set; }
+
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="BinarySearchTree{T}"/> class.
         /// </summary>
         public BinarySearchTree() : base()
         {
-            FuncNodeFactory = new Func<IComparable, TData, INodeLeafe<TData>>((key, data) => new BNodeLeafe<TData>(key, data));
+            FuncNodeFactory = new Func<IComparable, TData, INodeTree<TData>>((key, data) => new BNode<TData>(key, data));
         }
         /// <summary>
         /// Gets a value that indicates whether the overgiven value exists in the tree
@@ -56,7 +65,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node</param>
         /// <returns>The height from the node</returns>
-        protected virtual int GetHeight(INodeLeafe<TData> node)
+        protected virtual int GetHeight(INodeTree<TData> node)
         {
             if (node == null)
             {
@@ -74,15 +83,15 @@ namespace DataStructures
         /// <inheritdoc/>
         public override void Add(IComparable key, TData data)
         {
-            INodeLeafe<TData> q = FuncNodeFactory.Invoke(key, data);
-            INodeLeafe<TData> r = null; //r will be predecessor of q
-            INodeLeafe<TData> p = this.RootNode;
+            INodeTree<TData> q = FuncNodeFactory.Invoke(key, data);
+            INodeTree<TData> r = null; //r will be predecessor of q
+            INodeTree<TData> p = this.RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
             while (p != null)
             {
-                (p as BNodeLeafe<TData>).AmountofNode += 1;
+                (p as BNode<TData>).AmountofNode += 1;
                 r = p;
                 if (q.Key.CompareTo(p.Key) == -1)
                 {
@@ -127,13 +136,13 @@ namespace DataStructures
             {
                 return;
             }
-            INodeLeafe<TData> r = null;
-            INodeLeafe<TData> RootNode = this.RootNode;
+            INodeTree<TData> r = null;
+            INodeTree<TData> RootNode = this.RootNode;
             //decrease AmountofNode when removing items
-            Action<INodeLeafe<TData>> actionNode = (n) => (n as BNodeLeafe<TData>).AmountofNode -= 1;
+            Action<INodeTree<TData>> actionNode = (n) => (n as BNode<TData>).AmountofNode -= 1;
 
-            INodeLeafe<TData> q = GetNode(key, actionNode);
-            INodeLeafe<TData> p = null;
+            INodeTree<TData> q = GetNode(key, actionNode);
+            INodeTree<TData> p = null;
 
             if (q.V == null || q.U == null)
             {   //q has max 1 Successor --> will be removed
@@ -193,9 +202,9 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">The node from which we should get the successor</param>
         /// <returns>The successor of the overgiven node</returns>
-        public virtual INodeLeafe<TData> Successor(INodeLeafe<TData> p)
+        public virtual INodeTree<TData> Successor(INodeTree<TData> p)
         {
-            INodeLeafe<TData> q = null;
+            INodeTree<TData> q = null;
             if (p.U != null)
             {
                 return GetMinimum(p.U);
@@ -216,7 +225,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">the node from which we should seek the node with the minimum value</param>
         /// <returns>The node with the minimum value</returns>
-        public INodeLeafe<TData> GetMinimum(INodeLeafe<TData> p)
+        public INodeTree<TData> GetMinimum(INodeTree<TData> p)
         {
             if (p == null)
             {
@@ -229,7 +238,7 @@ namespace DataStructures
             return p;
         }
         /// <inheritdoc/>
-        public override INodeLeafe<TData> GetMinimum()
+        public override INodeTree<TData> GetMinimum()
         {
             return GetMinimum(this.RootNode);
         }
@@ -238,7 +247,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">the node from which we should seek the node with the minimum value</param>
         /// <returns>The node with the minimum value</returns>
-        public INodeLeafe<TData> GetMaximum(INodeLeafe<TData> p)
+        public INodeTree<TData> GetMaximum(INodeTree<TData> p)
         {
             if (p == null)
             {
@@ -251,7 +260,7 @@ namespace DataStructures
             return p;
         }
         /// <inheritdoc/>
-        public override INodeLeafe<TData> GetMaximum()
+        public override INodeTree<TData> GetMaximum()
         {
             return GetMaximum(this.RootNode);
         }
@@ -281,7 +290,7 @@ namespace DataStructures
                 throw new ArgumentException("InsufficientSpace");
             }
 
-            IList<INodeLeafe<TData>> arr = Inorder().ToList();
+            IList<INodeTree<TData>> arr = Inorder().ToList();
             for (int i = 0; i < arr.Count; i++)
             {
                 array[index++] = arr[i].Value;
@@ -293,9 +302,9 @@ namespace DataStructures
         /// </summary>
         /// <param name="index">The element at index </param>
         /// <returns></returns>
-        public INodeLeafe<TData> GetElementAt(int index)
+        public INodeTree<TData> GetElementAt(int index)
         {
-            return GetElementAt(index, (this.RootNode as BNodeLeafe<TData>));
+            return GetElementAt(index, (this.RootNode as BNode<TData>));
         }
         /// <summary>
         /// Makes use of the AmountofNode information to retriev the Element at the overgive <paramref name="index"/> in O(logn)
@@ -303,12 +312,12 @@ namespace DataStructures
         /// <param name="index"></param>
         /// <param name="bNodeLeafe"></param>
         /// <returns></returns>
-        protected INodeLeafe<TData> GetElementAt(int index, BNodeLeafe<TData> bNodeLeafe)
+        protected INodeTree<TData> GetElementAt(int index, BNode<TData> bNodeLeafe)
         {
             int leftNodes = 0;
             if (bNodeLeafe.V != null)
             {
-                leftNodes = (bNodeLeafe.V as BNodeLeafe<TData>).AmountofNode + 1;
+                leftNodes = (bNodeLeafe.V as BNode<TData>).AmountofNode + 1;
             }
             if (index == leftNodes)
             {
@@ -316,15 +325,15 @@ namespace DataStructures
             }
             if (index < leftNodes)
             {
-                return GetElementAt(index, (bNodeLeafe.V as BNodeLeafe<TData>));
+                return GetElementAt(index, (bNodeLeafe.V as BNode<TData>));
             }
             if (index > leftNodes)
             {
-                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe.U as BNodeLeafe<TData>));
+                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe.U as BNode<TData>));
             }
             return null;
         }
-        public INodeLeafe<TData> this[IComparable key]
+        public INodeTree<TData> this[IComparable key]
         {
             get
             {

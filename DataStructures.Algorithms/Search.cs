@@ -12,10 +12,10 @@ namespace DataStructures.Algorithms
         /// <typeparam name="TNode">A Treenode which supports traversing Parent Left and Right</typeparam>
         /// <param name="p">The Node to start</param>
         /// <returns>ascending elements</returns>
-        public static IEnumerable<INodeTree<TNode>> InOrder<TNode>(this INodeTree<TNode> p) where TNode : INodeTree<TNode>, INode<TNode>
+        public static IEnumerable<INodeParent<TNode>> InOrder<TNode>(this INodeParent<TNode> p) where TNode : INodeParent<TNode>, INode<TNode>
         {
-            Stack<INodeTree<TNode>> s = new Stack<INodeTree<TNode>>();
-            INodeTree<TNode> current = p;
+            Stack<INodeParent<TNode>> s = new Stack<INodeParent<TNode>>();
+            INodeParent<TNode> current = p;
 
             // traverse the tree  
             while (current != null || s.Count > 0)
@@ -41,11 +41,11 @@ namespace DataStructures.Algorithms
         /// <typeparam name="TNode">A Treenode which supports traversing Parent Left and Right</typeparam>
         /// <param name="p">The Node to start</param>
         /// <returns></returns>
-        public static IEnumerable<INodeTree<TNode>> PreOrder<TNode>(this INodeTree<TNode> p) where TNode : INodeTree<TNode>, INode<TNode>
+        public static IEnumerable<INodeParent<TNode>> PreOrder<TNode>(this INodeParent<TNode> p) where TNode : INodeParent<TNode>, INode<TNode>
         {
-            return PreOrder(p, new List<INodeTree<TNode>>());
+            return PreOrder(p, new List<INodeParent<TNode>>());
         }
-        internal static IEnumerable<INodeTree<TNode>> PreOrder<TNode>(this INodeTree<TNode> p, IList<INodeTree<TNode>> list) where TNode : INodeTree<TNode>, INode<TNode>
+        internal static IEnumerable<INodeParent<TNode>> PreOrder<TNode>(this INodeParent<TNode> p, IList<INodeParent<TNode>> list) where TNode : INodeParent<TNode>, INode<TNode>
         {
             if (p != null)
             {
