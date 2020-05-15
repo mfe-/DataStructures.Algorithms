@@ -12,11 +12,31 @@ A collection of basic algorithms and data structures (algodat)
   - The graph is fully (de)serializeable.
 - LinkedList (will be reimplemented [see](https://github.com/mfe-/Abstract.DataStructures.Algorithms/issues/3))
 
-## Latest nugets
-[![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures
+## nugets
 
-[![Algorithms.Graph package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/1a2c6c0f-0ec0-476d-91d9-59e72944b2b0/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=1a2c6c0f-0ec0-476d-91d9-59e72944b2b0&preferRelease=true) Algorithms.Graph
+| nuget.org | 
+| ------------- |
+| [Abstract.DataStructures](https://www.nuget.org/packages/Abstract.DataStructures) |  
+| [Abstract.DataStructures.Algorithms](https://www.nuget.org/packages/Abstract.DataStructures.Algorithms) | 
+| [Abstract.DataStructures.Algorithms.Graph](https://www.nuget.org/packages/Abstract.DataStructures.Algorithms.Graph) |
+| [Abstract.DataStructures.UI](https://www.nuget.org/packages/Abstract.DataStructures.UI) | 
 
+## Artifacts from azure dev build pipeline (prerelease)
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <clear />
+    <add key="get-the-solution" value="https://pkgs.dev.azure.com/get-the-solution/_packaging/get-the-solution/nuget/v3/index.json" />
+  </packageSources>
+</configuration>
+```
+
+| Azure DevOps      | 
+| ------------- |
+| [![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures  |  
+| [Artifacts](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=feed&feed=get-the-solution) |
 
 ## DataStructures.UI
 
