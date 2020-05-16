@@ -48,10 +48,10 @@ namespace DataStructures
         /// <summary>
         /// Inserts data with a key
         /// </summary>
-        /// <param name="k">The key</param>
+        /// <param name="key">The key</param>
         /// <param name="data">The data which is associated with the key</param>
         /// <exception cref="ArgumentException">If the key already exists</exception>
-        public abstract void Add(IComparable k, TData data);
+        public abstract void Add(IComparable key, TData data);
         /// <summary>
         /// Inserts data with a key
         /// </summary>
@@ -66,8 +66,8 @@ namespace DataStructures
         /// <summary>
         /// Removes the overgiven key if it exists
         /// </summary>
-        /// <param name="k">Removes the overgiven key if it exists</param>
-        public abstract void Remove(IComparable k);
+        /// <param name="key">Removes the overgiven key if it exists</param>
+        public abstract void Remove(IComparable key);
 
         /// <summary>
         /// Gets the node with the correspondening value
@@ -76,7 +76,7 @@ namespace DataStructures
         /// <returns></returns>
         public virtual TNode? GetNode(IComparable key, Action<TNode>? actionCurrentNode = null)
         {
-            TNode p = RootNode;
+            TNode? p = RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.

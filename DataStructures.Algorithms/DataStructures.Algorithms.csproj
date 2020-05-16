@@ -24,7 +24,7 @@
 
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Product>Algorithms</Product>
-    <PackageIconUrl>https://get-the-solution.net/favicon.ico</PackageIconUrl>
+    <Icon>https://get-the-solution.net/favicon.ico</Icon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <IncludeSymbols>true</IncludeSymbols>

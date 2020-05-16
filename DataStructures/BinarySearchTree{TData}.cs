@@ -65,7 +65,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node</param>
         /// <returns>The height from the node</returns>
-        protected virtual int GetHeight(INodeTree<TData> node)
+        protected virtual int GetHeight(INodeTree<TData>? node)
         {
             if (node == null)
             {
@@ -137,7 +137,6 @@ namespace DataStructures
                 return;
             }
             INodeTree<TData> r = null;
-            INodeTree<TData> RootNode = this.RootNode;
             //decrease AmountofNode when removing items
             Action<INodeTree<TData>> actionNode = (n) => (n as BNode<TData>).AmountofNode -= 1;
 
