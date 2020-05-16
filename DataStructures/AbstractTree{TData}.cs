@@ -14,13 +14,17 @@ namespace DataStructures
         /// <summary>
         /// Factory for creating Nodes
         /// </summary>
-        protected Func<IComparable, TData, TNode>? FuncNodeFactory;
+        protected Func<IComparable, TData, TNode> FuncNodeFactory;
         /// <summary>
         /// Creates a empty <seealso cref="AbstractTree{TData}"/>
         /// </summary>
         protected AbstractTree()
         {
             RootNode = null;
+            FuncNodeFactory = new Func<IComparable, TData, TNode>((key, data) =>
+            {
+                throw new ArgumentException(nameof(FuncNodeFactory),$"When inheriting from {nameof(AbstractTree<TNode, TData>)} requires to set {nameof(FuncNodeFactory)} the Node Factory");
+            });
         }
         /// <summary>
         /// Gets the value that indicates whether the tree is empty or not
@@ -70,7 +74,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public virtual TNode GetNode(IComparable key, Action<TNode> actionCurrentNode = null)
+        public virtual TNode? GetNode(IComparable key, Action<TNode>? actionCurrentNode = null)
         {
             TNode p = RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
@@ -108,14 +112,14 @@ namespace DataStructures
         /// <returns>The Node with the maximum key value of the tree</returns>
         public abstract TNode GetMaximum();
 
-        public TNode Find(Func<TData, bool> funcFind)
+        public TNode? Find(Func<TData, bool> funcFind)
         {
             return Find(new Func<TNode, bool>((node) => funcFind(node.Value)));
         }
-        public TNode Find(Func<TNode, bool> funcFind)
+        public TNode? Find(Func<TNode, bool> funcFind)
         {
             Stack<TNode> s = new Stack<TNode>();
-            TNode current = RootNode;
+            TNode? current = RootNode;
 
             // traverse the tree  
             while (current != null || s.Count > 0)
@@ -139,8 +143,9 @@ namespace DataStructures
             }
             return null;
         }
-        public TNode Find(TData data)
+        public TNode? Find(TData data)
         {
+            if (data == null) throw new ArgumentNullException(nameof(data));
             return Find((current) => (data.Equals(current.Value)));
         }
 
@@ -152,7 +157,7 @@ namespace DataStructures
         public IEnumerable<TNode> Inorder()
         {
             Stack<TNode> s = new Stack<TNode>();
-            TNode current = RootNode;
+            TNode? current = RootNode;
 
             // traverse the tree  
             while (current != null || s.Count > 0)

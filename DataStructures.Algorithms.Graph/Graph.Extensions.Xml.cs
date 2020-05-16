@@ -18,7 +18,7 @@ namespace DataStructures.Algorithms.Graph
         {
             return GetDataContractSerializerSettings(new List<Type>());
         }
-        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes, DataContractResolver dataContractResolver = null)
+        public static DataContractSerializerSettings GetDataContractSerializerSettings(List<Type> knownTypes, DataContractResolver? dataContractResolver = null)
         {
             List<Type> types = new List<Type>() { typeof(Edge), typeof(Vertex), typeof(Vertex<object>), typeof(Edge<object>) };
             if (knownTypes != null)
@@ -36,7 +36,7 @@ namespace DataStructures.Algorithms.Graph
         /// </summary>
         /// <param name="g">Graph to save</param>
         /// <returns>Serialized Graph</returns>
-        public static XElement Save(this DataStructures.Graph g, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
+        public static XElement Save(this DataStructures.Graph g, Action<DataContractSerializerSettings>? DataContractSerializerSettingsActionInvokrer = null)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -61,7 +61,7 @@ namespace DataStructures.Algorithms.Graph
         {
             Load(g, pfilename, 100);
         }
-        public static void Load(this DataStructures.Graph g, String pfilename, int maxDepth, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
+        public static void Load(this DataStructures.Graph g, String pfilename, int maxDepth, Action<DataContractSerializerSettings>? DataContractSerializerSettingsActionInvokrer = null)
         {
             using (FileStream fs = new FileStream(pfilename, FileMode.Open))
             {
@@ -79,7 +79,7 @@ namespace DataStructures.Algorithms.Graph
                 }
             }
         }
-        public static DataStructures.Graph Load(this XElement e, Action<DataContractSerializerSettings> DataContractSerializerSettingsActionInvokrer = null)
+        public static DataStructures.Graph Load(this XElement e, Action<DataContractSerializerSettings>? DataContractSerializerSettingsActionInvokrer = null)
         {
             if (e == null) throw new ArgumentNullException(nameof(e));
             DataStructures.Graph g = new DataStructures.Graph();
@@ -90,17 +90,25 @@ namespace DataStructures.Algorithms.Graph
                 memoryStream.Position = 0;
                 DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
                 DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
-               
-                DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-                DataStructures.Graph u = ndcs.ReadObject(memoryStream) as DataStructures.Graph;
 
-                g.Directed = u.Directed;
-                foreach (IVertex v in u.Vertices)
+                DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
+                object deserialized = ndcs.ReadObject(memoryStream);
+                if (deserialized is DataStructures.Graph gp)
                 {
-                    g.Vertices.Add(v);
+                    DataStructures.Graph u = gp;
+
+                    g.Directed = u.Directed;
+                    foreach (IVertex v in u.Vertices)
+                    {
+                        g.Vertices.Add(v);
+                    }
+                    g.Start = u.Start;
+                    return g;
                 }
-                g.Start = u.Start;
-                return g;
+                else
+                {
+                    throw new NotSupportedException($"When reading from the Stream the type {nameof(DataStructures.Graph)} was expected but got {deserialized.GetType()}");
+                }
             }
         }
         public static string Serialize(this DataStructures.IVertex v, string path)

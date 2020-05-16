@@ -12,7 +12,9 @@ namespace DataStructures
         /// </summary>
         public Vertex() : base()
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             Value = default;
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
 
         /// <summary>
@@ -22,6 +24,9 @@ namespace DataStructures
         public Vertex(double weighted)
             : base(weighted)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
+            Value = default;
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
         [DataMember(Name = "Value", Order = 0, IsRequired = false)]
         public TData Value { get; set; }

@@ -95,7 +95,7 @@ namespace Algorithms.Test
 
             Assert.False(tree.Count != input.Count, "Incorrect size - " + " tree: " + tree.Count + " tree set: " + input.Count);
 
-            int counter = 0;
+            //int counter = 0;
             //foreach (var i in input)
             //{
             //    if (tree.exists(i) == false)

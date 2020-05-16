@@ -65,7 +65,7 @@ namespace DataStructures.Algorithms.Graph
         /// <param name="graphIsUndirected">Determines whether the graph was directed. Default is false (undirected)</param>
         /// <param name="edgeVisitedAction">Action which should be executed when adding a edge to the stack</param>
         /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
-        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex goal = null, bool graphIsDirected = true, Action<IEdge> edgeVisitedAction = null)
+        public static IEnumerable<IEdge> DepthFirstSearch(this IVertex start, IVertex? goal = null, bool graphIsDirected = true, Action<IEdge>? edgeVisitedAction = null)
         {
             if (start == null) throw new ArgumentNullException(nameof(start));
             if (graphIsDirected)
@@ -87,7 +87,7 @@ namespace DataStructures.Algorithms.Graph
         /// <param name="edgeVisitedAction">Action which should be executed when adding a edge to the stack</param>
         /// <returns>Returns a list of all <see cref="IEdge"/>s which are required to get the path beginning from the start to the goal</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static IEnumerable<IEdge> DepthFirstSearchStack(IVertex start, ICollection<IEdge> visited, IVertex goal, bool graphIsDirected, Action<IEdge> edgeVisitedAction = null)
+        private static IEnumerable<IEdge> DepthFirstSearchStack(IVertex start, ICollection<IEdge> visited, IVertex? goal, bool graphIsDirected, Action<IEdge>? edgeVisitedAction = null)
         {
             if (start == null) return Enumerable.Empty<IEdge>();
             if (visited == null) return Enumerable.Empty<IEdge>();
@@ -166,7 +166,7 @@ namespace DataStructures.Algorithms.Graph
         /// <param name="vertexDequeueAction">The action to execute when a vertex is dequeued</param>
         /// <returns>The list of visited vertices</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IEnumerable<IVertex> BreadthFirstSearchQueue(this IVertex vertex, Action<IVertex> vertexDequeueAction = null)
+        public static IEnumerable<IVertex> BreadthFirstSearchQueue(this IVertex vertex, Action<IVertex>? vertexDequeueAction = null)
         {
             HashSet<IVertex> visited = new HashSet<IVertex>() { vertex };
             // Create a queue for BFS 
@@ -201,7 +201,7 @@ namespace DataStructures.Algorithms.Graph
         /// <param name="amount_height_vertices">height of grid</param>
         /// <param name="funFactory">The vertice factory to create vertices</param>
         /// <returns>The created graph</returns>
-        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, int, IVertex> funFactory, Action<IVertex> onLastVertexCreatedAction = null, Action<IVertex[]> actionOnRowCreated = null, double edgeWeight = 1)
+        public static DataStructures.Graph GenerateGridGraph(int amountWidthVertices, int amountHeightVertices, Func<int, int, IVertex> funFactory, Action<IVertex>? onLastVertexCreatedAction = null, Action<IVertex[]>? actionOnRowCreated = null, double edgeWeight = 1)
         {
             DataStructures.Graph g = new DataStructures.Graph();
             IVertex[] lastVerticesRow = new IVertex[amountWidthVertices];
@@ -277,7 +277,7 @@ namespace DataStructures.Algorithms.Graph
             }
             yield return current.V;
         }
-        public static IDictionary<Guid, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double> funcHeuristic = null, Func<IVertex, IEdge, double> funcEdgeWeight = null)
+        public static IDictionary<Guid, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double>? funcHeuristic = null, Func<IVertex, IEdge, double>? funcEdgeWeight = null)
         {
             if (funcHeuristic == null)
             {
@@ -328,7 +328,7 @@ namespace DataStructures.Algorithms.Graph
                     var sucessorvertex = new AEdge();
                     var cacheKey = edge.V.Guid;
                     bool exists = openSet.ContainsKey(cacheKey);
-                    ICollection<AEdge> edgeListNode = null;
+                    ICollection<AEdge> edgeListNode = new List<AEdge>(0);
                     double oldKey = -1;
                     if (exists)
                     {
@@ -467,7 +467,7 @@ namespace DataStructures.Algorithms.Graph
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals(this IEdge e, IEdge edge, bool graphIsdirected = true)
         {
-            Contract.Requires(e != null);
+            if (e == null) throw new ArgumentNullException(nameof(e));
             //use == operator instead of Equals for directed graphs,
             //as the overriden equals of the edge implementeation returns true for transposed edges)
             return graphIsdirected ? e == edge : e.Equals(edge);
@@ -495,7 +495,7 @@ namespace DataStructures.Algorithms.Graph
                     IVertex i = vertices[o];
                     IVertex j = vertices[y];
 
-                    IEdge edge = i?.Edges?.FirstOrDefault(a => a.V.Equals(j));
+                    IEdge edge = i.Edges.FirstOrDefault(a => a.V.Equals(j));
                     if (edge == null)
                     {
                         row[y] = 0;

@@ -14,7 +14,9 @@ namespace DataStructures
         /// <param name="v">Vertex of the Edge</param>
         public Edge(IVertex u, IVertex v) : base(u,v)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             Value = default;
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
         /// <summary>
         /// Initializes a new instance of the Edge class.
@@ -24,7 +26,9 @@ namespace DataStructures
         /// <param name="weighted">Sets the Weighted of the Edge</param>
         public Edge(IVertex u, IVertex v, double weighted) : base(u, v,weighted)
         {
+#pragma warning disable CS8601 // Possible null reference assignment.
             Value = default;
+#pragma warning restore CS8601 // Possible null reference assignment.
         }
         public TData Value { get; set; }
     }
