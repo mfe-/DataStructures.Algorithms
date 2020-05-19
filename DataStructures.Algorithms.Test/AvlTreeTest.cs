@@ -77,7 +77,7 @@ namespace Algorithms.Test
             end = DateTime.Now.Millisecond;
 
             // Inorder
-            List<INodeTree<int>> inorder = avl.Inorder().ToList();
+            var inorder = avl.Inorder().ToList();
 
             // check amount of nodes (is everything stored)
             int n = inorder.Count();
@@ -96,7 +96,7 @@ namespace Algorithms.Test
             }
             for (int i = 1; i < n; i++)
             {
-                INodeTree<int> v = inorder[i];
+                var v = inorder[i];
 
                 Assert.False((int)inorder[i - 1].Key >= (int)v.Key,
                     "node not sorted: " + inorder[i - 1].Key + " vs. "
@@ -224,7 +224,8 @@ namespace Algorithms.Test
             //hasSet Min:2
 
     }
-        private static void CheckParent(INodeTree<int> v)
+        private static void CheckParent<TNode>(TNode v) 
+            where TNode : class, INodeParent<TNode>, INode<TNode>
         {
             if (v == null)
                 return;
@@ -243,7 +244,8 @@ namespace Algorithms.Test
             }
 
         }
-        protected static int CheckHeight(INodeTree<int> root)
+        protected static int CheckHeight<TNode>(TNode root) 
+            where TNode : class, INodeParent<TNode>, INode<TNode>
         {
             if (root == null)
                 return 0;

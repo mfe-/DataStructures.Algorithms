@@ -89,7 +89,8 @@ namespace Algorithms.Test
         /// </summary>
         /// <param name="tree">tree to compare to</param>
         /// <param name="input">tree set build from original data source</param>
-        private void TestContent<TNode>(AbstractTree<TNode,int> tree, AbstractTree<TNode,int> input) where TNode : class, INodeParent<TNode>, INode<TNode>, IData<int>
+        private void TestContent<TNode>(AbstractTree<TNode,int> tree, AbstractTree<TNode,int> input) 
+            where TNode : class, INodeParent<TNode>, INode<TNode>, IData<int>
         {
             Assert.False(tree.Empty != input.Empty, "Failure when calling isEmpty()!");
 

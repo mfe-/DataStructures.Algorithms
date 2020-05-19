@@ -39,16 +39,16 @@ namespace DataStructures
         }
 
         /// <inheritdoc/>
-        public override void Add(IComparable k, TData data)
+        public override void Add(IComparable key, TData data)
         {
             if (RootNode == null)
             {
-                RootNode = FuncNodeFactory(k, data);
+                RootNode = FuncNodeFactory(key, data);
             }
             else
             {
 
-                Add(RootNode, FuncNodeFactory(k, data));
+                Add(RootNode, FuncNodeFactory(key, data));
             }
             Count = Count + 1;
         }

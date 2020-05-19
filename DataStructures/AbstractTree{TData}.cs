@@ -104,13 +104,13 @@ namespace DataStructures
         /// Get the node with the minimum key value of the current tree
         /// </summary>
         /// <returns>The Node with the minimum key of the tree</returns>
-        public abstract TNode GetMinimum();
+        public abstract TNode? GetMinimum();
 
         /// <summary>
         /// Get the node with the maximum key value of the current tree
         /// </summary>
         /// <returns>The Node with the maximum key value of the tree</returns>
-        public abstract TNode GetMaximum();
+        public abstract TNode? GetMaximum();
 
         public TNode? Find(Func<TData, bool> funcFind)
         {
