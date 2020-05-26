@@ -342,20 +342,20 @@ namespace Algorithms.Graph.Test
         [Fact]
         public void PriorityQueue_returns_items_in_correct_order()
         {
-            var q = new PriorityQueue<AEdge>((a) => a.F);
+            var q = new PriorityQueue<Edge>((a) => a.Weighted);
 
-            q.Enqueue(new AEdge(new Vertex(1), 0));
-            q.Enqueue(new AEdge(new Vertex(2), 9));
-            q.Enqueue(new AEdge(new Vertex(3), 5));
-            q.Enqueue(new AEdge(new Vertex(4), 3));
-            q.Enqueue(new AEdge(new Vertex(5), 10));
+            q.Enqueue(new Edge(new Vertex(1),null) { Weighted = 0 });
+            q.Enqueue(new Edge(new Vertex(2),null) { Weighted = 9});
+            q.Enqueue(new Edge(new Vertex(3),null) { Weighted = 5});
+            q.Enqueue(new Edge(new Vertex(4),null) { Weighted = 3 });
+            q.Enqueue(new Edge(new Vertex(5), null) { Weighted = 10 });
 
 
             List<double> result = new List<double>();
             while (q.Any())
             {
-                AEdge v = q.Dequeue();
-                result.Add(v.F);
+                Edge v = q.Dequeue();
+                result.Add(v.Weighted);
                 _testOutputHelper.WriteLine($"{v.Weighted}");
 
             }
@@ -578,9 +578,11 @@ namespace Algorithms.Graph.Test
             Vertex<string> vertex2 = new Vertex<string>();
             Vertex<string> vertex3 = new Vertex<string>();
 
-            IList<IEdge> edges = new List<IEdge>();
-            edges.Add(vertex1.AddEdge(vertex2, 3, false));
-            edges.Add(vertex2.AddEdge(vertex3, 5, false));
+            IList<IEdge> edges = new List<IEdge>
+            {
+                vertex1.AddEdge(vertex2, 3, false),
+                vertex2.AddEdge(vertex3, 5, false)
+            };
 
             double distance = edges.Distance();
 

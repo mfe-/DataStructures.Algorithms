@@ -225,7 +225,7 @@ namespace Algorithms.Test
 
     }
         private static void CheckParent<TNode>(TNode v) 
-            where TNode : class, INodeParent<TNode>, INode<TNode>
+            where TNode : class, INodeParent<TNode>
         {
             if (v == null)
                 return;
@@ -245,7 +245,7 @@ namespace Algorithms.Test
 
         }
         protected static int CheckHeight<TNode>(TNode root) 
-            where TNode : class, INodeParent<TNode>, INode<TNode>
+            where TNode : class, INodeParent<TNode>
         {
             if (root == null)
                 return 0;

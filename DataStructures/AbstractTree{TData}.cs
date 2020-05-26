@@ -8,7 +8,7 @@ namespace DataStructures
     /// </summary>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public abstract class AbstractTree<TNode, TData> 
-        where TNode : class, INodeParent<TNode>, INode<TNode>, IData<TData>
+        where TNode : class, INodeParent<TNode>, IData<TData>
     {
         public TNode? RootNode { get; protected set; }
         /// <summary>
@@ -104,13 +104,13 @@ namespace DataStructures
         /// Get the node with the minimum key value of the current tree
         /// </summary>
         /// <returns>The Node with the minimum key of the tree</returns>
-        public abstract TNode? GetMinimum();
+        public abstract INodeTree<TData>? GetMinimum();
 
         /// <summary>
         /// Get the node with the maximum key value of the current tree
         /// </summary>
         /// <returns>The Node with the maximum key value of the tree</returns>
-        public abstract TNode? GetMaximum();
+        public abstract INodeTree<TData>? GetMaximum();
 
         public TNode? Find(Func<TData, bool> funcFind)
         {
@@ -184,7 +184,7 @@ namespace DataStructures
         /// <remarks>Call for example with  Inorder(RootNode, new List<INodeLeafe<TData>>());</remarks>
         /// <param name="n">Left nodes</param>
         /// <param name="inOrderList">Right nodes</param>
-        protected virtual void Inorder(TNode n, ICollection<TNode> inOrderList)
+        protected virtual void Inorder(TNode? n, ICollection<TNode> inOrderList)
         {
             if (n == null)
                 return;

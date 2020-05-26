@@ -243,9 +243,6 @@ namespace DataStructures.Algorithms.Graph
         [DebuggerDisplay("V={V.Weighted},Weighted={Weighted},F={F},U={U.Weighted}")]
         public struct AEdge : IEdge
         {
-            public AEdge(IVertex current, double f) : this(current, null, 0, f)
-            {
-            }
             public AEdge(IVertex current, IVertex predecessor, double weight, double f)
             {
                 V = current;
@@ -265,7 +262,7 @@ namespace DataStructures.Algorithms.Graph
             /// edge weight costs from start to current V
             /// </summary>
             public double Weighted { get; set; }
-            public double F { get; set; }
+            public double F { get; }
         }
         public static IEnumerable<IVertex> ReconstructPath(this IDictionary<Guid, IEdge> edge, IVertex goal)
         {

@@ -16,21 +16,20 @@ namespace DataStructures
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>,TData>
+    public class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>, TData>
     {
-        public class BNode<TData1> : INodeTree<TData1> 
+        public class BNode<TData1> : INodeTree<TData1>
         {
             public BNode(IComparable comparer, TData1 value)
             {
                 Key = comparer;
                 Value = value;
             }
-            public int Balance { get; set; }
             public TData1 Value { get; set; }
-            public INodeTree<TData1> P { get; set; }
+            public INodeTree<TData1>? P { get; set; }
             public IComparable Key { get; set; }
-            public INodeTree<TData1> V { get; set; }
-            public INodeTree<TData1> U { get; set; }
+            public INodeTree<TData1>? V { get; set; }
+            public INodeTree<TData1>? U { get; set; }
             public int AmountofNode { get; set; }
 
         }
@@ -39,7 +38,7 @@ namespace DataStructures
         /// </summary>
         public BinarySearchTree() : base()
         {
-            FuncNodeFactory = new Func<IComparable, TData, INodeTree<TData>>((key, data) => new BNode<TData>(key, data));
+            FuncNodeFactory = new Func<IComparable, TData, BNode<TData>>((key, data) => new BNode<TData>(key, data));
         }
         /// <summary>
         /// Gets a value that indicates whether the overgiven value exists in the tree
@@ -84,8 +83,8 @@ namespace DataStructures
         public override void Add(IComparable key, TData data)
         {
             INodeTree<TData> q = FuncNodeFactory.Invoke(key, data);
-            INodeTree<TData> r = null; //r will be predecessor of q
-            INodeTree<TData> p = this.RootNode;
+            INodeTree<TData>? r = null; //r will be predecessor of q
+            INodeTree<TData>? p = this.RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
@@ -100,7 +99,7 @@ namespace DataStructures
                 else if (p.Key.CompareTo(key) == 0)
                 {
                     //if key already exists
-                    throw new ArgumentException($"An item with the same key {p.Key} has already been added."); 
+                    throw new ArgumentException($"An item with the same key {p.Key} has already been added.");
                 }
                 else
                 {
@@ -136,12 +135,12 @@ namespace DataStructures
             {
                 return;
             }
-            INodeTree<TData> r = null;
+            INodeTree<TData>? r = null;
             //decrease AmountofNode when removing items
             Action<INodeTree<TData>> actionNode = (n) => (n as BNode<TData>).AmountofNode -= 1;
 
-            INodeTree<TData> q = GetNode(key, actionNode);
-            INodeTree<TData> p = null;
+            INodeTree<TData>? q = GetNode(key, actionNode);
+            INodeTree<TData>? p = null;
 
             if (q.V == null || q.U == null)
             {   //q has max 1 Successor --> will be removed
@@ -201,9 +200,9 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">The node from which we should get the successor</param>
         /// <returns>The successor of the overgiven node</returns>
-        public virtual INodeTree<TData> Successor(INodeTree<TData> p)
+        public virtual INodeTree<TData>? Successor(INodeTree<TData> p)
         {
-            INodeTree<TData> q = null;
+            INodeTree<TData>? q;
             if (p.U != null)
             {
                 return GetMinimum(p.U);
@@ -224,7 +223,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">the node from which we should seek the node with the minimum value</param>
         /// <returns>The node with the minimum value</returns>
-        public INodeTree<TData> GetMinimum(INodeTree<TData> p)
+        public INodeTree<TData>? GetMinimum(INodeTree<TData>? p)
         {
             if (p == null)
             {
@@ -237,7 +236,7 @@ namespace DataStructures
             return p;
         }
         /// <inheritdoc/>
-        public override INodeTree<TData> GetMinimum()
+        public override INodeTree<TData>? GetMinimum()
         {
             return GetMinimum(this.RootNode);
         }
@@ -246,7 +245,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="p">the node from which we should seek the node with the minimum value</param>
         /// <returns>The node with the minimum value</returns>
-        public INodeTree<TData> GetMaximum(INodeTree<TData> p)
+        public INodeTree<TData>? GetMaximum(INodeTree<TData>? p)
         {
             if (p == null)
             {
@@ -259,7 +258,7 @@ namespace DataStructures
             return p;
         }
         /// <inheritdoc/>
-        public override INodeTree<TData> GetMaximum()
+        public override INodeTree<TData>? GetMaximum()
         {
             return GetMaximum(this.RootNode);
         }
@@ -301,7 +300,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="index">The element at index </param>
         /// <returns></returns>
-        public INodeTree<TData> GetElementAt(int index)
+        public INodeTree<TData>? GetElementAt(int index)
         {
             return GetElementAt(index, (this.RootNode as BNode<TData>));
         }
@@ -311,7 +310,7 @@ namespace DataStructures
         /// <param name="index"></param>
         /// <param name="bNodeLeafe"></param>
         /// <returns></returns>
-        protected INodeTree<TData> GetElementAt(int index, BNode<TData> bNodeLeafe)
+        protected INodeTree<TData>? GetElementAt(int index, BNode<TData>? bNodeLeafe)
         {
             int leftNodes = 0;
             if (bNodeLeafe.V != null)
@@ -336,7 +335,12 @@ namespace DataStructures
         {
             get
             {
-                return GetNode(key);
+                var node = GetNode(key);
+                if (node == null)
+                {
+                    throw new ArgumentException(nameof(key));
+                }
+                return node;
             }
         }
     }
