@@ -329,10 +329,12 @@ namespace DataStructures.Algorithms.Graph
                     double oldKey = -1;
                     if (exists)
                     {
-                        edgeListNode = ((PriorityQueue<AEdge>.PriorityNode<AEdge>)
-                            openOrderedSet.GetNode(openSet[cacheKey])).Datas;
-                        sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
-                        oldKey = sucessorvertex.F;
+                        if (openOrderedSet.GetNode(openSet[cacheKey]) is PriorityQueue<AEdge>.PriorityNode<AEdge> node)
+                        {
+                            edgeListNode = node.Datas;
+                            sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
+                            oldKey = sucessorvertex.F;
+                        }
                     }
                     if (exists && tentative_g >= sucessorvertex.Weighted)
                         continue;
@@ -348,7 +350,7 @@ namespace DataStructures.Algorithms.Graph
                         openSet.Remove(cacheKey);
                     }
                     // the path to neighbor is better than any previous one or it wasnt added. Record it!
-                    sucessorvertex = 
+                    sucessorvertex =
                         new AEdge(edge.V, currentNode, tentative_g, tentative_g + funcHeuristic(edge.V));
 
                     openOrderedSet.Enqueue(sucessorvertex);

@@ -90,7 +90,9 @@ namespace DataStructures
             //5.CompareTo(5) =  0      Ints are equal.
             while (p != null)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 (p as BNode<TData>).AmountofNode += 1;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 r = p;
                 if (q.Key.CompareTo(p.Key) == -1)
                 {
@@ -137,12 +139,14 @@ namespace DataStructures
             }
             INodeTree<TData>? r = null;
             //decrease AmountofNode when removing items
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             Action<INodeTree<TData>> actionNode = (n) => (n as BNode<TData>).AmountofNode -= 1;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             INodeTree<TData>? q = GetNode(key, actionNode);
             INodeTree<TData>? p = null;
 
-            if (q.V == null || q.U == null)
+            if (q?.V == null || q.U == null)
             {   //q has max 1 Successor --> will be removed
                 r = q;
             }
@@ -151,6 +155,10 @@ namespace DataStructures
                 //q got two Successor -> will be replaced with successor, the other wil be removed                r = Successor(q);
                 //put the data from r to q (q.Value = r.Value;)
                 //q = FuncNodeFactory.Invoke(r.Value, q.P, q.V, q.U);
+                if (r == null)
+                {
+                    throw new ArgumentNullException(nameof(r), "node r is null. Tree broken.");
+                }
                 var temp = FuncNodeFactory.Invoke(r.Key, r.Value);
                 temp.P = q.P;
                 temp.V = q.V;
@@ -158,6 +166,10 @@ namespace DataStructures
                 q = temp;
                 if (q == null)
                 { }
+            }
+            if (r == null)
+            {
+                throw new ArgumentNullException(nameof(r), "node r is null. Tree broken.");
             }
             //let p reference the child on r (p=null, if r has no child)
             if (r.V != null)
@@ -313,8 +325,9 @@ namespace DataStructures
         protected INodeTree<TData>? GetElementAt(int index, BNode<TData>? bNodeLeafe)
         {
             int leftNodes = 0;
-            if (bNodeLeafe.V != null)
+            if (bNodeLeafe?.V != null)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 leftNodes = (bNodeLeafe.V as BNode<TData>).AmountofNode + 1;
             }
             if (index == leftNodes)
@@ -328,6 +341,7 @@ namespace DataStructures
             if (index > leftNodes)
             {
                 return GetElementAt(index - (leftNodes + 1), (bNodeLeafe.U as BNode<TData>));
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
             return null;
         }

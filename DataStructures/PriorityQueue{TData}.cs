@@ -31,15 +31,17 @@ namespace DataStructures
         public override void Add(IComparable key, TData data)
         {
             INodeTree<TData> q = FuncNodeFactory.Invoke(key, data);
-            INodeTree<TData> r = null; //r will be predecessor of q
-            INodeTree<TData> p = this.RootNode;
+            INodeTree<TData>? r = null; //r will be predecessor of q
+            INodeTree<TData>? p = this.RootNode;
             //5.CompareTo(6) = -1      First int is smaller.
             //6.CompareTo(5) =  1      First int is larger.
             //5.CompareTo(5) =  0      Ints are equal.
             bool update = false;
             while (p != null)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 (p as BNode<TData>).AmountofNode += 1;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 r = p;
                 if (q.Key.CompareTo(p.Key) == -1)
                 {
@@ -54,11 +56,13 @@ namespace DataStructures
                 }
                 else
                 {
-                    p = p.U; 
+                    p = p.U;
                 }
             }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             (q as PriorityNode<TData>).Datas.Add(data);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             if (update) return;
 
             q.P = r;
@@ -91,14 +95,22 @@ namespace DataStructures
         }
         public TData Dequeue()
         {
-            PriorityNode<TData> nodeLeafe = (PriorityNode<TData>)GetMinimum();
-            TData data = nodeLeafe.Datas.FirstOrDefault();
-            nodeLeafe.Datas.Remove(data);
-            if (nodeLeafe.Datas.Count == 0)
+            var minimum = GetMinimum();
+            if (minimum is PriorityNode<TData> nodeLeafe)
             {
-                Remove(nodeLeafe.Key);
+                TData data = nodeLeafe.Datas.FirstOrDefault();
+                nodeLeafe.Datas.Remove(data);
+                if (nodeLeafe.Datas.Count == 0)
+                {
+                    Remove(nodeLeafe.Key);
+                }
+                return data;
             }
-            return data;
+            else
+            {
+                throw new InvalidCastException($"We expected a {nameof(PriorityNode<TData>)} when calling ${nameof(GetMinimum)}");
+            }
+
         }
 
         public bool Any()

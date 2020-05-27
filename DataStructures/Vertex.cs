@@ -13,6 +13,10 @@ namespace DataStructures
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
 
+        public Vertex(Guid guid) : this()
+        {
+            _Guid = guid;
+        }
         /// <summary>
         /// Initializes a new instance of the Vertex class.
         /// </summary>

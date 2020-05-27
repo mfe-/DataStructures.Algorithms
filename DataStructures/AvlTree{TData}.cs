@@ -120,7 +120,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The current node to start looking up for the key</param>
         /// <param name="k">The key which should be removed</param>
-        private void Remove(INodeTree<TData> node, IComparable k)
+        private void Remove(INodeTree<TData>? node, IComparable k)
         {
             if (node != null)
             {
@@ -153,9 +153,10 @@ namespace DataStructures
                     {
                         // Successor
                         successor = GetSuccessor(node);
-
                         node.Key = successor.Key;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                         (node as ANodeLeafe<TData>).Balance = (successor as ANodeLeafe<TData>).Balance;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                     }
 
                     if (successor.V != null)
@@ -188,10 +189,11 @@ namespace DataStructures
                         }
                     }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                     (successor as ANodeLeafe<TData>).Balance = CalculateBalance(successor);
                     if (successor.V != null) (successor.V as ANodeLeafe<TData>).Balance = CalculateBalance(successor.V);
                     if (successor.U != null) (successor.U as ANodeLeafe<TData>).Balance = CalculateBalance(successor.U);
-
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                     ReBalanceToRoot(successor.P);
                 }
 
@@ -232,7 +234,7 @@ namespace DataStructures
             if (node == null)
                 return;
 
-            INodeTree<TData> oldP = node.P;
+            INodeTree<TData>? oldP = node.P;
             ReBalance(node);
             ReBalanceToRoot(oldP);
         }
@@ -242,9 +244,10 @@ namespace DataStructures
         /// <param name="node">The noode which we should rebalance</param>
         protected void ReBalance(INodeTree<TData> node)
         {
-
             int Balance = CalculateBalance(node);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             (node as ANodeLeafe<TData>).Balance = Balance;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             // check Balance
             if (Balance == -2)
             {
@@ -257,6 +260,10 @@ namespace DataStructures
                 else
                 {
                     // case 1.2
+                    if (node.V == null)
+                    {
+                        throw new ArgumentNullException(nameof(node.V), "When rotating the left node was null. Tree is broken. case 1.2");
+                    }
                     RotateLeft(node.V);
                     RotateRight(node);
 
@@ -272,6 +279,10 @@ namespace DataStructures
                 else
                 {
                     // case 2.2
+                    if (node.U == null)
+                    {
+                        throw new ArgumentNullException(nameof(node.U), "When rotating the right node was null. Tree is broken. case 2.2");
+                    }
                     RotateRight(node.U);
                     RotateLeft(node);
                 }
@@ -284,11 +295,12 @@ namespace DataStructures
         /// </summary>
         /// <param name="node">The node to look up for the successor</param>
         /// <returns>The successor of the node</returns>
-        public INodeTree<TData>? GetSuccessor(INodeTree<TData> node)
+        public INodeTree<TData> GetSuccessor(INodeTree<TData> node)
         {
+            INodeTree<TData>? successor;
             if (node.U != null)
             {
-                return GetMinimum(node.U);
+                successor = GetMinimum(node.U);
             }
             else
             {
@@ -300,8 +312,13 @@ namespace DataStructures
                     successorNode = successorNode.P;
                 }
 
-                return successorNode;
+                successor = successorNode;
             }
+            if (successor == null)
+            {
+                throw new ArgumentNullException(nameof(node), "No successor found. Something looks broken.");
+            }
+            return successor;
         }
 
         /// <inheritdoc/>
@@ -360,9 +377,11 @@ namespace DataStructures
         protected INodeTree<TData> RotateLeft(INodeTree<TData> n)
         {
             INodeTree<TData>? newRoot = n.U;
-            INodeTree<TData>? oldRoot = n;
-
-            newRoot.P = oldRoot.P;
+            INodeTree<TData> oldRoot = n;
+            if (newRoot != null)
+            {
+                newRoot.P = oldRoot.P;
+            }
             if (oldRoot.P == null)
             {
                 RootNode = newRoot;
@@ -375,18 +394,28 @@ namespace DataStructures
                     oldRoot.P.U = newRoot;
             }
 
-            oldRoot.U = newRoot.V;
+            oldRoot.U = newRoot?.V;
             if (oldRoot.U != null)
                 oldRoot.U.P = oldRoot;
 
-            newRoot.V = oldRoot;
+            if (newRoot != null)
+            {
+                newRoot.V = oldRoot;
+            }
+
             oldRoot.P = newRoot;
-
+            if (newRoot == null)
+            {
+                throw new ArgumentNullException(nameof(newRoot), "While rotating left the new root was set to null. Tree is broken.");
+            }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);
-            if (newRoot.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
-            if (newRoot.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
-
+            if (newRoot?.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
+            if (newRoot?.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
+#pragma warning disable CS8603 // Possible null reference return.
             return newRoot;
+#pragma warning restore CS8603 // Possible null reference return.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         /// <summary>
@@ -398,8 +427,10 @@ namespace DataStructures
         {
             INodeTree<TData>? newRoot = n.V;
             INodeTree<TData> oldRoot = n;
-
-            newRoot.P = oldRoot.P;
+            if (newRoot != null)
+            {
+                newRoot.P = oldRoot.P;
+            }
             if (oldRoot.P == null)
             {
                 RootNode = newRoot;
@@ -412,18 +443,28 @@ namespace DataStructures
                     oldRoot.P.U = newRoot;
             }
 
-            oldRoot.V = newRoot.U;
+            oldRoot.V = newRoot?.U;
             if (oldRoot.V != null)
                 oldRoot.V.P = oldRoot;
 
-            newRoot.U = oldRoot;
+            if (newRoot != null)
+            {
+                newRoot.U = oldRoot;
+            }
+
             oldRoot.P = newRoot;
-
+            if (newRoot == null)
+            {
+                throw new ArgumentNullException(nameof(newRoot), "While rotating right the new root was set to null. Tree is broken.");
+            }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);
-            if (newRoot.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
-            if (newRoot.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
-
+            if (newRoot?.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
+            if (newRoot?.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8603 // Possible null reference return.
             return newRoot;
+#pragma warning restore CS8603 // Possible null reference return.
         }
         /// <summary>
         /// Checks the balance of the overgiven node <paramref name="node"/>
@@ -441,7 +482,9 @@ namespace DataStructures
             {
                 return false;
             }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             if (Balance != (node as ANodeLeafe<TData>).Balance)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             {
                 return false;
             }
