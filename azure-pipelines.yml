@@ -73,7 +73,7 @@ steps:
   displayName: 'NuGet push'
   inputs:
     command: push
-    publishVstsFeed: 'get-the-solution'
+    publishVstsFeed: 'Public'
     allowPackageConflicts: true
 
 - task: DotNetCoreCLI@2
