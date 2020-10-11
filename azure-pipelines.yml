@@ -13,6 +13,61 @@ name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 pool:
   vmImage: 'windows-latest'
 
+# set version variables because the predefined like $(Year:yy) can't be used in tasks 
+- task: PowerShell@2
+  name: setvariable
+  displayName: 'setting variables MajorVersion, MinorVersion, DayOfMonth'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $year=$(Get-Date -Format 'yy')
+      Write-Host $year
+      Write-Host "##vso[task.setvariable variable=MajorVersion]$year"
+      $month=[datetime]::Today.Month.ToString('0') 
+      Write-Host $month
+      Write-Host "##vso[task.setvariable variable=MinorVersion]$month"
+      $day=$(Get-Date -Format 'dd')
+      Write-Host $day
+      Write-Host "##vso[task.setvariable variable=DayOfMonth]$day"
+      $version="$year.$month.$(BuildID).0"
+      Write-Host $version
+      Write-Host "##vso[task.setvariable variable=version]$version"
+
+- task: PowerShell@2
+  displayName: 'pump version to $(version)'
+  inputs:
+    workingDirectory: '$(Build.SourcesDirectory)'
+    targetType: 'inline'
+    script: |
+      Write-Host "Set version: $(version)"
+      $version = "$(version)"
+      $outputversion = "$(version)"
+
+      # Apply the version to the assembly property files
+      $VersionRegex = "\d+\.\d+\.\d+\.\d+"
+      $assemblyInfoFiles = gci . -recurse -include "*Properties*","My Project" | 
+          ?{ $_.PSIsContainer } | 
+          foreach { gci -Path $_.FullName -Recurse -include AssemblyInfo.* }
+      
+      if($assemblyInfoFiles)
+      {
+          Write-Host "Will apply $AssemblyVersion to $($assemblyInfoFiles.count) Assembly Info Files."
+      
+          foreach ($file in $assemblyInfoFiles) {
+              $filecontent = Get-Content($file)
+              attrib $file -r
+              $filecontent -replace $VersionRegex, $version  | Out-File $file utf8
+      
+              Write-Host "$file.FullName - $version version applied"
+          }
+      }
+      else
+      {
+          Write-Warning "No Assembly Info Files found."
+      }
+      
+
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: build solution release
@@ -29,11 +84,11 @@ steps:
     arguments: '--configuration=Debug --verbosity=n'
 
 - task: DotNetCoreCLI@2
-  displayName: build solution relase for nuget
+  displayName: benchmark
   inputs:
-    command: 'build'
+    command: 'run'
     projects: 'DataStructures.UI.sln'
-    arguments: '--configuration=Release --verbosity=n'
+    arguments: '-c Release --project DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj --framework=netcoreapp3.1 --filter *GraphBenchmark* --verbosity=n'
 
 - script: dotnet test DataStructures.sln --verbosity=n --logger trx  --collect "Code coverage"
   displayName: 'run test'
