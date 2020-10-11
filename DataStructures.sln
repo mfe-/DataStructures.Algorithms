@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph", "DataStructures.Algorithms.Graph\DataStructures.Algorithms.Graph.csproj", "{8DD04A87-A880-4B75-A3A5-F59AF77C3DAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms.Graph.Test", "DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj", "{FA37CC20-24DF-41C6-9D44-7FCD32BC088C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph.Test", "DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj", "{FA37CC20-24DF-41C6-9D44-7FCD32BC088C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStructures\DataStructures.csproj", "{2BD0FAAA-8033-42CD-A00D-58D89CABDFC0}"
 EndProject

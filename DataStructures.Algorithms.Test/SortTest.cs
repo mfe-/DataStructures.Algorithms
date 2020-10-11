@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using DataStructures.Algorithms;
+using BenchmarkDotNet.Attributes;
 
 namespace Algorithms.Test
 {
@@ -27,6 +28,7 @@ namespace Algorithms.Test
             return result;
         }
         [Fact]
+        [Benchmark]
         public void TestInsertion_Sort()
         {
             var expected = new int[] { 1, 2, 3, 4, 5, 6 };
@@ -61,6 +63,7 @@ namespace Algorithms.Test
             Assert.Equal(expected, result.ToArray());
         }
         [Fact]
+        [Benchmark]
         public void TestQuick_Sort()
         {
             var expected = new int[] { 1, 1, 1, 11, 110, 111, 111 };
@@ -97,6 +100,7 @@ namespace Algorithms.Test
 
         }
         [Fact]
+        [Benchmark]
         public void TestMerge_Srot()
         {
             var expected = new int[] { 1, 2, 2, 3, 4, 5, 6, 6 };
@@ -108,6 +112,7 @@ namespace Algorithms.Test
             Assert.Equal(expected, result.ToArray());
         }
         [Fact]
+        [Benchmark]
         public void TestSub_Sort()
         {
             var expected = new int[] { 1, 1, 5, 5, 9 };
@@ -117,6 +122,7 @@ namespace Algorithms.Test
         }
 
         [Fact]
+        [Benchmark]
         public void TestTranspose_Sort()
         {
             var expected = new int[] { 1, 1, 5, 5, 9 };

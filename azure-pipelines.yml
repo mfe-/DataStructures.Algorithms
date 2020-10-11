@@ -28,7 +28,14 @@ steps:
     projects: 'DataStructures.UI.sln'
     arguments: '--configuration=Debug --verbosity=n'
 
-- script: dotnet test DataStructures.sln --logger trx  --collect "Code coverage"
+- task: DotNetCoreCLI@2
+  displayName: build solution relase for nuget
+  inputs:
+    command: 'build'
+    projects: 'DataStructures.UI.sln'
+    arguments: '--configuration=Release --verbosity=n'
+
+- script: dotnet test DataStructures.sln --verbosity=n --logger trx  --collect "Code coverage"
   displayName: 'run test'
   condition: succeeded()
 
