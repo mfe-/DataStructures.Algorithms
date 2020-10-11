@@ -13,7 +13,6 @@ name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 pool:
   vmImage: 'windows-latest'
 
-# set version variables because the predefined like $(Year:yy) can't be used in tasks 
 - task: PowerShell@2
   name: setvariable
   displayName: 'setting variables MajorVersion, MinorVersion, DayOfMonth'
@@ -65,7 +64,6 @@ pool:
       {
           Write-Warning "No Assembly Info Files found."
       }
-      
 
 
 steps:
