@@ -71,6 +71,7 @@ steps:
       {
           Write-Warning "No Assembly Info Files found."
       }
+
 - task: DotNetCoreCLI@2
   displayName: build solution release
   inputs:
@@ -89,7 +90,6 @@ steps:
   displayName: benchmark
   inputs:
     command: 'run'
-    projects: 'DataStructures.UI.sln'
     arguments: '-c Release --project DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj --framework=netcoreapp3.1 --filter *GraphBenchmark* --verbosity=n'
 
 - script: dotnet test DataStructures.sln --verbosity=n --logger trx  --collect "Code coverage"
