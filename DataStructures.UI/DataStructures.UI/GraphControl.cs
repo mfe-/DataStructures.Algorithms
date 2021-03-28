@@ -113,6 +113,10 @@ namespace DataStructures.UI
                         this.Children.Add(ev);
                     }
                 }
+                if (e.Source is EdgeControl edgeControl && MouseButtonState.Pressed.Equals(e.LeftButton))
+                {
+                    SelectedEdge = edgeControl.Edge;
+                }
             }
         }
         public Func<IVertex, IEdge> EdgeFactory { get; set; }
@@ -764,6 +768,18 @@ namespace DataStructures.UI
                 }
             }
         }
+        /// <summary>
+        /// Selected Edge
+        /// </summary>
+        public IEdge SelectedEdge
+        {
+            get { return (IEdge)GetValue(SelectedEdgeProperty); }
+            set { SetValue(SelectedEdgeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedEdge.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedEdgeProperty =
+            DependencyProperty.Register("SelectedEdge", typeof(IEdge), typeof(GraphControl), new PropertyMetadata(null));
 
         public FrameworkElement? SelectedItem { get; set; }
 
