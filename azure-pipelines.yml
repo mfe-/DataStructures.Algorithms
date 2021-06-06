@@ -140,7 +140,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'xcopy /e /k /h /i docs\_site $(build.artifactstagingdirectory)/_site'
+    script: 'xcopy /e /k /h /i docs\_site $(build.artifactstagingdirectory)\_site'
 
 
 #- task: NuGetCommand@2
