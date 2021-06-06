@@ -137,6 +137,11 @@ steps:
   inputs:
     solution: 'docs\docfx.json'
 
+- task: CmdLine@2
+  inputs:
+    script: 'xcopy /e /k /h /i docs\_site $(build.artifactstagingdirectory)_site'
+
+
 #- task: NuGetCommand@2
 #  displayName: 'NuGet push'
 #  inputs:
@@ -151,7 +156,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    arguments: '-r win-x64 -c debug --no-restore /p:PublishSingleFile=true -o $(build.artifactstagingdirectory)'
+    arguments: '-r win-x64 -c debug --no-restore /p:PublishSingleFile=true -o $(build.artifactstagingdirectory)/DataStructures.UI.Demo'
     workingDirectory: 'src/DataStructures.UI/DataStructures.UI.Demo'
 
 - task: PublishBuildArtifacts@1
