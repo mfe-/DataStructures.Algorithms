@@ -7,25 +7,10 @@ A collection of basic algorithms and data structures (algodat)
 - AvlTree
 - BstTree
 - The graphs datastructure with it vertices and edges is implemented as "linked list". 
-  - The idea is that it is not neccessary to load the entire graph to execute an algorithm.
+  - The idea is that it is not necessary to load the entire graph to execute an algorithm.
   - Each vertex can save a generic `Value`.
-  - The graph is fully (de)serializeable.
+  - The graph is fully (de) serializeable.
 - LinkedList (will be reimplemented [see](https://github.com/mfe-/Abstract.DataStructures.Algorithms/issues/3))
-
-## nugets
-
-| nuget.org | 
-| ------------- |
-| [Abstract.DataStructures](https://www.nuget.org/packages/Abstract.DataStructures) |  
-| [Abstract.DataStructures.Algorithms](https://www.nuget.org/packages/Abstract.DataStructures.Algorithms) | 
-| [Abstract.DataStructures.Algorithms.Graph](https://www.nuget.org/packages/Abstract.DataStructures.Algorithms.Graph) |
-| [Abstract.DataStructures.UI](https://www.nuget.org/packages/Abstract.DataStructures.UI) | 
-
-
-| Azure DevOps      | 
-| ------------- |
-| [![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures  |  
-| [Artifacts](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=feed&feed=get-the-solution) |
 
 ## DataStructures.UI
 
@@ -67,7 +52,7 @@ With the old version of the framework I mainly focused on visually representing 
 
 #### Graph control
 
-When creating the graph with the ui (graph control) the proper model will be created in the background. 
+When creating the graph with the ui (graph control) the proper model will be created in the background.
 ![alt tag](http://i.imgur.com/4WS122c.gif)
 
 Another approach would be to overgive a graph data structure to the graph visualization control which created the proper ui graph.
