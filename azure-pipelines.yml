@@ -133,6 +133,10 @@ steps:
     versioningScheme: 'byBuildNumber'
     verbosityPack: 'Normal'
 
+- task: DocFxTask@0
+  inputs:
+    solution: 'docs\docfx.json'
+
 #- task: NuGetCommand@2
 #  displayName: 'NuGet push'
 #  inputs:
