@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace DataStructures
 {
     /// <summary>
-    /// Tree
+    /// abstract tree implementation
     /// </summary>
     /// <typeparam name="TNode">The node typ which should be used</typeparam>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>

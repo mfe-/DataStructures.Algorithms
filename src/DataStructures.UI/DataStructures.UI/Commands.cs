@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace Get.UI
+namespace DataStructures.UI
 {
     public class LoadGraphCommand : ICommand
     {

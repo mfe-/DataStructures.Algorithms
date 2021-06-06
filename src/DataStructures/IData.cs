@@ -1,9 +1,9 @@
 ﻿namespace DataStructures
 {
     /// <summary>
-    /// Get or sets the Data
+    /// Provides a property to store data
     /// </summary>
-    /// <typeparam name="TData">The Type of the Data which should be used in the DataStructure</typeparam>
+    /// <typeparam name="TData">The Type of the data which should be stored</typeparam>
     public interface IData<TData>
     {
         /// <summary>
