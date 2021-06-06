@@ -504,15 +504,13 @@ namespace DataStructures
             {
                 return false;
             }
-            if (node.V != null)
+            if (node.V != null && !CheckBalance(node.V))
             {
-                if (!CheckBalance(node.V))
-                    flag = false;
+                flag = false;
             }
-            if (node.U != null)
+            if (node.U != null && !CheckBalance(node.U))
             {
-                if (!CheckBalance(node.U))
-                    flag = false;
+                flag = false;
             }
             return flag;
         }

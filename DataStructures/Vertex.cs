@@ -115,14 +115,13 @@ namespace DataStructures
         /// <inheritdoc/>
         public virtual void RemoveEdge(IVertex u, bool directed)
         {
-            IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(u));
+            IEdge? edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(u));
             if (edge != null)
             {
                 if (directed.Equals(false))
                 {
-                    IEdge edged = edge.V.Edges.FirstOrDefault(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted));
-
-                    edge.V.Edges.Remove(edged);
+                    IEdge? edged = edge.V.Edges.FirstOrDefault(a => a.U.Equals(edge.V) && a.V.Equals(this) && a.Weighted.Equals(edge.Weighted));
+                    if (edged != null) edge.V.Edges.Remove(edged);
                 }
                 this.Edges.Remove(edge);
             }
@@ -142,7 +141,7 @@ namespace DataStructures
         /// </summary>
         /// <param name="obj">The object to compare with the current object. </param>
         /// <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj != null && !obj.GetType().Equals(this.GetType())) return false;
 

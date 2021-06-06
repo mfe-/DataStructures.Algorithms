@@ -345,13 +345,13 @@ namespace DataStructures
             }
             if (index < leftNodes)
             {
-                return GetElementAt(index, (bNodeLeafe.V as BNode<TData>));
+                return GetElementAt(index, (bNodeLeafe?.V as BNode<TData>));
             }
             if (index > leftNodes)
             {
-                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe.U as BNode<TData>));
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe?.U as BNode<TData>));
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             return null;
         }
         /// <summary>

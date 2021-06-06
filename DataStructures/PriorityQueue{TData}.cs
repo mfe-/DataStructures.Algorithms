@@ -120,13 +120,17 @@ namespace DataStructures
             var minimum = GetMinimum();
             if (minimum is PriorityNode<TData> nodeLeafe)
             {
-                TData data = nodeLeafe.Datas.FirstOrDefault();
-                nodeLeafe.Datas.Remove(data);
-                if (nodeLeafe.Datas.Count == 0)
+                TData? data = nodeLeafe.Datas.FirstOrDefault();
+                if (data != null)
                 {
-                    Remove(nodeLeafe.Key);
+                    nodeLeafe.Datas.Remove(data);
+                    if (nodeLeafe.Datas.Count == 0)
+                    {
+                        Remove(nodeLeafe.Key);
+                    }
+                    return data;
                 }
-                return data;
+                throw new InvalidOperationException($"{nameof(PriorityQueue<TData>)} is empty!");
             }
             else
             {
