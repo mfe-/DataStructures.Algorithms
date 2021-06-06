@@ -6,25 +6,35 @@ using System.Collections.Generic;
 
 namespace DataStructures
 {
+    /// <summary>
+    /// Vertex which can be used for creating a graph. Vertices are connected to each other using <see cref="Edge"/>.
+    /// A <seealso cref="Vertex"/> is identified by its internal <see cref="System.Guid"/>.
+    /// </summary>
     [DebuggerDisplay("Vertex={Weighted},GUID={_Guid}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Vertex")]
     public class Vertex : IVertex
     {
         [DataMember(Name = "Guid", Order = 3, IsRequired = true)]
         private readonly Guid _Guid;
-
-        public Vertex(Guid guid) : this()
-        {
-            _Guid = guid;
-        }
         /// <summary>
-        /// Initializes a new instance of the Vertex class.
+        /// Initializes a new instance of the <see cref="Vertex"/> class.
         /// </summary>
         public Vertex()
         {
             _Guid = Guid.NewGuid();
             Edges = new List<IEdge>(10);
         }
+        /// <summary>
+        /// Creates a new instance of the <see cref="Vertex"/> class and sets the identifier using <paramref name="guid"/>.
+        /// </summary>
+        public Vertex(Guid guid) : this()
+        {
+            _Guid = guid;
+        }
+        /// <summary>
+        /// Creates a new instance of the <see cref="Vertex"/> class and sets the edges
+        /// </summary>
+        /// <param name="edges"></param>
         public Vertex(ICollection<IEdge> edges) : this()
         {
             _Guid = Guid.NewGuid();
@@ -70,6 +80,12 @@ namespace DataStructures
                 return _Guid;
             }
         }
+        /// <summary>
+        /// Creates an edge using the current vertex instance as starting point
+        /// </summary>
+        /// <param name="u">Sets the overgiven vertex as endpoint of the creating edge</param>
+        /// <param name="weighted">The weight of the edge</param>
+        /// <returns>Returns the created edge</returns>
         public virtual IEdge CreateEdge(IVertex u, double weighted = 0)
         {
             IEdge e1 = new Edge(this, u, weighted);
@@ -91,11 +107,12 @@ namespace DataStructures
             }
             return Edges.Last();
         }
-
+        /// <inheritdoc/>
         public virtual void RemoveEdge(IVertex u)
         {
             RemoveEdge(u, true);
         }
+        /// <inheritdoc/>
         public virtual void RemoveEdge(IVertex u, bool directed)
         {
             IEdge edge = this.Edges.FirstOrDefault(a => a.U.Equals(this) && a.V.Equals(u));

@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace DataStructures
+﻿namespace DataStructures
 {
     /// <summary>
     /// Can be used for linked lists
     /// </summary>
-    /// <typeparam name="TNode"></typeparam>
+    /// <typeparam name="TNode">The typ of nodes which can be connected</typeparam>
     public interface INode<TNode> where TNode : class, INode<TNode>
     {
         /// <summary>

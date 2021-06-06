@@ -4,6 +4,9 @@ using System;
 
 namespace DataStructures
 {
+    /// <summary>
+    /// An edge that connects vertices <see cref="IEdge.U"/> and <see cref="IEdge.V"/>
+    /// </summary>
     [DebuggerDisplay("U={U}->V={V},Edge={Weighted}")]
     [DataContract(Namespace = "http://schemas.get.com/Graph/Edges")]
     public class Edge : IEdge
@@ -52,12 +55,11 @@ namespace DataStructures
         {
             return $"{U} -> {V}";
         }
-
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (!(obj is IEdge)) return false;
             IEdge edge = (IEdge)obj;
-            //return (edge)?.GetHashCode() == this.GetHashCode();
             return ($"{U}{V}" == $"{edge.U}{edge.V}" || $"{U}{V}" == $"{edge.V}{edge.U}");
         }
 

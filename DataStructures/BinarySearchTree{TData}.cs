@@ -18,18 +18,31 @@ namespace DataStructures
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>, TData>
     {
+        /// <summary>
+        /// Node
+        /// </summary>
+        /// <typeparam name="TData1"></typeparam>
         public class BNode<TData1> : INodeTree<TData1>
         {
+            /// <summary>
+            /// Initializes a new instance of the Edge class.
+            /// </summary>
             public BNode(IComparable comparer, TData1 value)
             {
                 Key = comparer;
                 Value = value;
             }
+            /// <inheritdoc/>
             public TData1 Value { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? P { get; set; }
+            /// <inheritdoc/>
             public IComparable Key { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? V { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? U { get; set; }
+            /// <inheritdoc/>
             public int AmountofNode { get; set; }
 
         }
@@ -43,7 +56,7 @@ namespace DataStructures
         /// <summary>
         /// Gets a value that indicates whether the overgiven value exists in the tree
         /// </summary>
-        /// <param name="key"><The value to seek in the tree/param>
+        /// <param name="key">The value to seek in the tree</param>
         /// <returns></returns>
         public bool ContainsKey(IComparable key)
         {
@@ -157,7 +170,7 @@ namespace DataStructures
                 //q = FuncNodeFactory.Invoke(r.Value, q.P, q.V, q.U);
                 if (r == null)
                 {
-                    throw new ArgumentNullException(nameof(r), "node r is null. Tree broken.");
+                    throw new InvalidOperationException("node r is null. Tree broken.");
                 }
                 var temp = FuncNodeFactory.Invoke(r.Key, r.Value);
                 temp.P = q.P;
@@ -169,7 +182,7 @@ namespace DataStructures
             }
             if (r == null)
             {
-                throw new ArgumentNullException(nameof(r), "node r is null. Tree broken.");
+                throw new InvalidOperationException("node r is null. Tree broken.");
             }
             //let p reference the child on r (p=null, if r has no child)
             if (r.V != null)
@@ -275,14 +288,10 @@ namespace DataStructures
             return GetMaximum(this.RootNode);
         }
         /// <summary>
-        /// Copies the entire Collection<T> to a compatible one-dimensional Array, starting at the specified index of the target array.
+        /// Copies the entire Collection to a compatible one-dimensional Array, starting at the specified index of the target array.
         /// </summary>
-        /// <param name="array">
-        /// The one-dimensional Array that is the destination of the elements copied from Collection<T>. The Array must have zero-based indexing.
-        /// </param>
-        /// <param name="index">
-        /// The zero-based index in array at which copying begins.
-        /// </param>
+        /// <param name="array">The one-dimensional Array that is the destination of the elements copied from Collection. The Array must have zero-based indexing.</param>
+        /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(TData[] array, int index)
         {
             if (array == null)
@@ -345,6 +354,12 @@ namespace DataStructures
             }
             return null;
         }
+        /// <summary>
+        /// Returns the <see cref="INodeTree{TData}"/> associated with the given key.
+        /// If an entry with the given key is not found, an argument exception will be thrown
+        /// </summary>
+        /// <param name="key">The key to lookup</param>
+        /// <returns>The associated <see cref="INodeTree{TData}"/></returns>
         public INodeTree<TData> this[IComparable key]
         {
             get

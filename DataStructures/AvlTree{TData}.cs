@@ -19,20 +19,36 @@ namespace DataStructures
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public class AvlTree<TData> : AbstractTree<INodeTree<TData>, TData>
     {
+        /// <summary>
+        /// Node class used in avl tree
+        /// </summary>
+        /// <typeparam name="TData1"></typeparam>
         public class ANodeLeafe<TData1> : INodeTree<TData1>
         {
+            /// <summary>
+            /// Initializes a new node leafe
+            /// </summary>
             public ANodeLeafe(IComparable comparer, TData1 value)
             {
                 Key = comparer;
                 Value = value;
             }
+            /// <inheritdoc/>
             public int Balance { get; set; }
+            /// <inheritdoc/>
             public TData1 Value { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? P { get; set; }
+            /// <inheritdoc/>
             public IComparable Key { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? V { get; set; }
+            /// <inheritdoc/>
             public INodeTree<TData1>? U { get; set; }
         }
+        /// <summary>
+        /// Initializes a new instance of the avl tree.
+        /// </summary>
         public AvlTree() : base()
         {
             FuncNodeFactory = (k, data) => new ANodeLeafe<TData>(k, data);
@@ -106,12 +122,12 @@ namespace DataStructures
 
 
         /// <inheritdoc/>
-        public override void Remove(IComparable k)
+        public override void Remove(IComparable key)
         {
 
             if (RootNode != null)
             {
-                Remove(RootNode, k);
+                Remove(RootNode, key);
             }
         }
 
@@ -262,7 +278,7 @@ namespace DataStructures
                     // case 1.2
                     if (node.V == null)
                     {
-                        throw new ArgumentNullException(nameof(node.V), "When rotating the left node was null. Tree is broken. case 1.2");
+                        throw new InvalidOperationException("When rotating the left node was null. Tree is broken. case 1.2");
                     }
                     RotateLeft(node.V);
                     RotateRight(node);
@@ -281,7 +297,7 @@ namespace DataStructures
                     // case 2.2
                     if (node.U == null)
                     {
-                        throw new ArgumentNullException(nameof(node.U), "When rotating the right node was null. Tree is broken. case 2.2");
+                        throw new InvalidOperationException("When rotating the right node was null. Tree is broken. case 2.2");
                     }
                     RotateRight(node.U);
                     RotateLeft(node);
@@ -406,7 +422,7 @@ namespace DataStructures
             oldRoot.P = newRoot;
             if (newRoot == null)
             {
-                throw new ArgumentNullException(nameof(newRoot), "While rotating left the new root was set to null. Tree is broken.");
+                throw new InvalidOperationException("While rotating left the new root was set to null. Tree is broken.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);
@@ -455,7 +471,7 @@ namespace DataStructures
             oldRoot.P = newRoot;
             if (newRoot == null)
             {
-                throw new ArgumentNullException(nameof(newRoot), "While rotating right the new root was set to null. Tree is broken.");
+                throw new InvalidOperationException("While rotating right the new root was set to null. Tree is broken.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);

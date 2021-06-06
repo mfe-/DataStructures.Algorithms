@@ -1,0 +1,816 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Abstract.DataStructures</name>
+    </assembly>
+    <members>
+        <member name="T:DataStructures.AbstractTree`2">
+            <summary>
+            Tree
+            </summary>
+            <typeparam name="TNode">The node typ which should be used</typeparam>
+            <typeparam name="TData">The datatype which is used for storing values</typeparam>
+        </member>
+        <member name="P:DataStructures.AbstractTree`2.RootNode">
+            <summary>
+            The root node of the tree
+            </summary>
+        </member>
+        <member name="F:DataStructures.AbstractTree`2.FuncNodeFactory">
+            <summary>
+            Factory for creating Nodes
+            </summary>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.#ctor">
+            <summary>
+            Creates a empty <seealso cref="T:DataStructures.AbstractTree`2"/>
+            </summary>
+        </member>
+        <member name="P:DataStructures.AbstractTree`2.Empty">
+            <summary>
+            Gets the value that indicates whether the tree is empty or not
+            </summary>
+        </member>
+        <member name="P:DataStructures.AbstractTree`2.Count">
+            <summary>
+            Gets the amount of nodes of the tree
+            </summary>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Add(System.IComparable,`1)">
+            <summary>
+            Inserts data with a key
+            </summary>
+            <param name="key">The key</param>
+            <param name="data">The data which is associated with the key</param>
+            <exception cref="T:System.ArgumentException">If the key already exists</exception>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Add(System.Func{`1,System.IComparable},`1)">
+            <summary>
+            Inserts data with a key
+            </summary>
+            <param name="data">The data</param>
+            <param name="funcReturnKey">Function whichs computes the key from <typeparamref name="TData"/></param>
+            <exception cref="T:System.ArgumentException">If the key already exists</exception>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Remove(System.IComparable)">
+            <summary>
+            Removes the overgiven key if it exists
+            </summary>
+            <param name="key">Removes the overgiven key if it exists</param>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.GetNode(System.IComparable,System.Action{`0})">
+            <summary>
+            Gets the node with the correspondening value
+            </summary>
+            <param name="key"></param>
+            <param name="actionCurrentNode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.GetMinimum">
+            <summary>
+            Get the node with the minimum key value of the current tree
+            </summary>
+            <returns>The Node with the minimum key of the tree</returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.GetMaximum">
+            <summary>
+            Get the node with the maximum key value of the current tree
+            </summary>
+            <returns>The Node with the maximum key value of the tree</returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Find(System.Func{`1,System.Boolean})">
+            <summary>
+            Find a node using the overgiven look up function <paramref name="funcFind"/>
+            </summary>
+            <param name="funcFind">A function which determinds whether the lookup TData is found</param>
+            <returns>The Node which was found</returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Find(System.Func{`0,System.Boolean})">
+            <summary>
+            Find a node using the overgiven look up function <paramref name="funcFind"/>
+            </summary>
+            <param name="funcFind">A function which determinds whether the lookup TData is found</param>
+            <returns>The Node which was found</returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Find(`1)">
+            <summary>
+            Find the overgiven data
+            </summary>
+            <param name="data">The data to look up</param>
+            <returns>The node which contains the data</returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Inorder">
+            <summary>
+            Creates a IEnumerable using Inorder.
+            In inorder, the root is visited in the middle
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DataStructures.AbstractTree`2.Inorder(`0,System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Create a inorder using <paramref name="inOrderList"/> and <paramref name="n"/>
+            </summary>
+            <param name="n">Left nodes</param>
+            <param name="inOrderList">Right nodes</param>
+        </member>
+        <member name="T:DataStructures.AvlTree`1">
+            <summary>
+            AVL Tree 
+            Recommended for tasks which require a lot of lookups and less rebalancing.
+            If the majority of operations of the tree are insertions or deletions and worst-case orders are not expected
+            it's recommended to use <seealso cref="T:DataStructures.BinarySearchTree`1"/>
+            Check also the AVLTreeTest
+            </summary>
+            <remarks>
+            Algorithm		Average	     Worst case
+            Space            O(n)           O(n) 
+            Search         O(log(n))     O(log(n))
+            Insert         O(log(n))     O(log(n))
+            Delete         O(log(n))     O(log(n))
+            </remarks>
+            <typeparam name="TData">The datatype which is used for storing values</typeparam>
+        </member>
+        <member name="T:DataStructures.AvlTree`1.ANodeLeafe`1">
+            <summary>
+            Node class used in avl tree
+            </summary>
+            <typeparam name="TData1"></typeparam>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.ANodeLeafe`1.#ctor(System.IComparable,`1)">
+            <summary>
+            Initializes a new node leafe
+            </summary>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.Balance">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.Value">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.P">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.Key">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.V">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.AvlTree`1.ANodeLeafe`1.U">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.#ctor">
+            <summary>
+            Initializes a new instance of the avl tree.
+            </summary>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.Add(System.IComparable,`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.Add(DataStructures.INodeTree{`0},DataStructures.INodeTree{`0})">
+            <summary>
+            Inserts a node
+            </summary>
+            <param name="node">parent node of the new node</param>
+            <param name="newNode">The new node to insert</param>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.Remove(System.IComparable)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.Remove(DataStructures.INodeTree{`0},System.IComparable)">
+            <summary>
+            Removes the node with the overgiven key
+            </summary>
+            <param name="node">The current node to start looking up for the key</param>
+            <param name="k">The key which should be removed</param>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.CalculateBalance(DataStructures.INodeTree{`0})">
+            <summary>
+            Calculate the balance of the node
+            </summary>
+            <param name="node">The node on which we need to calculate the balance</param>
+            <returns>The balance value</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.Height(DataStructures.INodeTree{`0})">
+            <summary>
+            Calculates the height of the node
+            </summary>
+            <param name="node">The node of which we calculate the height</param>
+            <returns>The calculated value</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.ReBalanceToRoot(DataStructures.INodeTree{`0})">
+            <summary>
+            Rebalance from the overgiven <paramref name="node"/> to the root node
+            </summary>
+            <param name="node">The noode which we should rebalance</param>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.ReBalance(DataStructures.INodeTree{`0})">
+            <summary>
+            Rebalance from a node
+            </summary>
+            <param name="node">The noode which we should rebalance</param>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.GetSuccessor(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the successor of the overgiven node
+            </summary>
+            <param name="node">The node to look up for the successor</param>
+            <returns>The successor of the node</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.GetMinimum">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.GetMinimum(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the node with the minimum key value from the overgiven node <paramref name="node"/>
+            </summary>
+            <param name="node">The node from to look up the node with the minimum key value</param>
+            <returns>The node with the lowest key</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.GetMaximum">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.GetMaximum(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the node with the maximum key value from the overgiven node <paramref name="node"/>
+            </summary>
+            <param name="node">The node from to look up the node with the maximum key value</param>
+            <returns>The node with the maximum key value</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.RotateLeft(DataStructures.INodeTree{`0})">
+            <summary>
+            Operates a left rotation on the overgiven <paramref name="n"/> node
+            </summary>
+            <param name="n">The node to rotate</param>
+            <returns>The root node of the subtree</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.RotateRight(DataStructures.INodeTree{`0})">
+            <summary>
+            Operates a right rotation on the overgiven <paramref name="n"/> node
+            </summary>
+            <param name="n">The node to rotate</param>
+            <returns>The root node of the subtree</returns>
+        </member>
+        <member name="M:DataStructures.AvlTree`1.CheckBalance(DataStructures.INodeTree{`0})">
+            <summary>
+            Checks the balance of the overgiven node <paramref name="node"/>
+            </summary>
+            <param name="node">The node to check for balance</param>
+            <returns>True if the balance is fine, otherwise false</returns>
+        </member>
+        <member name="T:DataStructures.BinarySearchTree`1">
+            <summary>
+            BST - Binary search tree
+            Recommended for lookups on "dynamic data" (which is changing a lot).
+            </summary>
+            <remarks>
+            Algorithm		Average	     Worst case
+            Space            O(n)           O(n) 
+            Search         O(log(n))     O(log(n))
+            Insert         O(log(n))     O(log(n))
+            Delete         O(log(n))     O(log(n))
+            </remarks>
+            <typeparam name="TData">The datatype which is used for storing values</typeparam>
+        </member>
+        <member name="T:DataStructures.BinarySearchTree`1.BNode`1">
+            <summary>
+            Node
+            </summary>
+            <typeparam name="TData1"></typeparam>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.BNode`1.#ctor(System.IComparable,`1)">
+            <summary>
+            Initializes a new instance of the Edge class.
+            </summary>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.Value">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.P">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.Key">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.V">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.U">
+            <inheritdoc/>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.BNode`1.AmountofNode">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.BinarySearchTree`1"/> class.
+            </summary>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.ContainsKey(System.IComparable)">
+            <summary>
+            Gets a value that indicates whether the overgiven value exists in the tree
+            </summary>
+            <param name="key">The value to seek in the tree</param>
+            <returns></returns>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.Height">
+            <summary>
+            Gets the height of the tree
+            </summary>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetHeight(DataStructures.INodeTree{`0})">
+            <summary>
+            Gets the height of the tree starting from the overgiven node
+            </summary>
+            <param name="node">The node</param>
+            <returns>The height from the node</returns>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.Clear">
+            <summary>
+            Clear the nodes of the tree
+            </summary>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.Add(System.IComparable,`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.Remove(System.IComparable)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.Successor(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the successor from the overgiven node
+            </summary>
+            <param name="p">The node from which we should get the successor</param>
+            <returns>The successor of the overgiven node</returns>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetMinimum(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the child node with the minimum value
+            </summary>
+            <param name="p">the node from which we should seek the node with the minimum value</param>
+            <returns>The node with the minimum value</returns>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetMinimum">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetMaximum(DataStructures.INodeTree{`0})">
+            <summary>
+            Returns the child node with the maximum value
+            </summary>
+            <param name="p">the node from which we should seek the node with the minimum value</param>
+            <returns>The node with the minimum value</returns>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetMaximum">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the entire Collection to a compatible one-dimensional Array, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional Array that is the destination of the elements copied from Collection. The Array must have zero-based indexing.</param>
+            <param name="index">The zero-based index in array at which copying begins.</param>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetElementAt(System.Int32)">
+            <summary>
+            Get Element at index using Inorder
+            Runtime O(log n)
+            </summary>
+            <param name="index">The element at index </param>
+            <returns></returns>
+        </member>
+        <member name="M:DataStructures.BinarySearchTree`1.GetElementAt(System.Int32,DataStructures.BinarySearchTree{`0}.BNode{`0})">
+            <summary>
+            Makes use of the AmountofNode information to retriev the Element at the overgive <paramref name="index"/> in O(logn)
+            </summary>
+            <param name="index"></param>
+            <param name="bNodeLeafe"></param>
+            <returns></returns>
+        </member>
+        <member name="P:DataStructures.BinarySearchTree`1.Item(System.IComparable)">
+            <summary>
+            Returns the <see cref="T:DataStructures.INodeTree`1"/> associated with the given key.
+            If an entry with the given key is not found, an argument exception will be thrown
+            </summary>
+            <param name="key">The key to lookup</param>
+            <returns>The associated <see cref="T:DataStructures.INodeTree`1"/></returns>
+        </member>
+        <member name="T:DataStructures.Edge">
+            <summary>
+            An edge that connects vertices <see cref="P:DataStructures.IEdge.U"/> and <see cref="P:DataStructures.IEdge.V"/>
+            </summary>
+        </member>
+        <member name="M:DataStructures.Edge.#ctor(DataStructures.IVertex,DataStructures.IVertex)">
+            <summary>
+            Initializes a new instance of the Edge class.
+            </summary>
+            <param name="u">Vertex of the Edge</param>
+            <param name="v">Vertex of the Edge</param>
+        </member>
+        <member name="M:DataStructures.Edge.#ctor(DataStructures.IVertex,DataStructures.IVertex,System.Double)">
+            <summary>
+            Initializes a new instance of the Edge class.
+            </summary>
+            <param name="u">Vertex of the Edge</param>
+            <param name="v">Vertex of the Edge</param>
+            <param name="weighted">Sets the Weighted of the Edge</param>
+        </member>
+        <member name="P:DataStructures.Edge.U">
+            <summary>
+            Get or sets the Vertex of the Edge
+            </summary>
+        </member>
+        <member name="P:DataStructures.Edge.V">
+            <summary>
+            Get or sets the Vertex of the Edge
+            </summary>
+        </member>
+        <member name="P:DataStructures.Edge.Weighted">
+            <summary>
+            Gets or sets the Weighted of the Edge
+            </summary>
+        </member>
+        <member name="M:DataStructures.Edge.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+        <member name="M:DataStructures.Edge.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.Edge.GetHashCode">
+            <summary>
+            Creates a HasCode based of the used vertices. If no Vertex is set the value zero is used.
+            </summary>
+            <returns>A hash code for the current Object.</returns>
+        </member>
+        <member name="T:DataStructures.Edge`1">
+            <summary>
+            Extends the <see cref="T:DataStructures.Edge"/> by a <see cref="P:DataStructures.Edge`1.Value"/> property.
+            </summary>
+            <typeparam name="TData">The type of the <seealso cref="P:DataStructures.Edge`1.Value"/> property</typeparam>
+        </member>
+        <member name="M:DataStructures.Edge`1.#ctor(DataStructures.IVertex,DataStructures.IVertex)">
+            <summary>
+            Initializes a new instance of the Edge class.
+            </summary>
+            <param name="u">Vertex of the Edge</param>
+            <param name="v">Vertex of the Edge</param>
+        </member>
+        <member name="M:DataStructures.Edge`1.#ctor(DataStructures.IVertex,DataStructures.IVertex,System.Double)">
+            <summary>
+            Initializes a new instance of the Edge class.
+            </summary>
+            <param name="u">Vertex of the Edge</param>
+            <param name="v">Vertex of the Edge</param>
+            <param name="weighted">Sets the Weighted of the Edge</param>
+        </member>
+        <member name="P:DataStructures.Edge`1.Value">
+            <inheritdoc/>
+        </member>
+        <member name="T:DataStructures.Graph">
+            <summary>
+            Graph, a structure made of vertices and edges
+            </summary>
+        </member>
+        <member name="F:DataStructures.Graph._Vertices">
+            <summary>
+            Store unconnected vertices
+            </summary>
+        </member>
+        <member name="M:DataStructures.Graph.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.Graph"/> class.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Graph.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.Graph"/> class.
+            </summary>
+            <param name="directed">Sets true if the graph is directed.</param>
+        </member>
+        <member name="P:DataStructures.Graph.Vertices">
+            <summary>
+            Saves unconnected vertices. If you connect an unconnected vertex you have to remove it from the list!
+            </summary>
+        </member>
+        <member name="M:DataStructures.Graph.AddVertex(DataStructures.IVertex)">
+            <summary>
+            Adds a vertex to the current graph.
+            </summary>
+            <param name="pVertice">The vertex to add</param>
+        </member>
+        <member name="P:DataStructures.Graph.Start">
+            <summary>
+            Gets or sets the start vertex of the graph
+            </summary>
+        </member>
+        <member name="P:DataStructures.Graph.CreateVertexFunc">
+            <summary>
+            Get or sets the function for creating vertices
+            </summary>
+        </member>
+        <member name="P:DataStructures.Graph.Directed">
+            <summary>
+            Gets or sets whether the graph is directed or undirected.
+            This value does not get computed and has no effect on the graph when set.
+            </summary>
+        </member>
+        <member name="E:DataStructures.Graph.PropertyChanged">
+            <summary>
+            Event raised when a property is changed on the <see cref="T:DataStructures.Graph"/> component.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Graph.NotifyPropertyChanged(System.String)">
+            <summary>
+            Notify using String property name
+            </summary>
+        </member>
+        <member name="T:DataStructures.IData`1">
+            <summary>
+            Get or sets the Data
+            </summary>
+            <typeparam name="TData">The Type of the Data which should be used in the DataStructure</typeparam>
+        </member>
+        <member name="P:DataStructures.IData`1.Value">
+            <summary>
+            Get or sets the Data
+            </summary>
+        </member>
+        <member name="T:DataStructures.IEdge">
+            <summary>
+            An edge that connects vertices <see cref="P:DataStructures.IEdge.U"/> and <see cref="P:DataStructures.IEdge.V"/>
+            </summary>
+        </member>
+        <member name="P:DataStructures.IEdge.U">
+            <summary>
+            Get or sets the vertex
+            </summary>
+        </member>
+        <member name="P:DataStructures.IEdge.V">
+            <summary>
+            Get or sets the vertex
+            </summary>
+        </member>
+        <member name="P:DataStructures.IEdge.Weighted">
+            <summary>
+            Get or sets the weight of the edge
+            </summary>
+        </member>
+        <member name="T:DataStructures.IEdge`1">
+            <summary>
+            Extends the <see cref="T:DataStructures.IEdge"/> by a <see cref="P:DataStructures.IData`1.Value"/> property.
+            </summary>
+            <typeparam name="TData">The type of the <seealso cref="P:DataStructures.IData`1.Value"/> property</typeparam>
+        </member>
+        <member name="T:DataStructures.INode`1">
+            <summary>
+            Can be used for linked lists
+            </summary>
+            <typeparam name="TNode">The typ of nodes which can be connected</typeparam>
+        </member>
+        <member name="P:DataStructures.INode`1.V">
+            <summary>
+            Left
+            </summary>
+        </member>
+        <member name="P:DataStructures.INode`1.U">
+            <summary>
+            Right
+            </summary>
+        </member>
+        <member name="T:DataStructures.INodeParent`1">
+            <summary>
+            Node for tree
+            </summary>
+            <typeparam name="TNode">The tree node typ.</typeparam>
+        </member>
+        <member name="P:DataStructures.INodeParent`1.P">
+            <summary>
+            Parent
+            </summary>
+        </member>
+        <member name="P:DataStructures.INodeParent`1.Key">
+            <summary>
+            The identifier of <seealso cref="T:DataStructures.INodeParent`1"/>
+            </summary>
+        </member>
+        <member name="T:DataStructures.INodeTree`1">
+            <summary>
+            Extends the <seealso cref="T:DataStructures.INodeParent`1"/> by a <see cref="P:DataStructures.IData`1.Value"/> property.
+            </summary>
+            <typeparam name="TData">The type of the data which should be used for <see cref="P:DataStructures.IData`1.Value"/> </typeparam>
+        </member>
+        <member name="T:DataStructures.IVertex">
+            <summary>
+            <see cref="T:DataStructures.IVertex"/> can be used for creating a graph. Vertices are connected to each other using <see cref="T:DataStructures.IEdge"/>.
+            </summary>
+        </member>
+        <member name="P:DataStructures.IVertex.Guid">
+            <summary>
+            Identifier of vertex
+            </summary>
+        </member>
+        <member name="P:DataStructures.IVertex.Weighted">
+            <summary>
+            Gets or sets the Weighted of the vertex
+            </summary>
+        </member>
+        <member name="P:DataStructures.IVertex.Edges">
+            <summary>
+            A list of edges which connects the neigbour vertices
+            </summary>
+        </member>
+        <member name="M:DataStructures.IVertex.AddEdge(DataStructures.IVertex,System.Double,System.Boolean)">
+            <summary>
+            Creates a un/directed edge to the overgiven Vertex
+            </summary>
+            <param name="u">Vertex to connect</param>
+            <param name="weighted">Weighted of the Edge</param>
+            <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
+        </member>
+        <member name="M:DataStructures.IVertex.RemoveEdge(DataStructures.IVertex)">
+            <summary>
+            Removes the the edge from the current instance which contains a connection to the overgiven vertex <paramref name="u"/>
+            </summary>
+            <param name="u">The connecting vertex which should be removed</param>
+        </member>
+        <member name="M:DataStructures.IVertex.RemoveEdge(DataStructures.IVertex,System.Boolean)">
+            <summary>
+            Removes the the edge from the current instance which contains a connection to the overgiven vertex <paramref name="u"/>
+            </summary>
+            <param name="u">The connecting vertex which should be removed</param>
+            <param name="directed">Determines whether the vertex is connected by a directed or undirected edge</param>
+        </member>
+        <member name="P:DataStructures.IVertex.Size">
+            <summary>
+            Amount of neighbours
+            </summary>
+        </member>
+        <member name="T:DataStructures.IVertex`1">
+            <summary>
+            Extends the <see cref="T:DataStructures.IVertex"/> by a <see cref="P:DataStructures.IData`1.Value"/> property.
+            </summary>
+            <typeparam name="TData">The type of the <seealso cref="P:DataStructures.IData`1.Value"/> property</typeparam>
+        </member>
+        <member name="T:DataStructures.PriorityQueue`1">
+            <summary>
+            PriorityQueue using <see cref="T:DataStructures.BinarySearchTree`1"/> with a list on each node to save duplicates
+            </summary>
+            <typeparam name="TData"></typeparam>
+        </member>
+        <member name="T:DataStructures.PriorityQueue`1.PriorityNode`1">
+            <summary>
+            Node which is used for the <see cref="T:DataStructures.PriorityQueue`1"/>
+            </summary>
+            <typeparam name="TData1"></typeparam>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.PriorityNode`1.#ctor(System.IComparable,`1)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.PriorityQueue`1.PriorityNode`1"/> class.
+            </summary>
+        </member>
+        <member name="P:DataStructures.PriorityQueue`1.PriorityNode`1.Datas">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.#ctor(System.Func{`0,System.IComparable})">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.PriorityQueue`1"/> class.
+            </summary>
+            <param name="funcKey">The function which is used to retriev the key of a node</param>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.Add(System.IComparable,`0)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.Enqueue(`0)">
+            <summary>
+            Add <paramref name="data"/> to the queue
+            </summary>
+            <param name="data">The data which should be queued</param>
+            <returns>The retrieved key of the overgiven <paramref name="data"/> after it was added to the queue.</returns>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.Dequeue">
+            <summary>
+            Gets the data with the minimum key and removes it from the <see cref="T:DataStructures.PriorityQueue`1"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DataStructures.PriorityQueue`1.Any">
+            <summary>
+            Returns if the <see cref="T:DataStructures.PriorityQueue`1"/> contains any data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DataStructures.Vertex">
+            <summary>
+            Vertex which can be used for creating a graph. Vertices are connected to each other using <see cref="T:DataStructures.Edge"/>.
+            A <seealso cref="T:DataStructures.Vertex"/> is identified by its internal <see cref="T:System.Guid"/>.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Vertex.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DataStructures.Vertex"/> class.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Vertex.#ctor(System.Guid)">
+            <summary>
+            Creates a new instance of the <see cref="T:DataStructures.Vertex"/> class and sets the identifier using <paramref name="guid"/>.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Vertex.#ctor(System.Collections.Generic.ICollection{DataStructures.IEdge})">
+            <summary>
+            Creates a new instance of the <see cref="T:DataStructures.Vertex"/> class and sets the edges
+            </summary>
+            <param name="edges"></param>
+        </member>
+        <member name="M:DataStructures.Vertex.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the Vertex class that contains the specified weighted.
+            </summary>
+            <param name="weighted"></param>
+        </member>
+        <member name="P:DataStructures.Vertex.Weighted">
+            <summary>
+            Gets or sets the Weighted of the vertex
+            </summary>
+        </member>
+        <member name="P:DataStructures.Vertex.Edges">
+            <summary>
+            Gets or sets the list of edges which connects the vertex neighbours
+            </summary>
+        </member>
+        <member name="P:DataStructures.Vertex.Size">
+            <summary>
+            Amount of neighbours
+            </summary>
+        </member>
+        <member name="P:DataStructures.Vertex.Guid">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.Vertex.CreateEdge(DataStructures.IVertex,System.Double)">
+            <summary>
+            Creates an edge using the current vertex instance as starting point
+            </summary>
+            <param name="u">Sets the overgiven vertex as endpoint of the creating edge</param>
+            <param name="weighted">The weight of the edge</param>
+            <returns>Returns the created edge</returns>
+        </member>
+        <member name="M:DataStructures.Vertex.AddEdge(DataStructures.IVertex,System.Double,System.Boolean)">
+            <summary>
+            Creates a (un)directed edge to the overgiven Vertex
+            </summary>
+            <param name="u">Vertex to connect</param>
+            <param name="weighted">Weighted of the Edge</param>
+            <param name="directed">False if the edge should be undirected (2 edges); othwise directed (1 edge)</param>
+        </member>
+        <member name="M:DataStructures.Vertex.RemoveEdge(DataStructures.IVertex)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.Vertex.RemoveEdge(DataStructures.IVertex,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.Vertex.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+        <member name="M:DataStructures.Vertex.Equals(System.Object)">
+            <summary>
+            Determines with the guid whether the specified Object is equal to the current Object.
+            http://msdn.microsoft.com/en-us/library/bsc2ak47.aspx
+            </summary>
+            <param name="obj">The object to compare with the current object. </param>
+            <returns>true if the specified Object is equal to the current Object; otherwise, false.</returns>
+        </member>
+        <member name="M:DataStructures.Vertex.GetHashCode">
+            <summary>
+            Returns the Hashvalue for this typ based on the internal used guid
+            </summary>
+            <returns>A hash code for the current Object.</returns>
+        </member>
+        <member name="T:DataStructures.Vertex`1">
+            <summary>
+            Extends the <see cref="T:DataStructures.Vertex"/> by a <see cref="P:DataStructures.Vertex`1.Value"/> property.
+            </summary>
+            <typeparam name="TData">The type of the <seealso cref="P:DataStructures.Vertex`1.Value"/> property</typeparam>
+        </member>
+        <member name="M:DataStructures.Vertex`1.#ctor">
+            <summary>
+            Initializes a new instance of the Vertex class.
+            </summary>
+        </member>
+        <member name="M:DataStructures.Vertex`1.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the Vertex class that contains the specified weighted.
+            </summary>
+            <param name="weighted"></param>
+        </member>
+        <member name="P:DataStructures.Vertex`1.Value">
+            <inheritdoc/>
+        </member>
+        <member name="M:DataStructures.Vertex`1.CreateEdge(DataStructures.IVertex,System.Double)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

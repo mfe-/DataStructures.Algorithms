@@ -6,24 +6,28 @@ namespace DataStructures
     /// <summary>
     /// Tree
     /// </summary>
+    /// <typeparam name="TNode">The node typ which should be used</typeparam>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
     public abstract class AbstractTree<TNode, TData> 
         where TNode : class, INodeParent<TNode>, IData<TData>
     {
+        /// <summary>
+        /// The root node of the tree
+        /// </summary>
         public TNode? RootNode { get; protected set; }
         /// <summary>
         /// Factory for creating Nodes
         /// </summary>
         protected Func<IComparable, TData, TNode> FuncNodeFactory;
         /// <summary>
-        /// Creates a empty <seealso cref="AbstractTree{TData}"/>
+        /// Creates a empty <seealso cref="AbstractTree{TNode, TData}"/>
         /// </summary>
         protected AbstractTree()
         {
             RootNode = null;
             FuncNodeFactory = new Func<IComparable, TData, TNode>((key, data) =>
             {
-                throw new ArgumentException(nameof(FuncNodeFactory),$"When inheriting from {nameof(AbstractTree<TNode, TData>)} requires to set {nameof(FuncNodeFactory)} the Node Factory");
+                throw new InvalidOperationException($"When inheriting from {nameof(AbstractTree<TNode, TData>)} requires to set {nameof(FuncNodeFactory)} the Node Factory");
             });
         }
         /// <summary>
@@ -69,10 +73,12 @@ namespace DataStructures
         /// <param name="key">Removes the overgiven key if it exists</param>
         public abstract void Remove(IComparable key);
 
+
         /// <summary>
         /// Gets the node with the correspondening value
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="key"></param>
+        /// <param name="actionCurrentNode"></param>
         /// <returns></returns>
         public virtual TNode? GetNode(IComparable key, Action<TNode>? actionCurrentNode = null)
         {
@@ -111,11 +117,20 @@ namespace DataStructures
         /// </summary>
         /// <returns>The Node with the maximum key value of the tree</returns>
         public abstract INodeTree<TData>? GetMaximum();
-
+        /// <summary>
+        /// Find a node using the overgiven look up function <paramref name="funcFind"/>
+        /// </summary>
+        /// <param name="funcFind">A function which determinds whether the lookup TData is found</param>
+        /// <returns>The Node which was found</returns>
         public TNode? Find(Func<TData, bool> funcFind)
         {
             return Find(new Func<TNode, bool>((node) => funcFind(node.Value)));
         }
+        /// <summary>
+        /// Find a node using the overgiven look up function <paramref name="funcFind"/>
+        /// </summary>
+        /// <param name="funcFind">A function which determinds whether the lookup TData is found</param>
+        /// <returns>The Node which was found</returns>
         public TNode? Find(Func<TNode, bool> funcFind)
         {
             Stack<TNode> s = new Stack<TNode>();
@@ -143,6 +158,11 @@ namespace DataStructures
             }
             return null;
         }
+        /// <summary>
+        /// Find the overgiven data
+        /// </summary>
+        /// <param name="data">The data to look up</param>
+        /// <returns>The node which contains the data</returns>
         public TNode? Find(TData data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
@@ -181,7 +201,6 @@ namespace DataStructures
         /// <summary>
         /// Create a inorder using <paramref name="inOrderList"/> and <paramref name="n"/>
         /// </summary>
-        /// <remarks>Call for example with  Inorder(RootNode, new List<INodeLeafe<TData>>());</remarks>
         /// <param name="n">Left nodes</param>
         /// <param name="inOrderList">Right nodes</param>
         protected virtual void Inorder(TNode? n, ICollection<TNode> inOrderList)

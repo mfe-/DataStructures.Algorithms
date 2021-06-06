@@ -5,6 +5,9 @@ using System;
 
 namespace DataStructures
 {
+    /// <summary>
+    /// Graph, a structure made of vertices and edges
+    /// </summary>
     [DataContract(Namespace = "http://schemas.get.com/Graph/")]
     public class Graph : INotifyPropertyChanged
     {
@@ -16,12 +19,17 @@ namespace DataStructures
         private ObservableCollection<IVertex> _Vertices = new ObservableCollection<IVertex>();
 
         private IVertex? _Start = null;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Graph"/> class.
+        /// </summary>
         public Graph()
         {
             _Vertices = new ObservableCollection<IVertex>();
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Graph"/> class.
+        /// </summary>
+        /// <param name="directed">Sets true if the graph is directed.</param>
         public Graph(bool directed)
         {
             this.directed = directed;
@@ -36,6 +44,10 @@ namespace DataStructures
                 return _Vertices;
             }
         }
+        /// <summary>
+        /// Adds a vertex to the current graph.
+        /// </summary>
+        /// <param name="pVertice">The vertex to add</param>
         public void AddVertex(IVertex pVertice)
         {
             _Vertices.Add(pVertice);
@@ -66,6 +78,9 @@ namespace DataStructures
             }
         }
         private Func<IVertex>? _CreateVertexFunc;
+        /// <summary>
+        /// Get or sets the function for creating vertices
+        /// </summary>
         public Func<IVertex>? CreateVertexFunc
         {
             get { return _CreateVertexFunc; }
@@ -83,6 +98,9 @@ namespace DataStructures
         public bool Directed { get { return directed; } set { directed = value; NotifyPropertyChanged(nameof(Directed)); } }
 
         #region INotifyPropertyChanged
+        /// <summary>
+        /// Event raised when a property is changed on the <see cref="Graph"/> component.
+        /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>

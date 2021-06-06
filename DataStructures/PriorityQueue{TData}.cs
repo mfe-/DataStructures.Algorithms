@@ -12,22 +12,35 @@ namespace DataStructures
     [DebuggerDisplay("Count = {Count}")]
     public class PriorityQueue<TData> : BinarySearchTree<TData>
     {
+        /// <summary>
+        /// Node which is used for the <see cref="PriorityQueue{TData}"/>
+        /// </summary>
+        /// <typeparam name="TData1"></typeparam>
         [DebuggerDisplay("Key = {Key} Count = {Datas.Count}")]
         public class PriorityNode<TData1> : BNode<TData1>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PriorityNode{TData1}"/> class.
+            /// </summary>
             public PriorityNode(IComparable comparer, TData1 value) : base(comparer, value)
             {
                 Datas = new HashSet<TData1>();
             }
+            /// <inheritdoc/>
             public ICollection<TData1> Datas { get; }
         }
         private readonly Func<TData, IComparable> _funcKey;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PriorityQueue{TData}"/> class.
+        /// </summary>
+        /// <param name="funcKey">The function which is used to retriev the key of a node</param>
         public PriorityQueue(Func<TData, IComparable> funcKey) : base()
         {
             _funcKey = funcKey;
             FuncNodeFactory = new Func<IComparable, TData, INodeTree<TData>>(
                 (key, data) => new PriorityNode<TData>(key, data));
         }
+        /// <inheritdoc/>
         public override void Add(IComparable key, TData data)
         {
             INodeTree<TData> q = FuncNodeFactory.Invoke(key, data);
@@ -87,12 +100,21 @@ namespace DataStructures
             //increase size of tree;
             Count = Count + 1;
         }
+        /// <summary>
+        /// Add <paramref name="data"/> to the queue
+        /// </summary>
+        /// <param name="data">The data which should be queued</param>
+        /// <returns>The retrieved key of the overgiven <paramref name="data"/> after it was added to the queue.</returns>
         public IComparable Enqueue(TData data)
         {
             var key = _funcKey(data);
             Add(key, data);
             return key;
         }
+        /// <summary>
+        /// Gets the data with the minimum key and removes it from the <see cref="PriorityQueue{TData}"/>
+        /// </summary>
+        /// <returns></returns>
         public TData Dequeue()
         {
             var minimum = GetMinimum();
@@ -112,7 +134,10 @@ namespace DataStructures
             }
 
         }
-
+        /// <summary>
+        /// Returns if the <see cref="PriorityQueue{TData}"/> contains any data.
+        /// </summary>
+        /// <returns></returns>
         public bool Any()
         {
             return Count != 0;
