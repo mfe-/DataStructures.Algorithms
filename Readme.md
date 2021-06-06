@@ -24,8 +24,7 @@ A collection of basic algorithms and data structures (algodat)
 
 | Azure DevOps      | 
 | ------------- |
-| [![Abstract.DataStructures package in get-the-solution feed in Azure Artifacts](https://feeds.dev.azure.com/get-the-solution/_apis/public/Packaging/Feeds/3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb/Packages/b00eb17d-cec3-4152-9fa2-d4ac8dba11ab/Badge)](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=package&feed=3bf81259-ccfe-4071-b8f8-bb5f44d4a8fb&package=b00eb17d-cec3-4152-9fa2-d4ac8dba11ab&preferRelease=true) Abstract.DataStructures  |  
-| [Artifacts](https://dev.azure.com/get-the-solution/get-the-solution/_packaging?_a=feed&feed=get-the-solution) |
+| [Pipeline](https://dev.azure.com/get-the-solution/get-the-solution/_build?definitionId=9) |
 
 ## DataStructures.UI
 
