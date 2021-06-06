@@ -101,7 +101,7 @@ steps:
   condition: succeededOrFailed()
   inputs:
     testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    testResultsFiles: '**/**/*.trx'
 
 - task: DotNetCoreCLI@2
   displayName: create nuget DataStructures;Algorithms.Graph
@@ -109,7 +109,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
-    packagesToPack: '**/DataStructures.csproj;**/DataStructures.Algorithms.csproj;**/DataStructures.Algorithms.Graph.csproj;'
+    packagesToPack: '**/**/DataStructures.csproj;**/**/DataStructures.Algorithms.csproj;**/**/DataStructures.Algorithms.Graph.csproj;'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
@@ -119,7 +119,7 @@ steps:
   displayName: build DataStructures.UI
   inputs:
     command: 'build'
-    projects: '**/**/DataStructures.UI.csproj'
+    projects: '**/**/**/DataStructures.UI.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: create nuget DataStructures.UI
@@ -127,7 +127,7 @@ steps:
   inputs:
     command: 'pack'
     arguments: '--include-symbols --include-source --output $(Build.ArtifactStagingDirectory)'
-    packagesToPack: '**/**/DataStructures.UI.csproj;'
+    packagesToPack: '**/**/**/DataStructures.UI.csproj;'
     includesymbols: true
     includesource: true
     versioningScheme: 'byBuildNumber'
@@ -148,7 +148,7 @@ steps:
     command: 'publish'
     publishWebProjects: false
     arguments: '-r win-x64 -c debug --no-restore /p:PublishSingleFile=true -o $(build.artifactstagingdirectory)'
-    workingDirectory: 'DataStructures.UI/DataStructures.UI.Demo'
+    workingDirectory: 'src/DataStructures.UI/DataStructures.UI.Demo'
 
 - task: PublishBuildArtifacts@1
   condition: succeededOrFailed()

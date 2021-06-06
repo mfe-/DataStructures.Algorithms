@@ -5,26 +5,26 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{C4B0BDA3-F5AE-40F9-8D10-061014F79E45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI.Demo", "DataStructures.UI\DataStructures.UI.Demo\DataStructures.UI.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI.Demo", "src\DataStructures.UI\DataStructures.UI.Demo\DataStructures.UI.Demo.csproj", "{F6441FDB-9D04-462D-8F62-DE84FC516654}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI", "DataStructures.UI\DataStructures.UI\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.UI", "src\DataStructures.UI\DataStructures.UI\DataStructures.UI.csproj", "{4E17F47F-8DB8-41ED-BB04-A26D6793D224}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "DataStructures\DataStructures.csproj", "{71CEDB71-D97C-4F85-99F8-B587B799BCDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures", "src\DataStructures\DataStructures.csproj", "{71CEDB71-D97C-4F85-99F8-B587B799BCDD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Test", "DataStructures.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Test", "src\DataStructures.Test\DataStructures.Test.csproj", "{B3BAE7A9-538A-43B2-BEDA-9E2D57BFDE63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC451AE2-F46D-4415-B156-2C455A01FBA8}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
-		LICENSE = LICENSE
+		src\LICENSE = src\LICENSE
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph", "DataStructures.Algorithms.Graph\DataStructures.Algorithms.Graph.csproj", "{95F5911B-57B9-43A5-BDC3-CAACC05C0407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph", "src\DataStructures.Algorithms.Graph\DataStructures.Algorithms.Graph.csproj", "{95F5911B-57B9-43A5-BDC3-CAACC05C0407}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph.Test", "DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj", "{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms.Graph.Test", "src\DataStructures.Algorithms.Graph.Test\DataStructures.Algorithms.Graph.Test.csproj", "{1C3BD4D0-15D3-4758-A528-77C25F37C5A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms", "DataStructures.Algorithms\DataStructures.Algorithms.csproj", "{A9D91761-341E-43A4-B865-EF2D70E242DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStructures.Algorithms", "src\DataStructures.Algorithms\DataStructures.Algorithms.csproj", "{A9D91761-341E-43A4-B865-EF2D70E242DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
