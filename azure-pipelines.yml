@@ -136,6 +136,7 @@ steps:
 - task: DocFxTask@0
   inputs:
     solution: 'docs\docfx.json'
+    docfxOptions: '--build'
 
 - task: CmdLine@2
   inputs:
