@@ -11,6 +11,7 @@ A collection of basic algorithms and data structures (algodat)
   - Each vertex can save a generic `Value`.
   - The graph is fully (de)serializeable.
 - LinkedList (will be reimplemented [see](https://github.com/mfe-/Abstract.DataStructures.Algorithms/issues/3))
+- [Documentation](https://mfe-.github.io/DataStructures.Algorithms.Docs/)
 
 ## nugets
 
@@ -25,6 +26,8 @@ A collection of basic algorithms and data structures (algodat)
 | Azure DevOps      | 
 | ------------- |
 | [Pipeline](https://dev.azure.com/get-the-solution/get-the-solution/_build?definitionId=9) |
+| [Doc Release Pipeline](https://dev.azure.com/get-the-solution/get-the-solution/_release?_a=releases&view=mine&definitionId=3) |
+|
 
 ## DataStructures.UI
 
