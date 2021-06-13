@@ -12,7 +12,7 @@
       Provides a control for visualization of graphs.
       The displayed graph updates changes based on the binded graph model in real time.
     </Description>
-    <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mfe-/DataStructures.Algorithms</PackageProjectUrl>
     <PackageTags>graph, graph control, visualization, vertex, edge, vertices, edges</PackageTags>
     <Copyright>Copyright © 2011-2020</Copyright>
     <AssemblyName>Abstract.DataStructures.UI</AssemblyName>
@@ -27,7 +27,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mfe-/DataStructures.Algorithms.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>

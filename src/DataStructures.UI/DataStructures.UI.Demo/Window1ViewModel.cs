@@ -72,6 +72,7 @@ namespace DataStructures.Demo
 
         protected async void OnAStarCommand(IVertex vertex)
         {
+            if (PreviousSelectedVertex == null) return;
             Func<IVertex, double>? funcManhattanDistanceHeuristic = null;
             if (vertex is IVertex<Point> v)
             {
@@ -130,7 +131,7 @@ namespace DataStructures.Demo
         }
 
 
-        public ICommand GenerateGridGraph { get; } 
+        public ICommand GenerateGridGraph { get; }
 
         protected void OnGenerateGridGraph()
         {

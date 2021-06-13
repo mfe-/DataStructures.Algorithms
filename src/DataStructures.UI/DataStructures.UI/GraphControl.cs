@@ -103,8 +103,7 @@ namespace DataStructures.UI
                     Canvas.SetZIndex(ev, -1);
                     if (e.Source is VertexControl vv)
                     {
-
-                        if (EdgeFactory == null) throw new ArgumentNullException($"Please set{nameof(EdgeFactory)}");
+                        if (EdgeFactory == null) throw new InvalidOperationException($"Please set {nameof(EdgeFactory)}");
                         ev.Edge = EdgeFactory.Invoke(vv.Vertex);
 
                         ev.PositionU = GetPosition(vv);
@@ -463,7 +462,7 @@ namespace DataStructures.UI
             }
             else
             {
-                throw new NotImplementedException($"Overgiven instance of {v} has not {nameof(ObservableCollection<IEdge>)} implemented for {nameof(IVertex.Edges)}");
+                throw new NotImplementedException($"Instance of {v} has not {nameof(ObservableCollection<IEdge>)} implemented for {nameof(IVertex.Edges)}");
             }
             return vertexcontrol;
         }
