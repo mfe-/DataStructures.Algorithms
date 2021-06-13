@@ -17,41 +17,14 @@ namespace DataStructures
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class AvlTree<TData> : AbstractTree<INodeTree<TData>, TData>
+    public partial class AvlTree<TData> : AbstractTree<INodeTree<TData>, TData>
     {
-        /// <summary>
-        /// Node class used in avl tree
-        /// </summary>
-        /// <typeparam name="TData1"></typeparam>
-        public class ANodeLeafe<TData1> : INodeTree<TData1>
-        {
-            /// <summary>
-            /// Initializes a new node leafe
-            /// </summary>
-            public ANodeLeafe(IComparable comparer, TData1 value)
-            {
-                Key = comparer;
-                Value = value;
-            }
-            /// <inheritdoc/>
-            public int Balance { get; set; }
-            /// <inheritdoc/>
-            public TData1 Value { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? P { get; set; }
-            /// <inheritdoc/>
-            public IComparable Key { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? V { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? U { get; set; }
-        }
         /// <summary>
         /// Initializes a new instance of the avl tree.
         /// </summary>
         public AvlTree() : base()
         {
-            FuncNodeFactory = (k, data) => new ANodeLeafe<TData>(k, data);
+            FuncNodeFactory = (k, data) => new AvlNode<TData>(k, data);
         }
 
         /// <inheritdoc/>
@@ -171,7 +144,7 @@ namespace DataStructures
                         successor = GetSuccessor(node);
                         node.Key = successor.Key;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                        (node as ANodeLeafe<TData>).Balance = (successor as ANodeLeafe<TData>).Balance;
+                        (node as AvlNode<TData>).Balance = (successor as AvlNode<TData>).Balance;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                     }
 
@@ -206,9 +179,9 @@ namespace DataStructures
                     }
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    (successor as ANodeLeafe<TData>).Balance = CalculateBalance(successor);
-                    if (successor.V != null) (successor.V as ANodeLeafe<TData>).Balance = CalculateBalance(successor.V);
-                    if (successor.U != null) (successor.U as ANodeLeafe<TData>).Balance = CalculateBalance(successor.U);
+                    (successor as AvlNode<TData>).Balance = CalculateBalance(successor);
+                    if (successor.V != null) (successor.V as AvlNode<TData>).Balance = CalculateBalance(successor.V);
+                    if (successor.U != null) (successor.U as AvlNode<TData>).Balance = CalculateBalance(successor.U);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                     ReBalanceToRoot(successor.P);
                 }
@@ -262,7 +235,7 @@ namespace DataStructures
         {
             int Balance = CalculateBalance(node);
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            (node as ANodeLeafe<TData>).Balance = Balance;
+            (node as AvlNode<TData>).Balance = Balance;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             // check Balance
             if (Balance == -2)
@@ -425,9 +398,9 @@ namespace DataStructures
                 throw new InvalidOperationException("While rotating left the new root was set to null. Tree is broken.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);
-            if (newRoot?.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
-            if (newRoot?.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
+            (newRoot as AvlNode<TData>).Balance = CalculateBalance(newRoot);
+            if (newRoot?.V != null) (newRoot.V as AvlNode<TData>).Balance = CalculateBalance(newRoot.V);
+            if (newRoot?.U != null) (newRoot.U as AvlNode<TData>).Balance = CalculateBalance(newRoot.U);
 #pragma warning disable CS8603 // Possible null reference return.
             return newRoot;
 #pragma warning restore CS8603 // Possible null reference return.
@@ -474,9 +447,9 @@ namespace DataStructures
                 throw new InvalidOperationException("While rotating right the new root was set to null. Tree is broken.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            (newRoot as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot);
-            if (newRoot?.V != null) (newRoot.V as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.V);
-            if (newRoot?.U != null) (newRoot.U as ANodeLeafe<TData>).Balance = CalculateBalance(newRoot.U);
+            (newRoot as AvlNode<TData>).Balance = CalculateBalance(newRoot);
+            if (newRoot?.V != null) (newRoot.V as AvlNode<TData>).Balance = CalculateBalance(newRoot.V);
+            if (newRoot?.U != null) (newRoot.U as AvlNode<TData>).Balance = CalculateBalance(newRoot.U);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8603 // Possible null reference return.
             return newRoot;
@@ -499,7 +472,7 @@ namespace DataStructures
                 return false;
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            if (Balance != (node as ANodeLeafe<TData>).Balance)
+            if (Balance != (node as AvlNode<TData>).Balance)
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             {
                 return false;

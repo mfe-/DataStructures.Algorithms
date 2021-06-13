@@ -16,42 +16,14 @@ namespace DataStructures
     /// Delete         O(log(n))     O(log(n))
     /// </remarks>
     /// <typeparam name="TData">The datatype which is used for storing values</typeparam>
-    public class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>, TData>
+    public partial class BinarySearchTree<TData> : AbstractTree<INodeTree<TData>, TData>
     {
-        /// <summary>
-        /// Node
-        /// </summary>
-        /// <typeparam name="TData1"></typeparam>
-        public class BNode<TData1> : INodeTree<TData1>
-        {
-            /// <summary>
-            /// Initializes a new instance of the Edge class.
-            /// </summary>
-            public BNode(IComparable comparer, TData1 value)
-            {
-                Key = comparer;
-                Value = value;
-            }
-            /// <inheritdoc/>
-            public TData1 Value { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? P { get; set; }
-            /// <inheritdoc/>
-            public IComparable Key { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? V { get; set; }
-            /// <inheritdoc/>
-            public INodeTree<TData1>? U { get; set; }
-            /// <inheritdoc/>
-            public int AmountofNode { get; set; }
-
-        }
         /// <summary>
         /// Initializes a new instance of the <see cref="BinarySearchTree{T}"/> class.
         /// </summary>
         public BinarySearchTree() : base()
         {
-            FuncNodeFactory = new Func<IComparable, TData, BNode<TData>>((key, data) => new BNode<TData>(key, data));
+            FuncNodeFactory = new Func<IComparable, TData, BstNode<TData>>((key, data) => new BstNode<TData>(key, data));
         }
         /// <summary>
         /// Gets a value that indicates whether the overgiven value exists in the tree
@@ -104,7 +76,7 @@ namespace DataStructures
             while (p != null)
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                (p as BNode<TData>).AmountofNode += 1;
+                (p as BstNode<TData>).AmountofNode += 1;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 r = p;
                 if (q.Key.CompareTo(p.Key) == -1)
@@ -153,7 +125,7 @@ namespace DataStructures
             INodeTree<TData>? r = null;
             //decrease AmountofNode when removing items
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            Action<INodeTree<TData>> actionNode = (n) => (n as BNode<TData>).AmountofNode -= 1;
+            Action<INodeTree<TData>> actionNode = (n) => (n as BstNode<TData>).AmountofNode -= 1;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             INodeTree<TData>? q = GetNode(key, actionNode);
@@ -323,7 +295,7 @@ namespace DataStructures
         /// <returns></returns>
         public INodeTree<TData>? GetElementAt(int index)
         {
-            return GetElementAt(index, (this.RootNode as BNode<TData>));
+            return GetElementAt(index, (this.RootNode as BstNode<TData>));
         }
         /// <summary>
         /// Makes use of the AmountofNode information to retriev the Element at the overgive <paramref name="index"/> in O(logn)
@@ -331,13 +303,13 @@ namespace DataStructures
         /// <param name="index"></param>
         /// <param name="bNodeLeafe"></param>
         /// <returns></returns>
-        protected INodeTree<TData>? GetElementAt(int index, BNode<TData>? bNodeLeafe)
+        protected INodeTree<TData>? GetElementAt(int index, BstNode<TData>? bNodeLeafe)
         {
             int leftNodes = 0;
             if (bNodeLeafe?.V != null)
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                leftNodes = (bNodeLeafe.V as BNode<TData>).AmountofNode + 1;
+                leftNodes = (bNodeLeafe.V as BstNode<TData>).AmountofNode + 1;
             }
             if (index == leftNodes)
             {
@@ -345,11 +317,11 @@ namespace DataStructures
             }
             if (index < leftNodes)
             {
-                return GetElementAt(index, (bNodeLeafe?.V as BNode<TData>));
+                return GetElementAt(index, (bNodeLeafe?.V as BstNode<TData>));
             }
             if (index > leftNodes)
             {
-                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe?.U as BNode<TData>));
+                return GetElementAt(index - (leftNodes + 1), (bNodeLeafe?.U as BstNode<TData>));
             }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
             return null;

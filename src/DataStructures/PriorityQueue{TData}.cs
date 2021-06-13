@@ -17,7 +17,7 @@ namespace DataStructures
         /// </summary>
         /// <typeparam name="TData1"></typeparam>
         [DebuggerDisplay("Key = {Key} Count = {Datas.Count}")]
-        public class PriorityNode<TData1> : BNode<TData1>
+        public class PriorityNode<TData1> : BstNode<TData1>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="PriorityNode{TData1}"/> class.
@@ -53,7 +53,7 @@ namespace DataStructures
             while (p != null)
             {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                (p as BNode<TData>).AmountofNode += 1;
+                (p as BstNode<TData>).AmountofNode += 1;
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 r = p;
                 if (q.Key.CompareTo(p.Key) == -1)
