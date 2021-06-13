@@ -11,7 +11,7 @@
       Algorithms for sorting and searching
       Containing Quicksort, Sub Sort Transpose Sort, SelectionSort, InsertionSort, MergeSort, InOrder, PreOrder, Binary Search
     </Description>
-    <PackageProjectUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/mfe-/DataStructures.Algorithms</PackageProjectUrl>
     <PackageTags>Quicksort, Sub Sort Transpose Sort, SelectionSort, InsertionSort, MergeSort, InOrder, PreOrder, Binary Search</PackageTags>
     <Copyright>Copyright © 2011-2020</Copyright>
     <ProductVersion>8.0.30703</ProductVersion>
@@ -30,7 +30,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryUrl>https://github.com/mfe-/Abstract.DataStructures.Algorithms.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mfe-/DataStructures.Algorithms.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
