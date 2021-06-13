@@ -11,6 +11,7 @@ Its contains the following properties
 - Left node `INode<INodeTree<TData>>.V`
 - Right node `INode<INodeTree<TData>>.U`
 - Key of the node INodeParent<INodeTree<TData>>.Key
+- Value of the node
 
 
 
