@@ -38,11 +38,7 @@ namespace DataStructures
         public TData Value { get; set; }
 
         /// <inheritdoc/>
-        public override IEdge CreateEdge(IVertex u, double weighted = 0)
-        {
-            IEdge e1 = new Edge<TData>(this, u, weighted);
-            return e1;
-        }
+        public override Edge<TData> CreateEdge(IVertex u, double weighted = 0) => new Edge<TData>(this, u, weighted);
 
     }
 }

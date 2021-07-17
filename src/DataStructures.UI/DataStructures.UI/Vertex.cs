@@ -23,11 +23,7 @@ namespace DataStructures.UI
         {
             _weighted = weighted;
         }
-        public override IEdge CreateEdge(IVertex u, double weighted = 0)
-        {
-            IEdge e1 = new Edge(this, u, weighted);
-            return e1;
-        }
+        public override Edge CreateEdge(IVertex u, double weighted = 0)=> new Edge(this, u, weighted);
 
         /// <summary>
         /// Gets or sets the Weighted of the vertex

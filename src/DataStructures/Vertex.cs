@@ -86,11 +86,8 @@ namespace DataStructures
         /// <param name="u">Sets the overgiven vertex as endpoint of the creating edge</param>
         /// <param name="weighted">The weight of the edge</param>
         /// <returns>Returns the created edge</returns>
-        public virtual IEdge CreateEdge(IVertex u, double weighted = 0)
-        {
-            IEdge e1 = new Edge(this, u, weighted);
-            return e1;
-        }
+        public virtual Edge CreateEdge(IVertex u, double weighted = 0) 
+            => new Edge(this, u, weighted);
         /// <summary>
         /// Creates a (un)directed edge to the overgiven Vertex
         /// </summary>
