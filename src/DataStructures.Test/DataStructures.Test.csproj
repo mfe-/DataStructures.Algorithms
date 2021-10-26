@@ -10,12 +10,15 @@
     <Compile Remove="ExtendedModel\**" />
     <Compile Remove="Extensions\**" />
     <Compile Remove="instanzen\**" />
+    <Compile Remove="Properties\**" />
     <EmbeddedResource Remove="ExtendedModel\**" />
     <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="instanzen\**" />
+    <EmbeddedResource Remove="Properties\**" />
     <None Remove="ExtendedModel\**" />
     <None Remove="Extensions\**" />
     <None Remove="instanzen\**" />
+    <None Remove="Properties\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +43,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

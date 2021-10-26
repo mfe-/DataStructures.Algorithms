@@ -332,7 +332,14 @@ namespace DataStructures.Algorithms.Graph
                         if (openOrderedSet.GetNode(openSet[cacheKey]) is PriorityQueue<AEdge>.PriorityNode<AEdge> node)
                         {
                             edgeListNode = node.Datas;
-                            sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
+                            foreach (var aedge in edgeListNode)
+                            {
+                                if(aedge.V == edge.V)
+                                {
+                                    sucessorvertex = aedge;
+                                    break;
+                                }
+                            }
                             oldKey = sucessorvertex.F;
                         }
                     }

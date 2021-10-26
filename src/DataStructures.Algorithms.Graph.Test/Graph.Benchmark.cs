@@ -4,6 +4,8 @@ using BenchmarkDotNet.Engines;
 using DataStructures;
 using DataStructures.Algorithms.Graph;
 using static DataStructures.Algorithms.Graph.GraphExtensions;
+using System;
+using System.Drawing;
 
 namespace Algorithms.Graph.Test
 {
@@ -45,6 +47,30 @@ namespace Algorithms.Graph.Test
         {
             DepthFirstSearchUndirectedEnumerable().Consume(consumer);
         }
+        public IDictionary<Guid, IEdge> AStarManhattanDistanceDictionary()
+        {
+            IVertex goalToFind = null;
 
+            IVertex VertexFactoryDouble(int x, int y)
+            {
+                var vertex = new Vertex<Point>();
+                vertex.Value = new Point(x, y);
+                return vertex;
+            }
+            var g = GraphExtensions.GenerateGridGraph(1024, 1024, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, null, 0.1);
+            Point goalPoint = ((IVertex<Point>)goalToFind).Value;
+            Func<IVertex, double> funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
+            {
+                Point currentPoint = ((IVertex<Point>)vertex).Value;
+                return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
+
+            });
+            return g.Start.AStar(goalToFind, funcManhattanDistanceHeuristic);
+        }
+        [Benchmark]
+        public void AStarManhattanDistance()
+        {
+            AStarManhattanDistanceDictionary().Consume(consumer);
+        }
     }
 }
