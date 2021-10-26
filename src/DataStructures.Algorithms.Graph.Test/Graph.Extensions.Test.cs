@@ -220,6 +220,14 @@ namespace Algorithms.Graph.Test
                 Assert.NotNull(resultVertex);
             }
         }
+        [Theory]
+        [InlineData(1024, 1024)]
+        public void DepthFirstSearch_find_all_vertices_from_graph(int i, int j)
+        {
+            var g = GraphExtensions.GenerateGridGraph(i, j, (x,y)=>new Vertex<Point>(), null, null, 0.1);
+            var edges = g.Start.DepthFirstSearch(graphIsDirected: false);
+            Assert.Equal(2095104, edges.Count());
+        }
         [Fact]
         public void DepthFirstSearchStack_on_undirected_graph_should_find_all_vertices()
         {

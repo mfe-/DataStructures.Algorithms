@@ -10,9 +10,9 @@ namespace Algorithms.Graph.Test
     public class GraphBenchmark
     {
         private readonly Consumer consumer = new Consumer();
-        public DataStructures.Graph GenerateGridGraph()
+        public DataStructures.Graph GenerateGridGraph(int i, int j)
         {
-           return GraphExtensions.GenerateGridGraph(1000, 1000, VertexFactoryGeneric);
+            return GraphExtensions.GenerateGridGraph(i, j, VertexFactoryGeneric);
         }
         IVertex VertexFactoryGeneric(int x, int y)
         {
@@ -20,7 +20,7 @@ namespace Algorithms.Graph.Test
         }
         public IEnumerable<IVertex> DfsStackEnumerable()
         {
-            return GenerateGridGraph().Start.DepthFirstSearchStack();
+            return GenerateGridGraph(1024, 1024).Start.DepthFirstSearchStack();
         }
         [Benchmark]
         public void DfsStack()
@@ -29,12 +29,22 @@ namespace Algorithms.Graph.Test
         }
         public IEnumerable<IVertex> BfsQueueEnumerable()
         {
-            return GenerateGridGraph().Start.BreadthFirstSearchQueue();
+            return GenerateGridGraph(1024, 1024).Start.BreadthFirstSearchQueue();
         }
         [Benchmark]
         public void BfsQueue()
         {
             BfsQueueEnumerable().Consume(consumer);
         }
+        public IEnumerable<IEdge> DepthFirstSearchUndirectedEnumerable()
+        {
+            return GenerateGridGraph(1024, 1024).Start.DepthFirstSearch(graphIsDirected: false);
+        }
+        [Benchmark]
+        public void DepthFirstSearchUndirected()
+        {
+            DepthFirstSearchUndirectedEnumerable().Consume(consumer);
+        }
+
     }
 }
