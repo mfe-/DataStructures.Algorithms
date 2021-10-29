@@ -17,7 +17,7 @@ namespace DataStructures.Algorithms.Graph
             _vertexType = vertex;
             _edgeType = edge;
         }
-        public override bool TryResolveType(Type dataContractType, Type declaredType, DataContractResolver knownTypeResolver, out XmlDictionaryString typeName, out XmlDictionaryString typeNamespace)
+        public override bool TryResolveType(Type dataContractType, Type? declaredType, DataContractResolver knownTypeResolver, out XmlDictionaryString? typeName, out XmlDictionaryString? typeNamespace)
         {
             if (knownTypeResolver == null) throw new ArgumentNullException(nameof(knownTypeResolver));
             if (dataContractType == _vertexType)
@@ -35,10 +35,9 @@ namespace DataStructures.Algorithms.Graph
                 return true;
             }
 
-            return knownTypeResolver.TryResolveType(dataContractType, declaredType, null, out typeName, out typeNamespace);
-
+            return knownTypeResolver.TryResolveType(dataContractType, declaredType, knownTypeResolver, out typeName, out typeNamespace);
         }
-        public override Type ResolveName(string typeName, string typeNamespace, Type declaredType, DataContractResolver knownTypeResolver)
+        public override Type? ResolveName(string typeName, string? typeNamespace, Type? declaredType, DataContractResolver knownTypeResolver)
         {
             if (knownTypeResolver == null) throw new ArgumentNullException(nameof(knownTypeResolver));
             if (typeName == "VertexOfanyType" && typeNamespace == "http://schemas.get.com/Graph/Vertex")
@@ -49,7 +48,7 @@ namespace DataStructures.Algorithms.Graph
             {
                 return _edgeType;
             }
-            return knownTypeResolver.ResolveName(typeName, typeNamespace, declaredType, null);
+            return knownTypeResolver.ResolveName(typeName, typeNamespace, declaredType, knownTypeResolver);
 
         }
     }

@@ -71,11 +71,15 @@ namespace DataStructures.Algorithms.Graph
                     DataContractSerializerSettings dataContractSerializerSettings = GetDataContractSerializerSettings();
                     DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
                     DataContractSerializer serializer = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-                    DataStructures.Graph a = (DataStructures.Graph)serializer.ReadObject(reader, true);
-                    foreach (var v in a.Vertices)
+                    var readObject = serializer.ReadObject(reader, true);
+                    if (readObject is DataStructures.Graph a)
                     {
-                        g.Vertices.Add(v);
+                        foreach (var v in a.Vertices)
+                        {
+                            g.Vertices.Add(v);
+                        }
                     }
+
                 }
             }
         }
@@ -92,7 +96,7 @@ namespace DataStructures.Algorithms.Graph
                 DataContractSerializerSettingsActionInvokrer?.Invoke(dataContractSerializerSettings);
 
                 DataContractSerializer ndcs = new DataContractSerializer(g.GetType(), dataContractSerializerSettings);
-                object deserialized = ndcs.ReadObject(memoryStream);
+                object? deserialized = ndcs.ReadObject(memoryStream);
                 if (deserialized is DataStructures.Graph gp)
                 {
                     DataStructures.Graph u = gp;
@@ -107,7 +111,7 @@ namespace DataStructures.Algorithms.Graph
                 }
                 else
                 {
-                    throw new NotSupportedException($"When reading from the Stream the type {nameof(DataStructures.Graph)} was expected but got {deserialized.GetType()}");
+                    throw new NotSupportedException($"When reading from the Stream the type {nameof(DataStructures.Graph)} was expected but got {deserialized?.GetType()}");
                 }
             }
         }
@@ -129,7 +133,7 @@ namespace DataStructures.Algorithms.Graph
                     XmlDocument xmlGraphDocument = new XmlDocument();
                     //(1) the xml declaration
                     XmlDeclaration xmlDeclaration = xmlGraphDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-                    XmlElement root = xmlGraphDocument.DocumentElement;
+                    XmlElement? root = xmlGraphDocument.DocumentElement;
                     xmlGraphDocument.InsertBefore(xmlDeclaration, root);
 
                     //(2) graph
@@ -141,14 +145,14 @@ namespace DataStructures.Algorithms.Graph
 
                     xmlGraphDocument.WriteTo(writer);
 
-                    Guid GetGuid(IVertex vertex)
+                    Guid? GetGuid(IVertex vertex)
                     {
                         Type type = vertex.GetType();
                         FieldInfo[] fields = type.GetFields(
                              BindingFlags.NonPublic |
                              BindingFlags.Instance);
 
-                        MemberInfo memberInfo = fields.FirstOrDefault(a => a.FieldType == typeof(Guid));
+                        MemberInfo? memberInfo = fields.FirstOrDefault(a => a.FieldType == typeof(Guid));
                         if (memberInfo == null)
                         {
                             throw new NotSupportedException("We are expe");
@@ -156,9 +160,9 @@ namespace DataStructures.Algorithms.Graph
                         switch (memberInfo.MemberType)
                         {
                             case MemberTypes.Field:
-                                return (Guid)((FieldInfo)memberInfo).GetValue(vertex);
+                                return (Guid?)((FieldInfo)memberInfo).GetValue(vertex);
                             case MemberTypes.Property:
-                                return (Guid)((PropertyInfo)memberInfo).GetValue(vertex);
+                                return (Guid?)((PropertyInfo)memberInfo).GetValue(vertex);
                             default:
                                 throw new NotImplementedException();
                         }
@@ -232,7 +236,7 @@ namespace DataStructures.Algorithms.Graph
 
             }
 
-            public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector? selector)
             {
                 return obj;
             }
