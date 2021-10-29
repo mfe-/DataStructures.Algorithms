@@ -8,9 +8,9 @@ Intel Core i7-6650U CPU 2.20GHz (Skylake), 1 CPU, 4 logical and 2 physical cores
 
 
 ```
-|                          Method |     Mean |    Error |   StdDev |
-|-------------------------------- |---------:|---------:|---------:|
-|                        DfsStack |  3.257 s | 0.0289 s | 0.0241 s |
-|                        BfsQueue |  2.836 s | 0.0278 s | 0.0260 s |
-|      DepthFirstSearchUndirected | 11.441 s | 0.0650 s | 0.0576 s |
-| DepthFirstSearchUndirected_Sse2 |  4.344 s | 0.0654 s | 0.0546 s |
+|                     Method |       Mean |    Error |   StdDev |     Median |
+|--------------------------- |-----------:|---------:|---------:|-----------:|
+|                   DfsStack | 2,083.0 ms | 40.54 ms | 74.13 ms | 2,049.9 ms |
+|                   BfsQueue | 1,516.5 ms | 29.54 ms | 23.06 ms | 1,509.2 ms |
+| DepthFirstSearchUndirected | 3,110.9 ms | 59.93 ms | 85.95 ms | 3,072.9 ms |
+|     AStarManhattanDistance |   124.1 ms |  1.25 ms |  1.17 ms |   124.1 ms |
