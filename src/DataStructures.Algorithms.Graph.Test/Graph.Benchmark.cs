@@ -11,6 +11,10 @@ namespace Algorithms.Graph.Test
 {
     public class GraphBenchmark
     {
+        DataStructures.Graph graph1024;
+        DataStructures.Graph graphAStar1024;
+        IVertex lastVertexOfgraph1024;
+
         private readonly Consumer consumer = new Consumer();
         public DataStructures.Graph GenerateGridGraph(int i, int j)
         {
@@ -22,7 +26,7 @@ namespace Algorithms.Graph.Test
         }
         public IEnumerable<IVertex> DfsStackEnumerable()
         {
-            return GenerateGridGraph(1024, 1024).Start.DepthFirstSearchStack();
+            return graph1024.Start.DepthFirstSearchStack();
         }
         [Benchmark]
         public void DfsStack()
@@ -31,7 +35,7 @@ namespace Algorithms.Graph.Test
         }
         public IEnumerable<IVertex> BfsQueueEnumerable()
         {
-            return GenerateGridGraph(1024, 1024).Start.BreadthFirstSearchQueue();
+            return graph1024.Start.BreadthFirstSearchQueue();
         }
         [Benchmark]
         public void BfsQueue()
@@ -40,37 +44,50 @@ namespace Algorithms.Graph.Test
         }
         public IEnumerable<IEdge> DepthFirstSearchUndirectedEnumerable()
         {
-            return GenerateGridGraph(1024, 1024).Start.DepthFirstSearch(graphIsDirected: false);
+            return graph1024.Start.DepthFirstSearch(graphIsDirected: false);
         }
         [Benchmark]
         public void DepthFirstSearchUndirected()
         {
             DepthFirstSearchUndirectedEnumerable().Consume(consumer);
         }
-        public IDictionary<Guid, IEdge> AStarManhattanDistanceDictionary()
-        {
-            IVertex goalToFind = null;
 
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            graph1024 = GenerateGridGraph(1024, 1024);
             IVertex VertexFactoryDouble(int x, int y)
             {
                 var vertex = new Vertex<Point>();
                 vertex.Value = new Point(x, y);
                 return vertex;
             }
-            var g = GraphExtensions.GenerateGridGraph(1024, 1024, VertexFactoryDouble, (lastVertex) => goalToFind = lastVertex, null, 0.1);
-            Point goalPoint = ((IVertex<Point>)goalToFind).Value;
+            graphAStar1024 = GraphExtensions.GenerateGridGraph(1024, 1024, VertexFactoryDouble, (lastVertex) => lastVertexOfgraph1024 = lastVertex, null, 0.1);
+        }
+
+        public IDictionary<Guid, IEdge> AStarManhattanDistanceDictionary()
+        {
+            Point goalPoint = ((IVertex<Point>)lastVertexOfgraph1024).Value;
             Func<IVertex, double> funcManhattanDistanceHeuristic = new Func<IVertex, double>((vertex) =>
             {
                 Point currentPoint = ((IVertex<Point>)vertex).Value;
                 return Math.Abs(currentPoint.X - goalPoint.X) + Math.Abs(currentPoint.Y - goalPoint.Y);
 
             });
-            return g.Start.AStar(goalToFind, funcManhattanDistanceHeuristic);
+            return graphAStar1024.Start.AStar(lastVertexOfgraph1024, funcManhattanDistanceHeuristic);
         }
         [Benchmark]
         public void AStarManhattanDistance()
         {
             AStarManhattanDistanceDictionary().Consume(consumer);
+        }
+
+        [GlobalCleanup]
+        public void GlobalCleanup()
+        {
+            graph1024 = null;
+            graphAStar1024 = null;
+            lastVertexOfgraph1024 = null;
         }
     }
 }
