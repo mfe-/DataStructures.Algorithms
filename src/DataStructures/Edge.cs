@@ -1,6 +1,9 @@
 ﻿using System.Runtime.Serialization;
 using System.Diagnostics;
 using System;
+using System.Runtime.Intrinsics;
+using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics.X86;
 
 namespace DataStructures
 {
@@ -60,6 +63,17 @@ namespace DataStructures
         {
             if (!(obj is IEdge)) return false;
             IEdge edge = (IEdge)obj;
+
+            if (Sse2.IsSupported && V != null && U != null)
+            {
+                var v = V.Guid;
+                var u = U.Guid;
+                var result = Sse2.Or(Unsafe.As<Guid, Vector128<byte>>(ref v), Unsafe.As<Guid, Vector128<byte>>(ref u));
+                Guid guidU = edge.U.Guid;
+                Guid guidV = edge.V.Guid;
+                var result1 = Sse2.Or(Unsafe.As<Guid, Vector128<byte>>(ref guidU), Unsafe.As<Guid, Vector128<byte>>(ref guidV));
+                return result.Equals(result1);
+            }
             return ($"{U}{V}" == $"{edge.U}{edge.V}" || $"{U}{V}" == $"{edge.V}{edge.U}");
         }
 

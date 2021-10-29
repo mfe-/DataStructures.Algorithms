@@ -291,7 +291,9 @@ namespace DataStructures.Algorithms.Graph
             // caching list which keeps the key for the vertices of PriorityQueue
             Dictionary<Guid, IComparable> openSet = new Dictionary<Guid, IComparable>();
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             openOrderedSet.Enqueue(new AEdge(start, null, 0, funcHeuristic(start)));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             openSet.Add(start.Guid, funcHeuristic(start));
 
             var closeSet = new Dictionary<Guid, IEdge>();
@@ -332,7 +334,14 @@ namespace DataStructures.Algorithms.Graph
                         if (openOrderedSet.GetNode(openSet[cacheKey]) is PriorityQueue<AEdge>.PriorityNode<AEdge> node)
                         {
                             edgeListNode = node.Datas;
-                            sucessorvertex = edgeListNode.FirstOrDefault(aedge => aedge.V == edge.V);
+                            foreach (var aedge in edgeListNode)
+                            {
+                                if(aedge.V == edge.V)
+                                {
+                                    sucessorvertex = aedge;
+                                    break;
+                                }
+                            }
                             oldKey = sucessorvertex.F;
                         }
                     }
@@ -455,7 +464,14 @@ namespace DataStructures.Algorithms.Graph
         public static IEdge GetOppositeEdge(this IEdge edge)
         {
             if (edge == null) throw new ArgumentNullException(nameof(edge));
-            return (edge.V.Edges.FirstOrDefault(a => a.V.Equals(edge.U)));
+            foreach (var a in edge.V.Edges)
+            {
+                if (a.V.Equals(edge.U))
+                {
+                    return a;
+                }
+            }
+            throw new InvalidOperationException("Opposite edge missing");
         }
         /// <summary>
         /// Returns a value indicating whether this instance is equal to the edge.
@@ -494,7 +510,7 @@ namespace DataStructures.Algorithms.Graph
                     IVertex i = vertices[o];
                     IVertex j = vertices[y];
 
-                    IEdge edge = i.Edges.FirstOrDefault(a => a.V.Equals(j));
+                    IEdge? edge = i.Edges.FirstOrDefault(a => a.V.Equals(j));
                     if (edge == null)
                     {
                         row[y] = 0;

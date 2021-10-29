@@ -120,7 +120,9 @@ namespace DataStructures
             var minimum = GetMinimum();
             if (minimum is PriorityNode<TData> nodeLeafe)
             {
-                TData? data = nodeLeafe.Datas.FirstOrDefault();
+                var enumerator = nodeLeafe.Datas.GetEnumerator();
+                enumerator.MoveNext();
+                TData? data = enumerator.Current;
                 if (data != null)
                 {
                     nodeLeafe.Datas.Remove(data);
