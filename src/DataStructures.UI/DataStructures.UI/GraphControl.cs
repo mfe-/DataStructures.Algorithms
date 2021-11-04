@@ -344,9 +344,9 @@ namespace DataStructures.UI
 
         protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems.SyncRoot is IList<object> items)
+            if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems is IList<object> items && items.Count != 0)
             {
-                object item = items.FirstOrDefault();
+                object item = items[0];
                 if (item is IEdge edge)
                 {
 
@@ -390,9 +390,9 @@ namespace DataStructures.UI
                     AddVertex(v, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
-            if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems.SyncRoot is IList<object> vitems)
+            if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems is IList<object> vitems)
             {
-                object item = vitems.First();
+                object item = vitems[0];
                 if (item is IVertex v)
                 {
                     //catch Visualization item
