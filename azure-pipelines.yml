@@ -6,7 +6,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- main
 
 name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 

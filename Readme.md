@@ -27,11 +27,10 @@ A collection of basic algorithms and data structures (algodat)
 | ------------- |
 | [Pipeline](https://dev.azure.com/get-the-solution/get-the-solution/_build?definitionId=9) |
 | [Doc Release Pipeline](https://dev.azure.com/get-the-solution/get-the-solution/_release?_a=releases&view=mine&definitionId=3) |
-|
 
 ## DataStructures.UI
 
-Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/Abstract.DataStructures.Algorithms/blob/master/UI/DataStructures.UI/Readme.md).
+Wpf control to visualize, create and edit a graph. See [here](https://github.com/mfe-/DataStructures.Algorithms/blob/main/docs/articles/GraphControl.md).
 
 ## Live Samples
 
