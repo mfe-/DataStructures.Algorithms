@@ -11,7 +11,8 @@ trigger:
 name: $(BuildDefinitionName)_$(Year:yyyy).$(Month).$(DayOfMonth)$(Rev:.r)
 
 pool:
-  vmImage: 'windows-latest'
+#  vmImage: 'windows-latest'
+   vmImage: 'windows-2022'
 
 variables:
 - name: BuildId
@@ -22,7 +23,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet info'
+    script: 'dotnet --info'
 - task: PowerShell@2
   name: setvariable
   displayName: 'setting variables MajorVersion, MinorVersion, DayOfMonth'
