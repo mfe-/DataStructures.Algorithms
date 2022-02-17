@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace DataStructures.Algorithms
 {
+    /// <summary>
+    /// Contains search extensions like <see cref="BinarySearch{T}(IEnumerable{T}, T)"/>
+    /// </summary>
     public static class Search
     {
         /// <summary>

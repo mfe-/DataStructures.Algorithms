@@ -1,4 +1,5 @@
 ﻿using DataStructures.Algorithms.Graph;
+using DataStructures.Algorithms.Graph.Xml;
 using DataStructures.UI;
 using System;
 using System.Collections.Generic;
@@ -124,8 +125,8 @@ namespace DataStructures.Demo
                     dataContractSerializerSettingsActionInvoker.DataContractResolver = new VertexEdgeMapResolver(vertex, edge);
                 });
             _GraphVisualization.EdgeFactory = (v) => new UI.Edge(v, null);
-            _GraphVisualization.LoadGraphFunc = GraphExtensions.Load;
-            _GraphVisualization.GraphSaveFunc = GraphExtensions.Save;
+            _GraphVisualization.LoadGraphFunc = GraphExtensionsXml.Load;
+            _GraphVisualization.GraphSaveFunc = GraphExtensionsXml.Save;
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);

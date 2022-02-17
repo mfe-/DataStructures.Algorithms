@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml.Linq;
 using DataStructures;
 using DataStructures.Algorithms.Graph;
+using DataStructures.Algorithms.Graph.Xml;
 using Xunit;
 using Xunit.Abstractions;
 using static DataStructures.Algorithms.Graph.GraphExtensions;
@@ -24,7 +25,7 @@ namespace Algorithms.Graph.Test
             //constructor will be called for each test
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("dijkstra.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            _g = GraphExtensions.Load(xmlElement);
+            _g = GraphExtensionsXml.Load(xmlElement);
         }
         [Fact]
         public void BreadthFirstSearch_should_find_all_vertices_in_graph()
@@ -405,7 +406,7 @@ namespace Algorithms.Graph.Test
             //this sample was taken from https://www.youtube.com/watch?v=eSOJ3ARN5FM
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            DataStructures.Graph g = GraphExtensions.Load(xmlElement);
+            DataStructures.Graph g = GraphExtensionsXml.Load(xmlElement);
 
 
             var vertices = g.Start.BreadthFirstSearchQueue();
@@ -430,7 +431,7 @@ namespace Algorithms.Graph.Test
             //this sample was taken from https://www.youtube.com/watch?v=sAoBeujec74
             XElement xmlElement = XElement.Parse(EmbeddedResourceLoader.GetFileContents("yt2.xml"));
             xmlElement = xmlElement.Elements().FirstOrDefault(a => a.Name.LocalName.Equals("Graph", StringComparison.Ordinal));
-            DataStructures.Graph g = GraphExtensions.Load(xmlElement);
+            DataStructures.Graph g = GraphExtensionsXml.Load(xmlElement);
 
             IVertex goal = g.Start.BreadthFirstSearchQueue().FirstOrDefault(a => a.Weighted == 0);
 

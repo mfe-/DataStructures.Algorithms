@@ -3,7 +3,7 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app1.manifest</ApplicationManifest>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -240,6 +239,9 @@ namespace DataStructures.Algorithms.Graph
             }
             return g;
         }
+        /// <summary>
+        /// Used as result type by <see cref="AStar(IVertex, IVertex, Func{IVertex, double}?, Func{IVertex, IEdge, double}?)"/>
+        /// </summary>
         [DebuggerDisplay("V={V.Weighted},Weighted={Weighted},F={F},U={U.Weighted}")]
         public struct AEdge : IEdge
         {
@@ -264,16 +266,30 @@ namespace DataStructures.Algorithms.Graph
             public double Weighted { get; set; }
             public double F { get; }
         }
-        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<Guid, IEdge> edge, IVertex goal)
+        /// <summary>
+        /// Reconstructs the path from the goal to the start. Can be used on the result of <see cref="AStar(IVertex, IVertex, Func{IVertex, double}?, Func{IVertex, IEdge, double}?)"/>
+        /// </summary>
+        /// <param name="edgeDictionary">the result of <see cref="AStar(IVertex, IVertex, Func{IVertex, double}?, Func{IVertex, IEdge, double}?)"/></param>
+        /// <param name="goal">goal vertex</param>
+        /// <returns></returns>
+        public static IEnumerable<IVertex> ReconstructPath(this IDictionary<Guid, IEdge> edgeDictionary, IVertex goal)
         {
-            IEdge current = edge[goal.Guid];
+            IEdge current = edgeDictionary[goal.Guid];
             while (current.U != null)
             {
                 yield return current.V;
-                current = edge[current.U.Guid];
+                current = edgeDictionary[current.U.Guid];
             }
             yield return current.V;
         }
+        /// <summary>
+        /// A* search algorithm - find the shortest path
+        /// </summary>
+        /// <param name="start">Start vertex </param>
+        /// <param name="goal">the vertex which should be looked up</param>
+        /// <param name="funcHeuristic">a heuristic function which computes the cost of the path to the goal. You may consider manhattan distance or euclidean distance</param>
+        /// <param name="funcEdgeWeight">a function which calculates the weight of the "current" edge</param>
+        /// <returns></returns>
         public static IDictionary<Guid, IEdge> AStar(this IVertex start, IVertex goal, Func<IVertex, double>? funcHeuristic = null, Func<IVertex, IEdge, double>? funcEdgeWeight = null)
         {
             if (funcHeuristic == null)

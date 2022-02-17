@@ -5,6 +5,9 @@ using System.Diagnostics;
 
 namespace DataStructures.Algorithms
 {
+    /// <summary>
+    /// Contains sort extensions like <see cref="MergeSort{T}(T[])"/>, <see cref="Quick_Sort{T}(IList{T})"/>, <see cref="Insertion_Sort{T}(IList{T})"/>, ...
+    /// </summary>
     public static class Sort
     {
         /// <summary>
