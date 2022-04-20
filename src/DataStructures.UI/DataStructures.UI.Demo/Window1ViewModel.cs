@@ -130,7 +130,6 @@ namespace DataStructures.Demo
             if (Graph != null)
             {
                 Graph = Graph.KruskalDepthFirstSearch();
-                //RefreshGraphAction?.Invoke(Graph);
             }
         }
 
@@ -148,7 +147,6 @@ namespace DataStructures.Demo
             }
             Graph = GraphExtensions.GenerateGridGraph(4, 4, VertexFactoryDouble, edgeWeight: 0.1);
         }
-        public Action<Graph>? RefreshGraphAction { get; set; }
 
     }
 }
