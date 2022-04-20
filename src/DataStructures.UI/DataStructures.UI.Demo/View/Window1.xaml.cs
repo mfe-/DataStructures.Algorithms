@@ -130,6 +130,7 @@ namespace DataStructures.Demo
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //SimulateGraphChanges();
             }
             else
             {
@@ -137,11 +138,11 @@ namespace DataStructures.Demo
             }
             if (DataContext is Window1ViewModel window1ViewModel)
             {
-                window1ViewModel.RefreshGraphAction = (g) =>
-                {
-                    _GraphVisualization.Graph = null;
-                    _GraphVisualization.Graph = g;
-                };
+                //window1ViewModel.RefreshGraphAction = (g) =>
+                //{
+                //    _GraphVisualization.Graph = null;
+                //    _GraphVisualization.Graph = g;
+                //};
             }
 
         }

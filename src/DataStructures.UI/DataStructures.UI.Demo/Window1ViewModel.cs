@@ -130,7 +130,7 @@ namespace DataStructures.Demo
             if (Graph != null)
             {
                 Graph = Graph.KruskalDepthFirstSearch();
-                RefreshGraphAction?.Invoke(Graph);
+                //RefreshGraphAction?.Invoke(Graph);
             }
         }
 

@@ -10,6 +10,7 @@ using System.Windows.Markup;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Collections;
 
 namespace DataStructures.UI
 {
@@ -342,9 +343,9 @@ namespace DataStructures.UI
             }
         }
 
-        protected void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems is IList<object> items && items.Count != 0)
+            if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems is IList items && items.Count != 0)
             {
                 object item = items[0];
                 if (item is IEdge edge)
@@ -390,7 +391,7 @@ namespace DataStructures.UI
                     AddVertex(v, Mouse.GetPosition(this).Add(-25, -25));
                 }
             }
-            if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems is IList<object> vitems)
+            if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems is IList vitems)
             {
                 object item = vitems[0];
                 if (item is IVertex v)
