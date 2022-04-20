@@ -130,7 +130,7 @@ namespace DataStructures.UI
 
             if (Debugger.IsAttached)
             {
-                TextBlock textblock = Children.OfType<TextBlock>().FirstOrDefault<TextBlock>();
+                TextBlock? textblock = Children.OfType<TextBlock>().FirstOrDefault<TextBlock>();
                 if (textblock == null)
                 {
                     textblock = new TextBlock();
@@ -347,7 +347,7 @@ namespace DataStructures.UI
         {
             if (NotifyCollectionChangedAction.Add.Equals(e?.Action) && e?.NewItems is IList items && items.Count != 0)
             {
-                object item = items[0];
+                object? item = items[0];
                 if (item is IEdge edge)
                 {
 
@@ -393,7 +393,7 @@ namespace DataStructures.UI
             }
             if (NotifyCollectionChangedAction.Remove.Equals(e?.Action) && e?.OldItems is IList vitems)
             {
-                object item = vitems[0];
+                object? item = vitems[0];
                 if (item is IVertex v)
                 {
                     //catch Visualization item
@@ -577,7 +577,7 @@ namespace DataStructures.UI
         /// <param name="pDependencyProperty">On which Position Property the binding should be set. Use EdgeVisualization.PositionUProperty or dgeVisualization.PositionVProperty))</param>
         /// <param name="Converter">Set a Converter if needed</param>
         /// <param name="ConverterParameter">Parameter for the Converter</param>
-        protected virtual void CreatePositionBinding(EdgeControl setBindingSource, VertexControl pBindingSource, DependencyProperty pDependencyProperty, IValueConverter Converter, object ConverterParameter)
+        protected virtual void CreatePositionBinding(EdgeControl setBindingSource, VertexControl pBindingSource, DependencyProperty pDependencyProperty, IValueConverter? Converter, object ConverterParameter)
         {
             if (setBindingSource == null) throw new ArgumentNullException(nameof(setBindingSource));
             if (setBindingSource.GetBindingExpression(pDependencyProperty) == null)
@@ -619,7 +619,7 @@ namespace DataStructures.UI
                 this.Children.Remove(ev);
             }
 
-            if (Graph.Directed.Equals(false))
+            if (Graph != null && Graph.Directed.Equals(false))
             {
                 //graph is undirected so remove opposite edge, if exists
                 if (EdgeVisualizations.Any(a => a.Edge.U.Equals(pEdge.V) && a.Edge.V.Equals(pEdge.U)).Equals(0))
@@ -651,7 +651,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">Vertex which should be looked up</param>
         /// <returns>Control which is using the Vertex</returns>
-        protected virtual VertexControl GetItem(IVertex v)
+        protected virtual VertexControl? GetItem(IVertex v)
         {
             return VertexVisualizations.FirstOrDefault(a => a.Vertex.Equals(v));
         }
@@ -660,7 +660,7 @@ namespace DataStructures.UI
         /// </summary>
         /// <param name="v">edge which should be looked up</param>
         /// <returns>Control which is using the edge</returns>
-        protected virtual EdgeControl GetItem(IEdge e)
+        protected virtual EdgeControl? GetItem(IEdge e)
         {
             return EdgeVisualizations.FirstOrDefault(a => a.Edge.Equals(e));
         }
@@ -670,8 +670,8 @@ namespace DataStructures.UI
         /// <param name="v"></param>
         public virtual void SetFocus(IVertex v)
         {
-            if (GetItem(v) != null)
-                GetItem(v).Focus();
+            if (GetItem(v) is VertexControl vertexControl)
+                vertexControl.Focus();
         }
         /// <summary>
         /// Calls the focus method on the VertexVisualization control
@@ -679,12 +679,8 @@ namespace DataStructures.UI
         /// <param name="v"></param>
         public virtual void SetFocus(IEdge e)
         {
-            if (GetItem(e) != null)
-                GetItem(e).Focus();
-        }
-        public virtual void SetFocus(IEdge e, AsyncCallback b)
-        {
-            //todo delgeate zum mitgeben der ausgeführt werden soll wenn focus ausgeführt soll
+            if (GetItem(e) is EdgeControl edgeControl)
+                edgeControl.Focus();
         }
 
         /// <summary>
@@ -762,7 +758,7 @@ namespace DataStructures.UI
             {
                 GraphControl graphControl = (GraphControl)dependencyObject;
                 var vertexControl = graphControl.GetItem((IVertex)e.NewValue);
-                if (!vertexControl.IsFocused)
+                if (vertexControl != null && !vertexControl.IsFocused)
                 {
                     vertexControl.Focus();
                 }
