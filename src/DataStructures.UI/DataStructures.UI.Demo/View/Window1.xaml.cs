@@ -93,7 +93,7 @@ namespace DataStructures.Demo
             _GraphVisualization.Graph = graph;
             ManualResetEvent mre = new ManualResetEvent(false);
 
-            Thread thread = new Thread(new ParameterizedThreadStart(delegate (object param)
+            Thread thread = new Thread(new ParameterizedThreadStart((object? param) =>
             {
                 while (que.Count != 0)
                 {
@@ -130,15 +130,18 @@ namespace DataStructures.Demo
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
-                //SimulateGraphChanges();
-
-
-                //GraphVisualization.SetDirectedRoutedCommand.Execute(false, _GraphVisualization);
-                //_GraphVisualization.Graph = new Graph();
             }
             else
             {
                 GraphControl.ClearGraphCommand.Execute(null, _GraphVisualization);
+            }
+            if (DataContext is Window1ViewModel window1ViewModel)
+            {
+                window1ViewModel.RefreshGraphAction = (g) =>
+                {
+                    _GraphVisualization.Graph = null;
+                    _GraphVisualization.Graph = g;
+                };
             }
 
         }

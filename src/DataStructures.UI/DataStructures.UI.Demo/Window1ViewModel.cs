@@ -113,7 +113,7 @@ namespace DataStructures.Demo
         {
             Queue<Action> queue = new Queue<Action>();
 
-            var result = vertex.BreadthFirstSearchQueue((v) => queue.Enqueue(() => SelectedVertex = v));
+            vertex?.BreadthFirstSearchQueue((v) => queue.Enqueue(() => SelectedVertex = v));
 
             while (queue.Count != 0)
             {
@@ -127,7 +127,11 @@ namespace DataStructures.Demo
 
         protected void OnKruskalCommand()
         {
-            Graph = Graph.KruskalDepthFirstSearch();
+            if (Graph != null)
+            {
+                Graph = Graph.KruskalDepthFirstSearch();
+                RefreshGraphAction?.Invoke(Graph);
+            }
         }
 
 
@@ -144,6 +148,7 @@ namespace DataStructures.Demo
             }
             Graph = GraphExtensions.GenerateGridGraph(4, 4, VertexFactoryDouble, edgeWeight: 0.1);
         }
+        public Action<Graph>? RefreshGraphAction { get; set; }
 
     }
 }
