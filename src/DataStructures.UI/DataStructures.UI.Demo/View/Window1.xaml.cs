@@ -115,13 +115,7 @@ namespace DataStructures.Demo
                 {
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
                     types.Add(typeof(UI.Vertex<Point>));
-                    //types.Add(typeof(StateModule));
-                    //types.Add(typeof(Vertex<StateModule>));
-                    //types.Add(typeof(Edge<StateModule>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
-                    //do type test
-                    var vertex = typeof(UI.Vertex);
-                    var edge = typeof(UI.Edge);
                     dataContractSerializerSettingsActionInvoker.DataContractResolver = new VertexEdgeMapResolver(vertex, edge);
                 });
             _GraphVisualization.EdgeFactory = (v) => new UI.Edge(v, null);
@@ -130,18 +124,11 @@ namespace DataStructures.Demo
             if (Debugger.IsAttached)
             {
                 ApplicationCommands.Open.Execute(Environment.CurrentDirectory + "\\dijkstra.xml", _GraphVisualization);
+                //SimulateGraphChanges();
             }
             else
             {
                 GraphControl.ClearGraphCommand.Execute(null, _GraphVisualization);
-            }
-            if (DataContext is Window1ViewModel window1ViewModel)
-            {
-                window1ViewModel.RefreshGraphAction = (g) =>
-                {
-                    _GraphVisualization.Graph = null;
-                    _GraphVisualization.Graph = g;
-                };
             }
 
         }
