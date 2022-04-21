@@ -116,6 +116,8 @@ namespace DataStructures.Demo
                     List<Type> types = new List<Type>(dataContractSerializerSettingsActionInvoker.KnownTypes);
                     types.Add(typeof(UI.Vertex<Point>));
                     dataContractSerializerSettingsActionInvoker.KnownTypes = types;
+                    var vertex = typeof(UI.Vertex);
+                    var edge = typeof(UI.Edge);
                     dataContractSerializerSettingsActionInvoker.DataContractResolver = new VertexEdgeMapResolver(vertex, edge);
                 });
             _GraphVisualization.EdgeFactory = (v) => new UI.Edge(v, null);
